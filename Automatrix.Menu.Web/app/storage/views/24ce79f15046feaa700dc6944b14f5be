@@ -1,0 +1,391 @@
+
+<?php $__env->startSection('toolbar'); ?>
+<div class="row">
+	<div class="col-md-7">
+		<a class="btn btn-success" id="saveSettings"><i class="fa fa-save"></i> Save</a> 
+		<a class="btn btn-success" href="<?php echo URL::action('DealerController@displayUsers', array('id' => $dealer->DealerId)); ?>"><i class="fa fa-users"></i> Users</a>
+		<a class="btn btn-success" href="<?php echo URL::action('DealerController@displayProducts', array('id' => $dealer->DealerId)); ?>"><i class="fa fa-th"></i> Products</a> 
+		<a class="btn btn-success" id="generalSettings"
+			<?php if(empty($currentUser->DealerId)): ?> 
+				href="<?php echo URL::action('DealerController@index');; ?> " 
+			<?php else: ?>
+				href="settings-page" 
+			<?php endif; ?>><i class="fa fa-times"></i> Cancel
+		</a>
+	</div>
+	<div class="col-md-5"></div>
+</div>
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
+<div class="row">
+	<div class="col-md-6">
+		<fieldset>
+			<legend>General Information</legend>
+			<table>
+				<tbody>
+					<tr>
+						<td style="width: 30%"><b>Dealer Name</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="DealerName"
+							id="DealerName" class="form-control float-right"
+							<?php if ($dealer): ?>
+			          <?php if ($dealer->DealerName): ?> value="<?php echo $dealer->DealerName; ?>" /> <?php endif; ?> <?php endif; ?> <?php if ($dealer): ?> <?php if ($dealer->DealerName): ?>
+							<input type="hidden" id="DealerIdHidden"
+							value="<?php echo $dealer->DealerId; ?>" /> <?php endif; ?> <?php endif; ?></td>
+					</tr>
+					<tr>
+						<td style="width: 30%"><b>Company Code</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="CompanyCode"
+							id="CompanyCode" class="form-control float-right"
+							<?php if ($dealer): ?>
+			          <?php if ($dealer->CompanyCode): ?> value="<?php echo $dealer->CompanyCode; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td style="width: 30%"><b>Logo</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="button" id="DealerLogo"
+							style="float: right;"> <input type="text" name="DealerLogoField"
+							id="DealerLogoField" class="form-control pull-left"
+							<?php if ($dealer): ?>
+			            <?php if ($dealer->DealerLogo): ?> value="<?php echo $dealer->DealerLogo; ?>" <?php endif; ?> <?php endif; ?> style="width:55%;" ></td>
+					</tr>
+					<tr>
+						<td style="width: 30%"></td>
+						<td></td>
+						<td style="width: 70%; font-size: 11px;">Image size should be
+							300x50 to look nice!</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+		<div class="clear">&nbsp;</div>
+		<fieldset>
+			<legend>Display</legend>
+
+			<table>
+				<tbody>
+					<tr>
+						<td><b>Buyer Name</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayBuyer" name="display" value="DisplayBuyer"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayBuyer == 1): ?> checked <?php endif; ?>
+							<?php endif; ?>></td>
+					</tr>
+					<tr>
+						<td><b>Co Buyer Name</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayCoBuyer" name="display" value="DisplayCoBuyer"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayCoBuyer == 1): ?> checked
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Down Payment</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayDownPayment" name="display" value="DisplayDownPayment"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayDownPayment == 1): ?> checked
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Amount Financied</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayFinancedAmount" name="display"
+							value="DisplayFinancedAmount" <?php if ($dealer): ?> <?php if ($dealer->DisplayFinancedAmount
+							== 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>APR</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayAPR" name="display" value="DisplayAPR"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayAPR == 1): ?> checked <?php endif; ?>
+							<?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Term</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayTerm" name="display" value="DisplayTerm"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayTerm == 1): ?> checked <?php endif; ?>
+							<?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Trade In</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayTradeIn" name="display" value="DisplayTradeIn"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayTradeIn == 1): ?> checked
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Pay Off</b></td>
+						<td></td>
+						<td width="50%" class="pull-right"><input type="checkbox"
+							id="DisplayPayOff" name="display" value="DisplayPayOff"
+							<?php if ($dealer): ?> <?php if ($dealer->DisplayPayOff == 1): ?> checked
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</fieldset>
+	</div>
+
+	<div class="col-md-6 pull-right">
+
+		<fieldset>
+			<legend>Parameters</legend>
+
+			<table width="90%">
+				<tbody>
+					<tr>
+						<td><b>Deal</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Deal" id="Deal"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Deal): ?> value="<?php echo $dealer->Deal; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>URL</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="URL" id="URL"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->URL): ?> value="<?php echo $dealer->URL; ?>" <?php endif; ?>
+							<?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Year</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Year" id="Year"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Year): ?> value="<?php echo $dealer->Year; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Make</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Make" id="Make"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Make): ?> value="<?php echo $dealer->Make; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Model</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Model" id="Model"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Model): ?> value="<?php echo $dealer->Model; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Financed Amount</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="FinancedAmount"
+							id="FinancedAmount" class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->FinancedAmount): ?> value="<?php echo $dealer->FinancedAmount; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Base Payment</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="BasePayment"
+							id="BasePayment" class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->BasePayment): ?> value="<?php echo $dealer->BasePayment; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>APR</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="APR" id="APR"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->APR): ?> value="<?php echo $dealer->APR; ?>" <?php endif; ?>
+							<?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Term</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Term" id="Term"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Term): ?> value="<?php echo $dealer->Term; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Down Payment</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="DownPayment"
+							id="DownPayment" class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->DownPayment): ?> value="<?php echo $dealer->DownPayment; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Buyer</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Buyer" id="Buyer"
+							class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->Buyer): ?> value="<?php echo $dealer->Buyer; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Co Buyer</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="CoBuyer"
+							id="CoBuyer" class="form-control"
+							<?php if ($dealer): ?>
+					          <?php if ($dealer->CoBuyer): ?> value="<?php echo $dealer->CoBuyer; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Trim</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Trim" id="Trim"
+							class="form-control"
+							<?php if ($dealer): ?>
+			                  <?php if ($dealer->Trim): ?> value="<?php echo $dealer->Trim; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Vin</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="Vin" id="Vin"
+							class="form-control"
+							<?php if ($dealer): ?>
+			                  <?php if ($dealer->Vin): ?> value="<?php echo $dealer->Vin; ?>"
+							<?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Trade Allowance</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="TradeAllowance"
+							id="TradeAllowance" class="form-control"
+							<?php if ($dealer): ?>
+			                  <?php if ($dealer->TradeAllowance): ?> value="<?php echo $dealer->TradeAllowance; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+					<tr>
+						<td><b>Trade Pay-Off</b></td>
+						<td></td>
+						<td style="width: 70%"><input type="text" name="TradePayOff"
+							id="TradePayOff" class="form-control"
+							<?php if ($dealer): ?>
+			                  <?php if ($dealer->TradePayOff): ?> value="<?php echo $dealer->TradePayOff; ?>" <?php endif; ?> <?php endif; ?> ></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</fieldset>
+
+
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-11">
+		<div class="form-group">
+			<label for="Disclosure">Disclosure</label> <?php if ($dealer): ?> <?php if
+			($dealer->Disclosure): ?>
+			<textarea id="Disclosure" name="Disclosure" class="form-control"
+				rows="10"><?php echo $dealer->Disclosure; ?></textarea>
+			<?php else: ?>
+			<textarea id="Disclosure" name="Disclosure" class="form-control"
+				rows="10"></textarea>
+			<?php endif; ?> <?php else: ?>
+			<textarea id="Disclosure" name="Disclosure" class="form-control"
+				rows="10"></textarea>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+
+<script>
+    <?php $timestamp = time();?>
+    var DealerIdValue;
+
+    function saveLogo(DealerIdSaved,callback){
+	<?php
+	if ($dealer)
+	{
+		if (! $dealer->DealerId)
+		{
+			?>
+        
+    <?php
+		}
+		else
+		{
+			?>
+      DealerIdValue = <?php echo $dealer->DealerId; ?>; 
+    <?php
+		}
+	}
+	else
+	{
+		?>
+        DealerIdValue = DealerIdSaved;
+    <?php
+	}
+	?>
+	  
+	  try {
+	    $('#DealerLogo').uploadify('upload','*');
+	    callback(true);
+	  }catch(err){
+	     window.location.href = 'dealer-settings';
+	  }
+	};
+
+	$(document).ready(function() {
+    $('#Disclosure').summernote({
+    	height: 200,
+	    toolbar: [
+	    ['style', ['bold', 'italic', 'underline', 'clear']],
+	    ['fontsize', ['fontsize']],
+	    ['color', ['color']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+        ]
+    });
+
+    $('#DealerLogo').uploadify({
+        'formData'     : {
+          'timestamp' : '<?php echo $timestamp;?>',
+          'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+        },
+        'swf'      : 'js/uploadify.swf',
+        'uploader' : 'js/uploadify.php',
+        'width'    : 17,
+        'height': 19,
+        'queueID'        : 'fileBrochureQueue',
+        'hideButton': true,
+        'wmode'     : 'transparent',
+        'buttonImage' : 'images/fileicon.png',
+        'fileTypeExts' : '*.gif; *.jpg; *.png',
+        'fileTypeDesc' : 'Image Files',
+         buttonText : "",
+        'auto'     : false,
+        'onSelect' : function(file) {
+            $("#DealerLogoField").val( file.name );
+        },
+        'onUploadStart' : function(file) {
+          var formData = { 'DealerId': DealerIdValue, 'Option' : 'UpdateDealer', 'type' : 'DealerLogo' }
+          $('#DealerLogo').uploadify("settings", "formData", formData);
+        },
+        'onUploadSuccess' : function(file, data, response) {
+            window.location.href = 'dealer-settings';
+        }
+      });
+});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 

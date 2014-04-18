@@ -1,0 +1,543 @@
+
+
+<?php $__env->startSection('content'); ?>
+
+<?php
+$UserSessionInfo = Session::get('UserSessionInfo');
+
+if (is_null($UserSessionInfo)) {
+?>
+<script>
+  window.location.href = 'login';
+</script>
+<?php
+    exit();
+}
+?>
+
+
+<div>
+
+<?php if ( !$UserSessionInfo->DealerId ): ?>
+<div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="dealer-settings" style="background: rgba(255,255,255,0.2);">Dealers</a>
+                </li>
+                <li><a href="company-settings">Companies</a>
+                </li>
+            </ul>
+</div>
+<?php endif; ?>
+
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-7">
+	  <a class="btn btn-success" id="saveSettings"><i class="fa fa-save"></i> Save</a>
+	  <?php if ( !$UserSessionInfo->DealerId && $settings): ?>
+          <a class="btn btn-success" id="" href="settings-dealercode?DealerId=<?php echo $UserSessionInfo->DealerId; ?>">Warranty Companies</a>
+      <?php endif; ?>
+	  <a class="btn btn-success" id="userManagement" 
+	              <?php if ($UserSessionInfo): ?>
+		            <?php if ($UserSessionInfo->DealerId): ?> 
+		              href="users?DealerId=<?php echo $UserSessionInfo->DealerId; ?>"
+		            <?php else: ?>
+                      <?php if ($settings): ?>
+				          <?php if ($settings->DealerId): ?> 
+				              href="users?DealerId=<?php echo $settings->DealerId; ?>"
+				          <?php endif; ?>
+				      <?php else: ?>
+		              		style="display:none;"
+				       <?php endif; ?>
+		            <?php endif; ?>		            
+		          <?php endif; ?> ><i class="fa fa-users"></i> Users</a>
+	  <a class="btn btn-success" id="generalSettings" 
+					<?php if(empty($UserSessionInfo->DealerId)): ?>
+						href="dealer-settings"
+					<?php else: ?>
+						href="settings-page"
+					<?php endif; ?>  ><i class="fa fa-times"></i> Cancel</a>
+	  <div style="margin-bottom:2%"></div>
+	</div> <!-- ends container class -->
+	<div class="col-md-5">
+	</div>
+</div>
+
+  
+	<div class="row">
+
+	    <!--<div <?php if ( !$UserSessionInfo->DealerId ): ?> class="col-md-6" <?php else: ?> class="col-md-7" <?php endif; ?>> -->
+	    <div class="col-md-6">
+	        <fieldset>
+	          <legend>General Information</legend>
+	          <table>
+			      <tbody>
+			        <tr>
+			          <td style="width: 30%"><b>Dealer Name</b></td>
+			          <td></td>
+			          <td style="width: 70%"><input type="text" name="DealerName" id="DealerName" class="form-control float-right" 
+			          <?php if ($settings): ?>
+			          <?php if ($settings->DealerName): ?> 
+			              value="<?php echo $settings->DealerName; ?>" />
+			          <?php endif; ?>
+			          <?php endif; ?> 
+
+			           
+			          <?php if ($settings): ?>
+			          <?php if ($settings->DealerName): ?> 
+			              <input type="hidden" id="DealerIdHidden" value="<?php echo $settings->DealerId; ?>" />
+			          <?php endif; ?>
+			          <?php endif; ?> </td>
+			        </tr>
+			        <tr>
+			          <td style="width: 30%"><b>Company Code</b></td>
+			          <td></td>
+			          <td style="width: 70%"><input type="text" name="CompanyCode" id="CompanyCode" class="form-control float-right"
+			          <?php if ($settings): ?>
+			          <?php if ($settings->CompanyCode): ?> 
+			              value="<?php echo $settings->CompanyCode; ?>"
+			          <?php endif; ?>
+			          <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td style="width: 30%"><b>Logo</b></td>
+			          <td></td>
+			          <td style="width: 70%">
+			            <input type="button" id="DealerLogo" style="float:right;">
+			            <input type="text" name="DealerLogoField" id="DealerLogoField" class="form-control pull-left"
+			            <?php if ($settings): ?>
+			            <?php if ($settings->DealerLogo): ?> 
+			                value="<?php echo $settings->DealerLogo; ?>"
+			            <?php endif; ?>
+			            <?php endif; ?> style="width:55%;" ></td>
+			        </tr>
+			        <tr>
+			          <td style="width: 30%"></td>
+			          <td></td>
+			          <td style="width: 70%; font-size: 11px;">Image size should be 300x50 to look nice!</td>		            
+			        </tr>
+			      </tbody>
+			  </table>
+	        </fieldset>
+	        <div class="clear">&nbsp;</div>
+	    	<fieldset>
+	          <legend>Display</legend>
+
+	          <table>
+			      <tbody>
+			        <tr>
+			          <td><b>Buyer Name</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayBuyer" name="display" value="DisplayBuyer" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayBuyer == 1): ?> checked <?php endif; ?> <?php endif; ?>></td>
+			        </tr>
+			        <tr>
+			          <td><b>Co Buyer Name</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayCoBuyer" name="display" value="DisplayCoBuyer" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayCoBuyer == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>Down Payment</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayDownPayment" name="display" value="DisplayDownPayment" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayDownPayment == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>Amount Financed</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayFinancedAmount" name="display" value="DisplayFinancedAmount" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayFinancedAmount == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>APR</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayAPR" name="display" value="DisplayAPR" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayAPR == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>Term</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayTerm" name="display" value="DisplayTerm" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayTerm == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>Trade In</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayTradeIn" name="display" value="DisplayTradeIn" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayTradeIn == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			        <tr>
+			          <td><b>Pay Off</b></td>
+			          <td></td>
+			          <td width="50%" class="pull-right"><input type="checkbox" id="DisplayPayOff" name="display" value="DisplayPayOff" 
+			          <?php if ($settings): ?> <?php if ($settings->DisplayPayOff == 1): ?> checked <?php endif; ?> <?php endif; ?> ></td>
+			        </tr>
+			      </tbody>
+	          </table>
+	    	 
+	        </fieldset>
+	    </div>
+	    
+	    <div class="col-md-6 pull-right">
+		
+	    		<fieldset>
+			        <legend>Parameters</legend>
+
+			          <table width="98%">
+					      <tbody>
+					        <tr>
+					          <td><b>Deal</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Deal" id="Deal" placeholder="Deal number field from DMS webservice" class="form-control" 
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Deal): ?> 
+					              value="<?php echo $settings->Deal; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>URL</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="URL" placeholder = "DMS webservice url to retrieve deal information" id="URL" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->URL): ?> 
+					              value="<?php echo $settings->URL; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Year</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Year" placeholder="Year field from DMS webservice" id="Year" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Year): ?> 
+					              value="<?php echo $settings->Year; ?>"
+					          <?php endif; ?> 
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Make</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Make" placeholder="Make field from DMS webservice" id="Make" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Make): ?> 
+					              value="<?php echo $settings->Make; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Model</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Model" placeholder="Model field from DMS webservice" id="Model" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Model): ?> 
+					              value="<?php echo $settings->Model; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Financed Amount</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="FinancedAmount" placeholder="Financed amount field from DMS webservice" id="FinancedAmount" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->FinancedAmount): ?> 
+					              value="<?php echo $settings->FinancedAmount; ?>"
+					          <?php endif; ?> 
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Base Payment</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="BasePayment" placeholder="Base payment field from DMS webservice" id="BasePayment" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->BasePayment): ?> 
+					              value="<?php echo $settings->BasePayment; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>APR</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="APR" placeholder="Amount percentage rate field from DMS webservice" id="APR" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->APR): ?> 
+					              value="<?php echo $settings->APR; ?>"
+					          <?php endif; ?> 
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Term</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Term" placeholder="Term field from DMS webservice"  id="Term" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Term): ?> 
+					              value="<?php echo $settings->Term; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Down Payment</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="DownPayment" placeholder="Down Payment field from DMS webservice" id="DownPayment" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->DownPayment): ?> 
+					              value="<?php echo $settings->DownPayment; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Buyer</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="Buyer" placeholder="Buyer field from DMS webservice" id="Buyer" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->Buyer): ?> 
+					              value="<?php echo $settings->Buyer; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+					        <tr>
+					          <td><b>Co Buyer</b></td>
+					          <td></td>
+					          <td style="width: 70%"><input type="text" name="CoBuyer" placeholder="Co Buyer field from DMS webservice" id="CoBuyer" class="form-control"
+					          <?php if ($settings): ?>
+					          <?php if ($settings->CoBuyer): ?> 
+					              value="<?php echo $settings->CoBuyer; ?>"
+					          <?php endif; ?>
+					          <?php endif; ?> ></td>
+					        </tr>
+			                <tr>
+			                  <td><b>Trim</b></td>
+			                  <td></td>
+			                  <td style="width: 70%"><input type="text" name="Trim" id="Trim" placeholder="Trim field from DMS webservice" class="form-control"
+			                  <?php if ($settings): ?>
+			                  <?php if ($settings->Trim): ?>
+			                      value="<?php echo $settings->Trim; ?>"
+			                  <?php endif; ?>
+			                  <?php endif; ?> ></td>
+			                </tr>
+			                <tr>
+			                  <td><b>Vin</b></td>
+			                  <td></td>
+			                  <td style="width: 70%"><input type="text" name="Vin" placeholder="VIN field from DMS webservice" id="Vin" class="form-control"
+			                  <?php if ($settings): ?>
+			                  <?php if ($settings->Vin): ?>
+			                      value="<?php echo $settings->Vin; ?>"
+			                  <?php endif; ?>
+			                  <?php endif; ?> ></td>
+			                </tr>
+			                <tr>
+			                  <td><b>Trade Allowance</b></td>
+			                  <td></td>
+			                  <td style="width: 70%"><input type="text" name="TradeAllowance" placeholder="Trade allowanse field from DMS webservice" id="TradeAllowance" class="form-control"
+			                  <?php if ($settings): ?>
+			                  <?php if ($settings->TradeAllowance): ?>
+			                      value="<?php echo $settings->TradeAllowance; ?>"
+			                  <?php endif; ?>
+			                  <?php endif; ?> ></td>
+			                </tr>
+			                <tr>
+			                  <td><b>Trade Pay-Off</b></td>
+			                  <td></td>
+			                  <td style="width: 70%"><input type="text" name="TradePayOff" placeholder="Trade pay off field from DMS webservice" id="TradePayOff" class="form-control"
+			                  <?php if ($settings): ?>
+			                  <?php if ($settings->TradePayOff): ?>
+			                      value="<?php echo $settings->TradePayOff; ?>"
+			                  <?php endif; ?>
+			                  <?php endif; ?> ></td>
+			                </tr>
+			                <tr>
+							  <td><b>Beginning Odometer</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="BeginningOdometer"
+								id="BeginningOdometer" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->BeginningOdometer): ?> value="<?php echo $settings->BeginningOdometer; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Address 1</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="Address1"
+								id="Address1" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->Address1): ?> value="<?php echo $settings->Address1; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Address 2</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="Address2"
+								id="Address2" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->Address2): ?> value="<?php echo $settings->Address2; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>City</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="City"
+								id="City" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->City): ?> value="<?php echo $settings->City; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>State</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="State"
+								id="State" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->State): ?> value="<?php echo $settings->State; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>State Code</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="StateCode"
+								id="StateCode" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->StateCode): ?> value="<?php echo $settings->StateCode; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Zip Code</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="ZipCode"
+								id="ZipCode" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->ZipCode): ?> value="<?php echo $settings->ZipCode; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Country</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="Country"
+								id="Country" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->Country): ?> value="<?php echo $settings->Country; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Country Code</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="CountryCode"
+								id="CountryCode" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->CountryCode): ?> value="<?php echo $settings->CountryCode; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Telephone</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="Telephone"
+								id="Telephone" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->Telephone): ?> value="<?php echo $settings->Telephone; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Email</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="Email"
+								id="Email" class="form-control"
+								<?php if ($settings): ?>
+				                  <?php if ($settings->Email): ?> value="<?php echo $settings->Email; ?>" <?php endif; ?> <?php endif; ?> ></td>
+						    </tr>	                
+					      </tbody>
+			        </table>
+			    	 
+			    </fieldset>  		    	
+		
+	          
+	    </div>    
+
+	</div>
+
+	<div class="row">
+	    <!--<div <?php if ( !$UserSessionInfo->DealerId ): ?> class="col-md-10" <?php else: ?> class="col-md-12" <?php endif; ?>> -->
+	    <div class="col-md-11">
+	       <div class="form-group">
+	           <label for="Disclosure">Disclosure</label>
+	           <?php if ($settings): ?>
+	           <?php if ($settings->Disclosure): ?> 
+	             <textarea id="Disclosure" name="Disclosure" class="form-control" rows="10"><?php echo $settings->Disclosure; ?></textarea>
+			   <?php else: ?>
+	               <textarea id="Disclosure" name="Disclosure" class="form-control" rows="10"></textarea>
+	           <?php endif; ?>
+	           <?php else: ?>
+	               <textarea id="Disclosure" name="Disclosure" class="form-control" rows="10"></textarea>
+	           <?php endif; ?>
+	       </div>
+		</div>
+	</div>
+
+	
+</div>
+
+<script src="js/dealer.js" type="text/javascript"></script>
+<?php echo HTML::script('packages/bootstrap/js/summernote.min.js');; ?>
+<script src="js/jquery.uploadify.min.js" type="text/javascript"></script>
+<script>
+    <?php $timestamp = time();?>
+    var DealerIdValue;
+
+    function saveLogo(DealerIdSaved,callback){
+	<?php
+	if ( $settings ) {
+      if (!$settings->DealerId){
+    ?>
+        
+    <?php  	
+      } else {
+    ?>
+      DealerIdValue = <?php echo $settings->DealerId; ?>; 
+    <?php
+      }
+    } else {
+    ?>
+        DealerIdValue = DealerIdSaved;
+    <?php	
+    }
+    ?>
+	  
+	  try {
+	    $('#DealerLogo').uploadify('upload','*');
+	    callback(true);
+	  }catch(err){
+	     window.location.href = 'dealer-settings';
+	  }
+	};
+
+	$(document).ready(function() {
+    $('#Disclosure').summernote({
+    	height: 200,
+	    toolbar: [
+	    ['style', ['bold', 'italic', 'underline', 'clear']],
+	    ['fontsize', ['fontsize']],
+	    ['color', ['color']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+        ]
+    });
+
+    $('#DealerLogo').uploadify({
+        'formData'     : {
+          'timestamp' : '<?php echo $timestamp;?>',
+          'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+        },
+        'swf'      : 'js/uploadify.swf',
+        'uploader' : 'js/uploadify.php',
+        'width'    : 17,
+        'height': 19,
+        'queueID'        : 'fileBrochureQueue',
+        'hideButton': true,
+        'wmode'     : 'transparent',
+        'buttonImage' : 'images/fileicon.png',
+        'fileTypeExts' : '*.gif; *.jpg; *.png',
+        'fileTypeDesc' : 'Image Files',
+         buttonText : "",
+        'auto'     : false,
+        'onSelect' : function(file) {
+            $("#DealerLogoField").val( file.name );
+        },
+        'onUploadStart' : function(file) {
+          var formData = { 'DealerId': DealerIdValue, 'Option' : 'UpdateDealer', 'type' : 'DealerLogo' }
+          $('#DealerLogo').uploadify("settings", "formData", formData);
+        },
+        'onUploadSuccess' : function(file, data, response) {
+            window.location.href = 'dealer-settings';
+        }
+      });
+});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

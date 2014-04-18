@@ -1,0 +1,37 @@
+/* Nav */
+nav.x-nav
+{
+
+}
+
+/* Menu*/
+nav.x-nav ul {
+    margin: 0px;
+    padding: 0px;
+    list-style:none;    
+}
+
+/* List item */
+nav.x-nav ul > li {
+    white-space: nowrap;
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+/* List item link */
+nav.x-nav ul > li > a {
+    color: #FFFFFF;
+    display: block;
+    text-decoration: none;
+    -webkit-transition: 300ms ease-in-out;
+}
+
+/* Menu selection */
+nav.x-nav ul > li > a:hover
+{
+    background-color: #687E9A;
+}
+
+nav.x-nav ul > li.x-active > a {
+    background-color: #9BBDE6;
+}

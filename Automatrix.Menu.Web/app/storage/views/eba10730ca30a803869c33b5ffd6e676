@@ -1,0 +1,38 @@
+
+<?php $__env->startSection('toolbar'); ?>
+<div class="row">
+	<div class="col-md-9">
+	  	<a class="btn btn-success" id="userModalLink" href="<?php echo action('DealerController@add'); ?>"><i class="fa fa-file-o"></i> Add new dealer</a>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">   
+	<div class="col-md-9">
+	    <table class="table table-striped">
+	    	<thead>
+	    		<tr>
+					<th>#</th>
+		            <th>Dealer Name</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($dealers as $dealer): ?>
+				<tr>
+					<td></td>
+					<td><?php echo e($dealer->DealerName); ?></td>
+					<td style="width:10%"><a class="btn btn-warning" href="<?php echo action('DealerController@view', array('id' => $dealer->DealerId)); ?>"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
+					<td style="width:10%"><a href="#" class="btn btn-danger deleteDealer"  name="<?php echo $dealer->DealerId; ?>"><i class="fa fa-trash-o"></i> Delete</a></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+    </div>
+	<div class="col-md-3">
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

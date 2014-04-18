@@ -1,0 +1,38 @@
+/* Custom Style */
+#header, #footer {
+    text-align: center;
+    background-color: #7290b6;
+}
+
+#header .x-brand
+{
+    float: left;
+    padding: 5px;
+    height: 50px;
+}
+
+#header .x-brand a
+{
+    display: block;
+}
+
+#header .x-brand a img
+{
+    
+}
+
+#article {
+    background-color: transparent;
+}
+
+#toolbar {
+    background-color: transparent;
+}
+
+#nav {
+    background-color: #749CCD;
+}
+
+#aside {
+    background-color: cornflowerblue;
+}

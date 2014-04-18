@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administration</title>
+    
+    <!-- Frameworks -->
+   	<?php echo HTML::style('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');; ?>
+   	<?php echo HTML::style('packages/awesome/css/font-awesome.min.css');; ?> 
+   	<?php echo HTML::style('packages/bootstrap/css/bootstrap.min.css');; ?>
+   	<?php echo HTML::style('packages/bootstrap/css/summernote.css');; ?>
+   	<?php echo HTML::style('packages/toastr/css/toastr.min.css');; ?>
+	
+   	<!-- Webkit Styles -->
+    <?php echo HTML::style('packages/webkit/css/layout.css'); ?>
+    <?php echo HTML::style('packages/webkit/css/layout.style.css'); ?>
+   	<?php echo HTML::style('packages/webkit/css/navigation.css'); ?>
+
+   	<!-- Frameworks -->
+   	<?php echo HTML::script('http://code.jquery.com/jquery-1.9.1.js');; ?>
+    <?php echo HTML::script('http://code.jquery.com/ui/1.10.4/jquery-ui.js');; ?>
+    <?php echo HTML::script('packages/bootstrap/js/bootstrap.min.js');; ?>
+    <?php echo HTML::script('packages/bootstrap/js/summernote.min.js');; ?>
+   	<?php echo HTML::script('packages/toastr/js/toastr.min.js');; ?>
+    <?php echo HTML::script('packages/blockUI/blockUI.js');; ?>
+   	<?php echo HTML::script('js/jquery.uploadify.min.js');; ?>
+    
+    <!-- Utitilies -->
+    <?php echo HTML::script('js/helper.js');; ?>
+       
+    <!-- Custom Scripts -->
+    <?php echo $__env->yieldContent("scripts"); ?>
+    
+    <!-- 
+    
+   	<?php echo HTML::script('js/settings.js');; ?>
+   	<?php echo HTML::script('js/app.js');; ?>
+   	<?php echo HTML::script('js/user.js');; ?>
+   	
+   	<?php echo HTML::script('js/company.js');; ?>
+   	 -->
+        
+    <!-- Webkit Scripts -->
+    <?php echo HTML::script('packages/webkit/js/cross-browser.js'); ?>
+    
+   <!--[if lt IE 9]>
+        <?php echo HTML::script('assets/js/html5shiv.js'); ?>
+        <?php echo HTML::script('assets/js/respond.min.js'); ?>
+   <![endif]-->
+</head>
+<body class="x-flexbox-v">
+    <header id="header">
+    	<div class="x-brand">
+    	<a href="#">
+    		<?php echo HTML::image('images/logo.png'); ?>
+    	</a>
+    	</div>
+    	<div class="pull-right">
+    		<a href="close-session"><i class="fa fa-sign-out"></i> Logout</a></p>
+    	</div>
+    </header>
+    <div id="container" class="x-flexbox x-flex-1">
+        <nav id="nav" class="x-flexbox-v x-nav">
+            <ul class="x-flex-1">
+                <li class="x-active"><a href="<?php echo URL::action('DealerController@index');; ?> ">Dealers</a></li>
+                <li><a href="<?php echo URL::action('CompanyController@index');; ?> ">Companies</a></li>
+            </ul>
+        </nav>
+        <div id="article" class="x-flexbox-v x-flex-2">
+            <div id="toolbar">
+            	<?php echo $__env->yieldContent('toolbar'); ?>
+            </div>
+            <div id="content" class="x-flex-1">
+                <?php echo $__env->yieldContent('content'); ?>
+            </div>
+        </div>
+        <aside id="aside">Aside</aside>
+    </div>
+</body>
+</html>

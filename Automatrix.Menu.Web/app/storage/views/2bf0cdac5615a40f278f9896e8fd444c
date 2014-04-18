@@ -1,0 +1,72 @@
+
+<?php $__env->startSection('content'); ?>
+
+<?php
+$UserSessionInfo = Session::get('UserSessionInfo');
+
+if (is_null($UserSessionInfo)) {
+?>
+<script>
+  window.location.href = 'login';
+</script>
+<?php
+    exit();
+}
+?>
+
+<?php if ( !$UserSessionInfo->DealerId ): ?>
+<div>
+<div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="dealer-settings" style="background: rgba(255,255,255,0.2);">Dealers</a>
+                </li>
+                <li><a href="company-settings">Companies</a>
+                </li>
+            </ul>
+</div>
+<?php endif; ?>
+
+<div class="row">
+
+    <div class="col-md-9">
+  	<a class="btn btn-success" id="userModalLink" href="general-settings"><i class="fa fa-file-o"></i> Add new dealer</a>
+  	<!-- <a class="btn btn-success" id="generalSettings" href="settings-page"><i class="fa fa-times"></i> Cancel</a> -->
+    
+    <?php if(empty($UserSessionInfo->DealerId)): ?>
+          <a class="btn btn-success" id="myuser"  href="users" ><i class="fa fa-user"></i> My account</a>
+    <?php endif; ?>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+
+  <div class="row">   
+    <div class="col-md-9">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Dealer Name</th>
+          </tr>
+        </thead>
+        <tbody>
+         <?php foreach ($Dealers as $Deal => $DealerInfo): ?>
+          <tr>
+            <td><?php echo e(++ $Deal); ?></td>
+            <td><?php echo e($DealerInfo->DealerName); ?></td>
+            <td style="width:10%"><a class="btn btn-warning" href="general-settings?DealerId=<?php echo $DealerInfo->DealerId; ?>"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
+            <td style="width:10%"><a href="#" class="btn btn-danger deleteDealer"  name="<?php echo $DealerInfo->DealerId; ?>"><i class="fa fa-trash-o"></i> Delete</a></td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+
+<script src="js/dealer.js" type="text/javascript"></script>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

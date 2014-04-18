@@ -1,0 +1,211 @@
+<?php
+
+if(!isset($_SESSION))
+    {
+        session_start();
+    }
+$UserSessionInfo = Session::get('UserSessionInfo');
+if (!empty($UserSessionInfo->DealerId)) {
+  $src = 'uploads/dealer/'.$UserSessionInfo->DealerLogo; 
+  $alt = $UserSessionInfo->DealerName; 
+} else {
+  $src = 'images/logo.png';
+  $alt = 'Automatrix';
+}
+
+   
+?>
+
+<?php 
+if ($UserSessionInfo->Administrator != 1) {
+ ?>
+ <script>
+    window.location.href = 'home';
+</script>
+<?php 
+}
+ ?>
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Settings Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php /* Bootstrap */ ?>
+    <?php echo HTML::style('css/styleApp.css', array('media' => 'screen')); ?>
+    <link rel="stylesheet" type="text/css" href="css/uploadify.css">
+    <?php /* HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries */ ?>
+    <!--[if lt IE 9]>
+        <?php echo HTML::script('assets/js/html5shiv.js'); ?>
+        <?php echo HTML::script('assets/js/respond.min.js'); ?>
+    <![endif]-->
+   <?php echo HTML::style('packages/awesome/css/font-awesome.min.css');; ?> 
+   <?php echo HTML::style('packages/bootstrap/css/bootstrap.min.css');; ?>
+   <?php echo HTML::style('packages/bootstrap/css/summernote.css');; ?>
+   <?php echo HTML::style('packages/toastr/css/toastr.min.css');; ?>
+   <?php echo HTML::style('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');; ?>
+   <?php echo HTML::style('css/pricingPlansStyle.css', array('media' => 'screen')); ?>
+
+   <style>
+   /*#BrochureImage, #BrochureImageModified {float:right; margin-right: 24px; margin-top: 8px;}
+
+   .uploadify-button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    .uploadify:hover .uploadify-button {
+        background-color: transparent;
+    }*/
+    #BrochureImage, #BrochureImageModified {float:right; margin-right: 16%; margin-top: 8px;}
+    #DealerLogo {float:right; padding-top:8px; padding-right: 135px;}
+   .uploadify-button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    .uploadify:hover .uploadify-button {
+        background-color: transparent;
+    }
+    
+    .navbar-brand  {
+        margin: 5px 0px 0px 10px;
+        background: url(<?php echo $src; ?>) 0 0 no-repeat;        
+        background-size: 300px 50px;
+        background-position:center; 
+        display: block;
+        height: 50px;
+        width: 300px;
+    }
+
+    .navbar-brand-noImage {
+            margin: 5px 0px 0px 10px;
+            vertical-align: middle;
+            display: block;
+            border: dashed 1px;
+            font-size: 35px;
+            text-align: center;
+            color: rgba(190, 189, 189, 0.28);
+            height: 50px;
+            width: 300px;
+        }
+
+    .navbar-brand-noImage:hover {
+        color: rgba(190, 189, 189, 0.28);
+        text-decoration: none;
+    }
+
+    #RangePricingModal .modal-dialog
+    {
+        width: 900px;
+    }
+   </style>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <?php echo HTML::script('js/helper.js'); ?>
+
+    <script text="JavaScript">
+
+    $(function() {
+      
+    $(".sortable").sortable({
+		placeholder: "highlight"
+	});    
+    $(".sortable").disableSelection();
+  });
+    </script>
+</head>
+<body>
+
+	<nav class="navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div style="float:left;height:100%;width: 350px;">
+        <?php if ($src == 'uploads/dealer/'): ?>        
+        <a class="navbar-brand-noImage" alt="<?php echo $alt; ?>" href="home"> Your logo here!</a>
+        <?php else: ?>
+        <a class="navbar-brand" alt="<?php echo $alt; ?>" href="home"></a>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <div class="header-right pull-right">
+    <ul class="toolbar-icons list-inline">
+        <li><a href="home" style="color:white;"><i class="fa fa-list-alt fa-6" title="Menu Page"></a></i></li>
+        <li><a href="settings-page" style="color:white;" ><i class="fa fa-cogs" title="Settings Page"></a></i></li>
+    </ul>
+    <p>Logged as <a href="profile?UserId=<?php echo $UserSessionInfo->UserId; ?>"><?php echo $UserSessionInfo->FirstName; ?></a> <a href="close-session"><i class="fa fa-sign-out"></i> Logout</a></p>
+    </div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<?php if ( !$UserSessionInfo->DealerId ): ?>
+<div style="margin-left:250px;">
+<?php endif; ?>
+	<div  class="container-fluid">
+          <?php echo $__env->yieldContent('content'); ?>
+     </div>
+<?php if ( !$UserSessionInfo->DealerId ): ?>
+  </div>
+<?php endif; ?>
+
+<?php echo HTML::script('packages/bootstrap/js/bootstrap.min.js');; ?>
+<?php echo HTML::script('packages/toastr/js/toastr.min.js');; ?>
+<?php /* HTML::script('js/settings.js'); */ ?>
+<?php echo HTML::script('packages/blockUI/blockUI.js');; ?>
+<?php /* HTML::script('js/app.js'); */ ?>
+
+<script>
+function StartToastMessage(){
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "positionClass": "toast-center-screen",
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    } 
+}
+
+
+function ValidateExpression (text, type) {
+    text = text.replace(',','')
+    var res;
+    var NumberOnly = new RegExp('^[0-9]');
+    var NumberFloat = new RegExp("^-?(?:[0-9]+|[0-9]*\.[0-9]+)$");
+    if (type == 'Number') {
+        res = NumberOnly.test(text);    
+    };
+    if (type == 'Money') {
+        res = NumberFloat.test(text);
+    };
+
+    return res;
+}
+</script>
+<?php if ( $UserSessionInfo->DealerId ): ?>
+    <footer class="footerApp">
+        <div class="col-md-3 space">
+            <span class="poweredBy"> Powered by </span>
+            <span><a href="http://www.automatrixdms.com" class="automatrixLogo"></a></span>
+        </div>
+    </footer>
+<?php endif; ?>
+
+</body>
+</html>

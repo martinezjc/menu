@@ -1,0 +1,40 @@
+
+<?php $__env->startSection('toolbar'); ?>
+<div class="row">
+	<div class="col-md-9">
+        <a class="btn btn-success" href="<?php echo URL::action('ProductController@add', array('id' => $dealerId)); ?>">Add new product</a>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Company</th>
+			<th>Product</th>
+			<th>Display Name</th>
+			<th>Cost</th>
+			<th>Price</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($products as $product): ?>
+		<tr>
+			<td><?php echo $product->CompanyName; ?></td>
+			<td><?php echo $product->ProductName; ?></td>
+			<td><?php echo $product->DisplayName; ?></td>
+			<td>$<?php echo $product->Cost; ?></td>
+			<td>$<?php echo $product->SellingPrice; ?></td>
+			<td><?php echo link_to_route('products.edit', 'Modify', array($product->ProductId), array('class' => 'btn btn-warning')); ?></td>
+			<td>
+				<?php echo Form::open(array('method' => 'DELETE', 'route' => array('products.destroy', $product->ProductId))); ?> 
+				<?php echo Form::submit('Delete', array('class' => 'btn btn-danger')); ?> 
+				<?php echo Form::close(); ?>
+			</td>
+		</tr>
+		<?php endforeach; ?> 
+	</tbody>
+</table>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 

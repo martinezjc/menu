@@ -1,0 +1,288 @@
+/* Header */
+.navbar-inverse {
+    background-color: #41699A;
+    border-color: #41699A;
+	height: 60px;	
+}
+
+.header-right {
+    padding-right: 20px;
+    font-size: 24px;
+}
+
+.header-right > p {
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-right: 5px;
+}
+
+.header-right > p > a {
+    color: #FFFFFF;
+}
+
+.toolbar-icons {
+    text-align: right;
+}
+
+#deal-form
+{
+    top: 12px;
+    left: 0px;
+    right: 0px;
+    width: 350px;
+    margin: 0px auto;  
+    position: absolute;  
+    text-align: center;
+}
+
+#main-container {
+    width: 100%;
+    margin-top: 0px;
+    padding-right: 5px;
+}
+
+#main-container .row {
+    margin: 0px 0px;
+}
+
+/*drag and drop start*/
+  .sortable {  cursor: move;  width: 100%;}
+  .highlight { border: dashed 2px #ccc !important; padding: 10px; height: 50px;}
+  /*end*/
+
+
+.switchTop{
+	float: right;
+	width: 40%;
+	padding: 5px 5px 0px 0px;
+}
+
+.space{
+	margin-top: 1px;
+}
+.basePayment{
+	text-align: center;
+	/*border-style: solid;
+	border-width: 2px;
+	border-color: #A6A4A2;
+	border-radius: 10px;
+	-webkit-box-shadow: 1px 1px 5px 0px rgba(166,158,166,1);
+-moz-box-shadow: 1px 1px 5px 0px rgba(166,158,166,1);
+box-shadow: 1px 1px 5px 0px rgba(166,158,166,1);*/
+
+}
+
+.basePayment h4
+{
+    font-size: 16px;
+}
+.base{
+	text-align: center;
+}
+#SectionTables{
+	
+}
+
+.header{
+	text-align: center;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	border-top: solid 0px black;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	border-bottom: 1px solid black;
+}
+
+.hover{
+border-width: 3px;  
+-webkit-box-shadow: 0px 10px 30px 4px rgba(50, 50, 50, 0.84);
+-moz-box-shadow:    0px 10px 30px 4px rgba(50, 50, 50, 0.84);
+box-shadow:         0px 10px 30px 4px rgba(50, 50, 50, 0.84);
+}
+
+.Premium{
+background: rgb(252,243,159);
+background: -moz-linear-gradient(-45deg,  rgb(252,243,159) 0%, rgb(241,218,54) 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgb(252,243,159)), color-stop(100%,rgb(241,218,54)));
+background: -webkit-linear-gradient(-45deg,  rgb(252,243,159) 0%,rgb(241,218,54) 100%);
+background: -o-linear-gradient(-45deg,  rgb(252,243,159) 0%,rgb(241,218,54) 100%);
+background: -ms-linear-gradient(-45deg,  rgb(252,243,159) 0%,rgb(241,218,54) 100%);
+background: linear-gradient(135deg,  rgb(252,243,159) 0%,rgb(241,218,54) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcf39f', endColorstr='#f1da36',GradientType=1 );
+
+}
+.Preferred{
+background: rgb(214,214,214);
+background: -moz-linear-gradient(-45deg,  rgb(214,214,214) 1%, rgb(147,147,147) 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(1%,rgb(214,214,214)), color-stop(100%,rgb(147,147,147)));
+background: -webkit-linear-gradient(-45deg,  rgb(214,214,214) 1%,rgb(147,147,147) 100%);
+background: -o-linear-gradient(-45deg,  rgb(214,214,214) 1%,rgb(147,147,147) 100%);
+background: -ms-linear-gradient(-45deg,  rgb(214,214,214) 1%,rgb(147,147,147) 100%);
+background: linear-gradient(135deg,  rgb(214,214,214) 1%,rgb(147,147,147) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#939393',GradientType=1 );
+
+
+}
+.Economy{
+background: rgb(116,242,62);
+background: -moz-linear-gradient(-45deg,  rgb(116,242,62) 1%, rgb(70,237,45) 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(1%,rgb(116,242,62)), color-stop(100%,rgb(70,237,45)));
+background: -webkit-linear-gradient(-45deg,  rgb(116,242,62) 1%,rgb(70,237,45) 100%);
+background: -o-linear-gradient(-45deg,  rgb(116,242,62) 1%,rgb(70,237,45) 100%);
+background: -ms-linear-gradient(-45deg,  rgb(116,242,62) 1%,rgb(70,237,45) 100%);
+background: linear-gradient(135deg,  rgb(116,242,62) 1%,rgb(70,237,45) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#74f23e', endColorstr='#46ed2d',GradientType=1 );
+
+
+}
+.Basic{
+background: rgb(255,197,120);
+background: -moz-linear-gradient(-45deg,  rgb(255,197,120) 0%, rgb(251,157,35) 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgb(255,197,120)), color-stop(100%,rgb(251,157,35)));
+background: -webkit-linear-gradient(-45deg,  rgb(255,197,120) 0%,rgb(251,157,35) 100%);
+background: -o-linear-gradient(-45deg,  rgb(255,197,120) 0%,rgb(251,157,35) 100%);
+background: -ms-linear-gradient(-45deg,  rgb(255,197,120) 0%,rgb(251,157,35) 100%);
+background: linear-gradient(135deg,  rgb(255,197,120) 0%,rgb(251,157,35) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc578', endColorstr='#fb9d23',GradientType=1 );
+}
+
+.Acepted{
+	background: #38EB83;
+}
+
+.Rejected{
+	background: #F76031;
+}
+
+.Disclosure{
+	background: #CCC7C6;
+}
+
+.footerTable{
+ 	text-align: center;
+}
+
+.products
+{
+    position: relative;
+}
+
+.products a > i
+{
+	color: #C2C2C2;
+}
+
+.products a > i:hover
+{
+	color: #428bca;
+}
+
+button#exportpdf{
+	border: none;
+	color: #fff;
+	background: transparent; 
+}
+
+button.printpdf{
+  border: none;
+  color: #fff;
+  background: transparent; 
+}
+
+#sidebar-wrapper {
+  /*margin-left: -250px;*/
+  left: 0px;
+  width: 250px;
+  /*background: #f0ad4e;*/
+  background: #749CCD;
+  position: absolute;
+  height: 100%;
+  overflow-y: auto;
+  /*z-index: 1000;*/
+  transition: all 0.4s ease 0s;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  line-height: 40px;
+  text-indent: 20px;
+}
+
+.sidebar-nav li a {
+  color: #fff;
+  display: block;
+  text-decoration: none;
+}
+
+.sidebar-nav li a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+  text-decoration: none;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+  /*background: #f0ad4e;*/
+  background: #41699A;
+}
+
+.sidebar-nav > .sidebar-brand {
+  height: 65px;
+  line-height: 60px;
+  font-size: 18px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: #ccc;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
+}
+
+footer{
+  position:fixed;
+  bottom:5px;
+  width: 100%;    
+}
+
+.poweredBy{
+	font-size:10px; 
+	float: left; 
+	height: 40px; 
+	width: 100%;
+	font-weight:bold;	
+	display: inline;
+	opacity: .6;
+}
+.automatrixLogo {
+	background: url(http://automatrixdms.mywebsiteninja.com/images/am-logo.png) 0 0 no-repeat;
+	text-decoration: none;
+	background-size: 100%;
+	cursor: pointer; 
+	position: absolute; 
+	bottom:0;	
+	width: 200px;	
+	height: 25px;	
+	display: block;		
+	float: right;
+	opacity: .6;
+}
+
+div.back a.optionsFooter {
+    cursor: pointer;
+}

@@ -1,0 +1,618 @@
+
+<?php $__env->startSection('content'); ?>
+
+<?php
+$UserSessionInfo = Session::get('UserSessionInfo');
+
+if (is_null($UserSessionInfo)) {
+?>
+<script>
+  window.location.href = 'login';
+</script>
+<?php
+    exit();
+}
+?>
+
+<div class="container">
+<div class="row">
+	<div class="col-md-9">
+	  <a class="btn btn-success" id="updateInfo"><i class="fa fa-floppy-o"></i> Update</a>
+	  <a class="btn btn-success" id="generalSettings" href="settings-page"><i class="fa fa-times"></i> Cancel</a>
+	  <div style="margin-bottom:2%"></div>
+	</div> <!-- ends container class -->
+	<div class="col-md-3">
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+    <div class="form-group">
+      <label for="CompanyIdModified">Company Name</label>
+      <div>
+        <select name="CompanyIdModified" id="CompanyIdModified" class="form-control" style="width:40%">
+          <?php foreach ($Companies as $Company): ?>
+          <option value="<?php echo e($Company->id); ?>" <?php if ($Company->id == $CompanySelected): ?> selected <?php endif; ?> ><?php echo e($Company->CompanyName); ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+    </div>
+    <input type="hidden" name="idModified" id="idModified" value="<?php echo $ProductData->id; ?>">
+    <div class="form-group">
+      <label for="productNameModified">Product Name</label>
+      <!-- <div id="ProductsListModified"></div> -->
+      <select name="productNameModified" id="productNameModified" class="form-control" style="width:40%">
+
+          <?php foreach ($Products as $Product): ?>
+          <option value="<?php echo e($Product->ProductBaseId); ?>" <?php if ( $Product->ProductBaseId == $ProductSelected ): ?> selected="selected" <?php endif; ?>><?php echo e($Product->ProductName); ?></option>
+          <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="displayNameModified">Display Name</label>
+      <input id="displayNameModified" name="displayNameModified" type="text" class="form-control" value="<?php echo $ProductData->DisplayName; ?>" required>
+    </div>
+    <div class="form-group">
+      <label for="ProductDescriptionModified">Product Description</label>
+      <input id="ProductDescriptionModified" type="text" class="form-control" value="<?php echo $ProductData->ProductDescription; ?>" required>
+    </div>
+    <?php
+    $arrayBullets = array();
+    if ($ProductData->Bullets) {
+        $arrayBullets = explode(',', $ProductData->Bullets);
+    }
+    ?>
+    <div class="form-group">
+      <label for="bulletsPoints">Bullets Points</label>
+      <div class="form-group">
+        <input id="bulletPoint1Modified" type="text" class="form-control" <?php if ( array_key_exists( '0' ,$arrayBullets) ): ?> value="<?php echo $arrayBullets[0]; ?>" <?php endif; ?> required>
+      </div>
+      <div class="form-group">
+        <input id="bulletPoint2Modified" type="text" class="form-control" <?php if ( array_key_exists( '1' ,$arrayBullets) ): ?> value="<?php echo $arrayBullets[1]; ?>" <?php endif; ?> required>
+      </div>
+      <div class="form-group">
+        <input id="bulletPoint3Modified" type="text" class="form-control" <?php if ( array_key_exists( '2' ,$arrayBullets) ): ?> value="<?php echo $arrayBullets[2]; ?>" <?php endif; ?> required>
+      </div>
+      <div class="form-group">
+        <input id="bulletPoint4Modified" type="text" class="form-control" <?php if ( array_key_exists( '3' ,$arrayBullets) ): ?> value="<?php echo $arrayBullets[3]; ?>" <?php endif; ?> required>
+      </div>
+      <input id="bulletPoint5Modified" type="text" class="form-control" <?php if ( array_key_exists( '4' ,$arrayBullets) ): ?> value="<?php echo $arrayBullets[4]; ?>" <?php endif; ?> required>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <ul class="nav nav-tabs" id="optionsCostPrice">
+      <li id="manual" <?php if ($ProductData->UsingWebService == 0): ?> class="active" <?php endif; ?>><a href="#manualtab" data-toggle="tab" id="manuallink">Manual</a></li>
+      <li id="webservice" <?php if ($ProductData->UsingWebService == 1): ?> class="active" <?php endif; ?>><a href="#webservicetab" id="webservicelink" data-toggle="tab">Web Service</a></li>
+    </ul>
+    <!-- starts tab content -->
+    <div class="tab-content" style="padding-top:10px; padding-left:10px;">
+
+      <div <?php if ($ProductData->UsingWebService == 0): ?> class="tab-pane active" <?php else: ?> class="tab-pane" <?php endif; ?> id="manualtab"><!-- starts manual tab -->
+        <div ng-app="app">
+         <div ng-controller="Ctrl">
+          <div id="CostModifiedProduct"  class="form-group">
+            <label for="costModified">Cost</label>
+            <label id="costHidden" hidden></label>
+            <input id="costModified" ng-model='val' decimal-places type="text" style="text-align:right; width:40%;" class="form-control" required>
+          </div>
+        </div>
+        <div ng-controller="Ctrl">
+          <div id="PriceModifiedProduct"  class="form-group">
+            <label for="sellingPriceModified">Selling Price</label>
+            <label id="sellingPriceHidden" hidden></label>
+            <input id="sellingPriceModified" ng-model='val' decimals-places type="text" style="text-align:right; width:40%;" class="form-control" required>
+          </div>
+        </div>
+        </div>
+        
+        <?php if ($CompanySelected == 2 && $ProductSelected == 11): ?>
+        <fieldset id="range">
+          <legend></legend>
+          <div class="form-group">
+            <label for="useManualPricing"><input type="checkbox" name="useManualPricing" id="useManualPricing" <?php if ($ProductData->UseRangePricing == true): ?> checked <?php endif; ?> > Range Pricing</label>
+          </div>
+          <div class="form-group">
+            <label for="TypeRange">Type</label>
+            <select name="TypeRange" id="TypeRange" class="form-control" style="width:40%;">
+              <option value="Gap Purchase">Gap Purchase</option>
+              <option value="Gap Lease">Gap Lease</option>
+              <option value="Gap Balloon">Gap Balloon</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <a href="#RangePricingModal" data-dismiss="modal" data-toggle="modal" class="btn btn-default btn-sm" id="btnSetPrices">Set prices</a> 
+          </div>
+        </fieldset>
+        <?php endif; ?>
+
+      </div><!-- ends manual tab -->
+
+      <!-- starts modal for manual range pricing -->
+      <div class="modal fade" id="RangePricingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Manual range pricing</h4>
+            </div>
+            <div class="modal-body row">
+              <div class="col-md-12">
+                <table class="table table-striped">
+                  <thead>
+                    <tr class="headerRange">
+                      <th>Term<br/><br/>From</th>
+                      <th>To</th>
+                      <th>Gap Purchase<br/><br/>Cost</th>
+                      <th>Gap Lease<br/><br/>Cost</th>
+                      <th>Gap Balloon<br/><br/>Cost</th>
+                      <th>Selling Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][0]->TermFrom; ?>" <?php endif; ?> name="TermFrom" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][0]->TermTo; ?>" <?php endif; ?> name="TermTo" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Purchase'][0]->PricingCost; ?>" <?php endif; ?> name="CostPurchase" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Lease'][0]->PricingCost; ?>" <?php endif; ?> name="CostLease" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Balloon'][0]->PricingCost; ?>" <?php endif; ?> name="CostBalloon" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['SellingPrice'][0]; ?>" <?php endif; ?> name="SellingPrice" class="form-control" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][1]->TermFrom; ?>" <?php endif; ?> name="TermFrom" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][1]->TermTo; ?>" <?php endif; ?> name="TermTo" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Purchase'][1]->PricingCost; ?>" <?php endif; ?> name="CostPurchase" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Lease'][1]->PricingCost; ?>" <?php endif; ?> name="CostLease" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Balloon'][1]->PricingCost; ?>" <?php endif; ?> name="CostBalloon" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['SellingPrice'][1]; ?>" <?php endif; ?> name="SellingPrice" class="form-control" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][2]->TermFrom; ?>" <?php endif; ?> name="TermFrom" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Ranges'][2]->TermTo; ?>" <?php endif; ?> name="TermTo" class="form-control ignore pull-left"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Purchase'][2]->PricingCost; ?>" <?php endif; ?> name="CostPurchase" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Lease'][2]->PricingCost; ?>" <?php endif; ?> name="CostLease" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['Gap Balloon'][2]->PricingCost; ?>" <?php endif; ?> name="CostBalloon" class="form-control" style="text-align:right;"></td>
+                      <td><input type="text" <?php if (array_key_exists('prices', $product)): ?> value="<?php echo $product->prices['SellingPrice'][2]; ?>" <?php endif; ?> name="SellingPrice" class="form-control" style="text-align:right;"></td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="restoreDefaults" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end modal for manual range pricing -->
+        <div <?php if ($ProductData->UsingWebService == 1): ?> class="tab-pane active" <?php else: ?> class="tab-pane" <?php endif; ?> id="webservicetab">
+        <!-- start web service tab -->
+        <?php
+            $optionsXML = simplexml_load_file("js/SelectParams.xml");
+            $Terms = $optionsXML->xpath("//ProductBase[@Id=".$ProductData->ProductBaseId."]/terms");
+            $Types = $optionsXML->xpath("//ProductBase[@Id=".$ProductData->ProductBaseId."]/types");
+            $Deductibles = $optionsXML->xpath("//ProductBase[@Id=".$ProductData->ProductBaseId."]/deductibles");
+            $Terms = json_encode($Terms);
+            $Terms = json_decode($Terms, true);
+            $Types = json_encode($Types);
+            $Types = json_decode($Types, true);
+            $Deductibles = json_encode($Deductibles);
+            $Deductibles = json_decode($Deductibles, true);
+        ?>
+
+          <div id="TypeModifiedProduct" class="form-group">
+            <label for="Type">Type</label>
+            <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseTypeModified" name="UseTypeModified" <?php if ( $ProductData->UseType ): ?> checked <?php endif; ?> > Use option</span>
+            <select name="TypeModified" id="TypeModified" class="form-control" style="width:40%" <?php if ( $ProductData->UseType == 0 ): ?> disabled <?php endif; ?> >
+            <?php if (!empty($Types)): ?>
+              <?php if ($ProductData->ProductBaseId == 4): ?>
+                <?php if (count($Types[0]['type']) >= 2): ?>
+                  <?php foreach ($Types[0]['type'] as $key => $value): ?>
+                    <option value="<?php echo $value['value']; ?>" <?php if ($value['value'] == $ProductData->Type): ?> selected="selected" <?php endif; ?>><?php echo $value['text']; ?></option>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <option value="<?php echo $Types[0]['type']['value']; ?>"><?php echo $Types[0]['type']['text']; ?></option>
+                <?php endif; ?>
+              <?php else: ?>
+                <?php if (count($Types[0]['type']) > 2): ?>
+                  <?php foreach ($Types[0]['type'] as $key => $value): ?>
+                    <option value="<?php echo $value['value']; ?>" <?php if ($value['value'] == $ProductData->Type): ?> selected="selected" <?php endif; ?>><?php echo $value['text']; ?></option>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <option value="<?php echo $Types[0]['type']['value']; ?>"><?php echo $Types[0]['type']['text']; ?></option>
+                <?php endif; ?>
+              <?php endif; ?>
+            <?php else: ?>
+                <option value="None">None</option>
+            <?php endif; ?>
+           </select>
+         </div>
+
+         <div id="TermModifiedProduct" class="form-group">
+          <label for="TermModified">Term</label>
+          <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseTermModified" name="UseTermModified" <?php if ( $ProductData->UseTerm ): ?> checked <?php endif; ?> > Use option</span>
+          <select name="TermModified" id="TermModified" class="form-control" style="width:40%" <?php if ( $ProductData->UseTerm == 0 ): ?> disabled <?php endif; ?> >
+          <?php if (!empty($Terms)): ?>
+          <?php if ($ProductData->ProductBaseId == 9): ?>
+            <?php if (count($Terms[0]['term']) >= 2): ?>
+              <?php foreach ($Terms[0]['term'] as $key => $value): ?>
+                <option value="<?php echo $value['value']; ?>" <?php if ( $value['value'] == $ProductData->Term ): ?> selected="selected" <?php endif; ?>><?php echo $value['text']; ?></option>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <option value="<?php echo $Terms[0]['term']['value']; ?>"><?php echo $Terms[0]['term']['text']; ?></option>
+            <?php endif; ?>
+          <?php else: ?>
+            <?php if (count($Terms[0]['term']) > 2): ?>
+              <?php foreach ($Terms[0]['term'] as $key => $value): ?>
+                <option value="<?php echo $value['value']; ?>" <?php if ( $value['value'] == $ProductData->Term ): ?> selected="selected" <?php endif; ?>><?php echo $value['text']; ?></option>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <option value="<?php echo $Terms[0]['term']['value']; ?>"><?php echo $Terms[0]['term']['text']; ?></option>
+            <?php endif; ?>
+          <?php endif; ?>
+          
+          <?php else: ?>
+            <option value="0">None</option>
+          <?php endif; ?>
+          </select>
+        </div>
+
+        <div id="DeductibleModifiedProduct" class="form-group">
+          <label for="Deductible">Deductible </label>
+          <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseDeductibleModified" name="UseDeductibleModified" <?php if ( $ProductData->UseDeductible ): ?> checked <?php endif; ?> > Use option</span>
+          <select id="DeductibleModified" name="DeductibleModified" class="form-control"  style="width:40%" <?php if ($ProductData->UseDeductible == 0): ?> disabled <?php endif; ?>>
+          <?php if (!empty($Deductibles)): ?>
+          <?php if (count($Deductibles[0]['deductible']) > 2): ?>
+            <?php foreach ($Deductibles[0]['deductible'] as $key => $value): ?>
+              <option value="<?php echo $value['value']; ?>" <?php if ( $value['value'] == $ProductData->Deductible ): ?> selected="selected" <?php endif; ?> ><?php echo $value['text']; ?></option>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <option value="<?php echo $Deductibles[0]['deductible']['value']; ?>"><?php echo $Deductibles[0]['deductible']['text']; ?></option>
+          <?php endif; ?>
+          <?php else: ?>
+            <option value="0">None</option>
+          <?php endif; ?>
+          </select>
+        </div>
+        
+        <div id="VehiclePlanModifiedProduct" class="form-group WSUage2" <?php if ($ProductSelected != 12): ?> hidden <?php endif; ?>>
+          <label for="Deductible">Vehicle Plan</label>
+          <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseVehiclePlanModified" name="UseVehiclePlanModified" <?php if ( $ProductData->UseVehiclePlan ): ?> checked <?php endif; ?> > Use option</span>
+          <select id="VehiclePlanModified" name="VehiclePlanModified" class="form-control"  style="width:40%" <?php if ($ProductData->UseVehiclePlan == 0): ?> disabled <?php endif; ?> >
+           <option value="New" <?php if ($ProductData->VehiclePlan == "New"): ?> selected="selected" <?php endif; ?>>New</option>                                
+           <option value="PreOwned" <?php if ($ProductData->VehiclePlan == "PreOwned"): ?> selected="selected" <?php endif; ?>>Pre Owned</option>
+           <option value="ExtendedEligibilityProgram" <?php if ($ProductData->VehiclePlan == "ExtendedEligibilityProgram"): ?> selected="selected" <?php endif; ?>>Extended Eligibility Program</option>
+           <option value="VehiclesWith6monthManufacturersWarranty" <?php if ($ProductData->VehiclePlan == "VehiclesWith6monthManufacturersWarranty"): ?> selected="selected" <?php endif; ?>>Vehicles With 6 month Manufacturers Warranty</option>
+           <option value="WrapNew" <?php if ($ProductData->VehiclePlan == "WrapNew"): ?> selected="selected" <?php endif; ?>>Wrap New</option>
+           <option value="WrapOemCpo" <?php if ($ProductData->VehiclePlan == "WrapOemCpo"): ?> selected="selected" <?php endif; ?>>Wrap Oem Cpo</option>
+           <option value="WrapPreOwned" <?php if ($ProductData->VehiclePlan == "WrapPreOwned"): ?> selected="selected" <?php endif; ?>>Wrap Pre Owned</option>
+         </select>
+       </div>
+
+       <div id="MileageModifiedProduct" class="form-group WSUage2"<?php if ($ProductSelected != 2 && $ProductSelected != 4 && $ProductSelected != 12): ?> hidden <?php endif; ?>>
+         <label for="Mileage">Mileage</label>
+          <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseMileageModified" name="UseMileageModified" <?php if ( $ProductData->UseMileage == 1 ): ?> checked <?php endif; ?> > Use option</span>
+          <select id="MileageModified" name="MileageModified" class="form-control"  style="width:40%" <?php if ( $ProductData->UseMileage == 0 ): ?> disabled <?php endif; ?> >
+          <?php if ( $ProductData->ProductBaseId == 4 ): ?>
+            <option value="12000" <?php if ($ProductData->Mileage == 12000): ?> selected="selected" <?php endif; ?> >12,000</option>
+            <option value="15000" <?php if ($ProductData->Mileage == 15000): ?> selected="selected" <?php endif; ?> >15,000</option>
+            <option value="24000" <?php if ($ProductData->Mileage == 24000): ?> selected="selected" <?php endif; ?> >24,000</option>
+            <option value="30000" <?php if ($ProductData->Mileage == 30000): ?> selected="selected" <?php endif; ?> >30,000</option>
+            <option value="36000" <?php if ($ProductData->Mileage == 36000): ?> selected="selected" <?php endif; ?>>36,000</option>
+            <option value="39000" <?php if ($ProductData->Mileage == 39000): ?> selected="selected" <?php endif; ?>>39,000</option>
+            <option value="45000" <?php if ($ProductData->Mileage == 45000): ?> selected="selected" <?php endif; ?>>45,000</option>
+            <option value="48000" <?php if ($ProductData->Mileage == 48000): ?> selected="selected" <?php endif; ?>>48,000</option>
+            <option value="60000" <?php if ($ProductData->Mileage == 60000): ?> selected="selected" <?php endif; ?>>60,000</option>
+            <option value="75000" <?php if ($ProductData->Mileage == 75000): ?> selected="selected" <?php endif; ?>>75,000</option>
+          <?php else: ?>
+            <option value="6" <?php if ($ProductData->Mileage == 6): ?> selected="selected" <?php endif; ?> >6</option>
+            <option value="12" <?php if ($ProductData->Mileage == 12): ?> selected="selected" <?php endif; ?> >12</option>
+            <option value="24" <?php if ($ProductData->Mileage == 24): ?> selected="selected" <?php endif; ?> >24</option>
+            <option value="36" <?php if ($ProductData->Mileage == 36): ?> selected="selected" <?php endif; ?> >36</option>
+            <option value="45" <?php if ($ProductData->Mileage == 45): ?> selected="selected" <?php endif; ?>>45</option>
+            <option value="48" <?php if ($ProductData->Mileage == 48): ?> selected="selected" <?php endif; ?>>48</option>
+            <option value="50" <?php if ($ProductData->Mileage == 50): ?> selected="selected" <?php endif; ?>>50</option>
+            <option value="60" <?php if ($ProductData->Mileage == 60): ?> selected="selected" <?php endif; ?>>60</option>
+            <option value="70" <?php if ($ProductData->Mileage == 70): ?> selected="selected" <?php endif; ?>>70</option>
+            <option value="75" <?php if ($ProductData->Mileage == 75): ?> selected="selected" <?php endif; ?>>75</option>
+            <option value="100" <?php if ($ProductData->Mileage == 100): ?> selected="selected" <?php endif; ?>>100</option>
+            <option value="120" <?php if ($ProductData->Mileage == 120): ?> selected="selected" <?php endif; ?>>120</option>
+            <option value="125" <?php if ($ProductData->Mileage == 125): ?> selected="selected" <?php endif; ?>>125</option>
+            <option value="150" <?php if ($ProductData->Mileage == 150): ?> selected="selected" <?php endif; ?>>150</option>
+          <?php endif; ?>
+          </select>
+       </div>
+
+       <div id="TireRotationModifiedProduct" class="form-group WSUage2" <?php if ($ProductSelected != 4): ?> hidden <?php endif; ?>>
+         <label for="UseTireRotationModified">Tire Rotation</label>
+          <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseTireRotationModified" name="UseTireRotationModified" <?php if ( $ProductData->UseTireRotation == 1 ): ?> checked <?php endif; ?> > Use option</span>
+          <select id="TireRotationModified" name="TireRotationModified" class="form-control"  style="width:40%" <?php if ( $ProductData->UseTireRotation == 0 ): ?> disabled <?php endif; ?> >
+            <option value="5000" <?php if ( $ProductData->TireRotation == 5000 ): ?> selected="selected" <?php endif; ?> >5000</option>
+            <option value="6000" <?php if ( $ProductData->TireRotation == 6000 ): ?> selected="selected" <?php endif; ?> >6000</option>
+            <option value="7500" <?php if ( $ProductData->TireRotation == 7500 ): ?> selected="selected" <?php endif; ?> >7500</option>
+          </select>
+     </div>
+
+   </div><!-- Ends tab content -->
+   <div class="form-group">
+    <label for="useWS"><input type="checkbox" id="useWS" name="useWS" <?php if ($ProductData->UsingWebService == 1): ?> checked <?php endif; ?> > Use web service to obtain the cost and price</label>
+  </div>
+      <fieldset>
+      <legend></legend>
+      <div class="form-group">
+        <label for="BrochureImageModified">Brochure</label>
+        <div id="brochureOptionModified">
+          <input type="hidden" id="BrochureImageData">
+          <input type="button" id="BrochureImageModified"  class="pull-right" style="float:right; margin-right:20px;">
+          <input id="BrochureImageReferModified" name="BrochureImageReferModified" type="text" placeholder="File" class="form-control pull-left" <?php if ($ProductData->BrochureImage): ?> value="<?php echo $ProductData->BrochureImage; ?>" <?php endif; ?> style="width:80%">
+        </div>
+        <div id="videoOptionModified" style="display:none;">
+          <input type="text" name="urlVideoModified" id="urlVideoModified" placeholder="URL" class="form-control"><br/>
+        </div>
+        <a href="#" id="showOptionsModified" class="pull-left">Picture/Video Size</a>
+        <div class="pull-right">
+        <label class="radio-inline">
+            <input type="radio" name="mediaTypeModified" id="image_radio" value="Image" checked> Picture | 
+          </label> 
+          <label class="radio-inline">
+            <input type="radio" name="mediaTypeModified" id="video_radio" value="VideoURL">Video
+          </label>
+         </div>
+        </div>
+        <div class="form-group">&nbsp;</div>
+        <div id="sizeOptionsModified" style="display:none;">
+          <label for="BrochureHeightModified">Height: <input type="text" name="BrochureHeightModified" id="BrochureHeightModified" class="form-control"></label>
+          <label for="BrochureWidthModified">Width: <input type="text" name="BrochureWidthModified" id="BrochureWidthModified" class="form-control"></label>
+        </div>
+        <div class="form-group">&nbsp;</div>
+       <div class="form-group">
+        <label for="PDFContratorModified">Add PDF contract for this product</label>
+        <input id="PDFContratorModified" name="PDFContratorModified" type="file" class="form-control" class="form-control">
+        <input type="hidden" id="PDFSelected" />
+      </div>
+      <?php if ($ProductData->PDFContrator): ?>
+      <div class="form-group">
+        <img src="images/pdf.png" >&nbsp;<?php echo $ProductData->PDFContrator; ?> (<a href="uploads/pdf/<?php echo $ProductData->PDFContrator; ?>"> Download </a>)
+      </div>
+      <?php endif; ?>
+      </fieldset>
+    </div>
+</div>
+</div>
+
+<script src="js/product.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angular.js" type="text/javascript"></script>
+<script src="js/jquery.uploadify.min.js" type="text/javascript"></script>
+
+<script>
+<?php $timestamp = time();?>
+
+     $.ajax({
+        type: "GET",
+        url: "infoProduct",
+        data: {
+            ProductId: <?php echo Input::get('ProductId'); ?>
+        },
+        success: function (msg) {
+            
+            var data = JSON.parse(msg);
+            var extensiones = new Array(".gif", ".jpg", ".png");
+            var extension;
+            var isURL = false;
+            var BrochureInfo = data[0].BrochureImage;
+            var TermValue;
+            var TypeValue;
+            var DeductibleValue;
+
+            $('#idModified').val(data[0].idModified);
+            $('#disclaimerModified').val(data[0].Disclaimer);
+            $('#costHidden').text(data[0].Cost);
+            $("#sellingPriceHidden").text(data[0].SellingPrice);
+            $("#DescriptionModified").val(data[0].Description);
+            var costData = data[0].Cost;
+            var SellingPriceData = data[0].SellingPrice;
+            $('#costModified').val(GetFloat(costData).toFixed(2));
+            $('#sellingPriceModified').val(GetFloat(SellingPriceData).toFixed(2));
+            $('#BrochureHeightModified').val(data[0].BrochureHeight);
+            $('#BrochureWidthModified').val(data[0].BrochureWidth);
+            $('#BrochureImageData').val(data[0].BrochureImage);
+
+            if(BrochureInfo) {
+            extension = (BrochureInfo.substring(BrochureInfo.lastIndexOf("."))).toLowerCase();
+            for (var i = 0; i < extensiones.length; i++) { 
+                if (extensiones[i] == extension) { 
+                    isURL = true; 
+                    break; 
+                } 
+            }
+
+            if (!isURL) {
+                $("#video_radio").prop("checked", true);
+                $('#brochureOptionModified').hide();
+                $('#videoOptionModified').show();
+                $('#urlVideoModified').focus();
+                $('#urlVideoModified').val(data[0].BrochureImage);
+                $('#showOptionsModified').css('padding-top','2px');
+            } else {
+                $("#image_radio").prop("checked", true);
+                $('#brochureOptionModified').show();
+                $('#videoOptionModified').hide();
+            }
+        }
+
+            if (data[0].UsingWebService == 1) {
+                $("#costModified").prop('disabled', true);
+                $("#costHidden").text($("#costModified").val());
+                $("#costModified").val('0.00');
+                $("#sellingPriceModified").prop('disabled', true);
+                $("#sellingPriceHidden").text($("#sellingPriceModified").val());
+                $("#sellingPriceModified").val('0.00');
+                $("#useManualPricing").prop("checked", false);
+                $('#manuallink').removeAttr('data-toggle');
+                $('#webservicelink').attr('data-toggle','tab');
+                $('#webservice').addClass('active');
+                $('#webservicetab').addClass('active');
+                $('#manual').removeClass('active');
+                $('#manualtab').removeClass('active');
+            } else {
+                $('#manuallink').attr('data-toggle','tab');
+                $('#manualtab').addClass('active');
+                $('#webservicetab').removeClass('active');
+                $('#manual').addClass('active');
+                $('#webservice').removeClass('active');
+                $('#webservicelink').removeAttr('data-toggle');
+                $("#costModified").prop('disabled', false);
+                $("#costModified").val($("#costHidden").text());
+                $("#sellingPriceModified").prop('disabled', false);
+                $("#sellingPriceModified").val($("#sellingPriceHidden").text());
+
+            }
+
+            var cost = '$'+ $('#costModified').val();
+            var price = '$'+ $('#sellingPriceModified').val();
+            $('#costModified').val(cost);
+            $('#sellingPriceModified').val(price);
+            
+            if (data[0].UseRangePricing == 1) {
+              $("#useManualPricing").prop("checked", true);
+              $("#costModified").prop("disabled", true);
+              $("#sellingPriceModified").prop("disabled", true);
+            } else {
+              $("#useManualPricing").prop("checked", false);
+              $("#costModified").prop("disabled", false);
+              $("#sellingPriceModified").prop("disabled", false);
+            }
+
+            if ( data[0].UseVehiclePlan == 1 ) {
+                $("#UseVehiclePlanModified").prop("checked", true);
+            } else {
+                $("#UseVehiclePlanModified").prop("checked", false);
+            }
+        },
+        failure: function (msg) {
+        }
+    });
+
+function uploadModifiedData(callback){
+    try {
+      $('#PDFContratorModified').uploadify('upload','*');
+      $('#BrochureImageModified').uploadify('upload','*');
+    
+      callback(true);
+    }catch(err){
+       window.location.href = 'settings-page';
+    }
+  };
+
+$(function() {
+      $('#BrochureImageModified').uploadify({
+        'formData'     : {
+          'timestamp' : '<?php echo $timestamp;?>',
+          'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+        },
+        'swf'      : 'js/uploadify.swf',
+        'uploader' : 'js/uploadify.php',
+        'fileTypeExts' : '*.gif; *.jpg; *.png',
+        'fileTypeDesc' : 'Image Files',
+        buttonText : "",
+        'width'    : 17,
+        'height': 19,
+        'queueID'        : 'fileBrochureQueue',
+        'buttonImage' : 'images/fileicon.png',
+        'wmode'     : 'transparent',
+        'hideButton': true,
+        //'uploadLimit' : 1,
+        'auto'     : false,
+        'onSelect' : function(file) {
+            $("#BrochureImageReferModified").val( file.name );  // Might need to use .text or .html insteal of .val, depending on element
+        },
+        'onUploadStart' : function(file) {
+          var ProductId = $("#idModified").val();
+          var formData = { 'ProductId': ProductId, 'Option' : 'UpdateBrochure', 'type' : 'image' }
+          $('#BrochureImageModified').uploadify("settings", "formData", formData);
+        },
+        'onUploadSuccess' : function(file, data, response ) {
+        }
+      });
+
+      $('#PDFContratorModified').uploadify({
+        'formData'     : {
+          'timestamp' : '<?php echo $timestamp;?>',
+          'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+        },
+        'swf'      : 'js/uploadify.swf',
+        'uploader' : 'js/uploadify.php',
+        'fileTypeExts' : '*.pdf',
+        'fileTypeDesc' : 'PDF Files',
+        buttonText : "Select PDF",
+        'onError'        : function(event,queueID,fileObj,errorObj){
+          console.log(errorObj["type"]+" - "+errorObj["status"]+" - "+errorObj["text"]);
+        },
+        'auto'     : false,
+        'onSelect' : function(file){
+            $('#PDFSelected').val('yes');
+        },
+        'onUploadStart' : function(file) {
+          var ProductId = $("#idModified").val()
+          var pdfData = { 'ProductId': ProductId, 'Option' : 'UpdatePDF', 'type' : 'pdf' }
+          $('#PDFContratorModified').uploadify("settings", "formData", pdfData);
+        },
+        'onUploadSuccess' : function(file, data, response) {
+           $.unblockUI();
+           toastr.success("The product has been updated", "Success");
+           window.location.href = 'settings-page';
+        }
+      });
+    });
+
+$('#RangePricingModal').on('show.bs.modal', function () {
+     
+  });
+
+$('#restoreDefaults').click( function() {
+ /* $('#RangePricingModal input:text:not(".ignore")').val('');
+  $('#TermFrom1').val(1);
+  $('#TermTo60').val(60);
+  $('#TermFrom60').val(60);
+  $('#TermTo72').val(72);
+  $('#TermFrom72').val(72);
+  $('#TermTo84').val(84); */
+});
+
+$('#saveRangePricing').click( function() {
+  var notnumber = false;
+  var empty = false;
+
+  $('#RangePricingModal').find('input[type=text]').each(function() {
+    var value = $(this).val();
+    
+    if ( isNaN(value)) {
+      notnumber = true;
+    }
+    
+    if (!value) {
+      empty = true;
+    }
+
+  });
+
+  if (notnumber == true) {
+    toastr.error("The fields must be filled with numbers not letters", "Error");
+    return false;
+  }
+
+  if ( empty == true) {
+    toastr.error("Please complete all the fields", "Error");
+    return false;
+  }
+
+    $('#RangePricingModal').modal('hide');
+});
+</script>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

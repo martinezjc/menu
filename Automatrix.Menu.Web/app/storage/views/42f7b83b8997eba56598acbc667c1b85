@@ -1,0 +1,44 @@
+
+<?php $__env->startSection('main'); ?>
+
+<h1>Create Product</h1>
+
+<?php echo Form::open(array('route' => 'Products.store')); ?>
+	<ul>
+        <li>
+            <?php echo Form::label('ProductName', 'ProductName:'); ?>
+            <?php echo Form::text('ProductName'); ?>
+        </li>
+
+        <li>
+            <?php echo Form::label('DisplayName', 'DisplayName:'); ?>
+            <?php echo Form::text('DisplayName'); ?>
+        </li>
+
+        <li>
+            <?php echo Form::label('Cost', 'Cost:'); ?>
+            <?php echo Form::text('Cost'); ?>
+        </li>
+
+        <li>
+            <?php echo Form::label('SellingPrice', 'SellingPrice:'); ?>
+            <?php echo Form::text('SellingPrice'); ?>
+        </li>
+
+		<li>
+			<?php echo Form::submit('Submit', array('class' => 'btn btn-info')); ?>
+		</li>
+	</ul>
+<?php echo Form::close(); ?>
+
+<?php if ($errors->any()): ?>
+	<ul>
+		<?php echo implode('', $errors->all('<li class="error">:message</li>')); ?>
+	</ul>
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+
+
+
+<?php echo $__env->make('layouts.scaffold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
