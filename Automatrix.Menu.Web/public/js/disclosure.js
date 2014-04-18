@@ -1,84 +1,61 @@
 $(document).ready(function () {
-    CalculateTotalCheckbox();
+    calculateCheckedProducts();
 });
 
-function CalculateTotalCheckbox() {
-    var total1 = 0.00;
-    var total2 = 0.00;
-    var TotalCostRejectedDay = 0.00;
-    var TotalCostRejectedMonth = 0.00;
+function calculateCheckedProducts() {
+    var financedAmount = getCurrentFinancedAmount();
+    var apr = getCurrentAPR();
+    var term = getCurrentTerm();
 
-    var currentFinancedAmount = getCurrentFinancedAmount();
-    var Apr = getCurrentAPR();
-    var Term = getCurrentTerm();
+    calculateAcceptedProducts(financedAmount, term, apr);
+    calculateRejectedProducts(financedAmount, term, apr);
+}
 
-    Apr = Apr/100;
-    var APR12 = Apr/12;
+function calculateAcceptedProducts(financedAmount, term, apr)
+{
+	var total = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
+	
+    $("#BasePaymentHidden").text(getAmount(originalMonthlyPayment));
     
-    var A = Math.pow(1 + APR12, Term);
-    var B = 1 -(1/A);
-    var C = currentFinancedAmount * APR12;
-
-    var BasePayment = (C / B).toFixed(2);
-    
-    $("#BasePaymentHidden").text(isNaN(BasePayment) ? getAmount(0) : getAmount(BasePayment));
-
-    var monthpaymentAccepted = 0.00;
-    var additionalpaymentAccepted = 0.00;
-    var costdayAccepted = 0.00;
-
-    var monthpaymentRejected = 0.00;
-    var additionalpaymentRejected = 0.00;
-    var costdayRejected = 0.00;
-
     $("#AcceptedTable :checkbox").each(function () {
-        value = $(this).val();
-        total1 = total1 + GetFloat(value);
-        
+        total += getFloat($(this).val());
     });
 
-    C = (currentFinancedAmount + total1)  * APR12;
-    monthpaymentAccepted  = (C/B).toFixed(2);
-    additionalpaymentAccepted  = (monthpaymentAccepted  - BasePayment).toFixed(2);
-    costdayAccepted  = (additionalpaymentAccepted  / 30).toFixed(2);     
+    var newMonthlyPayment = getMonthlyPayment(financedAmount + total, term, apr);
+    var additionalMonthlyPayment = newMonthlyPayment - originalMonthlyPayment;
+    var costPerDay = (additionalMonthlyPayment / 30).toFixed(2);
+        
+    $("#TotalAccepted").text(getAmount(newMonthlyPayment));  
 
+    // Required for PDF export
+    $("#UpdatedPayment").val(newMonthlyPayment);
+}
+
+function calculateRejectedProducts(financedAmount, term, apr)
+{
+	var productPrice = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
+	var monthlyProductPayment = 0, additionalProductPayment = 0, dailyRejectedCost = 0;
+	var totalMonthlyRejectedPayment = 0, totalDailyRejectedPayment = 0;
+	
     $('#RejectedTable .products').each(function () {
-        monthpaymentRejected = 0.00;
-        additionalpaymentRejected = 0.00;
-        costdayRejected = 0.00;
-
-        value = $(this).find(':checkbox').val();
-        total2 = GetFloat(value);
-
-        C = (currentFinancedAmount + total2)  * APR12;
-        monthpaymentRejected = (C/B);
-        additionalpaymentRejected = (monthpaymentRejected - BasePayment);
-        costdayRejected = (additionalpaymentRejected / 30);
-
-        TotalCostRejectedMonth = TotalCostRejectedMonth + additionalpaymentRejected;
-        TotalCostRejectedDay = TotalCostRejectedDay + costdayRejected;
-
-        costdayRejected = costdayRejected.toFixed(2);
-        additionalpaymentRejected = additionalpaymentRejected.toFixed(2);
         
-        labelDay = '  $'+costdayRejected+'/Day'; 
-        labelMonth = '  $'+additionalpaymentRejected+'/MTH'; 
-        $(this).find('.price-product').text(labelDay);
-        $(this).find('.price-product').append(labelMonth);
+        productPrice = getFloat($(this).find(':checkbox').val());
+        monthlyProductPayment = getMonthlyPayment(financedAmount + productPrice, term, apr);
+        additionalProductPayment = monthlyProductPayment - originalMonthlyPayment;
+        dailyProductCost = additionalProductPayment / 30;
+        totalMonthlyRejectedPayment += additionalProductPayment;
+        totalDailyRejectedPayment += dailyProductCost;
         
+        $(this).find('.price-product').text(getAmount(dailyProductCost) + '/Day');
+        $(this).find('.price-product').append('  ' + getAmount(additionalProductPayment) + '/MTH');
     });
-
-    TotalCostRejectedMonth = TotalCostRejectedMonth.toFixed(2);
-    TotalCostRejectedDay = TotalCostRejectedDay.toFixed(2);
     
-     $("#TotalAccepted").text('$'+monthpaymentAccepted);  
-     $("#TotalRejected").text('$'+TotalCostRejectedDay);
-     $("#TotalPayment").text('$'+TotalCostRejectedMonth);
+    $("#TotalRejected").text(getAmount(totalDailyRejectedPayment));
+    $("#TotalPayment").text(getAmount(totalMonthlyRejectedPayment));
 
-    //Save to PDF
-    $("#CostPerDay").val(TotalCostRejectedDay);
-    $("#UpdatedPayment").val(monthpaymentAccepted);
-    $("#AdditionalPayment").val(TotalCostRejectedMonth);
+    // Required for PDF export
+    $("#CostPerDay").val(totalDailyRejectedPayment);
+    $("#AdditionalPayment").val(totalMonthlyRejectedPayment);
 }
 
 $(':checkbox').click(function (event) {
@@ -100,7 +77,7 @@ $(':checkbox').click(function (event) {
             break;
     }
    
-    CalculateTotalCheckbox();
+    calculateCheckedProducts();
     var countProducts = 0;
 
     $('#AcceptedTable .products').each(function () {
@@ -334,7 +311,7 @@ $("#saveModalDisclosure").click(function () {
     $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name', Mileage); 
                  
 
-    CalculateTotalCheckbox();
+    calculateCheckedProducts();
     $('#myModal1').modal('hide');
 })
 

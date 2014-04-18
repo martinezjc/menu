@@ -76,7 +76,7 @@ return array(
         'sqlsrv' => array(
                 'driver'   => 'sqlsrv',
                 'host'     => 'dev.digital-officespace.com'.(PHP_OS == 'WINNT' ? ',' : ':').'5002',
-                'database' => 'MenuApp',
+                'database' => 'MenuAppTest',
                 'username' => 'developer',
                 'password' => 'NewP@55w0rd1234567',
                 'prefix'   => '',

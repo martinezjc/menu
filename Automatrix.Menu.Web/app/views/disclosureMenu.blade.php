@@ -431,7 +431,7 @@ if (is_null($UserSessionInfo)) {
             <td style="float:left; text-align: right; width:50%; ">
             <h5><strong>Additional Payment: </strong></h5>
             </td>
-            <td style="float:right; text-align: left; width:30%;"><h5><strong> <label id="TotalPayment">${{ $AdditionalPaymentFinance }}</label></strong></h5></td>
+            <td style="float:right; text-align: left; width:30%;"><h5><strong> <label id="TotalPayment">{{ $AdditionalPaymentFinance }}</label></strong></h5></td>
             </tr>            
             </table>
         </div>

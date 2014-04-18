@@ -105,7 +105,7 @@ function calculatePlans() {
     var term2 = getFooterTerm();
     
     // Calculate the base payment
-    $("#BasePaymentHidden").text(getAmount(getBasePayment(currentFinancedAmount, term, apr)));
+    $("#BasePaymentHidden").text(getAmount(getMonthlyPayment(currentFinancedAmount, term, apr)));
     
     setPlanAmounts('Premium', currentFinancedAmount, term, apr, term2, apr2);
     setPlanAmounts('Preferred', currentFinancedAmount, term, apr, term2, apr2);
@@ -128,8 +128,8 @@ function setPlanAmounts(plan, financedAmount, term, apr, term2, apr2)
     var totalAmount = financedAmount + sum;
 
     // First term and apr
-    var basePayment = getBasePayment(financedAmount, term, apr);
-    var monthlyPayment1 = getBasePayment(totalAmount, term, apr);
+    var basePayment = getMonthlyPayment(financedAmount, term, apr);
+    var monthlyPayment1 = getMonthlyPayment(totalAmount, term, apr);
     var additionalPayment = monthlyPayment1 - basePayment;
     var costPerDay = additionalPayment / 30;
 
@@ -139,15 +139,11 @@ function setPlanAmounts(plan, financedAmount, term, apr, term2, apr2)
     $('#SpanPayment' + plan).text(getAmount(monthlyPayment1));
 
     // Second term and apr
-    var monthlyPayment2 = getBasePayment(totalAmount, term2, apr2);
+    var monthlyPayment2 = getMonthlyPayment(totalAmount, term2, apr2);
     
     $('#SpanPayment' + plan + '2').text(getAmount(monthlyPayment2));
 
     sortMonthlyPaymentOptions(plan, monthlyPayment1 < monthlyPayment2 ? 1 : 2);
-}
-
-function getBasePayment(financedAmount, term, apr) {
-    return ((apr / 1200.00) + ((apr / 1200.00) / ((Math.pow(1 + (apr / 1200.00), term)) - 1.00))) * (financedAmount);
 }
 
 $('.tables .header').hover(

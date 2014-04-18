@@ -32,7 +32,7 @@ class ServiceProxyFactory
 				break;
 			
 			case 2: 
-				//$ServiceCall = new ProtectiveServiceProxy(new \SoapClient($settings->webservice->url), $settings);
+			    //$ServiceCall = new ProtectiveServiceProxy(new \SoapClient($settings->webservice->url), $settings);
 				if (is_soap_fault($ServiceCall = new ProtectiveServiceProxy(new \SoapClient($settings->webservice->url), $settings))) {
 					return 0;//trigger_error("SOAP Fault: (faultcode: {$result->faultcode}, faultstring: {$result->faultstring})", E_USER_ERROR);
 				}

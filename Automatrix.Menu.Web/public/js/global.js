@@ -1084,3 +1084,19 @@ function ReadSurchargesValues () {
         $('#MobilityEquipmentPackage').attr('checked', false);
     }
 }
+
+/**
+ * Calculate the base payment of a deal.
+ * 
+ * @param financedAmount
+ * @param term
+ * @param apr
+ * @returns {Number}
+ */
+function getMonthlyPayment(financedAmount, term, apr) {
+	// Cars that are paid in CASH don't have apr > 0
+	if(apr > 0)
+		return ((apr / 1200.00) + ((apr / 1200.00) / ((Math.pow(1 + (apr / 1200.00), term)) - 1.00))) * (financedAmount);
+	else
+		return 0;
+}
