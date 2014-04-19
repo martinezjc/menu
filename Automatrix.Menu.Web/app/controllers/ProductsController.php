@@ -430,8 +430,6 @@ class ProductsController extends BaseController
                 }
                 catch (Exception $e)
                 {
-                    print_r($e);
-                    die();
                     // echo $e;
                     $FailWebservice = 1;
                 } // end try

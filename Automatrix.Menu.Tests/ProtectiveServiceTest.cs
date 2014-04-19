@@ -60,7 +60,7 @@ namespace Automatrix.Menu.Tests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void GetRates()
         {
             ProtectiveServicesSoapClient proxy = new ProtectiveServicesSoapClient();
 
@@ -95,6 +95,36 @@ namespace Automatrix.Menu.Tests
             });
 
             Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void GetContractForms()
+        {
+            ProtectiveServicesSoapClient proxy = new ProtectiveServicesSoapClient();
+            proxy.GetContractForms(new ContractFormsRequest()
+            {
+                Automobiles = new AutomobileContractFormsRequest[]{
+                    new AutomobileContractFormsRequest()
+                    {
+                        Lienholder = new Lienholder()
+                        {
+                            Name = "",
+                            PhoneNumber = "",
+                            Address = new AddressDetails()
+                            {
+                                Address1 = "",
+                                Address2 = "",
+                                City = "",
+                                Country = "",
+                                CountryCode = CountryCodes.UnitedStatesOfAmerica,
+                                State = "",
+                                StateCode = StateCodes.FL,
+                                ZipCode = ""
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }
