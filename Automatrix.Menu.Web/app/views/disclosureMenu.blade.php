@@ -235,7 +235,7 @@ if (is_null($UserSessionInfo)) {
                                          <?php $Product->UsingWebService = 1; ?> 
                                     @endif
                                     @if(in_array($Product->id,$AcceptedArray))
-                                    $Taxable = 0;
+                                    <?php $Taxable = 0; ?>
                                     <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
                                     <section class="products" id="{{{ $Product->id }}}" name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">
                                         <div  class="product-header-container">
@@ -314,7 +314,7 @@ if (is_null($UserSessionInfo)) {
                                     @for( $i = 0; $i < count($Products); $i++)
                                                          <?php $Product = $Products[$i]; ?>
                                     @if(in_array($Product->id,$RejectedArray))
-                                    $Taxable = 0;
+                                    <?php $Taxable = 0; ?>
                                     <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
                                     <section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">
                                         <div class="product-header-container">

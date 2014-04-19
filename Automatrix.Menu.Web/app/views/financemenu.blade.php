@@ -290,7 +290,7 @@ $WebService = $deal;
 					<div class="bodyTable">	
 							@for ($i = 0; $i < count($Products); $i++)
 									 <?php $Product = $Products[$i]; ?>
-									 $Taxable = 0;
+									 <?php $Taxable = 0; ?>
 									 <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 									 	<section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">								
                                             <div class="product-header-container">
@@ -440,7 +440,7 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for( $i = 0; $i < count($Products) - 1; $i++)
 										 <?php $Product = $Products[$i]; ?>
-										 $Taxable = 0;
+										 <?php $Taxable = 0; ?>
 									 	 <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
 											<div class="product-header-container">
@@ -587,7 +587,7 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for ($i = 0; $i < count($Products) - 2; $i++)
 										<?php $Product = $Products[$i]; ?>
-										$Taxable = 0;
+										<?php $Taxable = 0; ?>
 									 	<?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section class="products"  id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
 										<div class="product-header-container"><div class="title-product">
@@ -731,7 +731,7 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for ($i = 0; $i < count($Products) - 3; $i++)
 										<?php $Product = $Products[$i]; ?>
-										$Taxable = 0;
+										<?php $Taxable = 0; ?>
 									 	<?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section id="{{{ $Product->id }}}" class="products"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
                                             <div class="product-header-container">
