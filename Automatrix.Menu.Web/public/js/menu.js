@@ -116,12 +116,16 @@ function calculatePlans() {
 function setPlanAmounts(plan, financedAmount, term, apr, term2, apr2)
 {
     var group = document.getElementsByName(plan);
-
     var sum = 0.00;
 
     for (var i = 0; i < group.length; i++) {
+        var IsTaxable = group[i].getAttribute("tax");
         if (group[i].checked == true) {
-            sum = sum + getFloat(group[i].value);
+            if (IsTaxable == 1) {
+                sum = sum + getFloat(ApplyTaxRate(group[i].value));
+            } else{
+               sum = sum + getFloat(group[i].value);    
+            }           
         }
     }
 

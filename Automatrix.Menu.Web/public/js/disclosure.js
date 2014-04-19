@@ -11,61 +11,68 @@ function calculateCheckedProducts() {
 	calculateRejectedProducts(financedAmount, term, apr);
 }
 
-function calculateAcceptedProducts(financedAmount, term, apr) {
-	var total = getAcceptedProductsAmount(), originalMonthlyPayment = getMonthlyPayment(
-			financedAmount, term, apr);
+function calculateAcceptedProducts(financedAmount, term, apr)
+{
+    var total = getAcceptedProductsAmount(), originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
+	
+    $("#BasePaymentHidden").text(getAmount(originalMonthlyPayment));
+    
+    var newMonthlyPayment = getMonthlyPayment(financedAmount + total, term, apr);
+    var additionalMonthlyPayment = newMonthlyPayment - originalMonthlyPayment;
+    var costPerDay = (additionalMonthlyPayment / 30).toFixed(2);
+        
+    $("#TotalAccepted").text(getAmount(newMonthlyPayment));  
 
-	$("#BasePaymentHidden").text(getAmount(originalMonthlyPayment));
-
-	var newMonthlyPayment = getMonthlyPayment(financedAmount + total, term, apr);
-	var additionalMonthlyPayment = newMonthlyPayment - originalMonthlyPayment;
-	var costPerDay = (additionalMonthlyPayment / 30).toFixed(2);
-
-	$("#TotalAccepted").text(getAmount(newMonthlyPayment));
-
-	// Required for PDF export
-	$("#UpdatedPayment").val(newMonthlyPayment);
+    // Required for PDF export
+    $("#UpdatedPayment").val(newMonthlyPayment);
 }
 
-function calculateRejectedProducts(financedAmount, term, apr) {
-	var productPrice = 0, originalMonthlyPayment = getMonthlyPayment(
-			financedAmount, term, apr);
+function calculateRejectedProducts(financedAmount, term, apr)
+{
+    
+	var productPrice = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
 	var monthlyProductPayment = 0, additionalProductPayment = 0, dailyRejectedCost = 0;
 	var totalMonthlyRejectedPayment = 0, totalDailyRejectedPayment = 0;
+	
+    $('#RejectedTable .products').each(function () {
+        
+        var IsTaxable = $(this).find( ':checkbox' ).attr('tax');
+        productPrice = getFloat($(this).find(':checkbox').val());
+        
+        if (IsTaxable == 1) {
+            productPrice = ApplyTaxRate(productPrice);
+        }
 
-	$('#RejectedTable .products').each(
-			function() {
+        monthlyProductPayment = getMonthlyPayment(financedAmount + productPrice, term, apr);
+        additionalProductPayment = monthlyProductPayment - originalMonthlyPayment;
+        dailyProductCost = additionalProductPayment / 30;
+        totalMonthlyRejectedPayment += additionalProductPayment;
+        totalDailyRejectedPayment += dailyProductCost;
+        
+        $(this).find('.price-product').text(getAmount(dailyProductCost) + '/Day');
+        $(this).find('.price-product').append('  ' + getAmount(additionalProductPayment) + '/MTH');
+    });
+    
+    $("#TotalRejected").text(getAmount(totalDailyRejectedPayment));
+    $("#TotalPayment").text(getAmount(totalMonthlyRejectedPayment));
 
-				productPrice = getFloat($(this).find(':checkbox').val());
-				monthlyProductPayment = getMonthlyPayment(financedAmount
-						+ productPrice, term, apr);
-				additionalProductPayment = monthlyProductPayment
-						- originalMonthlyPayment;
-				dailyProductCost = additionalProductPayment / 30;
-				totalMonthlyRejectedPayment += additionalProductPayment;
-				totalDailyRejectedPayment += dailyProductCost;
-
-				$(this).find('.price-product').text(
-						getAmount(dailyProductCost) + '/Day');
-				$(this).find('.price-product').append(
-						'  ' + getAmount(additionalProductPayment) + '/MTH');
-			});
-
-	$("#TotalRejected").text(getAmount(totalDailyRejectedPayment));
-	$("#TotalPayment").text(getAmount(totalMonthlyRejectedPayment));
-
-	// Required for PDF export
-	$("#CostPerDay").val(totalDailyRejectedPayment);
-	$("#AdditionalPayment").val(totalMonthlyRejectedPayment);
+    // Required for PDF export
+    $("#CostPerDay").val(totalDailyRejectedPayment);
+    $("#AdditionalPayment").val(totalMonthlyRejectedPayment);
 }
 
 function getAcceptedProductsAmount() {
 	var total = 0;
 
-	$("#AcceptedTable :checkbox").each(function() {
-		total += getFloat($(this).val());
-	});
-
+	$("#AcceptedTable :checkbox").each(function () {
+        var IsTaxable = $(this).attr("tax");
+        if (IsTaxable == 1) {
+            total += getFloat(ApplyTaxRate($(this).val()));
+        } else{
+            total += getFloat($(this).val());
+        };
+    });
+	
 	return total;
 }
 
