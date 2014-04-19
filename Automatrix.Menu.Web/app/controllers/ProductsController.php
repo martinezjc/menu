@@ -2698,6 +2698,10 @@ class ProductsController extends BaseController
         $findKey = Input::get('key');
         
         $deal = Session::get('WebServiceInfo');
+        
+        // TODO: Review this code
+        $deal->NewFinancedAmount = Input::get('financedAmount');
+        
         $productRatesFull = Session::get('productRatesFull');
         
         $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')

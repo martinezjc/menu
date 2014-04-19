@@ -187,7 +187,6 @@ class ProtectiveServiceProxy extends ServiceProxy
             
             if($productBaseId == 11 || $productBaseId == 12)
             {
-                
                 // get Contract Numbers
                 $contractNumber = $this->GetContractNumbers($data);
                 
@@ -316,8 +315,8 @@ class ProtectiveServiceProxy extends ServiceProxy
                 if($productBaseId == 11)
                 {
                     $request->Automobiles[0]->GAPContract = new \stdClass();
-                    $request->Automobiles[0]->GAPContract->AmountFinanced = $data->deal->FinancedAmount;
-                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->FinancedAmount;
+                    $request->Automobiles[0]->GAPContract->AmountFinanced = $data->deal->NewFinancedAmount;
+                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->NewFinancedAmount;
                     $request->Automobiles[0]->GAPContract->APR = $data->deal->APR;
                     $request->Automobiles[0]->GAPContract->BeginningOdometer = $data->deal->BeginningOdometer;
                     $request->Automobiles[0]->GAPContract->DownPayment = $data->deal->DownPayment;
