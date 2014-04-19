@@ -101,6 +101,9 @@ if (is_null($UserSessionInfo)) {
   window.addEventListener('DOMContentLoaded', utilForPage, false);
 </script>
 
+<!-- Dealer Tax Rate -->
+<input type="hidden" id="dealerTaxRate" value="{{$taxRate}}"/>
+
 <!-- By default the second option of the footer template will has the same apr and term of the first option -->
 <input type="hidden" id="footer-apr" value="{{$apr}}"/>
 <input type="hidden" id="footer-term" value="{{$term}}"/>
@@ -232,10 +235,12 @@ if (is_null($UserSessionInfo)) {
                                          <?php $Product->UsingWebService = 1; ?> 
                                     @endif
                                     @if(in_array($Product->id,$AcceptedArray))
+                                    $Taxable = 0;
+                                    <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
                                     <section class="products" id="{{{ $Product->id }}}" name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">
                                         <div  class="product-header-container">
                                             <div class="title-product">
-                                                <input type="checkbox" value="<?php echo $AcceptedArrayPrice[$j]; ?>"  name="Accepted" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber = "<?php echo $OrderAcceptedArray[$j]; ?>" checked>
+                                                <input type="checkbox" value="<?php echo $AcceptedArrayPrice[$j]; ?>"   tax="{{ $Taxable }}" name="Accepted" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber = "<?php echo $OrderAcceptedArray[$j]; ?>" checked>
                                                 {{{ $Product->DisplayName }}}
                                             </div>
 
@@ -309,10 +314,12 @@ if (is_null($UserSessionInfo)) {
                                     @for( $i = 0; $i < count($Products); $i++)
                                                          <?php $Product = $Products[$i]; ?>
                                     @if(in_array($Product->id,$RejectedArray))
+                                    $Taxable = 0;
+                                    <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
                                     <section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">
                                         <div class="product-header-container">
                                             <div class="title-product">
-                                                <input type="checkbox" value="<?php echo $RejectedArrayPrice[$j]; ?>"  name="Rejected" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber = "<?php echo $OrderRejectedArray[$j]; ?>" >
+                                                <input type="checkbox" value="<?php echo $RejectedArrayPrice[$j]; ?>"   tax="{{ $Taxable }}" name="Rejected" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber = "<?php echo $OrderRejectedArray[$j]; ?>" >
                                                 {{{ $Product->DisplayName }}}
                                             </div>
                                             <div class="price-product"><?php/* echo number_format((float)$RejectedArrayPrice[$j], 2, '.', ''); */?></div>

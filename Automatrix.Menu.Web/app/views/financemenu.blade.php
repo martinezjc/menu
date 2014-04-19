@@ -93,6 +93,9 @@ $WebService = $deal;
 
   window.addEventListener('DOMContentLoaded', flip, false);
 </script>
+<!-- Dealer Tax Rate -->
+<input type="hidden" id="dealerTaxRate" value="{{$taxRate}}"/>
+
 <!-- Original Deal Values -->
 <input type="hidden" id="original-apr" value="{{$WebService->APR}}"/>
 <input type="hidden" id="original-term" value="{{$WebService->Term}}"/>
@@ -286,11 +289,13 @@ $WebService = $deal;
 					<li class="rt-table-description">
 					<div class="bodyTable">	
 							@for ($i = 0; $i < count($Products); $i++)
-									 <?php $Product = $Products[$i]; ?>	
+									 <?php $Product = $Products[$i]; ?>
+									 $Taxable = 0;
+									 <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 									 	<section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"  company="{{{ $Product->CompanyId }}}">								
                                             <div class="product-header-container">
 											<div class="title-product">
-											<input id="{{{ $Product->id }}}"  type="checkbox" value="{{{ $Product->SellingPrice }}}" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Premium" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span> 
+											<input id="{{{ $Product->id }}}"  type="checkbox" tax="{{ $Taxable }}" value="{{{ $Product->SellingPrice }}}" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Premium" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span> 
 											</div> 
 											<div class="price-product"><span class="price-product-value">${{{ number_format($Product->SellingPrice, 2) }}}</span></div>
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>
@@ -366,6 +371,7 @@ $WebService = $deal;
 											   @else
 											       <input type="text" class="ProductInterval" name="0" hidden>
 											   @endif
+											   
 											<input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
 										</section>									
 							@endfor
@@ -434,10 +440,12 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for( $i = 0; $i < count($Products) - 1; $i++)
 										 <?php $Product = $Products[$i]; ?>
+										 $Taxable = 0;
+									 	 <?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section class="products" id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
 											<div class="product-header-container">
 											<div class="title-product">
-											<input id="{{{ $Product->id }}}"  type="checkbox" value="{{{ $Product->SellingPrice }}}"  RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Preferred" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
+											<input id="{{{ $Product->id }}}"  type="checkbox"  tax="{{ $Taxable }}" value="{{{ $Product->SellingPrice }}}"  RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Preferred" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
 											</div> 
 											<div class="price-product"><span class="price-product-value">${{{ number_format($Product->SellingPrice, 2) }}}</span></div>
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>
@@ -512,7 +520,7 @@ $WebService = $deal;
 											   @else
 											       <input type="text" class="ProductInterval" name="0" hidden>
 											   @endif
-											<input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
+											   <input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
 										</section>          
 							@endfor
 					</div>				
@@ -579,9 +587,11 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for ($i = 0; $i < count($Products) - 2; $i++)
 										<?php $Product = $Products[$i]; ?>
+										$Taxable = 0;
+									 	<?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section class="products"  id="{{{ $Product->id }}}"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
 										<div class="product-header-container"><div class="title-product">
-											<input id="{{{ $Product->id }}}"  type="checkbox" value="{{{ $Product->SellingPrice }}}"  RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Economy" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
+											<input id="{{{ $Product->id }}}"  type="checkbox"  tax="{{ $Taxable }}" value="{{{ $Product->SellingPrice }}}"  RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Economy" checked><span class="title-product-value"> @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
 											</div> 
 											<div class="price-product"><span class="price-product-value">${{{ number_format($Product->SellingPrice, 2) }}}</span></div>
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>
@@ -656,7 +666,7 @@ $WebService = $deal;
 											   @else
 											       <input type="text" class="ProductInterval" name="0" hidden>
 											   @endif
-											<input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
+											   <input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
 										</section>          
 							@endfor
 					</div>				
@@ -721,10 +731,12 @@ $WebService = $deal;
 					<div class="bodyTable">
 							@for ($i = 0; $i < count($Products) - 3; $i++)
 										<?php $Product = $Products[$i]; ?>
+										$Taxable = 0;
+									 	<?php if ($Product->IsTaxable == 1) {$Taxable = 1;}?>
 										<section id="{{{ $Product->id }}}" class="products"  name="{{{ $Product->ProductBaseId }}}"   company="{{{ $Product->CompanyId }}}">	
                                             <div class="product-header-container">
 										<div class="title-product">
-											<input id="{{{ $Product->id }}}"  type="checkbox" value="{{{ $Product->SellingPrice }}}" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Basic" checked> <span class="title-product-value">  @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
+											<input id="{{{ $Product->id }}}"  type="checkbox"  tax="{{ $Taxable }}" value="{{{ $Product->SellingPrice }}}" RangePricing="<?php try { echo $Product->UseRangePricing;} catch (Exception $e) { echo "0";} ?>" OrderNumber="<?php try { echo $Product->OrderNumber;} catch (Exception $e) { echo "0";	} ?>" name="Basic" checked> <span class="title-product-value">  @if ( $Product->DisplayName == '' ) {{ $Product->ProductName }} @else {{{ $Product->DisplayName }}} @endif </span>
 											</div> 
 											<div class="price-product"><span class="price-product-value">${{{ number_format($Product->SellingPrice, 2) }}}</span></div>
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>		
@@ -799,7 +811,7 @@ $WebService = $deal;
 											   @else
 											       <input type="text" class="ProductInterval" name="0" hidden>
 											   @endif
-											<input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
+											   <input type="hidden" class="BrochureImage" value="{{{$Product->BrochureImage}}}" name="{{{$Product->BrochureHeight}}}-{{{$Product->BrochureWidth}}}">											        
 										</section>          
 							@endfor
 					</div>		

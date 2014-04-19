@@ -53,9 +53,11 @@ class ProductsController extends BaseController
         $DealerId = $UserSessionInfo->DealerId;
         
         $settings = DB::table('Dealer')->where('DealerId', '=', $DealerId)->first();
-        
+
+
         if($settings)
         {
+            $taxRate = $settings->TaxRate;
             $settings->IsPDF = 0; // use for choose webservice URL in getproxy function
             
             $EmptyDeal = 0;
@@ -446,6 +448,7 @@ class ProductsController extends BaseController
                 ->with('ShowPrintButton', false)
                 ->with('FailWebservice', $FailWebservice)
                 ->with('ShowMenuPrintButton', true)
+                ->with('taxRate', $taxRate)
                 ->with('deal', $deal);
         }
         else
@@ -1581,6 +1584,9 @@ class ProductsController extends BaseController
             return Redirect::to('home');
         }
         
+        $settings = DB::table('Dealer')->where('DealerId', '=', $UserSessionInfo->DealerId)->first();
+        $taxRate = $settings->TaxRate;
+
         $SessionVar = Session::get('Provider');
         $PlansId = Input::get('Plan');
         $Accepted = Input::get('Accepted');
@@ -1660,6 +1666,7 @@ class ProductsController extends BaseController
             ->with('apr', $apr)
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
+            ->with('taxRate', $taxRate)
             ->with('ShowMenuPrintButton', false);
     }
 

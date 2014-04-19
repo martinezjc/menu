@@ -15,9 +15,12 @@ var GlobalCkeckboxClicked;
 var GlobalValidatePage;
 var GlobalOrderNumber;
 var changeFirstOnly = false;
+var GlobalTaxRate;
 
 $(document).ready(function () {
     StartToastMessage();
+    
+    GlobalTaxRate = $("#dealerTaxRate").val();
 
     if (!($(document).height() > $(window).height())) {
         $('footer').removeClass('footerApp');
@@ -109,7 +112,7 @@ $("#ButtonReset").click(function () {
            if (GlobalValidatePage == 0) {
                  calculatePlans();
             }else{
-                CalculateTotalCheckbox();
+                calculateCheckedProducts();
             }
     }
     
@@ -1099,4 +1102,11 @@ function getMonthlyPayment(financedAmount, term, apr) {
 		return ((apr / 1200.00) + ((apr / 1200.00) / ((Math.pow(1 + (apr / 1200.00), term)) - 1.00))) * (financedAmount);
 	else
 		return 0;
+}
+
+function ApplyTaxRate(price) {
+    console.debug(price);
+    price = price * (1 + (GlobalTaxRate / 100));
+    console.debug("new price "+price);
+    return price;
 }

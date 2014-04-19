@@ -13,12 +13,17 @@ function calculateCheckedProducts() {
 
 function calculateAcceptedProducts(financedAmount, term, apr)
 {
-	var total = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
+    var total = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
 	
     $("#BasePaymentHidden").text(getAmount(originalMonthlyPayment));
     
     $("#AcceptedTable :checkbox").each(function () {
-        total += getFloat($(this).val());
+        var IsTaxable = $(this).attr("tax");
+        if (IsTaxable == 1) {
+            total += getFloat(ApplyTaxRate($(this).val()));
+        } else{
+            total += getFloat($(this).val());
+        };
     });
 
     var newMonthlyPayment = getMonthlyPayment(financedAmount + total, term, apr);
@@ -33,13 +38,20 @@ function calculateAcceptedProducts(financedAmount, term, apr)
 
 function calculateRejectedProducts(financedAmount, term, apr)
 {
+    
 	var productPrice = 0, originalMonthlyPayment = getMonthlyPayment(financedAmount, term, apr);
 	var monthlyProductPayment = 0, additionalProductPayment = 0, dailyRejectedCost = 0;
 	var totalMonthlyRejectedPayment = 0, totalDailyRejectedPayment = 0;
 	
     $('#RejectedTable .products').each(function () {
         
+        var IsTaxable = $(this).find( ':checkbox' ).attr('tax');
         productPrice = getFloat($(this).find(':checkbox').val());
+        
+        if (IsTaxable == 1) {
+            productPrice = ApplyTaxRate(productPrice);
+        }
+
         monthlyProductPayment = getMonthlyPayment(financedAmount + productPrice, term, apr);
         additionalProductPayment = monthlyProductPayment - originalMonthlyPayment;
         dailyProductCost = additionalProductPayment / 30;
