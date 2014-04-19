@@ -1727,843 +1727,826 @@ class ProductsController extends BaseController
 
     public function exportPDF()
     {
-        $UserSessionInfo = Session::get('UserSessionInfo');
-        $data = Session::get('WebServiceInfo');
-        $Accepted = Input::get('acceptedarray');
-        $Rejected = Input::get('rejectedarray');
-        $CostPerDay = Input::get('CostPerDay');
-        $AdditionalPayment = Input::get('AdditionalPayment');
-        $UpdatedPayment = Input::get('UpdatedPayment');
-        $Total = Input::get('Total');
-        $CostByDayArray = Input::get('costbydayarray');
-        $NewAPR = input::get('newapr');
-        $NewTerm = input::get('newterm');
-        $NewDownPayment = input::get('newdownpayment');
-        $AcceptedDescriptionArray = input::get('accepteddescription');
-        $RejectedDescriptionArray = input::get('rejecteddescription');
-        
-        if(empty($UpdatedPayment))
-        {
+    $UserSessionInfo = Session::get('UserSessionInfo');
+    $data = Session::get('WebServiceInfo');
+    $Accepted = Input::get('acceptedarray');
+    $Rejected = Input::get('rejectedarray');
+    $CostPerDay = Input::get('CostPerDay');
+    $AdditionalPayment = Input::get('AdditionalPayment');
+    $UpdatedPayment = Input::get('UpdatedPayment');
+    $Total = Input::get('Total');
+    $CostByDayArray = Input::get('costbydayarray');
+    $NewAPR = input::get('newapr');
+    $NewTerm= input::get('newterm');
+    $NewDownPayment = input::get('newdownpayment');
+    $AcceptedDescriptionArray = input::get('accepteddescription');
+    $RejectedDescriptionArray = input::get('rejecteddescription');
+
+
+    if (empty($UpdatedPayment)) {
             $UpdatedPayment = 0;
-        }
-        
-        $Accepted = explode(",", $Accepted);
-        $Rejected = explode(",", $Rejected);
-        $CostByDay = explode(",", $CostByDayArray);
-        $NewAcceptedDescription = explode("!", $AcceptedDescriptionArray);
-        $NewRejectedDescription = explode("!", $RejectedDescriptionArray);
-        
-        $AcceptedDescription = array();
-        $x = 0;
-        foreach ($NewAcceptedDescription as $key => $value)
-        {
-            if($x > 0)
-                $value = substr($value, 1);
-            
-            $AcceptedDescription[$x] = $value;
-            $x = $x + 1;
-        }
-        
-        $RejectedDescription = array();
-        $x = 0;
-        foreach ($NewRejectedDescription as $key => $value)
-        {
-            if($x > 0)
-                $value = substr($value, 1);
-            
-            $RejectedDescription[$x] = $value;
-            $x = $x + 1;
-        }
-        
-        $arraycost = array();
-        
-        $x = 0;
-        foreach ($CostByDay as $key => $value)
-        {
-            $arraycost[$x] = explode(" ", $value);
-            $x = $x + 1;
-        }
-        
-        $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
-            ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
-            ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
-            ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
-            ->orderBy('PlansProducts.Order', 'asc')
-            ->get();
-        
-        $productDetails = DB::table('ProductDetail')->get();
-        
-        $Dealer = DB::table('Dealer')->where('DealerId', '=', $UserSessionInfo->DealerId)->first();
-        
-        $html = '
-	<html>
-	<head>
-	<style>
-
-		html{
-			margin-top:5px;
-			margin-left: 10px;
-			margin-right: 10px;
-		}
-
-		body{
-			font:12px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			//background-color:#BECEDC;
-			color:#000;
-		}
-	
-		p.productname{
-			color:blue;
-		}
-	
-		h5{
-			color:red
-		}
-	
-		table {
-			//border: solid 1px #000000; 
-			width:100%
-		}
-	
-		table.tableCommon{
-			font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			padding: 3px;
-			cellspacing:"2"; 
-			cellpadding:"2";
-		}
-		
-		.tableheader{
-			text-align:center; 
-			color:#FFFFFF; 
-			height:25px;
-			font-size: 1em;
-			font:16px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			font-weight:bold;
-		}
-		
-		table td.footercommon{
-			border: 1px solid #E1E1E1; 
-			background-color: #f3f3f3;
-		}
-		
-		table td.tabletdcommon{
-			border-top: 1px solid #E1E1E1; 
-			border-left: 1px solid #E1E1E1; 
-			border-right: 1px solid #E1E1E1; 
-		}
-
-		table td.alignleft{
-			text-align: left
-		}
-
-		table td.alignright{
-			text-align:right
-		}
-		
-		.accepted{
-			background: #51A351;
-			width:30%
-		}
-		
-		.rejected{
-			background: #BD362F;
-			width:30%
-		}
-		
-		.disclosure{
-			background: #A1927D;
-			width:40%
-		}
-		
-		li{
-			padding-left:25px;
-			list-style: square;
-			//border-bottom: 1px dotted #AEAEAE;
-		}
-		
-	</style>
-
-	</head>
-	<body>
-		<table >
-			<tr>';
-        if(! (empty($UserSessionInfo->DealerLogo)))
-        {
-            $html .= '<td rowspan="3" style="width:1px"><img src="uploads/dealer/' . $UserSessionInfo->DealerLogo . '" width="250" height="50"/></td>';
-        }
-        
-        $html .= '<td class="alignright"><b>Buyer:</b></td> <td class="alignleft" style="width:150px;">' . $data->Buyer . '</td>  <td class="alignright"><b>Amount Financed:</b></td> <td class="alignleft">$' . number_format($data->FinancedAmount, 2) . '</td> <td class="alignright"><b>Down Payment:</b></td> <td class="alignleft"> $';
-        if($NewDownPayment == null)
-        {
-            $html .= number_format($data->FinancedAmount, 2);
-        }
-        else
-        {
-            $html .= number_format($NewDownPayment, 2);
-        }
-        $html .= '</td></tr>
-			<tr><td class="alignright"><b>Co Buyer:</b></td> <td class="alignleft">' . $data->CoBuyer . '</td> <td class="alignright"><b>APR:</b></td> <td class="alignleft">';
-        if($NewAPR == null)
-        {
-            $html .= number_format($data->APR, 2);
-        }
-        else
-        {
-            $html .= number_format($NewAPR, 2);
-        }
-        $html .= '</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
-			<tr><td colspan="2" style="text-align:center;padding-top:10px;"><b>' . $data->Year . ' ' . $data->Make . ' ' . $data->Model . '</b></td>  <td class="alignright"><b>Term:</b></td> <td class="alignleft">';
-        if($NewTerm == null)
-        {
-            $html .= number_format($data->Term, 2);
-        }
-        else
-        {
-            $html .= number_format($NewTerm, 2);
-        }
-        $html .= '</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
-		</table>';
-        
-        // aque ya viene la tabla de los productos aceptados
-        $html .= '<table > 
-				  <tr> 
-				    <td valign="top" width="32.5%" class="tabletdcommon"> 
-				  		 <table cellspacing="2" cellpadding="2" class="tableCommon">
-							<tr><td class="accepted tableheader">Products Accepted</td></tr>
-							<tr><td><table>';
-        if(count($Accepted) > 0)
-        {
-            $i = 0;
-            foreach ($Accepted as $key => $value)
-            {
-                foreach ($products as $valor)
-                {
-                    if($valor->id == $value)
-                    {
-                        $html .= '
-											<tr>
-												<td style="color:#41699A"><strong>' . $valor->DisplayName . '</strong></td>
-												<td valign="top" style="text-align:right"><b></b></td>
-											</tr>
-											<tr>
-												<td colspan="2">' . $AcceptedDescription[$i] . '</td>
-											</tr>
-											<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                        $Bullets = explode(',', $valor->Bullets);
-                        foreach ($Bullets as $Bullet)
-                        {
-                            if(! (empty($Bullet)))
-                            {
-                                $html .= '<li>' . $Bullet . '</li>';
-                            }
-                        }
-                        $html .= '
-											</td></tr>
-											';
-                    }
-                }
-                
-                $i = $i + 1;
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						 </table>
-				  	</td>
-				  	<td valign="top" width="32.5%" class="tabletdcommon"> 
-				  		 <table class="tableCommon">
-						<tr><td class="rejected tableheader">Products Rejected</td></tr>
-							<tr><td><table>';
-        if(count($Rejected) > 0)
-        {
-            $i = 0;
-            foreach ($Rejected as $key => $value)
-            {
-                foreach ($products as $valor)
-                {
-                    if($valor->id == $value)
-                    {
-                        $html .= '
-											<tr>
-												<td style="color:#41699A"><strong>' . $valor->DisplayName . '</strong></td>
-												<td valign="top" style="text-align:right"><b><div>' . $arraycost[$i][0] . '</div> <div>' . $arraycost[$i][1] . '</div></b></td>
-											</tr>
-											<tr>
-												<td colspan="2">' . $RejectedDescription[$i] . '</td>
-											</tr>
-											<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                        $Bullets = explode(',', $valor->Bullets);
-                        foreach ($Bullets as $Bullet)
-                        {
-                            if(! (empty($Bullet)))
-                            {
-                                $html .= '<li>' . $Bullet . '</li>';
-                            }
-                        }
-                        $html .= '
-											</td></tr>
-											';
-                    }
-                }
-                
-                $i = $i + 1;
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						</table> 
-				  	</td> 
-				  	<td valign="top" width="35%" class="tabletdcommon"> 
-				  		<table class="tableCommon">
-						<tr><td class="disclosure tableheader">Disclosure</td></tr>
-							<tr><td style="text-align: justify;" >' . $Dealer->Disclosure . '</td></tr>';
-        
-        $html .= '</table> 
-						
-				  	</td>  
-			      </tr> 
-				  <tr >
-					<td class="footercommon">
-					  <table cellspacing="2" cellpadding="2">
-						  <tr>
-							  <td valign="top" class="alignleft" style="height:30px">
-							  <b>Updated Payment:</b>
-							  </td>
-							  <td valign="top" class="alignright" style="height:30px">
-							  <b>$' . number_format($UpdatedPayment, 2) . '</b>
-							  </td>
-						  </tr>
-						  <tr>
-							  <td colspan="2">
-							  <b>Initials: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___________________________</b>
-							  </td>
-						  </tr>
-					  </table>
-				  	</td>
-
-				  	<td class="footercommon">
-					  <table cellspacing="2" cellpadding="2">
-						  <tr>
-							  <td class="alignright" style="font:20px Arial, Tahoma, Verdana, Helvetica, sans-serif;">
-							  <b>Cost Per Day:</b>
-							  </td>
-							  <td class="alignright" style="font:20px Arial, Tahoma, Verdana, Helvetica, sans-serif;">
-							  <b>$' . number_format($CostPerDay, 2) . '</b>
-							  </td>
-						  </tr>
-						  <tr>
-							  <td class="alignright" style="font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif">
-							  <b>Aditional Payment:</b>
-							  </td>
-							  <td class="alignright" style="font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif">
-							  <b>$' . number_format($AdditionalPayment, 2) . '</b>
-							  </td>
-						  </tr>
-					  </table>
-				  	</td>
-
-				  	<td class="footercommon">
-					  <table>
-						  <tr>
-							  <td valign="top" class="alignright" style="width:70px;height:30px;padding-top:0;">
-							  <b>Buyer:</b>
-							  </td>
-							  <td valign="top" class="alignleft" style="padding-top:0;">
-							  <b>_______________ Date: ___________</b>
-							  </td>
-						  </tr>
-						  <tr>
-							  <td class="alignright" style="width:70px;">
-							  <b>Co Buyer:</b>
-							  </td>
-							  <td class="alignleft" >
-							  <b>_______________ Date: ___________</b>
-							  </td>
-						  </tr>
-					  </table>
-				  	</td>
-				  </tr>
-				  <tr>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				  </tr>
-				  <tr valign="bottom">
-				    <td colspan="3" style="text-align:center; color:#41699A;">Powered by Automatrix</td>
-				  </tr>
-			      </table>
-	</body>
-	</html>';
-        
-        PDF::load($html, 'letter', 'landscape');
-        // PDF::AutoPrint(true);
-        echo PDF::show('disclosure');
     }
 
-    public function printMenuPdf()
+    $Accepted = explode(",",$Accepted);
+    $Rejected  = explode(",",$Rejected);
+    $CostByDay = explode(",", $CostByDayArray);
+    $NewAcceptedDescription = explode("!", $AcceptedDescriptionArray);
+    $NewRejectedDescription = explode("!", $RejectedDescriptionArray);
+
+    $AcceptedDescription = array();
+    $x = 0;
+    foreach ($NewAcceptedDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $AcceptedDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+    $RejectedDescription = array();
+    $x = 0;
+    foreach ($NewRejectedDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $RejectedDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+    
+    $arraycost = array();
+
+    $x = 0;
+    foreach ($CostByDay as $key => $value) {
+        $arraycost[$x] = explode("  ", $value);
+        $x=$x+1;
+    }
+
+      $products = DB::table ( 'Products' )
+                    ->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )
+                    ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
+                    //->join ( 'WebServiceSettings', 'Products.id', '=', 'WebServiceSettings.ProductId' )
+                    ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
+                    ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
+                    ->orderBy ( 'PlansProducts.Order', 'asc' )
+                    ->get ();
+
+    $productDetails = DB::table ( 'ProductDetail' )->get ();
+
+    $Dealer = DB::table ('Dealer')
+                 ->where('DealerId','=', $UserSessionInfo->DealerId)
+                 ->first();
+    
+    $html = '
+    <html>
+    <head>
+    <style>
+
+        html{
+            margin-top:5px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        body{
+            font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+            //background-color:#BECEDC;
+            color:#000;
+        }
+    
+        p.productname{
+            color:blue;
+        }
+    
+        h5{
+            color:red
+        }
+    
+        table {
+            //border: solid 1px #000000; 
+            width:100%
+        }
+    
+        // table.tableCommon{
+        //  font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+        // }
+        
+        .tableheader{
+            text-align:center; 
+            color:#FFFFFF; 
+            height:15px;
+            //font-size: 1em;
+            font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+            font-weight:bold;
+        }
+        
+        table td.footercommon{
+            border: 1px solid #E1E1E1; 
+            background-color: #f3f3f3;
+        }
+        
+        table td.tabletdcommon{
+            border-top: 1px solid #E1E1E1; 
+            border-left: 1px solid #E1E1E1; 
+            border-right: 1px solid #E1E1E1; 
+        }
+
+        table td.alignleft{
+            text-align: left
+        }
+
+        table td.alignright{
+            text-align:right
+        }
+        
+        .accepted{
+            background: #51A351;
+            width:32.5%
+        }
+        
+        .rejected{
+            background: #BD362F;
+            width:32.5%
+        }
+        
+        .disclosure{
+            background: #A1927D;
+            width:35%
+        }
+        
+        li{
+            padding-left:25px;
+            list-style: square;
+            //border-bottom: 1px dotted #AEAEAE;
+        }
+
+        .disclosurefont{
+            font: 12px Arial, Tahoma, Verdana, Helvetica, sans-serif !important;
+        }
+        
+    </style>
+
+    </head>
+    <body>
+        <table>
+            <tr>';
+            if (!(empty($UserSessionInfo->DealerLogo))) {
+                $html .= '<td rowspan="3" style="width:1px;"><img src="uploads/dealer/' . $UserSessionInfo->DealerLogo . '" width="180" height="20"/></td>';
+            }
+            
+            $html .= '<td class="alignright"><b>Buyer:</b></td> <td class="alignleft" style="width:150px;">'.$data->Buyer.'</td>  <td class="alignright"><b>Amount Financed:</b></td> <td class="alignleft">$'.number_format($data->FinancedAmount,2).'</td> <td class="alignright"><b>Down Payment:</b></td> <td class="alignleft"> $'; if($NewDownPayment ==null) {$html.=number_format($data->FinancedAmount,2); }else { $html.=number_format($NewDownPayment,2); } $html.='</td></tr>
+            <tr><td class="alignright"><b>Co Buyer:</b></td> <td class="alignleft">'.$data->CoBuyer.'</td> <td class="alignright"><b>APR:</b></td> <td class="alignleft">'; if($NewAPR ==null) {$html.=number_format($data->APR,2); }else { $html.=number_format($NewAPR,2); } $html.='</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
+            <tr><td colspan="2" style="text-align:center;"><b>'.$data->Year.' '.$data->Make.' '.$data->Model.'</b></td>  <td class="alignright"><b>Term:</b></td> <td class="alignleft">'; if($NewTerm ==null) {$html.=number_format($data->Term,2); }else { $html.=number_format($NewTerm,2); } $html.='</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
+        </table>';
+    
+
+        //aque ya viene la tabla de los productos aceptados
+        $html .= '<table> 
+                  <tr > 
+                    <td valign="top" width="32.5%" class="tabletdcommon"> 
+                        <table class="tableCommon">
+                        <tr><td class="accepted tableheader">Products Accepted</td></tr>
+                        <tr><td><table>';
+                        if(count($Accepted)>0)
+                        {
+                            $i = 0;
+                            foreach ($Accepted as $key => $value) {
+                                foreach($products as $valor) 
+                                {
+                                    if($valor->id==$value)
+                                    {
+                                        $html .='
+                                        <tr>
+                                            <td style="color:#41699A"><strong>'.$valor->DisplayName.'</strong></td>
+                                            <td valign="top" style="text-align:right"><b></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">'.$AcceptedDescription[$i].'</td>
+                                        </tr>
+                                        <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                        $Bullets = explode(',', $valor->Bullets);
+                                        foreach($Bullets as $Bullet)
+                                        {
+                                            if (!(empty($Bullet)))
+                                            {
+                                                $html .= '<li>'.$Bullet.'</li>';
+                                            }
+                                        }   
+                                        $html .= '
+                                        </td></tr>
+                                        ';
+                                    }
+                                }
+
+                                $i = $i + 1;
+                            }
+                        }
+                         $html .= '
+                            </table></td></tr>
+                         </table>
+                    </td>
+                    <td valign="top" width="32.5%" class="tabletdcommon"> 
+                         <table class="tableCommon">
+                         <tr><td class="rejected tableheader">Products Rejected</td></tr>
+                            <tr><td><table>';
+                            if(count($Rejected)>0)
+                            {
+                                $i = 0;
+                                foreach ($Rejected as $key => $value) {
+                                    foreach($products as $valor) 
+                                    {
+                                        if($valor->id==$value)
+                                        {
+                                            $html .='
+                                            <tr>
+                                                <td style="color:#41699A"><strong>'.$valor->DisplayName.'</strong></td>
+                                                <td valign="top" style="text-align:right"><b><div>'.$arraycost[$i][0].'</div> <div>'.$arraycost[$i][1].'</div></b></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">'.$RejectedDescription[$i].'</td>
+                                            </tr>
+                                            <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                            $Bullets = explode(',', $valor->Bullets);
+                                            foreach($Bullets as $Bullet)
+                                            {
+                                                if (!(empty($Bullet)))
+                                                {
+                                                    $html .= '<li>'.$Bullet.'</li>';
+                                                }
+                                            }       
+                                            $html .= '
+                                            </td></tr>
+                                            ';
+                                        }
+                                    }
+
+                                    $i = $i + 1;
+                                }
+                            }
+                            $html .= '
+                            </table></td></tr>
+                        </table> 
+                    </td> 
+                    <td valign="top" width="35%" class="tabletdcommon"> 
+                        <table class="tableCommon">
+                        <tr><td class="disclosure tableheader">Disclosure</td></tr>
+                            <tr><td style="text-align: justify;" class="disclosurefont" >'.$Dealer->Disclosure.'</td></tr>';
+                        $html .= '</table> 
+                        
+                    </td>  
+                  </tr> 
+                  <tr >
+                    <td class="footercommon">
+                      <table cellspacing="2" cellpadding="2">
+                          <tr>
+                              <td valign="top" class="alignleft" style="height:30px">
+                              <b>Updated Payment:</b>
+                              </td>
+                              <td valign="top" class="alignright" style="height:30px">
+                              <b>$'.number_format($UpdatedPayment,2).'</b>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td colspan="2">
+                              <b>Initials: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______________________________________________</b>
+                              </td>
+                          </tr>
+                      </table>
+                    </td>
+
+                    <td class="footercommon">
+                      <table cellspacing="2" cellpadding="2">
+                          <tr>
+                              <td class="alignright" style="font:20px Arial, Tahoma, Verdana, Helvetica, sans-serif;">
+                              <b>Cost Per Day:</b>
+                              </td>
+                              <td class="alignright" style="font:20px Arial, Tahoma, Verdana, Helvetica, sans-serif;">
+                              <b>$'.number_format($CostPerDay,2).'</b>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="alignright" style="font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif">
+                              <b>Aditional Payment:</b>
+                              </td>
+                              <td class="alignright" style="font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif">
+                              <b>$'.number_format($AdditionalPayment,2).'</b>
+                              </td>
+                          </tr>
+                      </table>
+                    </td>
+
+                    <td class="footercommon">
+                      <table>
+                          <tr>
+                              <td valign="top" class="alignright" style="width:70px;height:30px;padding-top:0;">
+                              <b>Buyer:</b>
+                              </td>
+                              <td valign="top" class="alignleft" style="padding-top:0;">
+                              <b>_________________________ Date: ___________________</b>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="alignright" style="width:70px;">
+                              <b>Co Buyer:</b>
+                              </td>
+                              <td class="alignleft" >
+                              <b>_________________________ Date: ___________________</b>
+                              </td>
+                          </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr valign="bottom">
+                    <td colspan="3" style="text-align:center; color:#41699A;">Powered by Automatrix</td>
+                  </tr>
+                  </table>
+    </body>
+    </html>';
+
+
+    PDF::load($html, 'letter','landscape');
+    //PDF::AutoPrint(true);
+    echo PDF::show('disclosure');
+    } 
+
+   public function printMenuPdf(){
+    $UserSessionInfo = Session::get('UserSessionInfo');
+
+
+    $data = Session::get('WebServiceInfo');
+
+    if($data == null)
     {
-        $UserSessionInfo = Session::get('UserSessionInfo');
-        
-        $data = Session::get('WebServiceInfo');
-        
-        if($data == null)
+        echo "You need a deal to print the menu in pdf";
+        die();
+    }
+    else
+    {
+        if($data->Deal == 0 | $data->Deal =="")
         {
             echo "You need a deal to print the menu in pdf";
-            die();
+            die();      
+        }
+    }
+
+    $PremiumArray = Input::get('premiumarray');
+    $PreferredArray = Input::get('preferredarray');
+    $EconomyArray = Input::get('economyarray');
+    $BasicArray = Input::get('basicarray');
+    $PremiumAcceptedArray = Input::get('premiumacceptedarray');
+    $PreferredAcceptedArray = Input::get('preferredacceptedarray');
+    $EconomyAcceptedArray = Input::get('economyacceptedarray');
+    $BasicAcceptedArray = Input::get('basicacceptedarray');
+    $CostPremiumArray = Input::get('costpremiumarray');
+    $CostPreferredArray = Input::get('costpreferredarray');
+    $CostEconomyArray = Input::get('costeconomyarray');
+    $CostBasicArray = Input::get('costbasicarray');
+    $CostFooterArray = Input::get('costfooterarray');
+    $FaceFooter = Input::get('facefooter');
+    $PremiumDescriptionArray = Input::get('premiumdescription');
+    $PreferredDescriptionArray = Input::get('preferreddescription');
+    $EconomyDescriptionArray = Input::get('economydescription');
+    $BasicDescriptionArray = Input::get('basicdescription');
+
+    $Premium = explode(",",$PremiumArray);
+    $Preferred  = explode(",",$PreferredArray);
+    $Economy = explode(",", $EconomyArray);
+    $Basic = explode(",", $BasicArray);
+    // $Cost = explode(",",$CostByProductArray);
+    $PremiumAccepted = explode(",",$PremiumAcceptedArray);
+    $PreferredAccepted = explode(",",$PreferredAcceptedArray);
+    $EconomyAccepted = explode(",",$EconomyAcceptedArray);
+    $BasicAccepted = explode(",",$BasicAcceptedArray);
+    $CostFooter = explode(",",$CostFooterArray);
+    
+    $CostPremium = explode(",",$CostPremiumArray);
+    $CostPreferred  = explode(",",$CostPreferredArray);
+    $CostEconomy = explode(",", $CostEconomyArray);
+    $CostBasic = explode(",", $CostBasicArray);
+    $NewPremiumDescription = explode("!",$PremiumDescriptionArray);
+    $NewPreferredDescription = explode("!",$PreferredDescriptionArray);
+    $NewEconomyDescription = explode("!",$EconomyDescriptionArray);
+    $NewBasicDescription = explode("!",$BasicDescriptionArray);
+
+
+    $PremiumDescription = array();
+    $x = 0;
+    foreach ($NewPremiumDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $PremiumDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+    $PreferredDescription = array();
+    $x = 0;
+    foreach ($NewPreferredDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $PreferredDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+
+    $EconomyDescription = array();
+    $x = 0;
+    foreach ($NewEconomyDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $EconomyDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+    $BasicDescription = array();
+    $x = 0;
+    foreach ($NewBasicDescription as $key => $value) {
+        if($x>0)
+            $value = substr($value, 1);
+
+        $BasicDescription[$x] = $value;
+        $x = $x+1;
+    }
+
+
+    $products = DB::table ( 'Products' )
+                    ->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )
+                    ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
+                    //->join ( 'WebServiceSettings', 'Products.id', '=', 'WebServiceSettings.ProductId' )
+                    ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
+                    ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
+                    ->orderBy ( 'PlansProducts.Order', 'asc' )
+                    ->get ();
+
+    $productDetails = DB::table ( 'ProductDetail' )->get ();
+
+    $Dealer = DB::table ('Dealer')
+                 ->where('DealerId','=', $UserSessionInfo->DealerId)
+                 ->first();
+
+    // if($UserSessionInfo->DealerId != 1)
+    //  die();
+
+
+    $html = '
+    <html>
+    <head>
+    <style>
+
+        html{
+            margin-top:5px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        body{
+            font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+            //background-color:#BECEDC;
+            color:#000;
+        }
+    
+        p.productname{
+            color:blue;
+        }
+    
+        h5{
+            color:red
+        }
+    
+        table {
+            //border: solid 1px #000000; 
+            width:100%
+        }
+    
+        // table.tableCommon{
+        //  font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+        // }
+        
+        .tableheader{
+            text-align:center; 
+            color:#FFFFFF; 
+            height:15px;
+            //font-size: 1em;
+            font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+            font-weight:bold;
         }
         
-        $PremiumArray = Input::get('premiumarray');
-        $PreferredArray = Input::get('preferredarray');
-        $EconomyArray = Input::get('economyarray');
-        $BasicArray = Input::get('basicarray');
-        $PremiumAcceptedArray = Input::get('premiumacceptedarray');
-        $PreferredAcceptedArray = Input::get('preferredacceptedarray');
-        $EconomyAcceptedArray = Input::get('economyacceptedarray');
-        $BasicAcceptedArray = Input::get('basicacceptedarray');
-        $CostPremiumArray = Input::get('costpremiumarray');
-        $CostPreferredArray = Input::get('costpreferredarray');
-        $CostEconomyArray = Input::get('costeconomyarray');
-        $CostBasicArray = Input::get('costbasicarray');
-        $CostFooterArray = Input::get('costfooterarray');
-        $FaceFooter = Input::get('facefooter');
-        $PremiumDescriptionArray = Input::get('premiumdescription');
-        $PreferredDescriptionArray = Input::get('preferreddescription');
-        $EconomyDescriptionArray = Input::get('economydescription');
-        $BasicDescriptionArray = Input::get('basicdescription');
+        table td.footercommon{
+            border: 1px solid #E1E1E1; 
+            background-color: #f3f3f3;
+            text-align:center;
+        }
         
-        $Premium = explode(",", $PremiumArray);
-        $Preferred = explode(",", $PreferredArray);
-        $Economy = explode(",", $EconomyArray);
-        $Basic = explode(",", $BasicArray);
-        // $Cost = explode(",",$CostByProductArray);
-        $PremiumAccepted = explode(",", $PremiumAcceptedArray);
-        $PreferredAccepted = explode(",", $PreferredAcceptedArray);
-        $EconomyAccepted = explode(",", $EconomyAcceptedArray);
-        $BasicAccepted = explode(",", $BasicAcceptedArray);
-        $CostFooter = explode(",", $CostFooterArray);
+        table td.tabletdcommon{
+            border-top: 1px solid #E1E1E1; 
+            border-left: 1px solid #E1E1E1; 
+            border-right: 1px solid #E1E1E1; 
+        }
+
+        table td.alignleft{
+            text-align: left
+        }
+
+        table td.alignright{
+            text-align:right
+        }
         
-        $CostPremium = explode(",", $CostPremiumArray);
-        $CostPreferred = explode(",", $CostPreferredArray);
-        $CostEconomy = explode(",", $CostEconomyArray);
-        $CostBasic = explode(",", $CostBasicArray);
-        $NewPremiumDescription = explode("!", $PremiumDescriptionArray);
-        $NewPreferredDescription = explode("!", $PreferredDescriptionArray);
-        $NewEconomyDescription = explode("!", $EconomyDescriptionArray);
-        $NewBasicDescription = explode("!", $BasicDescriptionArray);
-        
-        $PremiumDescription = array();
-        $x = 0;
-        foreach ($NewPremiumDescription as $key => $value)
+        li{
+            padding-left:25px;
+            list-style: square;
+            //border-bottom: 1px dotted #AEAEAE;
+        }
+
+        text.CostPerDay{
+            font:18px Arial, Tahoma, Verdana, Helvetica, sans-serif;
+            align:center;
+            text-align:center;
+            font-weight:bold;
+        }
+
+        text.Other{
+            font-weight:bold;
+        }
+
+        tr.spacingtr td text
         {
-            if($x > 0)
-                $value = substr($value, 1);
-            
-            $PremiumDescription[$x] = $value;
-            $x = $x + 1;
+            line-height: 22px;
         }
         
-        $PreferredDescription = array();
-        $x = 0;
-        foreach ($NewPreferredDescription as $key => $value)
-        {
-            if($x > 0)
-                $value = substr($value, 1);
+    </style>
+
+    </head>
+    <body>
+        <table >
+            <tr>';
+            if (!(empty($UserSessionInfo->DealerLogo))) {
+                $html .= '<td rowspan="3" style="width:1px;"><img src="uploads/dealer/' . $UserSessionInfo->DealerLogo . '" width="180" height="20"/></td>';
+            }
             
-            $PreferredDescription[$x] = $value;
-            $x = $x + 1;
-        }
-        
-        $EconomyDescription = array();
-        $x = 0;
-        foreach ($NewEconomyDescription as $key => $value)
-        {
-            if($x > 0)
-                $value = substr($value, 1);
-            
-            $EconomyDescription[$x] = $value;
-            $x = $x + 1;
-        }
-        
-        $BasicDescription = array();
-        $x = 0;
-        foreach ($NewBasicDescription as $key => $value)
-        {
-            if($x > 0)
-                $value = substr($value, 1);
-            
-            $BasicDescription[$x] = $value;
-            $x = $x + 1;
-        }
-        
-        $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
-            ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
-            ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
-            ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
-            ->orderBy('PlansProducts.Order', 'asc')
-            ->get();
-        
-        $productDetails = DB::table('ProductDetail')->get();
-        
-        $Dealer = DB::table('Dealer')->where('DealerId', '=', $UserSessionInfo->DealerId)->first();
-        
-        // if($UserSessionInfo->DealerId != 1)
-        // die();
-        
-        $html = '
-	<html>
-	<head>
-	<style>
+            $html .= '<td class="alignright"><b>Buyer:</b></td> <td class="alignleft" style="width:150px;">'.$data->Buyer.'</td>  <td class="alignright"><b>Amount Financed:</b></td> <td class="alignleft">$'.number_format($data->FinancedAmount,2).'</td> <td class="alignright"><b>Down Payment:</b></td> <td class="alignleft"> $'.number_format($data->DownPayment,2).'</td></tr>
+            <tr><td class="alignright"><b>Co Buyer:</b></td> <td class="alignleft">'.$data->CoBuyer.'</td> <td class="alignright"><b>APR:</b></td> <td class="alignleft">'.number_format($data->APR,2).'</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
+            <tr><td colspan="2" style="text-align:center;"><b>'.$data->Year.' '.$data->Make.' '.$data->Model.'</b></td>  <td class="alignright"><b>Term:</b></td> <td class="alignleft">'.number_format($data->Term,2).'</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
+        </table>';
 
-		html{
-			margin-top:5px;
-			margin-left: 10px;
-			margin-right: 10px;
-		}
 
-		body{
-			font:12px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			//background-color:#BECEDC;
-			color:#000;
-		}
-	
-		p.productname{
-			color:blue;
-		}
-	
-		h5{
-			color:red
-		}
-	
-		table {
-			//border: solid 1px #000000; 
-			width:100%
-		}
-	
-		table.tableCommon{
-			font:10px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			padding: 3px;
-			cellspacing:"2"; 
-			cellpadding:"2";
-		}
-		
-		.tableheader{
-			text-align:center; 
-			color:#FFFFFF; 
-			height:25px;
-			font-size: 1em;
-			font:16px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			font-weight:bold;
-		}
-		
-		table td.footercommon{
-			border: 1px solid #E1E1E1; 
-			background-color: #f3f3f3;
-			text-align:center;
-			height:60px
-		}
-		
-		table td.tabletdcommon{
-			border-top: 1px solid #E1E1E1; 
-			border-left: 1px solid #E1E1E1; 
-			border-right: 1px solid #E1E1E1; 
-		}
-
-		table td.alignleft{
-			text-align: left
-		}
-
-		table td.alignright{
-			text-align:right
-		}
-		
-		li{
-			padding-left:25px;
-			list-style: square;
-			//border-bottom: 1px dotted #AEAEAE;
-		}
-
-		text.CostPerDay{
-			font:18px Arial, Tahoma, Verdana, Helvetica, sans-serif;
-			align:center;
-			text-align:center;
-			font-weight:bold;
-		}
-
-		text.Other{
-			font-weight:bold;
-		}
-
-		tr.spacingtr td text
-		{
-			line-height: 22px;
-		}
-		
-	</style>
-
-	</head>
-	<body>
-		<table >
-			<tr><td rowspan="3" style="width:1px"><img src="uploads/dealer/' . $UserSessionInfo->DealerLogo . '" width="250" height="50"/></td><td class="alignright"><b>Buyer:</b></td> <td class="alignleft" style="width:150px;">' . $data->Buyer . '</td>  <td class="alignright"><b>Amount Financed:</b></td> <td class="alignleft">$' . number_format($data->FinancedAmount, 2) . '</td> <td class="alignright"><b>Down Payment:</b></td> <td class="alignleft"> $' . number_format($data->DownPayment, 2) . '</td></tr>
-			<tr><td class="alignright"><b>Co Buyer:</b></td> <td class="alignleft">' . $data->CoBuyer . '</td> <td class="alignright"><b>APR:</b></td> <td class="alignleft">' . number_format($data->APR, 2) . '</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
-			<tr><td colspan="2" style="text-align:center;"><b>' . $data->Year . ' ' . $data->Make . ' ' . $data->Model . '</b></td>  <td class="alignright"><b>Term:</b></td> <td class="alignleft">' . $data->Term . '</td> <td class="alignright"><b></b></td> <td class="alignleft"></td></tr>
-		</table>';
-        
-        // aque ya viene la tabla de los productos aceptados
+        //aque ya viene la tabla de los productos aceptados
         $html .= '<table > 
-				  <tr> 
-				    <td valign="top" width="25%" class="tabletdcommon"> 
-				  		 <table cellspacing="2" cellpadding="2" class="tableCommon">
-							<tr><td class="tableheader" style="background-color:#5CB85C">Premium</td></tr>
-							<tr><td><table>';
-        if(count($Premium) > 0)
-        {
-            $i = 0;
-            foreach ($products as $valor)
-            {
-                if(in_array($valor->id, $Premium))
-                {
-                    $html .= '
-									<tr>
-										<td style="color:#41699A">';
-                    if(in_array($valor->id, $PremiumAccepted))
-                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                    else
-                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                    
-                    $html .= '<strong>&nbsp;' . $valor->DisplayName . '</strong></td>
-										<td valign="top" style="text-align:right"><b><div>$ ' . number_format($CostPremium[$i], 2) . '</div></b></td>
-									</tr>
-									<tr>
-										<td colspan="2">' . $PremiumDescription[$i] . '</td>
-									</tr>
-									<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                    $Bullets = explode(',', $valor->Bullets);
-                    foreach ($Bullets as $Bullet)
-                    {
-                        if(! (empty($Bullet)))
-                        {
-                            $html .= '<li>' . $Bullet . '</li>';
-                        }
-                    }
-                    $html .= '
-									</td></tr>
-									';
-                    
-                    $i = $i + 1;
-                }
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						 </table>
-				  	</td>
-				  	<td valign="top" width="25%" class="tabletdcommon"> 
-				  		 <table class="tableCommon">
-						<tr><td class="tableheader" style="background-color:#3E9DD3">Preferred</td></tr>
-							<tr><td><table>';
-        if(count($Preferred) > 0)
-        {
-            $i = 0;
-            foreach ($products as $valor)
-            {
-                if(in_array($valor->id, $Preferred))
-                {
-                    $html .= '
-									<tr>
-										<td style="color:#41699A">';
-                    if(in_array($valor->id, $PreferredAccepted))
-                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                    else
-                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                    
-                    $html .= '<strong>&nbsp;' . $valor->DisplayName . '</strong></td>
-										<td valign="top" style="text-align:right"><b><div>$ ' . number_format($CostPreferred[$i], 2) . '</div></b></td>
-									</tr>
-									<tr>
-										<td colspan="2">' . $PreferredDescription[$i] . '</td>
-									</tr>
-									<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                    $Bullets = explode(',', $valor->Bullets);
-                    foreach ($Bullets as $Bullet)
-                    {
-                        if(! (empty($Bullet)))
-                        {
-                            $html .= '<li>' . $Bullet . '</li>';
-                        }
-                    }
-                    $html .= '
-									</td></tr>
-									';
-                    
-                    $i = $i + 1;
-                }
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						</table> 
-				  	</td> 
-				  	<td valign="top" width="25%" class="tabletdcommon"> 
-				  		 <table class="tableCommon">
-						<tr><td class="tableheader" style="background-color:#DBB333">Economy</td></tr>
-							<tr><td><table>';
-        if(count($Economy) > 0)
-        {
-            $i = 0;
-            foreach ($products as $valor)
-            {
-                if(in_array($valor->id, $Economy))
-                {
-                    $html .= '
-									<tr>
-										<td style="color:#41699A">';
-                    if(in_array($valor->id, $EconomyAccepted))
-                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                    else
-                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                    
-                    $html .= '<strong>&nbsp;' . $valor->DisplayName . '</strong></td>
-										<td valign="top" style="text-align:right"><b><div>$ ' . number_format($CostEconomy[$i], 2) . '</div></b></td>
-									</tr>
-									<tr>
-										<td colspan="2">' . $EconomyDescription[$i] . '</td>
-									</tr>
-									<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                    $Bullets = explode(',', $valor->Bullets);
-                    foreach ($Bullets as $Bullet)
-                    {
-                        if(! (empty($Bullet)))
-                        {
-                            $html .= '<li>' . $Bullet . '</li>';
-                        }
-                    }
-                    $html .= '
-									</td></tr>
-									';
-                    
-                    $i = $i + 1;
-                }
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						</table> 
-				  	</td>  
-				  	<td valign="top" width="25%" class="tabletdcommon"> 
-				  		 <table class="tableCommon">
-						<tr><td class="tableheader" style="background-color:#8F8772">Basic</td></tr>
-							<tr><td><table>';
-        if(count($Basic) > 0)
-        {
-            $i = 0;
-            foreach ($products as $valor)
-            {
-                if(in_array($valor->id, $Basic))
-                {
-                    $html .= '
-									<tr>
-										<td style="color:#41699A">';
-                    if(in_array($valor->id, $BasicAccepted))
-                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                    else
-                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                    
-                    $html .= '<strong>&nbsp;' . $valor->DisplayName . '</strong></td>
-										<td valign="top" style="text-align:right"><b><div>$ ' . number_format($CostBasic[$i], 2) . '</div></b></td>
-									</tr>
-									<tr>
-										<td colspan="2">' . $BasicDescription[$i] . '</td>
-									</tr>
-									<tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                    $Bullets = explode(',', $valor->Bullets);
-                    foreach ($Bullets as $Bullet)
-                    {
-                        if(! (empty($Bullet)))
-                        {
-                            $html .= '<li>' . $Bullet . '</li>';
-                        }
-                    }
-                    $html .= '
-									</td></tr>
-									';
-                    
-                    $i = $i + 1;
-                }
-            }
-        }
-        $html .= '
-							</table></td></tr>
-						</table> 
-				  	</td> 
-			      </tr>';
-        if($FaceFooter == 'false')
-        {
-            $html .= ' 	
-				  <tr>
-					<td class="footercommon">
-					  <text class="CostPerDay">Cost Per Day ' . $CostFooter[0] . '</text><br/>
-					  <text>Additonal Payment ' . $CostFooter[1] . '</text><br/>
-					  <text>Monthly Payment ' . $CostFooter[2] . '</text><br/>
-				  	</td>
+                  <tr> 
+                    <td valign="top" width="25%" class="tabletdcommon"> 
+                         <table class="tableCommon">
+                            <tr><td class="tableheader" style="background-color:#5CB85C">Premium</td></tr>
+                            <tr><td><table>';
+                            if(count($Premium)>0)
+                            {
+                                $i = 0;
+                                foreach($products as $valor) 
+                                {
+                                    if(in_array($valor->id,$Premium))
+                                    {
+                                    $html .='
+                                    <tr>
+                                        <td style="color:#41699A">';
+                                        if(in_array($valor->id,$PremiumAccepted))
+                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-				  	<td class="footercommon">
-					  <text class="CostPerDay">Cost Per Day ' . $CostFooter[5] . '</text><br/>
-					  <text>Additonal Payment ' . $CostFooter[6] . '</text><br/>
-					  <text>Monthly Payment ' . $CostFooter[7] . '</text><br/>
-				  	</td>
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
+                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostPremium[$i],2).'</div></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">'.$PremiumDescription[$i].'</td>
+                                    </tr>
+                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                    $Bullets = explode(',', $valor->Bullets);
+                                    foreach($Bullets as $Bullet)
+                                    {
+                                        if (!(empty($Bullet)))
+                                        {
+                                            $html .= '<li>'.$Bullet.'</li>';
+                                        }
+                                    }   
+                                    $html .= '
+                                    </td></tr>
+                                    ';
 
-				  	<td class="footercommon">
-					  <text class="CostPerDay">Cost Per Day ' . $CostFooter[10] . '</text><br/>
-					  <text>Additonal Payment ' . $CostFooter[11] . '</text><br/>
-					  <text>Monthly Payment ' . $CostFooter[12] . '</text><br/>
-				  	</td>
+                                    $i = $i + 1;
+                                    }
+                                }
+                            }
+                         $html .= '
+                            </table></td></tr>
+                         </table>
+                    </td>
+                    <td valign="top" width="25%" class="tabletdcommon"> 
+                         <table class="tableCommon">
+                        <tr><td class="tableheader" style="background-color:#3E9DD3">Preferred</td></tr>
+                            <tr><td><table>';
+                            if(count($Preferred)>0)
+                            {
+                                $i = 0;
+                                foreach($products as $valor) 
+                                {
+                                    if(in_array($valor->id,$Preferred))
+                                    {
+                                    $html .='
+                                    <tr>
+                                        <td style="color:#41699A">';
+                                        if(in_array($valor->id,$PreferredAccepted))
+                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-				  	<td class="footercommon">
-					  <text class="CostPerDay">Cost Per Day ' . $CostFooter[15] . '</text><br/>
-					  <text>Additonal Payment ' . $CostFooter[16] . '</text><br/>
-					  <text>Monthly Payment ' . $CostFooter[17] . '</text><br/>
-				  	</td>
-				  </tr>';
-        }
-        else
-        {
-            $html .= '
-				  <tr class="spacingtr">
-					<td class="footercommon">
-					  <text>' . $CostFooter[3] . '</text><br/>
-					  <text>' . $CostFooter[4] . '</text>
-				  	</td>
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
+                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostPreferred[$i],2).'</div></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">'.$PreferredDescription[$i].'</td>
+                                    </tr>
+                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                    $Bullets = explode(',', $valor->Bullets);
+                                    foreach($Bullets as $Bullet)
+                                    {
+                                        if (!(empty($Bullet)))
+                                        {
+                                            $html .= '<li>'.$Bullet.'</li>';
+                                        }
+                                    }       
+                                    $html .= '
+                                    </td></tr>
+                                    ';
 
-				  	<td class="footercommon">
-					  <text>' . $CostFooter[8] . '</text><br/>
-					  <text>' . $CostFooter[9] . '</text>
-				  	</td>
+                                    $i = $i + 1;
 
-				  	<td class="footercommon">
-					  <text>' . $CostFooter[13] . '</text><br/>
-					  <text>' . $CostFooter[14] . '</text>
-				  	</td>
+                                    }
+                                }
+                            }
+                            $html .= '
+                            </table></td></tr>
+                        </table> 
+                    </td> 
+                    <td valign="top" width="25%" class="tabletdcommon"> 
+                         <table class="tableCommon">
+                        <tr><td class="tableheader" style="background-color:#DBB333">Economy</td></tr>
+                            <tr><td><table>';
+                            if(count($Economy)>0)
+                            {
+                                $i = 0;
+                                foreach($products as $valor) 
+                                {
+                                    if(in_array($valor->id,$Economy))
+                                    {
+                                    $html .='
+                                    <tr>
+                                        <td style="color:#41699A">';
+                                        if(in_array($valor->id,$EconomyAccepted))
+                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-				  	<td class="footercommon">
-					  <text>' . $CostFooter[18] . '</text><br/>
-					  <text>' . $CostFooter[19] . '</text>
-				  	</td>
-				  </tr>';
-        }
-        $html .= '
-				  <tr>
-				    <td colspan 4></td>
-				  </tr>
-				  <tr valign="bottom">
-				    <td colspan="4" style="text-align:center; color:#41699A;">Powered by Automatrix</td>
-				  </tr>
-			      </table>
-	</body>
-	</html>';
-        
-        PDF::load($html, 'letter', 'landscape');
-        // PDF::AutoPrint(true);
-        echo PDF::show('menu');
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
+                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostEconomy[$i],2).'</div></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">'.$EconomyDescription[$i].'</td>
+                                    </tr>
+                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                    $Bullets = explode(',', $valor->Bullets);
+                                    foreach($Bullets as $Bullet)
+                                    {
+                                        if (!(empty($Bullet)))
+                                        {
+                                            $html .= '<li>'.$Bullet.'</li>';
+                                        }
+                                    }       
+                                    $html .= '
+                                    </td></tr>
+                                    ';
+
+                                    $i = $i + 1;
+
+                                    }
+                                }
+                            }
+                            $html .= '
+                            </table></td></tr>
+                        </table> 
+                    </td>  
+                    <td valign="top" width="25%" class="tabletdcommon"> 
+                         <table class="tableCommon">
+                        <tr><td class="tableheader" style="background-color:#8F8772">Basic</td></tr>
+                            <tr><td><table>';
+                            if(count($Basic)>0)
+                            {
+                                $i = 0;
+                                foreach($products as $valor) 
+                                {
+                                    if(in_array($valor->id,$Basic))
+                                    {
+                                    $html .='
+                                    <tr>
+                                        <td style="color:#41699A">';
+                                        if(in_array($valor->id,$BasicAccepted))
+                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
+                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostBasic[$i],2).'</div></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">'.$BasicDescription[$i].'</td>
+                                    </tr>
+                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                    $Bullets = explode(',', $valor->Bullets);
+                                    foreach($Bullets as $Bullet)
+                                    {
+                                        if (!(empty($Bullet)))
+                                        {
+                                            $html .= '<li>'.$Bullet.'</li>';
+                                        }
+                                    }       
+                                    $html .= '
+                                    </td></tr>
+                                    ';
+
+                                    $i = $i + 1;
+
+                                    }
+                                }
+                            }
+                            $html .= '
+                            </table></td></tr>
+                        </table> 
+                    </td> 
+                  </tr>'; 
+                  if($FaceFooter=='false')
+                  {
+                  $html .='     
+                  <tr>
+                    <td class="footercommon">
+                      <text class="CostPerDay">Cost Per Day '.$CostFooter[0].'</text><br/>
+                      <text>Additonal Payment '.$CostFooter[1].'</text><br/>
+                      <text>Monthly Payment '.$CostFooter[2].'</text><br/>
+                    </td>
+
+                    <td class="footercommon">
+                      <text class="CostPerDay">Cost Per Day '.$CostFooter[5].'</text><br/>
+                      <text>Additonal Payment '.$CostFooter[6].'</text><br/>
+                      <text>Monthly Payment '.$CostFooter[7].'</text><br/>
+                    </td>
+
+                    <td class="footercommon">
+                      <text class="CostPerDay">Cost Per Day '.$CostFooter[10].'</text><br/>
+                      <text>Additonal Payment '.$CostFooter[11].'</text><br/>
+                      <text>Monthly Payment '.$CostFooter[12].'</text><br/>
+                    </td>
+
+                    <td class="footercommon">
+                      <text class="CostPerDay">Cost Per Day '.$CostFooter[15].'</text><br/>
+                      <text>Additonal Payment '.$CostFooter[16].'</text><br/>
+                      <text>Monthly Payment '.$CostFooter[17].'</text><br/>
+                    </td>
+                  </tr>';
+                  }
+                  else
+                  {
+                  $html .='
+                  <tr class="spacingtr">
+                    <td class="footercommon">
+                      <text>'.$CostFooter[3].'</text><br/>
+                      <text>'.$CostFooter[4].'</text>
+                    </td>
+
+                    <td class="footercommon">
+                      <text>'.$CostFooter[8].'</text><br/>
+                      <text>'.$CostFooter[9].'</text>
+                    </td>
+
+                    <td class="footercommon">
+                      <text>'.$CostFooter[13].'</text><br/>
+                      <text>'.$CostFooter[14].'</text>
+                    </td>
+
+                    <td class="footercommon">
+                      <text>'.$CostFooter[18].'</text><br/>
+                      <text>'.$CostFooter[19].'</text>
+                    </td>
+                  </tr>';
+                  }
+                  $html .='
+                  <tr valign="bottom">
+                    <td colspan="4" style="text-align:center; color:#41699A;">Powered by Automatrix</td>
+                  </tr>
+                  </table>
+    </body>
+    </html>';
+
+    PDF::load($html, 'letter','landscape');
+    //PDF::AutoPrint(true);
+    echo PDF::show('menu');
     }
 
     public function load_newProduct()
