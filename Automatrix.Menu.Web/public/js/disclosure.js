@@ -555,7 +555,6 @@ $(".PdfContract").click(
 			} 
 			else 
 			{
-				alert('aqui');
 				if (Mileage == 0) 
 				{
 					$(this).attr(
