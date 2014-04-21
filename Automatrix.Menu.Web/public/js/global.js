@@ -67,6 +67,10 @@ function getCurrentTerm() {
     return getInt($("#TermHidden").val());
 }
 
+function getCurrentDownPayment () {
+    return getFloat($('#DownPaymentDeal').val());
+}
+
 $(".linkmodal1").on('click',function() {
     if (ValidationEmptyDeal ()) {
         return false;

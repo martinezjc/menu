@@ -2715,6 +2715,9 @@ class ProductsController extends BaseController
         $deal = Session::get('WebServiceInfo');
         // TODO: Review this code
         $deal->NewFinancedAmount = Input::get('financedAmount');
+        $deal->NewDownPayment = Input::get('downpayment');
+        $deal->NewAPR = Input::get('apr');
+        
         
         $productRatesFull = Session::get('productRatesFull');
         
