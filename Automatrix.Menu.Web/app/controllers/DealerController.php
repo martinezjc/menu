@@ -474,6 +474,8 @@ class DealerController extends BaseController
         $DealerId = Input::get('DealerId');
         $CompanyId = Input::get('CompanyId');
         $DealerNumber = Input::get('DealerCode');
+        $WebServiceUsername = Input::get('WebServiceUsername');
+        $WebServicePassword = Input::get('WebServicePassword');
 
         $checkSetting = DB::select( DB::raw( "SELECT AccountNumber FROM SettingsTable WHERE DealerId = " . $DealerId 
                                              . " AND CompanyId = " . $CompanyId ) );
@@ -487,7 +489,9 @@ class DealerController extends BaseController
         $saveSetting = DB::table('SettingsTable')
         ->insertGetId( array('DealerCode' => $DealerNumber,
                              'DealerId' => $DealerId,
-                             'CompanyId' => $CompanyId) );
+                             'CompanyId' => $CompanyId,
+                             'WebServiceUsername' => $WebServiceUsername,
+                             'WebServicePassword' => $WebServicePassword) );
 
         if ($saveSetting)
         {
@@ -508,8 +512,9 @@ class DealerController extends BaseController
         
         $data[] = array('DealerId' => $infoSettingCode->DealerId,
                         'CompanyId' => $infoSettingCode->CompanyId,
-
-                        'DealerCode' => $infoSettingCode->DealerCode);
+                        'DealerCode' => $infoSettingCode->DealerCode,
+                        'WebServiceUsername' => $infoSettingCode->WebServiceUsername,
+                        'WebServicePassword' => $infoSettingCode->WebServicePassword);
 
 
         return json_encode($data);
@@ -521,12 +526,16 @@ class DealerController extends BaseController
         $DealerId = Input::get('DealerId');
         $CompanyId = Input::get('CompanyId');
         $DealerCode = Input::get('DealerCode');
+        $WebServiceUsername = Input::get('WebServiceUsername');
+        $WebServicePassword = Input::get('WebServicePassword');
         
         $updateSetting = DB::table('SettingsTable')
         ->where('AccountNumber', '=', $AccountNumber)
         ->update( array('DealerId' => $DealerId,
                         'CompanyId' => $CompanyId,
-                        'DealerCode' => $DealerCode));
+                        'DealerCode' => $DealerCode,
+                        'WebServiceUsername' => $WebServiceUsername,
+                        'WebServicePassword' => $WebServicePassword));
 
         if ($updateSetting)
         {
