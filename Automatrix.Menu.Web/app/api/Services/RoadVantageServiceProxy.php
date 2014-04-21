@@ -175,11 +175,12 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Vehicle->VehicleType = "N";
 			$data->Vehicle->Year= 0;
 
-			$fullName = explode(" ", $request->deal->Buyer);
+			//$fullName = explode(" ", $request->deal->Buyer);
 
 			$data->Customer = new \stdClass();
-			$data->Customer->FirstName = $fullName[0];
-			$data->Customer->LastName = $fullName[1];
+			$data->Customer->FirstName = $request->deal->FirstName;
+			$data->Customer->LastName = $request->deal->LastName;
+			$data->Customer->MiddleInitial=$request->deal->MiddleName;
 			$data->Customer->Email = $request->deal->Email;
 
 			$data->Customer->Address = new \stdClass();

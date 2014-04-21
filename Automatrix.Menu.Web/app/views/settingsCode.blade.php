@@ -88,6 +88,14 @@ if (is_null($UserSessionInfo)) {
                 <label for="DealerCode">Dealer Code</label>
                 <input type="text" name="DealerCode" id="DealerCode" class="form-control" style="width:40%" required>
               </div>
+              <div class="form-group">
+                <label for="DealerCode">Web Service Username</label>
+                <input type="text" name="WebServiceUsername" id="WebServiceUsername" class="form-control" style="width:40%" required>
+              </div>
+              <div class="form-group">
+                <label for="DealerCode">Web Service Password</label>
+                <input type="text" name="WebServicePassword" id="WebServicePassword" class="form-control" style="width:40%" required>
+              </div>
 	        </div>
 	      </div>
 	       
@@ -130,6 +138,14 @@ if (is_null($UserSessionInfo)) {
               <div class="form-group">
                 <label for="DealerCodeModified">Dealer Code</label>
                 <input type="text" name="DealerCodeModified" id="DealerCodeModified" class="form-control" style="width:40%" required>
+              </div>
+              <div class="form-group">
+                <label for="DealerCodeModified">Web Service Username</label>
+                <input type="text" name="WebServiceUsernameModified" id="WebServiceUsernameModified" class="form-control" style="width:40%" required>
+              </div>
+              <div class="form-group">
+                <label for="DealerCodeModified">Web Service Password</label>
+                <input type="text" name="WebServicePasswordModified" id="WebServicePasswordModified" class="form-control" style="width:40%" required>
               </div>
 	        </div>
 	      </div>

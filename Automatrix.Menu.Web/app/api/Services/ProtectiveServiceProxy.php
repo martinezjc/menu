@@ -215,9 +215,9 @@ class ProtectiveServiceProxy extends ServiceProxy
 
                 $request->Automobiles[0]->Purchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser = new \stdClass();
-                $request->Automobiles[0]->Purchaser->FirstPurchaser->FirstName = $data->FirstName;
-                $request->Automobiles[0]->Purchaser->FirstPurchaser->MiddleInitial = "";
-                $request->Automobiles[0]->Purchaser->FirstPurchaser->LastName = $data->LastName;
+                $request->Automobiles[0]->Purchaser->FirstPurchaser->FirstName = $data->deal->FirstName;
+                $request->Automobiles[0]->Purchaser->FirstPurchaser->MiddleInitial = $data->deal->MiddleName;
+                $request->Automobiles[0]->Purchaser->FirstPurchaser->LastName = $data->deal->LastName;
                 $request->Automobiles[0]->Purchaser->CustomerPhoneNumber = $data->deal->Telephone;
                 $request->Automobiles[0]->Purchaser->CustomerEmail = $data->deal->Email;
                 
@@ -425,7 +425,7 @@ class ProtectiveServiceProxy extends ServiceProxy
             $data->deal->ZipCode = 12345;
         }
         
-        $fullName = explode(" ", trim($data->deal->Buyer), 2);
+        /*$fullName = explode(" ", trim($data->deal->Buyer), 2);
         $data->FirstName = $fullName[0];
         
         // if surename is too longer , only show the initial of last string
@@ -437,7 +437,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         else
         {
             $data->LastName = trim($fullName[1]);
-        }
+        }*/
         
         if(empty($data->productOptions->mileage))
         {

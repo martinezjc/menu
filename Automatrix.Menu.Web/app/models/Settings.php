@@ -12,7 +12,7 @@ class Settings
 	 * 
 	 * @param mixed $config
 	 */
-	public function __construct($dealer, $company, $product)
+	public function __construct($dealer, $company, $parameters, $product)
 	{
 		// TODO: Map config properties to class properties
 		
@@ -20,8 +20,9 @@ class Settings
 		$this->webservice->credentials = new stdClass();
 		
 		$this->webservice->url = $company->URL;
-		$this->webservice->credentials->username = $company->Username;
-		$this->webservice->credentials->password = $company->Password;
+		$this->webservice->DealerCode = $parameters->DealerCode;
+		$this->webservice->credentials->username = $parameters->WebServiceUsername;
+		$this->webservice->credentials->password = $parameters->WebServicePassword;
 		
 		if($product->ProductName == "US Key")
 			$this->webservice->method = "GetKeyRates";	

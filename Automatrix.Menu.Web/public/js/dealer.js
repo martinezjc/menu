@@ -250,6 +250,9 @@ $("#saveSettings").click(function () {
             TradeAllowance: $('#TradeAllowance').val(),
             TradePayOff: $('#TradePayOff').val(),
             BeginningOdometer: $('#BeginningOdometer').val(),
+            FirstName: $('#FirstName').val(),
+            MiddleName: $('#MiddleName').val(),
+            LastName: $('#LastName').val(),
             Address1: $('#Address1').val(),
             Address2: $('#Address2').val(),
             City: $('#City').val(),
@@ -328,7 +331,9 @@ $('#saveCodeInfo').click( function() {
         data: {
             DealerId: $('#DealerId').val(),
             CompanyId: $('#CompanyId').val(),
-            DealerCode: $('#DealerCode').val()
+            DealerCode: $('#DealerCode').val(),
+            WebServiceUsername: $('#WebServiceUsername').val(),
+            WebServicePassword: $('#WebServicePassword').val()
         },
         success: function (msg) {
             if (msg == 'duplicate') {
@@ -359,6 +364,8 @@ $('#ModifyModal').on('show.bs.modal', function () {
             var data = JSON.parse(msg);
             $("#AccountNumberHidden").val(AccountNumberGlobal);
             $('#DealerCodeModified').val(data[0].DealerCode);
+            $('#WebServiceUsernameModified').val(data[0].WebServiceUsername);
+            $('#WebServicePasswordModified').val(data[0].WebServicePassword);
             $("#CompanyIdModified option").filter(function() {
                return $(this).val() == data[0].CompanyId; 
             }).prop('selected', true); 

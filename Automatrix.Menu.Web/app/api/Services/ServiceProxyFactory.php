@@ -18,7 +18,6 @@ class ServiceProxyFactory
 	{
 		ini_set('soap.wsdl_cache_enabled', 1); 
 		ini_set('soap.wsdl_cache_ttl', 1);
-
 		
 		$ServiceCall = 0;
 		try {

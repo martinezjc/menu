@@ -257,7 +257,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 					$request->deal->ZipCode = 12345;
 				}
 				
-				$fullName = explode(" ", $request->deal->Buyer);
+				//$fullName = explode(" ", $request->deal->Buyer);
 						
 				$data = new \stdClass();
 
@@ -270,9 +270,9 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Customer = new \stdClass();
 		        $data->Products->Customer->CompanyInitials = 'USW' ;
 		        $data->Products->Customer->DealerCode = $dealercode;
-		        $data->Products->Customer->LastName = $fullName[1];
-		        $data->Products->Customer->FirstName = $fullName[0];
-		        $data->Products->Customer->MiddleInitial = '';
+		        $data->Products->Customer->LastName = $request->deal->LastName;
+		        $data->Products->Customer->FirstName = $request->deal->FirstName;
+		        $data->Products->Customer->MiddleInitial = $request->deal->MiddleName;
 		        $data->Products->Customer->LastName2 = '';
 		        $data->Products->Customer->FirstName2 = '';
 		        $data->Products->Customer->MiddleInitial2 = '';
