@@ -7871,3 +7871,7 @@ Stack trace:
 #10 E:\AlmacenSoftwareInstalados\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #11 E:\AlmacenSoftwareInstalados\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #12 {main} [] []
+[2014-04-19 19:07:46] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 180 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:35
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

@@ -230,6 +230,9 @@ $("#saveModalDisclosure")
 							years = TermText / 12;
 						}
 
+						if(years%1!==0)
+            				years=years.toFixed(1);
+
 						if (description != '') {
 							newDescription = years + ' Years / ' + '$'
 									+ Deductible + ' Deductible - '
