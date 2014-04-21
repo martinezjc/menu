@@ -191,6 +191,15 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Customer->Address->ZipCode = round($request->deal->ZipCode);
 			$data->Customer->Address->HomePhone = str_replace('-', '', $request->deal->Telephone);
 
+			$data->Lienholder = new \stdClass();
+			$data->Lienholder->Name=$request->deal->LienHolderName;
+			$data->Lienholder->Phone=$request->deal->LienHolderPhone;
+			$data->Lienholder->Address1=$request->deal->LienHolderAddress;
+			$data->Lienholder->Address2=""; //$request->deal->LienHolderAddress2;
+			$data->Lienholder->City=$request->deal->LienHolderCity;
+			$data->Lienholder->State=$request->deal->LienHolderState;
+			$data->Lienholder->ZipCode=$request->deal->LienHolderZipCode;
+
 			$parameters = array 
 	        (
 	            "contract" => $data

@@ -202,18 +202,19 @@ class ProtectiveServiceProxy extends ServiceProxy
                 
                 $request->Automobiles[0]->Lienholder = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Name = $data->deal->LienHolderName;
+                $request->Automobiles[0]->Lienholder->PhoneNumber = $data->deal->LienHolderPhone;
                 $request->Automobiles[0]->Lienholder->Address = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Address->Address1 = $data->deal->LienHolderAddress;
                 // TODO: Add Address2 to list of parameters  
-                // $request->Automobiles[0]->Lienholder->Address->Address2 = $data->deal->LienHolderAddress;
-                $request->Automobiles[0]->Lienholder->Address->City = $data->deal->LienHolderCity;
-                $request->Automobiles[0]->Lienholder->Address->Contry = "";
-                $request->Automobiles[0]->Lienholder->Address->CountryCode = 'UnitedStatesOfAmerica';
-                $request->Automobiles[0]->Lienholder->Address->State = "";
-                $request->Automobiles[0]->Lienholder->Address->StateCode = "FL"; // TODO: Read this from the deal information
-                $request->Automobiles[0]->Lienholder->Address->ZipCode = $data->deal->LienHolderZip;
-                
-                
+                $request->Automobiles[0]->Lienholder->Address->Address2 = ""; //$data->deal->LienHolderAddress2;
+                $request->Automobiles[0]->Lienholder->City = $data->deal->LienHolderCity;
+                $request->Automobiles[0]->Lienholder->State = $data->deal->LienHolderState;
+                $request->Automobiles[0]->Lienholder->StateCode = ""; //$data->deal->LienHolderStateCode; // TODO: Read this from the deal information
+                $request->Automobiles[0]->Lienholder->Country = ""; //$data->deal->LienHolderCountry;
+                $request->Automobiles[0]->Lienholder->CountryCode = ""; //$data->deal->LienHolderCountryCode;
+                $request->Automobiles[0]->Lienholder->ZipCode = $data->deal->LienHolderZip;
+
+
                 $request->Automobiles[0]->Purchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->FirstName = $data->FirstName;
