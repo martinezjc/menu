@@ -113,26 +113,24 @@ if (is_null($UserSessionInfo)) {
 	        <h4 class="modal-title" id="myModalLabel">Update Company</h4>
 	      </div>
 	      <div class="modal-body row">
-	        <div class="col-xs-1"></div>
-	        <div class="col-md-10">
+	        <div class="col-md-6">
 	          <div class="form-group">
 	            <label for="CompanyId">Company Name</label>
 	            <input type="text" name="CompanyNameUpdate" id="CompanyNameUpdate" class="form-control" required>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="UsernameUpdate">Username</label>
                     <input type="text" name="UsernameUpdate" id="UsernameUpdate" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label for="PasswordUpdate">Password</label>
                     <input type="text" name="PasswordUpdate" id="PasswordUpdate" class="form-control" required> 
-                  </div>
+                  </div> -->
                   <div class="form-group">    
                     <label for="URLUpdate">URL</label>
                     <input type="text" name="URLUpdate" id="URLUpdate" class="form-control" required>
                   </div>
 	        </div>
-	        <div class="col-xs-1"></div>
 	      </div>
 	       
 	      <div class="modal-footer">

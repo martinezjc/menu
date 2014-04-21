@@ -685,12 +685,12 @@ class ProductsController extends BaseController
         /*
          * var type of request get price of product = 0 get contract = 1
          */
-        $company = DB::table('Company')->select('Username', 'Password')
-            ->where('id', '=', $product->CompanyId)
+        $parameters = DB::table('SettingsTable')->select('WebServiceUsername', 'WebServicePassword', 'DealerCode')
+            ->where('CompanyId', '=', $product->CompanyId)
             ->first();
         
-        $deal->Username = $company->Username;
-        $deal->Password = $company->Password;
+        $deal->Username = $parameters->WebServiceUsername;
+        $deal->Password = $parameters->WebServicePassword;
         
         $response = $proxy->execute(new Api\Services\Request(array(
             "product" => $product,
@@ -717,22 +717,30 @@ class ProductsController extends BaseController
     {
         // We need the company information to process the request
         // $company = DB::table ( 'Company' )->where('id', '=', $product->CompanyId)->first();
-        if($product->CompanyId == 3 && ($dealer->IsPDF == 1))
-        {
-            $company = DB::table('Company')->select('id', 'CompanyName', 'Username', 'Password', 'URL2 as URL')
-                ->where('id', '=', $product->CompanyId)
-                ->first();
+        try {
+            if($product->CompanyId == 3 && ($dealer->IsPDF == 1))
+            {
+                $company = DB::table('Company')->select('id', 'CompanyName', 'URL2 as URL')
+                    ->where('id', '=', $product->CompanyId)
+                    ->first();
+            }
+            else
+            {
+                $company = DB::table('Company')->select('id', 'CompanyName', 'URL')
+                    ->where('id', '=', $product->CompanyId)
+                    ->first();
+            }
+
+            $parameters = DB::table('SettingsTable')->select('WebServiceUsername', 'WebServicePassword', 'DealerCode')
+                          ->where('CompanyId', '=', $company->id)
+                          ->first();
+
+            $proxy = Api\Services\ServiceProxyFactory::create(new Settings($dealer, $company, $parameters, $product), $company);
+            
+            return $proxy;
+        } catch (Exception $e) {
+            echo $e;
         }
-        else
-        {
-            $company = DB::table('Company')->select('id', 'CompanyName', 'Username', 'Password', 'URL')
-                ->where('id', '=', $product->CompanyId)
-                ->first();
-        }
-        
-        $proxy = Api\Services\ServiceProxyFactory::create(new Settings($dealer, $company, $product), $company);
-        
-        return $proxy;
     }
 
     public function get_settings()
