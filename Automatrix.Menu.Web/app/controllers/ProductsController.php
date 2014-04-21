@@ -110,6 +110,7 @@ class ProductsController extends BaseController
                 
                 $deal->LienHolderName = $newArray[$settings->LienHolderName];
                 $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
+                $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
                 $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
                 $deal->LienHolderState = $newArray[$settings->LienHolderState];
                 $deal->LienHolderZip = $newArray[$settings->LienHolderZip];

@@ -84,14 +84,14 @@ if (is_null($UserSessionInfo)) {
                     <label for="URL">URL</label>
                     <input type="text" name="URL" id="URL" class="form-control" style="width:40%" required>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="Username">Username</label>
                     <input type="text" name="Username" id="Username" class="form-control" style="width:40%" required>
                   </div>
                   <div class="form-group">
                     <label for="Password">Password</label>
                     <input type="text" name="Password" id="Password" class="form-control" style="width:40%" required>
-                  </div>
+                  </div> -->
 	        </div>
 	      </div>
 	       
@@ -112,25 +112,27 @@ if (is_null($UserSessionInfo)) {
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalLabel">Update Company</h4>
 	      </div>
-	      <div class="modal-body row-fluid">
-	        <div class="span6">
+	      <div class="modal-body row">
+	        <div class="col-xs-1"></div>
+	        <div class="col-md-10">
 	          <div class="form-group">
 	            <label for="CompanyId">Company Name</label>
-	            <input type="text" name="CompanyNameUpdate" id="CompanyNameUpdate" class="form-control" style="width:40%" required>
-                  </div>
-                  <div class="form-group">    
-                    <label for="URLUpdate">URL</label>
-                    <input type="text" name="URLUpdate" id="URLUpdate" class="form-control" style="width:40%" required>
+	            <input type="text" name="CompanyNameUpdate" id="CompanyNameUpdate" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label for="UsernameUpdate">Username</label>
-                    <input type="text" name="UsernameUpdate" id="UsernameUpdate" class="form-control" style="width:40%" required>
+                    <input type="text" name="UsernameUpdate" id="UsernameUpdate" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label for="PasswordUpdate">Password</label>
-                    <input type="text" name="PasswordUpdate" id="PasswordUpdate" class="form-control" style="width:40%" required> 
+                    <input type="text" name="PasswordUpdate" id="PasswordUpdate" class="form-control" required> 
+                  </div>
+                  <div class="form-group">    
+                    <label for="URLUpdate">URL</label>
+                    <input type="text" name="URLUpdate" id="URLUpdate" class="form-control" required>
                   </div>
 	        </div>
+	        <div class="col-xs-1"></div>
 	      </div>
 	       
 	      <div class="modal-footer">

@@ -202,24 +202,17 @@ class ProtectiveServiceProxy extends ServiceProxy
                 
                 $request->Automobiles[0]->Lienholder = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Name = $data->deal->LienHolderName;
+                $request->Automobiles[0]->Lienholder->PhoneNumber = $data->deal->LienHolderPhone;
                 $request->Automobiles[0]->Lienholder->Address = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Address->Address1 = $data->deal->LienHolderAddress;
-                // TODO: Add Address2 to list of parameters  
-                // $request->Automobiles[0]->Lienholder->Address->Address2 = $data->deal->LienHolderAddress;
+                $request->Automobiles[0]->Lienholder->Address->Address2 = ""; //$data->deal->LienHolderAddress2;
                 $request->Automobiles[0]->Lienholder->Address->City = $data->deal->LienHolderCity;
-                $request->Automobiles[0]->Lienholder->Address->Contry = "";
+                $request->Automobiles[0]->Lienholder->Address->State = $data->deal->LienHolderState;
+                $request->Automobiles[0]->Lienholder->Address->StateCode='FL'; // TODO: Read this from the deal information
+                $request->Automobiles[0]->Lienholder->Address->Country = $data->deal->LienHolderCountry;
                 $request->Automobiles[0]->Lienholder->Address->CountryCode = 'UnitedStatesOfAmerica';
-                $request->Automobiles[0]->Lienholder->Address->State = "";
-                $request->Automobiles[0]->Lienholder->Address->StateCode = "FL"; // TODO: Read this from the deal information
                 $request->Automobiles[0]->Lienholder->Address->ZipCode = $data->deal->LienHolderZip;
 
-                $request->Automobiles[0]->Lienholder->Address->Email = $data->deal->LienHolderEmail;
-                $request->Automobiles[0]->Lienholder->Address->Phone = $data->deal->LienHolderPhone;
-                $request->Automobiles[0]->Lienholder->Address->Fax = $data->deal->LienHolderFax;
-                $request->Automobiles[0]->Lienholder->Address->Type = $data->deal->LienHolderType;
-                $request->Automobiles[0]->Lienholder->Address->Contact = $data->deal->LienHolderContact;
-                
-                
                 $request->Automobiles[0]->Purchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->FirstName = $data->FirstName;

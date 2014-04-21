@@ -296,15 +296,11 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Lienholder = new \stdClass();
 		        $data->Products->Lienholder->Name  = $request->deal->LienHolderName;
 		        $data->Products->Lienholder->Address  = $request->deal->LienHolderAddress;
+		        $data->Products->Lienholder->Country  = $request->deal->LienHolderCountry;
 		        $data->Products->Lienholder->City  = $request->deal->LienHolderCity;
 		        $data->Products->Lienholder->State  = $request->deal->LienHolderState;
 		        $data->Products->Lienholder->Zip = $request->deal->LienHolderZip;
 
-		        $data->Products->Lienholder->Email = $request->deal->LienHolderEmail;
-		        $data->Products->Lienholder->Phone = $request->deal->LienHolderPhone;
-		        $data->Products->Lienholder->Fax = $request->deal->LienHolderFax;
-		        $data->Products->Lienholder->Type = $request->deal->LienHolderType;
-		        $data->Products->Lienholder->Contact = $request->deal->LienHolderContact;
 		        
 		        $data->Products->Vsc = new \stdClass();
 		        $data->Products->Vsc->ContractNumber= '';
