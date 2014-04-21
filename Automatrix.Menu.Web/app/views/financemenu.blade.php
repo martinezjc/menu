@@ -354,7 +354,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -511,7 +511,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -666,7 +666,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -820,7 +820,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
