@@ -113,6 +113,12 @@ class ProductsController extends BaseController
                 $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
                 $deal->LienHolderState = $newArray[$settings->LienHolderState];
                 $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
+
+                $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
+                $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
+                $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
+                $deal->LienHolderType = $newArray[$settings->LienHolderType];
+                $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
                 
                 $deal->Disclosure = $settings->Disclosure;
                 $deal->DealerLogo = $settings->DealerLogo;
@@ -159,38 +165,41 @@ class ProductsController extends BaseController
             $proxy = null;
             $key = null;
             
-            $FailWebservice = 0;
+            $FailWebservice = new stdClass();
+            $FailWebservice->flag = 0;
+            $FailWebservice->message = '';
             // echo "deal = ".$EmptyDeal;
             if($EmptyDeal == 1)
             {
-                try
+                Session::put('settings', $settings);
+                foreach ($products as $product)
                 {
-                    Session::put('settings', $settings);
-                    foreach ($products as $product)
+                    try
                     {
-                        
+
                         // Detect if the product must get pricing from the webservice
                         if($product->UsingWebService)
                         {
+                            //read name of product in case fail
+                            $FailWebservice->product = $product->DisplayName;
+
                             $key = "key" . $product->CompanyId;
                             
                             $proxy = $this->getProxy($settings, $product);
                             $proxies[$key] = $proxy;
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
-                                ->where('DealerId', '=', $product->DealerId)
-                                ->first();
+                            ->where('DealerId', '=', $product->DealerId)
+                            ->first();
                             
                             // Execute request to get pricing
-                            // $rates = $this->getProductDetail($proxy, $product, $deal, $DealerCode, 0);
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
-                            // print_r(rates);die();
                             
                             $data = array();
                             
                             if($product->CompanyId == 1)
                             {
-                                
+
                                 $index = 0;
                                 foreach ($rates['Rate'] as $key => $rate)
                                 {
@@ -218,117 +227,117 @@ class ProductsController extends BaseController
                                         {
                                             $temp['Term'] = $rate['EndMonthTerm'];
                                         }
-                                    
-                                    if(array_key_exists('CoverageDesc', $rate))
-                                    {
-                                        $temp['Type'] = $rate['CoverageDesc'];
+
+                                        if(array_key_exists('CoverageDesc', $rate))
+                                        {
+                                            $temp['Type'] = $rate['CoverageDesc'];
+                                        }
+
+                                        if(array_key_exists('FiledAmount', $rate))
+                                        {
+                                            $temp['SellingPrice'] = $rate['FiledAmount'];
+                                        }
+
+                                        if(array_key_exists('MileageTerm', $rate))
+                                        {
+                                            $temp['Mileage'] = str_replace(',', '', $rate['MileageTerm']);
+                                            $temp['Mileage'] = $temp['Mileage'] / 1000;
+                                        }
+
+                                        $temp['OrderNumber'] = $index;
+
+                                        if(array_key_exists('Deductible', $rate))
+                                        {
+                                            $temp['Deductible'] = $rate['Deductible'];
+                                        }
+
+                                        $index = $index + 1;
+
+                                        $data[] = $temp;
                                     }
-                                    
-                                    if(array_key_exists('FiledAmount', $rate))
-                                    {
-                                        $temp['SellingPrice'] = $rate['FiledAmount'];
-                                    }
-                                    
-                                    if(array_key_exists('MileageTerm', $rate))
-                                    {
-                                        $temp['Mileage'] = str_replace(',', '', $rate['MileageTerm']);
-                                        $temp['Mileage'] = $temp['Mileage'] / 1000;
-                                    }
-                                    
-                                    $temp['OrderNumber'] = $index;
-                                    
-                                    if(array_key_exists('Deductible', $rate))
-                                    {
-                                        $temp['Deductible'] = $rate['Deductible'];
-                                    }
-                                    
-                                    $index = $index + 1;
-                                    
-                                    $data[] = $temp;
-                                }
-                                
-                                $productRates["product" . $product->id] = $data;
-                                $productRatesFull["product" . $product->id] = $rates;
-                                
+
+                                    $productRates["product" . $product->id] = $data;
+                                    $productRatesFull["product" . $product->id] = $rates;
+
                                 // Check if is possible to get the matching rate from the webservice response
-                                $rateIndex = $this->getMatchingRate($product, $rates);
-                                
-                                $rate = $rateIndex[0];
-                                $product->OrderNumber = $rateIndex[1];
-                                
-                                $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
-                            }
-                            
-                            if($product->CompanyId == 2)
-                            {
-                                
-                                $rates = $rates['GetRatesResult']['Automobiles']['AutomobileRateQuoteResponse']['AutomobileRateQuotes'];
-                                
-                                foreach ($rates['AutomobileRateQuote'] as $key => $rate)
+                                    $rateIndex = $this->getMatchingRate($product, $rates);
+
+                                    $rate = $rateIndex[0];
+                                    $product->OrderNumber = $rateIndex[1];
+
+                                    $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
+                                }
+
+                                if($product->CompanyId == 2)
                                 {
-                                    
-                                    $temp = array();
-                                    
-                                    if(array_key_exists('CoverageTermMonths', $rate))
+
+                                    $rates = $rates['GetRatesResult']['Automobiles']['AutomobileRateQuoteResponse']['AutomobileRateQuotes'];
+
+                                    foreach ($rates['AutomobileRateQuote'] as $key => $rate)
                                     {
-                                        $temp['Term'] = $rate['CoverageTermMonths'];
-                                    }
-                                    
-                                    if(array_key_exists('Coverage', $rate))
-                                    {
-                                        $temp['Type'] = $rate['Coverage'];
-                                    }
-                                    
-                                    $temp['SellingPrice'] = $rate['RetailPrice'];
-                                    
-                                    if(array_key_exists('CoverageTermMiles', $rate))
-                                    {
-                                        $temp['Mileage'] = $rate['CoverageTermMiles'];
-                                    }
+
+                                        $temp = array();
+
+                                        if(array_key_exists('CoverageTermMonths', $rate))
+                                        {
+                                            $temp['Term'] = $rate['CoverageTermMonths'];
+                                        }
+
+                                        if(array_key_exists('Coverage', $rate))
+                                        {
+                                            $temp['Type'] = $rate['Coverage'];
+                                        }
+
+                                        $temp['SellingPrice'] = $rate['RetailPrice'];
+
+                                        if(array_key_exists('CoverageTermMiles', $rate))
+                                        {
+                                            $temp['Mileage'] = $rate['CoverageTermMiles'];
+                                        }
                                     // For Webservice Forms
-                                    if(array_key_exists('OrderNumber', $rate))
-                                    {
-                                        $temp['OrderNumber'] = $rate['OrderNumber'];
+                                        if(array_key_exists('OrderNumber', $rate))
+                                        {
+                                            $temp['OrderNumber'] = $rate['OrderNumber'];
+                                        }
+
+                                        if(array_key_exists('Deductible', $rate))
+                                        {
+                                            $temp['Deductible'] = $rate['Deductible'];
+                                        }
+
+                                        if(array_key_exists('DisappearingDeductible', $rate))
+                                        {
+                                            $temp['DisappearingDeductible'] = $rate['DisappearingDeductible'];
+                                        }
+
+                                        $data[] = $temp;
                                     }
-                                    
-                                    if(array_key_exists('Deductible', $rate))
-                                    {
-                                        $temp['Deductible'] = $rate['Deductible'];
-                                    }
-                                    
-                                    if(array_key_exists('DisappearingDeductible', $rate))
-                                    {
-                                        $temp['DisappearingDeductible'] = $rate['DisappearingDeductible'];
-                                    }
-                                    
-                                    $data[] = $temp;
-                                }
-                                $productRates["product" . $product->id] = $data;
-                                $productRatesFull["product" . $product->id] = $rates;
-                                
+                                    $productRates["product" . $product->id] = $data;
+                                    $productRatesFull["product" . $product->id] = $rates;
+
                                 // Check if is possible to get the matching rate from the webservice response
-                                if($product->ProductBaseId == 11)
-                                {
-                                    $product->Term = $deal->Term;
-                                }
-                                $rateIndex = $this->getMatchingRate($product, $rates);
-                                
-                                $rate = $rateIndex[0];
-                                $product->OrderNumber = $rateIndex[1];
-                                
-                                $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
-                                
-                                if($product->ProductBaseId == 12)
-                                {
-                                    $product->Term = $rate['CoverageTermMonths'];
-                                    $product->Mileage = $rate['CoverageTermMiles'];
-                                    $product->Deductible = $rate['Deductible'];
-                                }
+                                    if($product->ProductBaseId == 11)
+                                    {
+                                        $product->Term = $deal->Term;
+                                    }
+                                    $rateIndex = $this->getMatchingRate($product, $rates);
+
+                                    $rate = $rateIndex[0];
+                                    $product->OrderNumber = $rateIndex[1];
+
+                                    $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
+
+                                    if($product->ProductBaseId == 12)
+                                    {
+                                        $product->Term = $rate['CoverageTermMonths'];
+                                        $product->Mileage = $rate['CoverageTermMiles'];
+                                        $product->Deductible = $rate['Deductible'];
+                                    }
                             } // end product company 2
                             
                             if($product->CompanyId == 3)
                             {
-                                
+
                                 if(is_array($rates->Plan->RateClassMoneys->RateClassMoney))
                                 {
                                     foreach ($rates->Plan->RateClassMoneys->RateClassMoney as $key => $rate)
@@ -373,14 +382,14 @@ class ProductsController extends BaseController
                         
                         if($product->UseRangePricing == 1)
                         {
-                            
+
                             $key = "key" . $product->CompanyId;
                             $proxy = $this->getProxy($settings, $product);
                             $proxies[$key] = $proxy;
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
-                                ->where('DealerId', '=', $product->DealerId)
-                                ->first();
+                            ->where('DealerId', '=', $product->DealerId)
+                            ->first();
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
@@ -396,7 +405,7 @@ class ProductsController extends BaseController
                             $index = 0;
                             foreach ($rangePricing as $key => $rangePricingValue)
                             {
-                                
+
                                 $temp = array();
                                 if($product->id == $rangePricingValue->ProductId)
                                 {
@@ -424,19 +433,28 @@ class ProductsController extends BaseController
                             $productRates["product" . $product->id] = $data;
                             $productRatesFull["product" . $product->id] = $rates;
                         } // end if Range Pricing
-                    }
-                    
-                    Session::put('productRates', $productRates);
-                    Session::put('productRatesFull', $productRatesFull);
-                }
-                catch (Exception $e)
-                {
-                    // echo $e;
-                    $FailWebservice = 1;
-                } // end try
+
+                    }// end try
+                    catch (Exception $e)
+                    { 
+                        //echo $e;
+                        $FailWebservice->flag = 1;
+                    } // end catch
+                }// end for each
+
+                Session::put('productRates', $productRates);
+                Session::put('productRatesFull', $productRatesFull);
+
             } // end if
+
+
             $deal->BeginningOdometer = $BeginningOdometer;
             Session::put('WebServiceInfo', $deal);
+
+            if ($FailWebservice->flag == 1) {
+                //Try to detect why reason webservice fail 
+                //$FailWebservice->message = $this->GetReasonFailWebService();
+            }
             return View::make('financemenu')->with('Products', $products)
                 ->with('Products2', $products2)
                 ->with('Products3', $products3)
@@ -3123,5 +3141,19 @@ class ProductsController extends BaseController
     private function deleteVarSession()
     {
         Session::forget('WebServiceInfo');
+    }
+
+    /*
+    *   Add here all Known reason of product fail
+    *
+    */
+    private function GetReasonFailWebService($name, $deal)
+    {
+        $message =  $name.'is not available! try again';
+        if ($deal->BeginningOdometer > 113999) {
+            $message = $name.' not allowed vehicles with more than 113999 miles';
+        }
+
+        return $message;
     }
 }

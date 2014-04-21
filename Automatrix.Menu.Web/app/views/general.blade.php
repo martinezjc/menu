@@ -496,6 +496,51 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderZip }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
+							  <td><b>Lien Holder Email</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LienHolderEmail" placeholder="Lien Holder Email field from DMS webservice"
+								id="LienHolderEmail" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LienHolderEmail) value="{{
+								$settings->LienHolderEmail }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Lien Holder Phone</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LienHolderPhone" placeholder="Lien Holder Phone field from DMS webservice"
+								id="LienHolderPhone" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LienHolderPhone) value="{{
+								$settings->LienHolderPhone }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Lien Holder Fax</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LienHolderFax" placeholder="Lien Holder Fax field from DMS webservice"
+								id="LienHolderFax" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LienHolderFax) value="{{
+								$settings->LienHolderFax }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Lien Holder Type</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LienHolderType" placeholder="Lien Holder Type field from DMS webservice"
+								id="LienHolderType" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LienHolderType) value="{{
+								$settings->LienHolderType }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Lien Holder Contact</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LienHolderContact" placeholder="Lien Holder Contact field from DMS webservice"
+								id="LienHolderContact" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LienHolderContact) value="{{
+								$settings->LienHolderContact }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
 							  <td><b>Vehicle Purchase Price</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="VehiclePurchasePrice" id="VehiclePurchasePrice" class="form-control" @if ($settings)

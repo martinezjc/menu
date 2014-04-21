@@ -341,7 +341,7 @@ $("#saveModal1").click(function () {
         
         if(years%1!==0)
             years=years.toFixed(1);
-
+        
         if ( description != '' ) 
         {
             newDescription = years + ' Years / ' + '$' + Deductible + ' Deductible - ' + description;

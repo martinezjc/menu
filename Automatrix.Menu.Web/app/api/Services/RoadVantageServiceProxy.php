@@ -198,7 +198,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Lienholder->Address2=""; //$request->deal->LienHolderAddress2;
 			$data->Lienholder->City=$request->deal->LienHolderCity;
 			$data->Lienholder->State=$request->deal->LienHolderState;
-			$data->Lienholder->ZipCode=$request->deal->LienHolderZipCode;
+			$data->Lienholder->ZipCode=$request->deal->LienHolderZip;
 
 			$parameters = array 
 	        (

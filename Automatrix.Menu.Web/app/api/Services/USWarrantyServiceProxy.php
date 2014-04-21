@@ -35,7 +35,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 			if ($request->type == 0) { // Get rates
 					$method = $this->getMethod($request);
-					$response = $this->proxy->$method ($this->getParameters($request)); 
+					$response = $this->proxy->$method ($this->getParameters($request));
 					$dat = ( array ) $response;
 					$xml = simplexml_load_string ( $dat [$method.'Result'] );
 					$json = json_encode ( $xml );
@@ -299,6 +299,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Lienholder->City  = $request->deal->LienHolderCity;
 		        $data->Products->Lienholder->State  = $request->deal->LienHolderState;
 		        $data->Products->Lienholder->Zip = $request->deal->LienHolderZip;
+
 		        
 		        $data->Products->Vsc = new \stdClass();
 		        $data->Products->Vsc->ContractNumber= '';
