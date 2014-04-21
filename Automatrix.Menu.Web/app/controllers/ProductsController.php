@@ -113,6 +113,12 @@ class ProductsController extends BaseController
                 $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
                 $deal->LienHolderState = $newArray[$settings->LienHolderState];
                 $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
+
+                $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
+                $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
+                $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
+                $deal->LienHolderType = $newArray[$settings->LienHolderType];
+                $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
                 
                 $deal->Disclosure = $settings->Disclosure;
                 $deal->DealerLogo = $settings->DealerLogo;
