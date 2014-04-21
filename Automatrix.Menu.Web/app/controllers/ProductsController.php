@@ -89,6 +89,9 @@ class ProductsController extends BaseController
                 $deal->Term = $newArray[$settings->Term];
                 $deal->DownPayment = $newArray[$settings->DownPayment];
                 $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
+                $deal->FirstName = $newArray[$settings->FirstNameParameter];
+                $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
+                $deal->LastName = $newArray[$settings->LastNameParameter];
                 $deal->Address1 = $newArray[$settings->Address1];
                 $deal->Address2 = $newArray[$settings->Address2];
                 $deal->City = $newArray[$settings->City];

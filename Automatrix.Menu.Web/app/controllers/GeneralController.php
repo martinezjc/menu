@@ -56,6 +56,9 @@ class GeneralController extends BaseController {
         $TradeAllowance = Input::get('TradeAllowance');
         $TradePayOff = Input::get('TradePayOff');
         $BeginningOdometer = Input::get('BeginningOdometer');
+        $FirstName = Input::get('FirstName');
+        $MiddleName = Input::get('MiddleName');
+        $LastName = Input::get('LastName');
         $Address1 = Input::get('Address1');
         $Address2 = Input::get('Address2');
         $City = Input::get('City');
@@ -122,6 +125,9 @@ class GeneralController extends BaseController {
                                        'TradeAllowance' => $TradeAllowance,
                                        'TradePayOff' => $TradePayOff,
                                        'BeginningOdometer' => $BeginningOdometer,
+                                       'FirstNameParameter' => $FirstName,
+                                       'MiddleNameParameter' => $MiddleName,
+                                       'LastNameParameter' => $LastName,
                                        'Address1' => $Address1,
                                        'Address2' => $Address2,
                                        'City' => $City,
@@ -177,6 +183,9 @@ class GeneralController extends BaseController {
                                        'TradeAllowance' => $TradeAllowance,
                                        'TradePayOff' => $TradePayOff,
                                        'BeginningOdometer' => $BeginningOdometer,
+                                       'FirstNameParameter' => $FirstName,
+                                       'MiddleNameParameter' => $MiddleName,
+                                       'LastNameParameter' => $LastName,
                                        'Address1' => $Address1,
                                        'Address2' => $Address2,
                                        'City' => $City,

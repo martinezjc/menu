@@ -361,6 +361,33 @@ if (is_null($UserSessionInfo)) {
 								$settings->BeginningOdometer }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
+							  <td><b>First Name</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="FirstName" placeholder="First Name field from DMS webservice"
+								id="FirstName" class="form-control"
+								@if ($settings)
+				                  @if ($settings->FirstNameParameter) value="{{
+								$settings->FirstNameParameter }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Middle Name</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="MiddleName" placeholder="Middle Name field from DMS webservice"
+								id="MiddleName" class="form-control"
+								@if ($settings)
+				                  @if ($settings->MiddleNameParameter) value="{{
+								$settings->MiddleNameParameter }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
+							  <td><b>Last Name</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="LastName" placeholder="Last Name field from DMS webservice"
+								id="LastName" class="form-control"
+								@if ($settings)
+				                  @if ($settings->LastNameParameter) value="{{
+								$settings->LastNameParameter }}" @endif @endif ></td>
+						    </tr>
+						    <tr>
 							  <td><b>Address 1</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Address1" placeholder="Address 1 field from DMS webservice"
