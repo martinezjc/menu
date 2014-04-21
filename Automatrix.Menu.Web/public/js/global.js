@@ -218,8 +218,10 @@ $(".UsingWebService").on('click',function() {
     }
 
     if (ProductBaseId == 11) {
-        $('#TermFinance').hide();
-        $('#TermFinance2').show();
+        $('#ModalTerm').hide();
+        //$('#TermFinance').hide();
+        //$('#TermFinance2').show();
+
     } else {
         $('#TermFinance').show();
         $('#TermFinance2').hide();
@@ -1105,8 +1107,6 @@ function getMonthlyPayment(financedAmount, term, apr) {
 }
 
 function ApplyTaxRate(price) {
-    console.debug(price);
     price = price * (1 + (GlobalTaxRate / 100));
-    console.debug("new price "+price);
     return price;
 }
