@@ -111,6 +111,7 @@ class ProductsController extends BaseController
                 
                 $deal->LienHolderName = $newArray[$settings->LienHolderName];
                 $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
+                $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
                 $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
                 $deal->LienHolderState = $newArray[$settings->LienHolderState];
                 $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
@@ -132,7 +133,7 @@ class ProductsController extends BaseController
             }
             catch (Exception $e)
             {
-                // echo $e;
+                //echo $e;
                 // Session::put ('WebServiceInfo', new Deal());
             }
             
@@ -266,6 +267,14 @@ class ProductsController extends BaseController
 
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
+
+                                    if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
+                                    {
+                                        $product->Type = $rate['CoverageDesc'];
+                                        $product->Term = $rate['MonthTerm'];
+                                        $product->Mileage = $rate['MileageTerm'];
+                                        $product->Deductible = $rate['Deductible'];
+                                    }
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
                                 }
@@ -2714,6 +2723,9 @@ class ProductsController extends BaseController
         $deal = Session::get('WebServiceInfo');
         // TODO: Review this code
         $deal->NewFinancedAmount = Input::get('financedAmount');
+        $deal->NewDownPayment = Input::get('downpayment');
+        $deal->NewAPR = Input::get('apr');
+        
         
         $productRatesFull = Session::get('productRatesFull');
         

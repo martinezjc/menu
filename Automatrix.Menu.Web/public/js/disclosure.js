@@ -235,7 +235,7 @@ $("#saveModalDisclosure")
 
 						if (description != '') {
 							newDescription = years + ' Years / ' + '$'
-									+ Deductible + ' Deductible - '
+									+ Deductible.replace('D','') + ' Deductible - '
 									+ description;
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
@@ -258,7 +258,7 @@ $("#saveModalDisclosure")
 
 						} else {
 							newDescription = years + ' Years / ' + '$'
-									+ Deductible + ' Deductible';
+									+ Deductible.replace('D','') + ' Deductible';
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
 										function() {
@@ -291,7 +291,7 @@ $("#saveModalDisclosure")
 						if (description != '') {
 							newDescription = years + ' Years / '
 									+ $('#ModalMileage :selected').val()
-									+ ',000 Miles / ' + '$' + Deductible
+									+ ',000 Miles / ' + '$' + Deductible.replace('D','')
 									+ ' Deductible - ' + description;
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
@@ -314,7 +314,7 @@ $("#saveModalDisclosure")
 						} else {
 							newDescription = years + ' Years / '
 									+ $('#ModalMileage :selected').val()
-									+ ',000 Miles / ' + '$' + Deductible
+									+ ',000 Miles / ' + '$' + Deductible.replace('D','')
 									+ ' Deductible.';
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
@@ -530,6 +530,10 @@ $(".PdfContract").click(
 					.val());
 			
 			var financedAmount = getCurrentFinancedAmount() + getAcceptedProductsAmount();
+
+			var apr = getCurrentAPR();
+
+			var downpayment = getCurrentDownPayment();
 			
 			if (OrderNumber.length == 0) {
 				OrderNumber = 0;
@@ -558,7 +562,7 @@ $(".PdfContract").click(
 			} 
 			else 
 			{
-				alert('aqui');
+				//alert('aqui');
 				if (Mileage == 0) 
 				{
 					$(this).attr(
@@ -567,6 +571,8 @@ $(".PdfContract").click(
 									+ '&term=' + Term 
 									+ '&deductible=' + Deductible 
 									+ '&financedAmount=' + financedAmount
+									+ '&downpayment=' + downpayment
+									+ '&apr=' + apr
 									+ '&key=' + OrderNumber
 									+ '&price=' + Price);
 				} 
@@ -580,6 +586,8 @@ $(".PdfContract").click(
 											+ '&deductible=' + Deductible
 											+ '&key=' + OrderNumber
 											+ '&financedAmount=' + financedAmount
+											+ '&downpayment=' + downpayment
+											+ '&apr=' + apr
 											+ '&mileage=' + Mileage + '&price='
 											+ Price);
 				}

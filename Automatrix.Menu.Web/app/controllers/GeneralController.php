@@ -36,11 +36,11 @@ class GeneralController extends BaseController {
     }
 
     public function insert_settingInfo(){
-    	$DealerId = Input::get('DealerId');
+    	  $DealerId = Input::get('DealerId');
         $DealerCode = Input::get('DealerCode');
         $DealerName = Input::get('DealerName');
         $CompanyCode = Input::get('CompanyCode');
-    	$Deal = Input::get('Deal');
+    	  $Deal = Input::get('Deal');
         $URL = Input::get('URL');
         $Year = Input::get('Year');
         $Make = Input::get('Make');
@@ -68,6 +68,7 @@ class GeneralController extends BaseController {
         $Email = Input::get('Email');
         $LienHolderName = Input::get('LienHolderName');
         $LienHolderAddress = Input::get('LienHolderAddress');
+        $LienHolderCountry = Input::get('LienHolderCountry');
         $LienHolderCity = Input::get('LienHolderCity');
         $LienHolderState = Input::get('LienHolderState');
         $LienHolderZip = Input::get('LienHolderZip');
@@ -133,6 +134,7 @@ class GeneralController extends BaseController {
                                        'Email' => $Email,
                                        'LienHolderName' => $LienHolderName,
                                        'LienHolderAddress' => $LienHolderAddress,
+                                       'LienHolderCountry' => $LienHolderCountry,
                                        'LienHolderCity' => $LienHolderCity,
                                        'LienHolderState' => $LienHolderState,
                                        'LienHolderZip' => $LienHolderZip,
@@ -187,6 +189,7 @@ class GeneralController extends BaseController {
                                        'Email' => $Email,
                                        'LienHolderName' => $LienHolderName,
                                        'LienHolderAddress' => $LienHolderAddress,
+                                       'LienHolderCountry' => $LienHolderCountry,
                                        'LienHolderCity' => $LienHolderCity,
                                        'LienHolderState' => $LienHolderState,
                                        'LienHolderZip' => $LienHolderZip,
@@ -255,6 +258,13 @@ class GeneralController extends BaseController {
     
     public function show_companyPage()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+
         $Companies = DB::select( DB::raw("SELECT id, CompanyName, URL, Username, Password FROM Company"));
 
         return View::make('company')->with('Companies', $Companies);
@@ -305,6 +315,13 @@ class GeneralController extends BaseController {
 
     public function get_companyProducts()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+        
         $Companies = DB::table('Company')->get();
 
         return View::make('companyProducts')->with('Companies', $Companies);
@@ -408,6 +425,13 @@ class GeneralController extends BaseController {
 
     public function show_dealerPage()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+
         $Dealers = DB::table('Dealer')->get();
           
         return View::make('dealers')->with('Dealers', $Dealers);

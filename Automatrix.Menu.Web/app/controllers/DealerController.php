@@ -448,6 +448,13 @@ class DealerController extends BaseController
 
     function get_settingsCode()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+        
         $DealerId = Input::get('DealerId');
 
         $Codes = DB::table('SettingsTable')
