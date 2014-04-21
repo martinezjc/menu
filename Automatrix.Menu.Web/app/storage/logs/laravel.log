@@ -7871,6 +7871,7 @@ Stack trace:
 #10 E:\AlmacenSoftwareInstalados\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #11 E:\AlmacenSoftwareInstalados\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #12 {main} [] []
+<<<<<<< HEAD
 [2014-04-21 14:45:07] production.ERROR: exception 'ErrorException' with message 'Missing argument 1 for ProductsController::GetReasonFailWebService(), called in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php on line 449 and defined' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:3143
 Stack trace:
 #0 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php(3143): Illuminate\Exception\Handler->handleError(2, 'Missing argumen...', 'C:\xampp\htdocs...', 3143, Array)
@@ -7941,6 +7942,9 @@ Stack trace:
 #18 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #19 {main} [] []
 [2014-04-21 15:16:06] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected ';', expecting ')'' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\USWarrantyServiceProxy.php:192
+=======
+[2014-04-19 19:07:46] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 180 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:35
+>>>>>>> 8de49a7436324b02623c89ce5323d768309847af
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []

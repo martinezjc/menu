@@ -265,6 +265,11 @@ $("#saveSettings").click(function () {
             LienHolderCity: $('#LienHolderCity').val(),
             LienHolderState: $('#LienHolderState').val(),
             LienHolderZip: $('#LienHolderZip').val(),
+            LienHolderEmail: $('#LienHolderEmail').val(),
+            LienHolderPhone: $('#LienHolderPhone').val(),
+            LienHolderFax: $('#LienHolderFax').val(),
+            LienHolderType: $('#LienHolderType').val(),
+            LienHolderContact: $('#LienHolderContact').val(),
             TaxRate: $('#TaxRate').val(),
             VehiclePurchasePrice: $('#VehiclePurchasePrice').val(),
             Disclosure: $('#Disclosure').code()
