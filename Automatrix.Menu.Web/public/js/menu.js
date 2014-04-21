@@ -341,10 +341,10 @@ $("#saveModal1").click(function () {
         
         if(years%1!==0)
             years=years.toFixed(1);
-
+        
         if ( description != '' ) 
         {
-            newDescription = years + ' Years / ' + '$' + Deductible + ' Deductible - ' + description;
+            newDescription = years + ' Years / ' + '$' + Deductible.replace('D','') + ' Deductible - ' + description;
             if ($("#ApplyChanges").prop("checked")) {
                 $(".products").each(function () {
                     idEvaluate = $(this).attr('id');
@@ -360,7 +360,7 @@ $("#saveModal1").click(function () {
         }
         else
         {
-            newDescription = years + ' Years / ' + '$' + Deductible + ' Deductible';
+            newDescription = years + ' Years / ' + '$' + Deductible.replace('D','') + ' Deductible';
             if ($("#ApplyChanges").prop("checked")) {
                 $(".products").each(function () {
                     idEvaluate = $(this).attr('id');
@@ -388,7 +388,7 @@ $("#saveModal1").click(function () {
         {
             newDescription = years + ' Years / ' 
             + $('#ModalMileage :selected').val() 
-            + ',000 Miles / ' + '$' + Deductible + ' Deductible - '  + description;
+            + ',000 Miles / ' + '$' + Deductible.replace('D','') + ' Deductible - '  + description;
             if ($("#ApplyChanges").prop("checked")) {
                 $(".products").each(function () {
                     idEvaluate = $(this).attr('id');
@@ -405,7 +405,7 @@ $("#saveModal1").click(function () {
         {
             newDescription = years + ' Years / ' 
             + $('#ModalMileage :selected').val() 
-            + ',000 Miles / ' + '$' + Deductible + ' Deductible.';
+            + ',000 Miles / ' + '$' + Deductible.replace('D','') + ' Deductible.';
             if ($("#ApplyChanges").prop("checked")) {
                 $(".products").each(function () {
                     idEvaluate = $(this).attr('id');
