@@ -189,7 +189,7 @@ class ProtectiveServiceProxy extends ServiceProxy
             {
                 // get Contract Numbers
                 $contractNumber = $this->GetContractNumbers($data);
-                
+   
                 $request = new \stdClass();
                 $request->Validation = new \stdClass();
                 $request->Validation->Username = $data->deal->Username;
@@ -219,7 +219,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->MiddleInitial = $data->deal->MiddleName;
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->LastName = $data->deal->LastName;
                 $request->Automobiles[0]->Purchaser->CustomerPhoneNumber = $data->deal->Telephone;
-                $request->Automobiles[0]->Purchaser->CustomerEmail = $data->deal->Email;
+                
                 
                 $request->Automobiles[0]->Purchaser->Address = new \stdClass();
                 $request->Automobiles[0]->Purchaser->Address->Address1 = $data->deal->Address1;
@@ -260,12 +260,15 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->DealerCost = 368;
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->ContractFormID = 0;
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->DisappearingDeductible = $data->DisappearingDeductible;
-                    
+                    $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->VehicleClassCode = $data->productRates->VehicleClassCode;
+                   
                     $request->Automobiles[0]->VSCContract->MileageAtInServiceDate = ""; // date('c');
                     $request->Automobiles[0]->VSCContract->VehiclePlan = $data->product->VehiclePlan;
                     $request->Automobiles[0]->VSCContract->BeginningOdometer = $data->deal->BeginningOdometer;
                     $request->Automobiles[0]->VSCContract->InServiceDate = date('c');
-                    $request->Automobiles[0]->VSCContract->VehiclePurchasePrice = $data->deal->SalesPrice; // 20000;
+
+                    //Ramin indico que el SalesPrice seria el campo a enviar aca
+                    $request->Automobiles[0]->VSCContract->VehiclePurchasePrice = $data->deal->SalesPrice; // 20000;                    
                     $request->Automobiles[0]->VSCContract->FinancingType = 'Purchase';
                     $request->Automobiles[0]->VSCContract->ContractSalesTax = 0;
                     
@@ -296,9 +299,9 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->Surcharges->PowerSteps = false;
                     $request->Automobiles[0]->VSCContract->Surcharges->OneTon = false;
                     $request->Automobiles[0]->VSCContract->Surcharges->TireWheel = false;
-                    $request->Automobiles[0]->VSCContract->Surcharges->Turbo = false;
-                    $request->Automobiles[0]->VSCContract->Surcharges->Diesel = false;
-                    $request->Automobiles[0]->VSCContract->Surcharges->FourByFour = false;
+                    $request->Automobiles[0]->VSCContract->Surcharges->Turbo = true;
+                    $request->Automobiles[0]->VSCContract->Surcharges->Diesel = true;
+                    $request->Automobiles[0]->VSCContract->Surcharges->FourByFour = true;
                     $request->Automobiles[0]->VSCContract->Surcharges->FourWheelSteering = false;
                     $request->Automobiles[0]->VSCContract->Surcharges->LEWUpsell = false;
                     $request->Automobiles[0]->VSCContract->Surcharges->TenCylinder = false;
