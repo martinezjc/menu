@@ -29,6 +29,7 @@ class ProductsController extends BaseController
         
         $URLSession = new stdClass();
         $DealerCode = '11401';
+        $arrayProductsFailure = array();
         
         if(Input::get('Deal') != '')
         {
@@ -132,7 +133,7 @@ class ProductsController extends BaseController
             }
             catch (Exception $e)
             {
-                // echo $e;
+                //echo $e;
                 // Session::put ('WebServiceInfo', new Deal());
             }
             
@@ -169,6 +170,7 @@ class ProductsController extends BaseController
             $FailWebservice = new stdClass();
             $FailWebservice->flag = 0;
             $FailWebservice->message = '';
+            $FailWebservice->failureProductRates = array();
             // echo "deal = ".$EmptyDeal;
             if($EmptyDeal == 1)
             {
@@ -195,7 +197,7 @@ class ProductsController extends BaseController
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
-                            
+                                                        
                             $data = array();
                             
                             if($product->CompanyId == 1)
@@ -265,6 +267,14 @@ class ProductsController extends BaseController
 
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
+
+                                    if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
+                                    {
+                                        $product->Type = $rate['CoverageDesc'];
+                                        $product->Term = $rate['MonthTerm'];
+                                        $product->Mileage = $rate['MileageTerm'];
+                                        $product->Deductible = $rate['Deductible'];
+                                    }
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
                                 }
@@ -437,7 +447,9 @@ class ProductsController extends BaseController
 
                     }// end try
                     catch (Exception $e)
-                    { 
+                    {
+                        //$message = $this->GetReasonFailWebService();
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
                         //echo $e;
                         $FailWebservice->flag = 1;
                     } // end catch
@@ -453,6 +465,10 @@ class ProductsController extends BaseController
             Session::put('WebServiceInfo', $deal);
 
             if ($FailWebservice->flag == 1) {
+
+                //$FailWebservice->failureProductRates = array('items' => $arrayProductsFailure);
+                $FailWebservice->failureProductRates = $arrayProductsFailure;
+
                 //Try to detect why reason webservice fail 
                 //$FailWebservice->message = $this->GetReasonFailWebService();
             }
@@ -2715,6 +2731,9 @@ class ProductsController extends BaseController
         $deal = Session::get('WebServiceInfo');
         // TODO: Review this code
         $deal->NewFinancedAmount = Input::get('financedAmount');
+        $deal->NewDownPayment = Input::get('downpayment');
+        $deal->NewAPR = Input::get('apr');
+        
         
         $productRatesFull = Session::get('productRatesFull');
         

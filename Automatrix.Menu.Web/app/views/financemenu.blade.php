@@ -21,7 +21,6 @@ $WebService = $deal;
 	// Getting product rates information
 	var productRates = eval('productRates = <?php echo json_encode(Session::get("productRates")); ?>');
 	
-	
 /* load xml file*/
 	// XML file
 	var url = "js/SelectParams.xml";
@@ -347,7 +346,17 @@ $WebService = $deal;
 											      @else
 											      	       	<a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
 											      @endif
-												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>										  							  
+												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
+												  
+												<?php
+                                             		$ProductsFail = $FailWebservice->failureProductRates;
+                                               	?>
+
+												  @foreach ($ProductsFail as $ProductFail => $pf)
+												    @if($pf['ProductId'] ==  $Product->ProductId)
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												    @endif
+												  @endforeach
 											  </div>
 											  <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
 											  <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
@@ -492,11 +501,19 @@ $WebService = $deal;
 											  @endforeach									  
 											<div class="icons-products">
 												  @if ($Product->UsingWebService == 0 )
-													    	<a style="padding-right:5px;" id="modal1" class="linkmodal1 NotUsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
-											      @else
-											      	       	<a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
+													    	<a style="padding-right:5px;" id="modal1" class="linkmodal1 NotUsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>											      @else
+											      	       	<a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>											      	       	
 											      @endif
-												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>										  							  
+												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>				
+												  <?php
+                                             		$ProductsFail = $FailWebservice->failureProductRates;
+                                               	?>
+
+												  @foreach ($ProductsFail as $ProductFail => $pf)
+												    @if($pf['ProductId'] ==  $Product->ProductId)
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												    @endif
+												  @endforeach
 											  </div>
 											  <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
 											  <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
@@ -642,7 +659,16 @@ $WebService = $deal;
 											      @else
 											      	       	<a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
 											      @endif
-												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>										  							  
+												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
+												  <?php
+                                             		$ProductsFail = $FailWebservice->failureProductRates;
+                                               	?>
+
+												  @foreach ($ProductsFail as $ProductFail => $pf)
+												    @if($pf['ProductId'] ==  $Product->ProductId)
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												    @endif
+												  @endforeach
 											  </div>
 											  <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
 											  <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
@@ -787,7 +813,16 @@ $WebService = $deal;
 											      @else
 											      	       	<a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
 											      @endif
-												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>										  							  
+												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
+												  <?php
+                                             		$ProductsFail = $FailWebservice->failureProductRates;
+                                               	?>
+
+												  @foreach ($ProductsFail as $ProductFail => $pf)
+												    @if($pf['ProductId'] ==  $Product->ProductId)
+												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 10px;" class="fa fa-exclamation-triangle"></i></a>
+												    @endif
+												  @endforeach
 											  </div>
 											  <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
 											  <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
@@ -1080,7 +1115,8 @@ $WebService = $deal;
 <!-- End modal for manual entry --> 
 <input type="hidden" id="ValidatePage" value="0">
 <input type="hidden" id="FailWebService" value="{{{ $FailWebservice->flag }}}" message="{{ $FailWebservice->message}}">
-
+<!--<input type="hidden" id="FailureProductsRates" value="{{{  json_encode(array('items' => $FailWebservice->failureProductRates), JSON_FORCE_OBJECT) }}}">-->
+<input type="hidden" id="FailureProductsRates" value="{{{  json_encode($FailWebservice->failureProductRates) }}}">
  
 
 @stop

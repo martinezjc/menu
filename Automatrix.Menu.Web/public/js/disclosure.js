@@ -530,6 +530,10 @@ $(".PdfContract").click(
 					.val());
 			
 			var financedAmount = getCurrentFinancedAmount() + getAcceptedProductsAmount();
+
+			var apr = getCurrentAPR();
+
+			var downpayment = getCurrentDownPayment();
 			
 			if (OrderNumber.length == 0) {
 				OrderNumber = 0;
@@ -567,6 +571,8 @@ $(".PdfContract").click(
 									+ '&term=' + Term 
 									+ '&deductible=' + Deductible 
 									+ '&financedAmount=' + financedAmount
+									+ '&downpayment=' + downpayment
+									+ '&apr=' + apr
 									+ '&key=' + OrderNumber
 									+ '&price=' + Price);
 				} 
@@ -580,6 +586,8 @@ $(".PdfContract").click(
 											+ '&deductible=' + Deductible
 											+ '&key=' + OrderNumber
 											+ '&financedAmount=' + financedAmount
+											+ '&downpayment=' + downpayment
+											+ '&apr=' + apr
 											+ '&mileage=' + Mileage + '&price='
 											+ Price);
 				}
