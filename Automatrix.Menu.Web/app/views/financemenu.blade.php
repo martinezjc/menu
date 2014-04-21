@@ -1079,7 +1079,7 @@ $WebService = $deal;
 </div>
 <!-- End modal for manual entry --> 
 <input type="hidden" id="ValidatePage" value="0">
-<input type="hidden" id="FailWebService" value="{{{ $FailWebservice }}}">
+<input type="hidden" id="FailWebService" value="{{{ $FailWebservice->flag }}}" message="{{ $FailWebservice->message}}">
 
  
 
