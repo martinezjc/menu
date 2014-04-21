@@ -71,6 +71,11 @@ class GeneralController extends BaseController {
         $LienHolderCity = Input::get('LienHolderCity');
         $LienHolderState = Input::get('LienHolderState');
         $LienHolderZip = Input::get('LienHolderZip');
+        $LienHolderEmail = Input::get('LienHolderEmail');
+        $LienHolderPhone = Input::get('LienHolderPhone');
+        $LienHolderFax = Input::get('LienHolderFax');
+        $LienHolderType = Input::get('LienHolderType');
+        $LienHolderContact = Input::get('LienHolderContact');
         $TaxRate = Input::get('TaxRate');
         $VehiclePurchasePrice = Input::get('VehiclePurchasePrice');
         $Disclosure = Input::get('Disclosure');
@@ -131,6 +136,11 @@ class GeneralController extends BaseController {
                                        'LienHolderCity' => $LienHolderCity,
                                        'LienHolderState' => $LienHolderState,
                                        'LienHolderZip' => $LienHolderZip,
+                                       'LienHolderEmail' => $LienHolderEmail,
+                                       'LienHolderPhone' => $LienHolderPhone,
+                                       'LienHolderFax' => $LienHolderFax,
+                                       'LienHolderType' => $LienHolderType,
+                                       'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
         	           	                 'Disclosure' => $Disclosure,
@@ -180,6 +190,11 @@ class GeneralController extends BaseController {
                                        'LienHolderCity' => $LienHolderCity,
                                        'LienHolderState' => $LienHolderState,
                                        'LienHolderZip' => $LienHolderZip,
+                                       'LienHolderEmail' => $LienHolderEmail,
+                                       'LienHolderPhone' => $LienHolderPhone,
+                                       'LienHolderFax' => $LienHolderFax,
+                                       'LienHolderType' => $LienHolderType,
+                                       'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
         	           	                 'Disclosure' => $Disclosure,
