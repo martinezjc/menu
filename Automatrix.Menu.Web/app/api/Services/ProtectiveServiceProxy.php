@@ -204,6 +204,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles[0]->Lienholder->Name = $data->deal->LienHolderName;
                 $request->Automobiles[0]->Lienholder->Address = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Address->Address1 = $data->deal->LienHolderAddress;
+                $request->Automobiles[0]->Lienholder->Address->Address2 = $data->deal->LienHolderAddress2;
                 // TODO: Add Address2 to list of parameters  
                 // $request->Automobiles[0]->Lienholder->Address->Address2 = $data->deal->LienHolderAddress;
                 $request->Automobiles[0]->Lienholder->Address->City = $data->deal->LienHolderCity;

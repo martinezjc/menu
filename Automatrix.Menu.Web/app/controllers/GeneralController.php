@@ -255,6 +255,13 @@ class GeneralController extends BaseController {
     
     public function show_companyPage()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+
         $Companies = DB::select( DB::raw("SELECT id, CompanyName, URL, Username, Password FROM Company"));
 
         return View::make('company')->with('Companies', $Companies);
@@ -305,6 +312,13 @@ class GeneralController extends BaseController {
 
     public function get_companyProducts()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+        
         $Companies = DB::table('Company')->get();
 
         return View::make('companyProducts')->with('Companies', $Companies);
@@ -408,6 +422,13 @@ class GeneralController extends BaseController {
 
     public function show_dealerPage()
     {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+
+        if ( $UserSessionInfo->DealerId != '' ) 
+        {
+            return Redirect::to('settings-page');
+        }
+
         $Dealers = DB::table('Dealer')->get();
           
         return View::make('dealers')->with('Dealers', $Dealers);
