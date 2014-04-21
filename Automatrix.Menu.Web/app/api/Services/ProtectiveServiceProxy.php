@@ -212,6 +212,12 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles[0]->Lienholder->Address->State = "";
                 $request->Automobiles[0]->Lienholder->Address->StateCode = "FL"; // TODO: Read this from the deal information
                 $request->Automobiles[0]->Lienholder->Address->ZipCode = $data->deal->LienHolderZip;
+
+                $request->Automobiles[0]->Lienholder->Address->Email = $data->deal->LienHolderEmail;
+                $request->Automobiles[0]->Lienholder->Address->Phone = $data->deal->LienHolderPhone;
+                $request->Automobiles[0]->Lienholder->Address->Fax = $data->deal->LienHolderFax;
+                $request->Automobiles[0]->Lienholder->Address->Type = $data->deal->LienHolderType;
+                $request->Automobiles[0]->Lienholder->Address->Contact = $data->deal->LienHolderContact;
                 
                 
                 $request->Automobiles[0]->Purchaser = new \stdClass();
