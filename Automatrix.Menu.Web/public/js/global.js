@@ -524,20 +524,15 @@ function LoadOptionDefault() {
 }
 
 function SearchObjType( obj, SelectedType ){
-    for( var key in obj ) {
-
+   for( var key in obj ) {
         if( typeof obj[key] === 'object' ){
             SearchObjType( obj[key] );
         }
-
-        if( obj[key] === SelectedType ){
+        if( obj[key]["Type"] === SelectedType){
             return 1;
         }
-        else{
-            return 0;
-        }
-
-    }
+    }  
+    return 0;
 }
 
 function ChangeTermOrder(SelectedTerm) {
