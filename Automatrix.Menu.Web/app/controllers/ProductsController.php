@@ -29,6 +29,7 @@ class ProductsController extends BaseController
         
         $URLSession = new stdClass();
         $DealerCode = '11401';
+        $arrayProductsFailure = array();
         
         if(Input::get('Deal') != '')
         {
@@ -169,6 +170,7 @@ class ProductsController extends BaseController
             $FailWebservice = new stdClass();
             $FailWebservice->flag = 0;
             $FailWebservice->message = '';
+            $FailWebservice->failureProductRates = array();
             // echo "deal = ".$EmptyDeal;
             if($EmptyDeal == 1)
             {
@@ -195,7 +197,7 @@ class ProductsController extends BaseController
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
-                            
+                                                        
                             $data = array();
                             
                             if($product->CompanyId == 1)
@@ -445,7 +447,9 @@ class ProductsController extends BaseController
 
                     }// end try
                     catch (Exception $e)
-                    { 
+                    {
+                        //$message = $this->GetReasonFailWebService();
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
                         //echo $e;
                         $FailWebservice->flag = 1;
                     } // end catch
@@ -461,6 +465,10 @@ class ProductsController extends BaseController
             Session::put('WebServiceInfo', $deal);
 
             if ($FailWebservice->flag == 1) {
+
+                //$FailWebservice->failureProductRates = array('items' => $arrayProductsFailure);
+                $FailWebservice->failureProductRates = $arrayProductsFailure;
+
                 //Try to detect why reason webservice fail 
                 //$FailWebservice->message = $this->GetReasonFailWebService();
             }
