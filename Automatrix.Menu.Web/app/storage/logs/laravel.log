@@ -7948,3 +7948,7 @@ Stack trace:
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
+[2014-04-21 15:41:39] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 30 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Database\Connection.php:280
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

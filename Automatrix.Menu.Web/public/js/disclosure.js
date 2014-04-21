@@ -235,7 +235,7 @@ $("#saveModalDisclosure")
 
 						if (description != '') {
 							newDescription = years + ' Years / ' + '$'
-									+ Deductible + ' Deductible - '
+									+ Deductible.replace('D','') + ' Deductible - '
 									+ description;
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
@@ -258,7 +258,7 @@ $("#saveModalDisclosure")
 
 						} else {
 							newDescription = years + ' Years / ' + '$'
-									+ Deductible + ' Deductible';
+									+ Deductible.replace('D','') + ' Deductible';
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
 										function() {
@@ -291,7 +291,7 @@ $("#saveModalDisclosure")
 						if (description != '') {
 							newDescription = years + ' Years / '
 									+ $('#ModalMileage :selected').val()
-									+ ',000 Miles / ' + '$' + Deductible
+									+ ',000 Miles / ' + '$' + Deductible.replace('D','')
 									+ ' Deductible - ' + description;
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
@@ -314,7 +314,7 @@ $("#saveModalDisclosure")
 						} else {
 							newDescription = years + ' Years / '
 									+ $('#ModalMileage :selected').val()
-									+ ',000 Miles / ' + '$' + Deductible
+									+ ',000 Miles / ' + '$' + Deductible.replace('D','')
 									+ ' Deductible.';
 							if ($("#ApplyChanges").prop("checked")) {
 								$(".products").each(
