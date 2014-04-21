@@ -316,9 +316,9 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->GAPContract = new \stdClass();
                     $request->Automobiles[0]->GAPContract->AmountFinanced = $data->deal->NewFinancedAmount;
                     $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->NewFinancedAmount;
-                    $request->Automobiles[0]->GAPContract->APR = $data->deal->APR;
+                    $request->Automobiles[0]->GAPContract->APR = $data->deal->NewAPR;
                     $request->Automobiles[0]->GAPContract->BeginningOdometer = $data->deal->BeginningOdometer;
-                    $request->Automobiles[0]->GAPContract->DownPayment = $data->deal->DownPayment;
+                    $request->Automobiles[0]->GAPContract->DownPayment = $data->deal->NewDownPayment;
                     $request->Automobiles[0]->GAPContract->FinancingType = 'Purchase';
                     $request->Automobiles[0]->GAPContract->InsuranceDeductible = 0;
                     $request->Automobiles[0]->GAPContract->MileageAtInServiceDate = ""; // date('c');
