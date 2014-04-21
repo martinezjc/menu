@@ -7948,6 +7948,7 @@ Stack trace:
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
+<<<<<<< HEAD
 [2014-04-21 15:24:31] production.ERROR: exception 'ErrorException' with message 'Undefined property: Deal::$LienHolderPhoneNumber' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:205
 Stack trace:
 #0 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php(205): Illuminate\Exception\Handler->handleError(8, 'Undefined prope...', 'C:\xampp\htdocs...', 205, Array)
@@ -9187,3 +9188,9 @@ Stack trace:
 #20 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #21 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #22 {main} [] []
+=======
+[2014-04-21 15:41:39] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 30 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Database\Connection.php:280
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+>>>>>>> d2a5366e606e1f2527f3e21b8466261b85016e58
