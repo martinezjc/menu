@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://UsWarranty.com/UswcWebServiceRates" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://UsWarranty.com/UswcWebServiceRates" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">USWC Rates Web Service</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://UsWarranty.com/UswcWebServiceRates">
+      <s:element name="GetDentRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDentRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDentRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+      <s:complexType name="AuthenticationHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetEwtRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEwtRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEwtRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKeyRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKeyRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetKeyRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVscRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewUsed" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="InSrvDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVscRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVscRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMaintRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AloneOption" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMaintRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMaintRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRoadHazardRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRoadHazardRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRoadHazardRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGapRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mileage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGapRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGapRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEtchRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEtchRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEtchRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChemicalRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealerCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SaleDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChemicalRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChemicalRatesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDentRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDentRates" />
+  </wsdl:message>
+  <wsdl:message name="GetDentRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDentRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDentRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetEwtRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEwtRates" />
+  </wsdl:message>
+  <wsdl:message name="GetEwtRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEwtRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEwtRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetKeyRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetKeyRates" />
+  </wsdl:message>
+  <wsdl:message name="GetKeyRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetKeyRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetKeyRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetVscRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVscRates" />
+  </wsdl:message>
+  <wsdl:message name="GetVscRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVscRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVscRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetMaintRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMaintRates" />
+  </wsdl:message>
+  <wsdl:message name="GetMaintRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMaintRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMaintRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetRoadHazardRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRoadHazardRates" />
+  </wsdl:message>
+  <wsdl:message name="GetRoadHazardRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRoadHazardRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRoadHazardRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetGapRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGapRates" />
+  </wsdl:message>
+  <wsdl:message name="GetGapRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGapRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGapRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetEtchRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEtchRates" />
+  </wsdl:message>
+  <wsdl:message name="GetEtchRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEtchRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEtchRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetChemicalRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChemicalRates" />
+  </wsdl:message>
+  <wsdl:message name="GetChemicalRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChemicalRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChemicalRatesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:portType name="UswcWebServiceSoap">
+    <wsdl:operation name="GetDentRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Dent rates</wsdl:documentation>
+      <wsdl:input message="tns:GetDentRatesSoapIn" />
+      <wsdl:output message="tns:GetDentRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEwtRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Ewt rates</wsdl:documentation>
+      <wsdl:input message="tns:GetEwtRatesSoapIn" />
+      <wsdl:output message="tns:GetEwtRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Key Replacement rates</wsdl:documentation>
+      <wsdl:input message="tns:GetKeyRatesSoapIn" />
+      <wsdl:output message="tns:GetKeyRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVscRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get VSC rates</wsdl:documentation>
+      <wsdl:input message="tns:GetVscRatesSoapIn" />
+      <wsdl:output message="tns:GetVscRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMaintRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Maintenance rates</wsdl:documentation>
+      <wsdl:input message="tns:GetMaintRatesSoapIn" />
+      <wsdl:output message="tns:GetMaintRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoadHazardRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Road Hazard rates</wsdl:documentation>
+      <wsdl:input message="tns:GetRoadHazardRatesSoapIn" />
+      <wsdl:output message="tns:GetRoadHazardRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGapRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Gap rates</wsdl:documentation>
+      <wsdl:input message="tns:GetGapRatesSoapIn" />
+      <wsdl:output message="tns:GetGapRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEtchRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Etch rates</wsdl:documentation>
+      <wsdl:input message="tns:GetEtchRatesSoapIn" />
+      <wsdl:output message="tns:GetEtchRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChemicalRates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Chemical rates</wsdl:documentation>
+      <wsdl:input message="tns:GetChemicalRatesSoapIn" />
+      <wsdl:output message="tns:GetChemicalRatesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UswcWebServiceSoap" type="tns:UswcWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDentRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetDentRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDentRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEwtRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetEwtRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetEwtRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetKeyRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetKeyRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVscRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetVscRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetVscRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMaintRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetMaintRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMaintRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoadHazardRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetRoadHazardRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetRoadHazardRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGapRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetGapRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetGapRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEtchRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetEtchRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetEtchRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChemicalRates">
+      <soap:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetChemicalRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetChemicalRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UswcWebServiceSoap12" type="tns:UswcWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDentRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetDentRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDentRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEwtRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetEwtRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetEwtRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetKeyRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetKeyRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVscRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetVscRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetVscRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMaintRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetMaintRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMaintRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoadHazardRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetRoadHazardRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetRoadHazardRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGapRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetGapRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetGapRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEtchRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetEtchRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetEtchRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChemicalRates">
+      <soap12:operation soapAction="http://UsWarranty.com/UswcWebServiceRates/GetChemicalRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetChemicalRatesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UswcWebService">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">USWC Rates Web Service</wsdl:documentation>
+    <wsdl:port name="UswcWebServiceSoap" binding="tns:UswcWebServiceSoap">
+      <soap:address location="http://www.uswarranty.com/uswcwebservicerates/webservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="UswcWebServiceSoap12" binding="tns:UswcWebServiceSoap12">
+      <soap12:address location="http://www.uswarranty.com/uswcwebservicerates/webservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

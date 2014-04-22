@@ -219,8 +219,21 @@ $("#saveModalDisclosure")
 
 					if (ProductBaseType == 'GAP') {
 						var years;
-						var description = $(GlobalSectionProduct).find(
+						var description = "";
+						var descriptionFull = $(GlobalSectionProduct).find(
 								'.displayname-product').text();
+
+						descriptionFull = descriptionFull.split("-");
+
+						
+						try{
+							description = descriptionFull[1];
+						}catch(err){
+							description = descriptionFull;
+						}
+						
+
+
 
 						if (!TermText) {
 							years = $('#TermFinance2').val() / 12;
@@ -283,7 +296,7 @@ $("#saveModalDisclosure")
 					}
 					;
 
-					if (ProductBaseType == 'WARRANTY') {
+					if (ProductBaseType == 'WARRANTY' && $("#ModalMileage").is(':visible')) {
 						var years = TermText / 12;
 						var description = $(GlobalSectionProduct).find(
 								'.description-product').text();

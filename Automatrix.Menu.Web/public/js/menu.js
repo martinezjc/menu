@@ -380,7 +380,7 @@ $("#saveModal1").click(function () {
 
     
 
-    if (ProductBaseType == 'WARRANTY') {
+    if (ProductBaseType == 'WARRANTY'  && $("#ModalMileage").is(':visible')) {
         var years = TermText / 12;
         var description = $(GlobalSectionProduct).find( '.description-product' ).text();
 
