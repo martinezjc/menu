@@ -9,6 +9,7 @@ $("#saveSettings").click(function () {
     var DisplayTermValue;
     var DisplayTradeInValue;
     var DisplayPayOffValue;
+    var TaxRate;
 
 
     if( $('#DisplayBuyer').prop('checked') == true ){
@@ -73,9 +74,16 @@ $("#saveSettings").click(function () {
         return false;
     };
 
-    if ( $('#TaxRate').val() != '') {
-        if ( isNaN( $('#TaxRate').val() ) ) {
+    TaxRate = ($('#TaxRate').val()).replace("%",'');
+
+    if ( TaxRate != '') {
+        if ( isNaN(TaxRate) ) {
             toastr.error("The Tax Rate must be a decimal number.", "Message");
+            $('#TaxRate').focus();
+            return false;            
+        }
+        if (TaxRate < 1) {
+            toastr.error("The Tax Rate can not be less than 1%.", "Message");
             $('#TaxRate').focus();
             return false;
         }
@@ -274,7 +282,7 @@ $("#saveSettings").click(function () {
             LienHolderFax: $('#LienHolderFax').val(),
             LienHolderType: $('#LienHolderType').val(),
             LienHolderContact: $('#LienHolderContact').val(),
-            TaxRate: $('#TaxRate').val(),
+            TaxRate: TaxRate,
             VehiclePurchasePrice: $('#VehiclePurchasePrice').val(),
             Disclosure: $('#Disclosure').code()
         },

@@ -219,8 +219,21 @@ $("#saveModalDisclosure")
 
 					if (ProductBaseType == 'GAP') {
 						var years;
-						var description = $(GlobalSectionProduct).find(
+						var description = "";
+						var descriptionFull = $(GlobalSectionProduct).find(
 								'.displayname-product').text();
+
+						descriptionFull = descriptionFull.split("-");
+
+						
+						try{
+							description = descriptionFull[1];
+						}catch(err){
+							description = descriptionFull;
+						}
+						
+
+
 
 						if (!TermText) {
 							years = $('#TermFinance2').val() / 12;
