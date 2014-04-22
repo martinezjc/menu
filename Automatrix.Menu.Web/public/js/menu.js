@@ -123,6 +123,7 @@ function setPlanAmounts(plan, financedAmount, term, apr, term2, apr2)
         if (group[i].checked == true) {
             if (IsTaxable == 1) {
                 sum = sum + getFloat(ApplyTaxRate(group[i].value));
+                console.debug(getFloat(ApplyTaxRate(group[i].value)));
             } else{
                sum = sum + getFloat(group[i].value);    
             }           
@@ -382,6 +383,8 @@ $("#saveModal1").click(function () {
 
     if (ProductBaseType == 'WARRANTY'  && $("#ModalMileage").is(':visible')) {
         var years = TermText / 12;
+        if(years%1!==0)
+            years=years.toFixed(1);
         var description = $(GlobalSectionProduct).find( '.description-product' ).text();
 
         if ( description != '' ) 
