@@ -22,9 +22,9 @@ if (is_null($UserSessionInfo)) {
 <div class="container">
 <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="dealer-settings">Dealers</a>
+                <li><a href="dealer-settings" style="background: rgba(255,255,255,0.2);">Dealers</a>
                 </li>
-                <li><a href="company-settings" style="background: rgba(255,255,255,0.2);">Companies</a>
+                <li><a href="company-settings">Companies</a>
                 </li>
             </ul>
 </div>
