@@ -435,7 +435,8 @@ $("#saveModal1").click(function () {
                         
     } else { 
             if ( ($("#PriceProduct").is(':visible')) || ($("#TermFinance").is(':visible')) ) {
-                $(GlobalSectionProduct).find( '.price-product' ).text('$'+ SellingPrice);
+                var manualPrice = GetFloat(SellingPrice).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                $(GlobalSectionProduct).find( '.price-product' ).text('$'+ manualPrice);
                 $(GlobalSectionProduct).find(':checkbox').val(SellingPrice);              
                 if (GlobalValidatePrice == 1) {
                     UpdatePriceWebServicesProduct(Term);                
@@ -472,11 +473,12 @@ function UpdatePriceWebServicesProductAllColumns(term) {
 }
 
 function UpdatePriceAllColumns (price) {
+    var price2 = GetFloat(price).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     $(".products").each(function () {
         idEvaluate = $(this).attr('id');
         idSave= GlobalSectionProduct.attr('id');
         if (idEvaluate == idSave) {
-            $(this).find( '.price-product' ).text('$'+ price);
+            $(this).find( '.price-product' ).text('$'+ price2);
             $(this).find(':checkbox').val(price);
         };       
     });
@@ -614,7 +616,7 @@ UpdatePlansArray = function(){
         if(index<total-3)
             basicarray[index] = currentproduct.id;
 
-        costpremiumarray[index] = currentproduct.value;
+        costpremiumarray[index] = currentproduct.value.replace(',','!');
 
         index =  index + 1;
     });
@@ -630,7 +632,7 @@ UpdatePlansArray = function(){
             index =  index + 1;
         }
 
-        costpreferredarray[index2] = currentproduct.value;
+        costpreferredarray[index2] = currentproduct.value.replace(',','!');
         index2 = index2 + 1 ;
     });
 
@@ -644,7 +646,7 @@ UpdatePlansArray = function(){
             index =  index + 1;
         }
 
-        costeconomyarray[index2] = currentproduct.value;
+        costeconomyarray[index2] = currentproduct.value.replace(',','!');
         index2 = index2 + 1 ;
     });
 
@@ -658,7 +660,7 @@ UpdatePlansArray = function(){
             index =  index + 1;
         }
 
-        costbasicarray[index2] = currentproduct.value;
+        costbasicarray[index2] = currentproduct.value.replace(',','!');
         index2 = index2 + 1 ;
     });
 

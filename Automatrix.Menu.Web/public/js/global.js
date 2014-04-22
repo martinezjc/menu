@@ -640,11 +640,11 @@ function ChangeIntervalOrder(SelectedInterval){
 }
 
 function GetFloat (value) {
-    if (value != null && value != '') {
-        value= value.replace('$','').replace(',','');
-    } else {
-        value=0;
-    }
+    if ((typeof value == 'string' || value instanceof String) && value != '')
+        value = value.toString().replace('$', '').replace(',', '');
+    else
+        if (value == null || isNaN(value))
+            value = 0;
 
     return parseFloat(value);
 }
