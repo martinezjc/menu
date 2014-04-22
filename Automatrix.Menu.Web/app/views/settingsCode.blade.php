@@ -22,9 +22,9 @@ if (is_null($UserSessionInfo)) {
 <div class="container">
 <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="dealer-settings">Dealers</a>
+                <li><a href="dealer-settings" style="background: rgba(255,255,255,0.2);">Dealers</a>
                 </li>
-                <li><a href="company-settings" style="background: rgba(255,255,255,0.2);">Companies</a>
+                <li><a href="company-settings">Companies</a>
                 </li>
             </ul>
 </div>
@@ -32,7 +32,7 @@ if (is_null($UserSessionInfo)) {
 
 	<div class="col-md-9 space">
 	  <a class="btn btn-success" href="#addModal" data-dismiss="modal" data-toggle="modal" id="addCode"><i class="fa fa-plus"></i> Add</a>
-	  <a class="btn btn-success" id="generalSettings" href="dealer-settings"><i class="fa fa-times"></i> Cancel</a>
+	  <a class="btn btn-success" id="generalSettings" href="general-settings?DealerId={{ Input::get('DealerId') }}"><i class="fa fa-times"></i> Cancel</a>
 		<table class="table table-striped">
       <thead>
         <tr>

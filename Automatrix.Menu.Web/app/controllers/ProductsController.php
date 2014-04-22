@@ -2175,8 +2175,7 @@ class ProductsController extends BaseController
     $NewPreferredDescription = explode("!",$PreferredDescriptionArray);
     $NewEconomyDescription = explode("!",$EconomyDescriptionArray);
     $NewBasicDescription = explode("!",$BasicDescriptionArray);
-
-
+    
     $PremiumDescription = array();
     $x = 0;
     foreach ($NewPremiumDescription as $key => $value) {
@@ -2217,7 +2216,6 @@ class ProductsController extends BaseController
         $BasicDescription[$x] = $value;
         $x = $x+1;
     }
-
 
     $products = DB::table ( 'Products' )
                     ->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )
@@ -2360,9 +2358,10 @@ class ProductsController extends BaseController
                                             $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
                                         else
                                             $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
-                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostPremium[$i],2).'</div></b></td>
+                                         
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                        $premiumPrice = str_replace('!', '', $CostPremium[$i]);
+                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $premiumPrice ) ,2, '.', ',').'</div></b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">'.$PremiumDescription[$i].'</td>
@@ -2407,8 +2406,9 @@ class ProductsController extends BaseController
                                         else
                                             $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
-                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostPreferred[$i],2).'</div></b></td>
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                        $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
+                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $preferredPrice ),2,  '.', ',' ).'</div></b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">'.$PreferredDescription[$i].'</td>
@@ -2454,8 +2454,9 @@ class ProductsController extends BaseController
                                         else
                                             $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
-                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostEconomy[$i],2).'</div></b></td>
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                        $economyPrice = str_replace('!', '', $CostEconomy[$i]);
+                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $economyPrice ), 2, '.', ',' ).'</div></b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">'.$EconomyDescription[$i].'</td>
@@ -2501,8 +2502,9 @@ class ProductsController extends BaseController
                                         else
                                             $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>
-                                        <td valign="top" style="text-align:right"><b><div>$ '.number_format($CostBasic[$i],2).'</div></b></td>
+                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                        $basicPrice = str_replace('!', '', $CostBasic[$i]);
+                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $basicPrice ), 2, '.', ',' ).'</div></b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">'.$BasicDescription[$i].'</td>
@@ -3064,6 +3066,10 @@ class ProductsController extends BaseController
             $obj->RateNumber = 1;
         }
         
+        //Road vantages
+        if ($product->CompanyId == 3) { 
+            echo "Pdf Contract with manual price not available yet";die();
+        }
         return $obj;
     }
 
