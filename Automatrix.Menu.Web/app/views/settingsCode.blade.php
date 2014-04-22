@@ -32,7 +32,7 @@ if (is_null($UserSessionInfo)) {
 
 	<div class="col-md-9 space">
 	  <a class="btn btn-success" href="#addModal" data-dismiss="modal" data-toggle="modal" id="addCode"><i class="fa fa-plus"></i> Add</a>
-	  <a class="btn btn-success" id="generalSettings" href="dealer-settings"><i class="fa fa-times"></i> Cancel</a>
+	  <a class="btn btn-success" id="generalSettings" href="general-settings?DealerId={{ Input::get('DealerId') }}"><i class="fa fa-times"></i> Cancel</a>
 		<table class="table table-striped">
       <thead>
         <tr>
