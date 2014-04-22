@@ -216,7 +216,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles[0]->Purchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser = new \stdClass();
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->FirstName = $data->deal->FirstName;
-                $request->Automobiles[0]->Purchaser->FirstPurchaser->MiddleInitial = $data->deal->MiddleName;
+                $request->Automobiles[0]->Purchaser->FirstPurchaser->MiddleInitial = substr($data->deal->MiddleName, 0, 1); // Only send the intials middlename
                 $request->Automobiles[0]->Purchaser->FirstPurchaser->LastName = $data->deal->LastName;
                 $request->Automobiles[0]->Purchaser->CustomerPhoneNumber = $data->deal->Telephone;
                 
