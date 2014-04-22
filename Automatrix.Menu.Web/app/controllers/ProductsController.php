@@ -3064,6 +3064,10 @@ class ProductsController extends BaseController
             $obj->RateNumber = 1;
         }
         
+        //Road vantages
+        if ($product->CompanyId == 3) { 
+            echo "Pdf Contract with manual price not available yet";die();
+        }
         return $obj;
     }
 
