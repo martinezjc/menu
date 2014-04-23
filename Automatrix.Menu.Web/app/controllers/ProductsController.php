@@ -25,8 +25,6 @@ class ProductsController extends BaseController
      */
     public function get_ShowProductsViews()
     {
-        $this->deleteVarSession();
-        
         $URLSession = new stdClass();
         $DealerCode = '11401';
         $arrayProductsFailure = array();
@@ -63,82 +61,84 @@ class ProductsController extends BaseController
             $EmptyDeal = 0;
             
             $deal = new Deal();
-            $BeginningOdometer = 0;
-            try
-            {
-                $response = file_get_contents($settings->URL . $param);
-                
-                $response = str_replace('"', '', $response);
-                $response = str_replace('{', '', $response);
-                $response = str_replace('}', '', $response);
-                $response = explode(',', $response);
-                foreach ($response as $lineNum => $line)
-                {
-                    list ($key, $value) = explode(":", $line);
-                    $newArray[$key] = $value;
-                }
-                
-                $deal->Deal = $newArray[$settings->Deal];
-                $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
-                $deal->Year = $newArray[$settings->Year];
-                $deal->Make = $newArray[$settings->Make];
-                $deal->Model = $newArray[$settings->Model];
-                $deal->Trim = $newArray[$settings->Trim];
-                $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
-                $deal->APR = $newArray[$settings->APR];
-                $deal->Term = $newArray[$settings->Term];
-                $deal->DownPayment = $newArray[$settings->DownPayment];
-                $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
-                $deal->FirstName = $newArray[$settings->FirstNameParameter];
-                $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
-                $deal->LastName = $newArray[$settings->LastNameParameter];
-                $deal->Address1 = $newArray[$settings->Address1];
-                $deal->Address2 = $newArray[$settings->Address2];
-                $deal->City = $newArray[$settings->City];
-                $deal->State = $newArray[$settings->State];
-                $deal->StateCode = $newArray[$settings->StateCode];
-                $deal->ZipCode = $newArray[$settings->ZipCode];
-                $deal->Country = $newArray[$settings->Country];
-                $deal->CountryCode = $newArray[$settings->CountryCode];
-                $deal->Telephone = $newArray[$settings->Telephone];
-                $deal->Email = $newArray[$settings->Email];
+            
+            if (!empty($param)) {
                 try
                 {
-                    $deal->BasePayment = $newArray[$settings->BasePayment];
+                    $response = file_get_contents($settings->URL . $param);
+                    
+                    $response = str_replace('"', '', $response);
+                    $response = str_replace('{', '', $response);
+                    $response = str_replace('}', '', $response);
+                    $response = explode(',', $response);
+                    foreach ($response as $lineNum => $line)
+                    {
+                        list ($key, $value) = explode(":", $line);
+                        $newArray[$key] = $value;
+                    }
+                    
+                    $deal->Deal = $newArray[$settings->Deal];
+                    $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
+                    $deal->Year = $newArray[$settings->Year];
+                    $deal->Make = $newArray[$settings->Make];
+                    $deal->Model = $newArray[$settings->Model];
+                    $deal->Trim = $newArray[$settings->Trim];
+                    $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
+                    $deal->APR = $newArray[$settings->APR];
+                    $deal->Term = $newArray[$settings->Term];
+                    $deal->DownPayment = $newArray[$settings->DownPayment];
+                    $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
+                    $deal->FirstName = $newArray[$settings->FirstNameParameter];
+                    $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
+                    $deal->LastName = $newArray[$settings->LastNameParameter];
+                    $deal->Address1 = $newArray[$settings->Address1];
+                    $deal->Address2 = $newArray[$settings->Address2];
+                    $deal->City = $newArray[$settings->City];
+                    $deal->State = $newArray[$settings->State];
+                    $deal->StateCode = $newArray[$settings->StateCode];
+                    $deal->ZipCode = $newArray[$settings->ZipCode];
+                    $deal->Country = $newArray[$settings->Country];
+                    $deal->CountryCode = $newArray[$settings->CountryCode];
+                    $deal->Telephone = $newArray[$settings->Telephone];
+                    $deal->Email = $newArray[$settings->Email];
+                    try
+                    {
+                        $deal->BasePayment = $newArray[$settings->BasePayment];
+                    }
+                    catch (Exception $e)
+                    {
+                    }
+                    $deal->Buyer = $newArray[$settings->Buyer];
+                    $deal->CoBuyer = $newArray[$settings->CoBuyer];
+                    
+                    $deal->LienHolderName = $newArray[$settings->LienHolderName];
+                    $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
+                    $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
+                    $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
+                    $deal->LienHolderState = $newArray[$settings->LienHolderState];
+                    $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
+
+                    $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
+                    $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
+                    $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
+                    $deal->LienHolderType = $newArray[$settings->LienHolderType];
+                    $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
+                    
+                    $deal->Disclosure = $settings->Disclosure;
+                    $deal->DealerLogo = $settings->DealerLogo;
+                    $deal->DealerName = $settings->DealerName;
+                    
+                    $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
+                    
+                    $EmptyDeal = 1;
+                    Session::put('WebServiceInfo', $deal);
                 }
                 catch (Exception $e)
                 {
+                    //echo $e;
+                    // Session::put ('WebServiceInfo', new Deal());
                 }
-                $deal->Buyer = $newArray[$settings->Buyer];
-                $deal->CoBuyer = $newArray[$settings->CoBuyer];
-                
-                $deal->LienHolderName = $newArray[$settings->LienHolderName];
-                $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
-                $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
-                $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
-                $deal->LienHolderState = $newArray[$settings->LienHolderState];
-                $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
-
-                $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
-                $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
-                $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
-                $deal->LienHolderType = $newArray[$settings->LienHolderType];
-                $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
-                
-                $deal->Disclosure = $settings->Disclosure;
-                $deal->DealerLogo = $settings->DealerLogo;
-                $deal->DealerName = $settings->DealerName;
-                
-                $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
-                
-                $EmptyDeal = 1;
-                $BeginningOdometer = $deal->BeginningOdometer;
-            }
-            catch (Exception $e)
-            {
-                //echo $e;
-                // Session::put ('WebServiceInfo', new Deal());
-            }
+            }        
             
             $data = array();
             
@@ -465,9 +465,6 @@ class ProductsController extends BaseController
 
             } // end if
 
-
-            $deal->BeginningOdometer = $BeginningOdometer;
-            Session::put('WebServiceInfo', $deal);
 
             if ($FailWebservice->flag == 1) {
 

@@ -7,6 +7,7 @@
 
 $UserSessionInfo = Session::get('UserSessionInfo');
 
+
 if (is_null($UserSessionInfo->DealerId)) {
 ?>
 <script>
@@ -115,6 +116,8 @@ if (is_null($UserSessionInfo->DealerId)) {
             </form></li>
             @endif
             @if($ShowMenuPrintButton == true)
+            <?php $WebServiceDeal = Input::get('Deal');?>
+              
             <li>        
             <form method="get" action="printmenu" target="_blank">
                 <input type="hidden" id="premiumarray" name="premiumarray" value=''></input>
@@ -136,7 +139,10 @@ if (is_null($UserSessionInfo->DealerId)) {
                 <input type="hidden" id="preferreddescription" name="preferreddescription" value=''></input>
                 <input type="hidden" id="economydescription" name="economydescription" value=''></input>
                 <input type="hidden" id="basicdescription" name="basicdescription" value=''></input>
-                <button class ="printpdf" id="printmenupdf" name="printmenupdf" type="submit"><i class="fa fa-print" title="Print menu in pdf"></a></i></button>
+                @if(!empty($WebServiceDeal))  
+                     <button class ="printpdf" id="printmenupdf" name="printmenupdf" type="submit"><i class="fa fa-print" title="Print menu in pdf"></a></i></button>
+                @endif
+               
             </form></li>
             @endif
 	     <li><a href="" style="color:white;" ><i class="fa fa-pencil-square-o" title="Notepad"></a></i></li>
