@@ -1655,6 +1655,8 @@ class ProductsController extends BaseController
         $downPayment = Input::get('DownPayment');
         
         $surcharges = Input::get('ProtectiveVsc');
+
+        $FailureProductsRates = json_decode( Input::get('FailureProductsRates') );
         
         $Products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
             ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
@@ -1694,9 +1696,10 @@ class ProductsController extends BaseController
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
             ->with('taxRate', $taxRate)
+            ->with('FailureProductsRates', $FailureProductsRates)
             ->with('ShowMenuPrintButton', false);
     }
-
+ 
     public function loadCompanyProducts()
     {
         $type = Input::get('type');
