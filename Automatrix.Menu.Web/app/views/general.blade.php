@@ -73,7 +73,7 @@ if (is_null($UserSessionInfo)) {
 	          <table>
 			      <tbody>
 			        <tr>
-			          <td style="width: 30%"><b>Dealer Name</b></td>
+			          <td style="width: 30%"><b>Dealer Name &#42;</b></td>
 			          <td></td>
 			          <td style="width: 70%"><input type="text" name="DealerName" id="DealerName" class="form-control float-right" 
 			          @if ($settings)
@@ -100,12 +100,12 @@ if (is_null($UserSessionInfo)) {
 			          @endif ></td>
 			        </tr>
 			        <tr>
-			          <td style="width: 30%"><b>Tax Rate</b></td>
+			          <td style="width: 30%"><b>Tax Rate &#42;</b></td>
 			          <td></td>
 			          <td style="width: 70%"><input type="text" name="TaxRate" placeholder="Tax Rate field from DMS webservice" id="TaxRate" class="form-control" @if ($settings) @if ($settings->TaxRate) value="{{$settings->TaxRate }}%" @endif @endif style="width:60%"></td>
 			        </tr>
 			        <tr>
-			          <td style="width: 30%"><b>Logo</b></td>
+			          <td style="width: 30%"><b>Logo &#42;</b></td>
 			          <td></td>
 			          <td style="width: 70%">
 			            <input type="button" id="DealerLogo" style="float:right;">
@@ -192,7 +192,7 @@ if (is_null($UserSessionInfo)) {
 			          <table width="98%">
 					      <tbody>
 					        <tr>
-					          <td><b>Deal</b></td>
+					          <td><b>Deal &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Deal" id="Deal" placeholder="Deal number field from DMS webservice" class="form-control" 
 					          @if ($settings)
@@ -202,7 +202,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>URL</b></td>
+					          <td><b>URL &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="URL" placeholder = "DMS webservice url to retrieve deal information" id="URL" class="form-control"
 					          @if ($settings)
@@ -212,7 +212,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Year</b></td>
+					          <td><b>Year &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Year" placeholder="Year field from DMS webservice" id="Year" class="form-control"
 					          @if ($settings)
@@ -222,7 +222,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Make</b></td>
+					          <td><b>Make &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Make" placeholder="Make field from DMS webservice" id="Make" class="form-control"
 					          @if ($settings)
@@ -232,7 +232,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Model</b></td>
+					          <td><b>Model &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Model" placeholder="Model field from DMS webservice" id="Model" class="form-control"
 					          @if ($settings)
@@ -242,7 +242,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Financed Amount</b></td>
+					          <td><b>Financed Amount &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="FinancedAmount" placeholder="Financed amount field from DMS webservice" id="FinancedAmount" class="form-control"
 					          @if ($settings)
@@ -252,7 +252,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Base Payment</b></td>
+					          <td><b>Base Payment &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="BasePayment" placeholder="Base payment field from DMS webservice" id="BasePayment" class="form-control"
 					          @if ($settings)
@@ -262,7 +262,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>APR</b></td>
+					          <td><b>APR &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="APR" placeholder="Amount percentage rate field from DMS webservice" id="APR" class="form-control"
 					          @if ($settings)
@@ -272,7 +272,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Term</b></td>
+					          <td><b>Term &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Term" placeholder="Term field from DMS webservice"  id="Term" class="form-control"
 					          @if ($settings)
@@ -282,7 +282,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Down Payment</b></td>
+					          <td><b>Down Payment &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="DownPayment" placeholder="Down Payment field from DMS webservice" id="DownPayment" class="form-control"
 					          @if ($settings)
@@ -292,7 +292,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Buyer</b></td>
+					          <td><b>Buyer &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="Buyer" placeholder="Buyer field from DMS webservice" id="Buyer" class="form-control"
 					          @if ($settings)
@@ -302,7 +302,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 					        <tr>
-					          <td><b>Co Buyer</b></td>
+					          <td><b>Co Buyer &#42;</b></td>
 					          <td></td>
 					          <td style="width: 70%"><input type="text" name="CoBuyer" placeholder="Co Buyer field from DMS webservice" id="CoBuyer" class="form-control"
 					          @if ($settings)
@@ -312,7 +312,7 @@ if (is_null($UserSessionInfo)) {
 					          @endif ></td>
 					        </tr>
 			                <tr>
-			                  <td><b>Trim</b></td>
+			                  <td><b>Trim &#42;</b></td>
 			                  <td></td>
 			                  <td style="width: 70%"><input type="text" name="Trim" id="Trim" placeholder="Trim field from DMS webservice" class="form-control"
 			                  @if ($settings)
@@ -322,7 +322,7 @@ if (is_null($UserSessionInfo)) {
 			                  @endif ></td>
 			                </tr>
 			                <tr>
-			                  <td><b>Vin</b></td>
+			                  <td><b>Vin &#42;</b></td>
 			                  <td></td>
 			                  <td style="width: 70%"><input type="text" name="Vin" placeholder="VIN field from DMS webservice" id="Vin" class="form-control"
 			                  @if ($settings)
@@ -332,7 +332,7 @@ if (is_null($UserSessionInfo)) {
 			                  @endif ></td>
 			                </tr>
 			                <tr>
-			                  <td><b>Trade Allowance</b></td>
+			                  <td><b>Trade Allowance &#42;</b></td>
 			                  <td></td>
 			                  <td style="width: 70%"><input type="text" name="TradeAllowance" placeholder="Trade allowanse field from DMS webservice" id="TradeAllowance" class="form-control"
 			                  @if ($settings)
@@ -342,7 +342,7 @@ if (is_null($UserSessionInfo)) {
 			                  @endif ></td>
 			                </tr>
 			                <tr>
-			                  <td><b>Trade Pay-Off</b></td>
+			                  <td><b>Trade Pay-Off &#42;</b></td>
 			                  <td></td>
 			                  <td style="width: 70%"><input type="text" name="TradePayOff" placeholder="Trade pay off field from DMS webservice" id="TradePayOff" class="form-control"
 			                  @if ($settings)
@@ -352,7 +352,7 @@ if (is_null($UserSessionInfo)) {
 			                  @endif ></td>
 			                </tr>
 			                <tr>
-							  <td><b>Beginning Odometer</b></td>
+							  <td><b>Beginning Odometer &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="BeginningOdometer" placeholder="Beginning Odometer field from DMS webservice"
 								id="BeginningOdometer" class="form-control"
@@ -361,7 +361,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->BeginningOdometer }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>First Name</b></td>
+							  <td><b>First Name &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="FirstName" placeholder="First Name field from DMS webservice"
 								id="FirstName" class="form-control"
@@ -370,7 +370,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->FirstNameParameter }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Middle Name</b></td>
+							  <td><b>Middle Name &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="MiddleName" placeholder="Middle Name field from DMS webservice"
 								id="MiddleName" class="form-control"
@@ -379,7 +379,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->MiddleNameParameter }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Last Name</b></td>
+							  <td><b>Last Name &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LastName" placeholder="Last Name field from DMS webservice"
 								id="LastName" class="form-control"
@@ -388,7 +388,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LastNameParameter }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Address 1</b></td>
+							  <td><b>Address 1 &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Address1" placeholder="Address 1 field from DMS webservice"
 								id="Address1" class="form-control"
@@ -397,7 +397,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->Address1 }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Address 2</b></td>
+							  <td><b>Address 2 &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Address2" placeholder="Address 2 field from DMS webservice"
 								id="Address2" class="form-control"
@@ -406,7 +406,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->Address2 }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>City</b></td>
+							  <td><b>City &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="City" placeholder="City field from DMS webservice"
 								id="City" class="form-control"
@@ -415,7 +415,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->City }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>State</b></td>
+							  <td><b>State &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="State" placeholder="State field from DMS webservice"
 								id="State" class="form-control"
@@ -424,7 +424,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->State }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>State Code</b></td>
+							  <td><b>State Code &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="StateCode" placeholder="State Code field from DMS webservice"
 								id="StateCode" class="form-control"
@@ -433,7 +433,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->StateCode }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Zip Code</b></td>
+							  <td><b>Zip Code &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="ZipCode" placeholder="Zip Code field from DMS webservice"
 								id="ZipCode" class="form-control"
@@ -442,7 +442,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->ZipCode }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Country</b></td>
+							  <td><b>Country &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Country" placeholder="Country field from DMS webservice"
 								id="Country" class="form-control"
@@ -451,7 +451,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->Country }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Country Code</b></td>
+							  <td><b>Country Code &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="CountryCode" placeholder="Country Code field from DMS webservice"
 								id="CountryCode" class="form-control"
@@ -460,7 +460,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->CountryCode }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Telephone</b></td>
+							  <td><b>Telephone &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Telephone" placeholder="Telephone field from DMS webservice"
 								id="Telephone" class="form-control"
@@ -469,7 +469,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->Telephone }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Email</b></td>
+							  <td><b>Email &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="Email" placeholder="Email field from DMS webservice"
 								id="Email" class="form-control"
@@ -478,7 +478,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->Email }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Name</b></td>
+							  <td><b>Lien Holder Name &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderName" placeholder="Lien Holder Name field from DMS webservice"
 								id="LienHolderName" class="form-control"
@@ -487,7 +487,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderName }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Address</b></td>
+							  <td><b>Lien Holder Address &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderAddress" placeholder="Lien Holder Address field from DMS webservice"
 								id="LienHolderAddress" class="form-control"
@@ -496,7 +496,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderAddress }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Country</b></td>
+							  <td><b>Lien Holder Country &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderCountry" placeholder="Lien Holder Country field from DMS webservice"
 								id="LienHolderCountry" class="form-control"
@@ -505,7 +505,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderCountry }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder City</b></td>
+							  <td><b>Lien Holder City &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderCity" placeholder="Lien Holder City field from DMS webservice"
 								id="LienHolderCity" class="form-control"
@@ -514,7 +514,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderCity }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder State</b></td>
+							  <td><b>Lien Holder State &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderState" placeholder="Lien Holder State field from DMS webservice"
 								id="LienHolderState" class="form-control"
@@ -523,7 +523,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderState }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Zip</b></td>
+							  <td><b>Lien Holder Zip &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderZip" placeholder="Lien Holder Zip field from DMS webservice"
 								id="LienHolderZip" class="form-control"
@@ -532,7 +532,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderZip }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Email</b></td>
+							  <td><b>Lien Holder Email &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderEmail" placeholder="Lien Holder Email field from DMS webservice"
 								id="LienHolderEmail" class="form-control"
@@ -541,7 +541,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderEmail }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Phone</b></td>
+							  <td><b>Lien Holder Phone &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderPhone" placeholder="Lien Holder Phone field from DMS webservice"
 								id="LienHolderPhone" class="form-control"
@@ -550,7 +550,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderPhone }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Fax</b></td>
+							  <td><b>Lien Holder Fax &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderFax" placeholder="Lien Holder Fax field from DMS webservice"
 								id="LienHolderFax" class="form-control"
@@ -559,7 +559,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderFax }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Type</b></td>
+							  <td><b>Lien Holder Type &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderType" placeholder="Lien Holder Type field from DMS webservice"
 								id="LienHolderType" class="form-control"
@@ -568,7 +568,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderType }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Lien Holder Contact</b></td>
+							  <td><b>Lien Holder Contact &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="LienHolderContact" placeholder="Lien Holder Contact field from DMS webservice"
 								id="LienHolderContact" class="form-control"
@@ -577,7 +577,7 @@ if (is_null($UserSessionInfo)) {
 								$settings->LienHolderContact }}" @endif @endif ></td>
 						    </tr>
 						    <tr>
-							  <td><b>Vehicle Purchase Price</b></td>
+							  <td><b>Vehicle Purchase Price &#42;</b></td>
 							  <td></td>
 							  <td style="width: 70%"><input type="text" name="VehiclePurchasePrice" placeholder="Vehicle Purchase Price field from DMS webservice" id="VehiclePurchasePrice" class="form-control" @if ($settings)
 				                  @if ($settings->VehiclePurchasePrice) value="{{
@@ -597,7 +597,7 @@ if (is_null($UserSessionInfo)) {
 	    <!--<div @if ( !$UserSessionInfo->DealerId ) class="col-md-10" @else class="col-md-12" @endif> -->
 	    <div class="col-md-11">
 	       <div class="form-group">
-	           <label for="Disclosure">Disclosure</label>
+	           <label for="Disclosure">Disclosure &#42;</label>
 	           @if ($settings)
 	           @if ($settings->Disclosure) 
 	             <textarea id="Disclosure" name="Disclosure" class="form-control" rows="10">{{ $settings->Disclosure }}</textarea>

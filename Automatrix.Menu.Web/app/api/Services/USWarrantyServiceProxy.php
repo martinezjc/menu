@@ -307,7 +307,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Vsc->RetailAmount = '';
 		        $data->Products->Vsc->FiledAmount= $request->productRates->FiledAmount;// '';
 		        $data->Products->Vsc->TermMonths= $request->productOptions->term;
-		        $data->Products->Vsc->TermMiles= $request->productRates->MileageTerm;//"6,000";
+		        $data->Products->Vsc->TermMiles= $request->productOptions->mileage;//"6,000";
 		        $data->Products->Vsc->InServiceDate= date('c');
 		        $data->Products->Vsc->Deductible= $request->productOptions->deductible;
 		        $data->Products->Vsc->Cert = "N";

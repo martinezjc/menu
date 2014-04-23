@@ -171,6 +171,7 @@ if (is_null($UserSessionInfo)) {
 	      </div>
 	       
 	      <div class="modal-footer">
+	      	<label style="float:left;line-height: 2em;">All fields are required. </label>
 	        <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
 	        <button type="button" id="insertUser" class="btn btn-primary">Save</button>
 	      </div>
