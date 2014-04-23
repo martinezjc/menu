@@ -626,6 +626,8 @@ UpdatePlansArray = function(){
     $("#2 :checkbox").each(function () {
         // console.dir($(this));
         var currentproduct = $(this)[0];
+        preferredarray[index] = currentproduct.id;
+
         if(currentproduct.checked)
         {
             preferredacceptedarray[index] = currentproduct.id;
@@ -640,6 +642,8 @@ UpdatePlansArray = function(){
     index2 = 0;
     $("#3 :checkbox").each(function () {
         var currentproduct = $(this)[0];
+        economyarray[index] = currentproduct.id;
+
         if(currentproduct.checked)
         {
             economyacceptedarray[index] = currentproduct.id;
@@ -654,6 +658,8 @@ UpdatePlansArray = function(){
     index2 = 0;
     $("#4 :checkbox").each(function () {
         var currentproduct = $(this)[0];
+        basicarray[index] = currentproduct.id;
+        
         if(currentproduct.checked)
         {
             basicacceptedarray[index] = currentproduct.id;

@@ -25,6 +25,8 @@ class ProductsController extends BaseController
      */
     public function get_ShowProductsViews()
     {
+        $this->deleteVarSession();
+        
         $URLSession = new stdClass();
         $DealerCode = '11401';
         $arrayProductsFailure = array();
@@ -61,84 +63,82 @@ class ProductsController extends BaseController
             $EmptyDeal = 0;
             
             $deal = new Deal();
-            
-            if (!empty($param)) {
+            $BeginningOdometer = 0;
+            try
+            {
+                $response = file_get_contents($settings->URL . $param);
+                
+                $response = str_replace('"', '', $response);
+                $response = str_replace('{', '', $response);
+                $response = str_replace('}', '', $response);
+                $response = explode(',', $response);
+                foreach ($response as $lineNum => $line)
+                {
+                    list ($key, $value) = explode(":", $line);
+                    $newArray[$key] = $value;
+                }
+                
+                $deal->Deal = $newArray[$settings->Deal];
+                $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
+                $deal->Year = $newArray[$settings->Year];
+                $deal->Make = $newArray[$settings->Make];
+                $deal->Model = $newArray[$settings->Model];
+                $deal->Trim = $newArray[$settings->Trim];
+                $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
+                $deal->APR = $newArray[$settings->APR];
+                $deal->Term = $newArray[$settings->Term];
+                $deal->DownPayment = $newArray[$settings->DownPayment];
+                $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
+                $deal->FirstName = $newArray[$settings->FirstNameParameter];
+                $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
+                $deal->LastName = $newArray[$settings->LastNameParameter];
+                $deal->Address1 = $newArray[$settings->Address1];
+                $deal->Address2 = $newArray[$settings->Address2];
+                $deal->City = $newArray[$settings->City];
+                $deal->State = $newArray[$settings->State];
+                $deal->StateCode = $newArray[$settings->StateCode];
+                $deal->ZipCode = $newArray[$settings->ZipCode];
+                $deal->Country = $newArray[$settings->Country];
+                $deal->CountryCode = $newArray[$settings->CountryCode];
+                $deal->Telephone = $newArray[$settings->Telephone];
+                $deal->Email = $newArray[$settings->Email];
                 try
                 {
-                    $response = file_get_contents($settings->URL . $param);
-                    
-                    $response = str_replace('"', '', $response);
-                    $response = str_replace('{', '', $response);
-                    $response = str_replace('}', '', $response);
-                    $response = explode(',', $response);
-                    foreach ($response as $lineNum => $line)
-                    {
-                        list ($key, $value) = explode(":", $line);
-                        $newArray[$key] = $value;
-                    }
-                    
-                    $deal->Deal = $newArray[$settings->Deal];
-                    $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
-                    $deal->Year = $newArray[$settings->Year];
-                    $deal->Make = $newArray[$settings->Make];
-                    $deal->Model = $newArray[$settings->Model];
-                    $deal->Trim = $newArray[$settings->Trim];
-                    $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
-                    $deal->APR = $newArray[$settings->APR];
-                    $deal->Term = $newArray[$settings->Term];
-                    $deal->DownPayment = $newArray[$settings->DownPayment];
-                    $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
-                    $deal->FirstName = $newArray[$settings->FirstNameParameter];
-                    $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
-                    $deal->LastName = $newArray[$settings->LastNameParameter];
-                    $deal->Address1 = $newArray[$settings->Address1];
-                    $deal->Address2 = $newArray[$settings->Address2];
-                    $deal->City = $newArray[$settings->City];
-                    $deal->State = $newArray[$settings->State];
-                    $deal->StateCode = $newArray[$settings->StateCode];
-                    $deal->ZipCode = $newArray[$settings->ZipCode];
-                    $deal->Country = $newArray[$settings->Country];
-                    $deal->CountryCode = $newArray[$settings->CountryCode];
-                    $deal->Telephone = $newArray[$settings->Telephone];
-                    $deal->Email = $newArray[$settings->Email];
-                    try
-                    {
-                        $deal->BasePayment = $newArray[$settings->BasePayment];
-                    }
-                    catch (Exception $e)
-                    {
-                    }
-                    $deal->Buyer = $newArray[$settings->Buyer];
-                    $deal->CoBuyer = $newArray[$settings->CoBuyer];
-                    
-                    $deal->LienHolderName = $newArray[$settings->LienHolderName];
-                    $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
-                    $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
-                    $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
-                    $deal->LienHolderState = $newArray[$settings->LienHolderState];
-                    $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
-
-                    $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
-                    $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
-                    $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
-                    $deal->LienHolderType = $newArray[$settings->LienHolderType];
-                    $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
-                    
-                    $deal->Disclosure = $settings->Disclosure;
-                    $deal->DealerLogo = $settings->DealerLogo;
-                    $deal->DealerName = $settings->DealerName;
-                    
-                    $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
-                    
-                    $EmptyDeal = 1;
-                    Session::put('WebServiceInfo', $deal);
+                    $deal->BasePayment = $newArray[$settings->BasePayment];
                 }
                 catch (Exception $e)
                 {
-                    //echo $e;
-                    // Session::put ('WebServiceInfo', new Deal());
                 }
-            }        
+                $deal->Buyer = $newArray[$settings->Buyer];
+                $deal->CoBuyer = $newArray[$settings->CoBuyer];
+                
+                $deal->LienHolderName = $newArray[$settings->LienHolderName];
+                $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
+                $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
+                $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
+                $deal->LienHolderState = $newArray[$settings->LienHolderState];
+                $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
+
+                $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
+                $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
+                $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
+                $deal->LienHolderType = $newArray[$settings->LienHolderType];
+                $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
+                
+                $deal->Disclosure = $settings->Disclosure;
+                $deal->DealerLogo = $settings->DealerLogo;
+                $deal->DealerName = $settings->DealerName;
+                
+                $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
+                
+                $EmptyDeal = 1;
+                $BeginningOdometer = $deal->BeginningOdometer;
+            }
+            catch (Exception $e)
+            {
+                //echo $e;
+                // Session::put ('WebServiceInfo', new Deal());
+            }
             
             $data = array();
             
@@ -156,6 +156,8 @@ class ProductsController extends BaseController
             $products3 = $products;
             
             $products4 = $products;
+            
+            $productDetail = DB::table('ProductDetail')->get();
             
             $plansProducts = DB::table('PlansProducts')->get();
             
@@ -462,6 +464,9 @@ class ProductsController extends BaseController
             } // end if
 
 
+            $deal->BeginningOdometer = $BeginningOdometer;
+            Session::put('WebServiceInfo', $deal);
+
             if ($FailWebservice->flag == 1) {
 
                 //$FailWebservice->failureProductRates = array('items' => $arrayProductsFailure);
@@ -474,6 +479,7 @@ class ProductsController extends BaseController
                 ->with('Products2', $products2)
                 ->with('Products3', $products3)
                 ->with('Products4', $products4)
+                ->with('Datas', $productDetail)
                 ->with('Settings', $settings)
                 ->with('PlansProducts', $plansProducts)
                 ->with('ShowPrintButton', false)
@@ -930,6 +936,10 @@ class ProductsController extends BaseController
                 );
             }
         }
+        // }
+        /*
+         * $ProductDetail = DB::table('ProductDetail') ->where('ProductId', '=', $Product->id) ->get(); foreach( $ProductDetail as $Detail => $DetailInfo ){ $data[]['Bullets'] = $DetailInfo->BulletPoint; }
+         */
         
         return json_encode($data);
     }
@@ -1593,6 +1603,8 @@ class ProductsController extends BaseController
         
         $DeletePrices = DB::table('ProductPrice')->where('ProductId', '=', $ProductId)->delete();
         
+        $DeletedBullet = DB::table('ProductDetail')->where('ProductId', '=', $ProductId)->delete();
+        
         $DeletedProduct = DB::table('PlansProducts')->where('ProductId', '=', $ProductId)->delete();
         
         $DeletedProduct2 = DB::table('Products')->where('id', '=', $ProductId)->delete();
@@ -1663,9 +1675,14 @@ class ProductsController extends BaseController
             ->orderBy('PlansProducts.Order', 'asc')
             ->get();
         
+        // $ProductsInverted = DB::table ( 'Products' )->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )->orderBy ( 'PlansProducts.Order', 'desc' )->get ();
+        
+        $ProductDetail = DB::table('ProductDetail')->get();
+        
         $PlansProducts = DB::table('PlansProducts')->get();
         
         return View::make('disclosureMenu')->with('Products', $Products)
+            ->with('Details', $ProductDetail)
             ->with('PlansProducts', $PlansProducts)
             ->with('Accepted', $Accepted)
             ->with('Rejected', $Rejected)
@@ -1749,7 +1766,9 @@ class ProductsController extends BaseController
             ->orderBy('PlansProducts.Order', 'asc')
             ->get();
         
-        return exportPDF($Accepted, $Rejected, $Total, $products);
+        $productDetails = DB::table('ProductDetail')->get();
+        
+        return exportPDF($Accepted, $Rejected, $Total, $products, $productDetails);
     }
 
     public function exportPDF()
@@ -1817,6 +1836,8 @@ class ProductsController extends BaseController
                     ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                     ->orderBy ( 'PlansProducts.Order', 'asc' )
                     ->get ();
+
+    $productDetails = DB::table ( 'ProductDetail' )->get ();
 
     $Dealer = DB::table ('Dealer')
                  ->where('DealerId','=', $UserSessionInfo->DealerId)
@@ -2203,6 +2224,8 @@ class ProductsController extends BaseController
                     ->orderBy ( 'PlansProducts.Order', 'asc' )
                     ->get ();
 
+    $productDetails = DB::table ( 'ProductDetail' )->get ();
+
     $Dealer = DB::table ('Dealer')
                  ->where('DealerId','=', $UserSessionInfo->DealerId)
                  ->first();
@@ -2322,43 +2345,49 @@ class ProductsController extends BaseController
                             if(count($Premium)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Premium as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Premium))
-                                    {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$PremiumAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                                         
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $premiumPrice = str_replace('!', '', $CostPremium[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $premiumPrice ) ,2, '.', ',').'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$PremiumDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                    // if(in_array($value,$PremiumAccepted))
+                                    // {
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
-                                        }
-                                    }   
-                                    $html .= '
-                                    </td></tr>
-                                    ';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$PremiumAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-                                    $i = $i + 1;
-                                    }
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $premiumPrice = str_replace('!', '', $CostPremium[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $premiumPrice ) ,2, '.', ',').'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$PremiumDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }   
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
+                                        }
+                                    // }
+                                
+                                $i = $i + 1;
                                 }
                             }
-                         $html .= '
+                            $html .= '
                             </table></td></tr>
                          </table>
                     </td>
@@ -2369,41 +2398,46 @@ class ProductsController extends BaseController
                             if(count($Preferred)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Preferred as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Preferred))
-                                    {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$PreferredAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $preferredPrice ),2,  '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$PreferredDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                    // if(in_array($value,$PreferredAccepted))
+                                    // {
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$PreferredAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $preferredPrice ),2,  '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$PreferredDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
-                                    }
+                                    // }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '
@@ -2417,41 +2451,46 @@ class ProductsController extends BaseController
                             if(count($Economy)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Economy as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Economy))
-                                    {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$EconomyAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $economyPrice = str_replace('!', '', $CostEconomy[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $economyPrice ), 2, '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$EconomyDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                    // if(in_array($value,$EconomyAccepted))
+                                    // {
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$EconomyAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $economyPrice = str_replace('!', '', $CostEconomy[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $economyPrice ), 2, '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$EconomyDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
-                                    }
+                                    // }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '
@@ -2465,41 +2504,46 @@ class ProductsController extends BaseController
                             if(count($Basic)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Basic as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Basic))
-                                    {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$BasicAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $basicPrice = str_replace('!', '', $CostBasic[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $basicPrice ), 2, '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$BasicDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                    // if(in_array($value,$BasicAccepted))
+                                    // {
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$BasicAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $basicPrice = str_replace('!', '', $CostBasic[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $basicPrice ), 2, '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$BasicDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
-                                    }
+                                    // }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '

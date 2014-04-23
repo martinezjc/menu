@@ -536,7 +536,7 @@ namespace Automatrix.Menu.Service.Test
                 { 
                     new AutomobileRateQuoteRequest { 
                         VIN = "WBAKF3C56BE567901", 
-                        //Lender = LendingInstitution.None, 
+                        Lender = LendingInstitution.None, 
                         MarkUp = new AutomobileRateQuoteMarkup 
                         { 
                             MarkupType = RateQuoteMarkupType.ByPercent, 
@@ -585,7 +585,7 @@ namespace Automatrix.Menu.Service.Test
                     },
                     new AutomobileRateQuoteRequest { 
                         VIN = "WBAKF3C56BE567901", 
-                        //Lender = LendingInstitution.None, 
+                        Lender = LendingInstitution.None, 
                         MarkUp = new AutomobileRateQuoteMarkup 
                         { 
                             MarkupType = RateQuoteMarkupType.ByPercent, 
@@ -634,7 +634,7 @@ namespace Automatrix.Menu.Service.Test
                     },
                     new AutomobileRateQuoteRequest { 
                         VIN = "WBAKF3C56BE567901", 
-                        //Lender = LendingInstitution.None, 
+                        Lender = LendingInstitution.None, 
                         MarkUp = new AutomobileRateQuoteMarkup 
                         { 
                             MarkupType = RateQuoteMarkupType.ByPercent, 
@@ -683,7 +683,7 @@ namespace Automatrix.Menu.Service.Test
                     },
                     new AutomobileRateQuoteRequest { 
                         VIN = "WBAKF3C56BE567901", 
-                        //Lender = LendingInstitution.None, 
+                        Lender = LendingInstitution.None, 
                         MarkUp = new AutomobileRateQuoteMarkup 
                         { 
                             MarkupType = RateQuoteMarkupType.ByPercent, 
