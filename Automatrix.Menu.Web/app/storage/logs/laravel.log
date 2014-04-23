@@ -11346,3 +11346,73 @@ Stack trace:
 #20 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #21 C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #22 {main} [] []
+[2014-04-22 21:36:00] production.ERROR: exception 'ErrorException' with message 'Undefined index: product21' in E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:2785
+Stack trace:
+#0 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php(2785): Illuminate\Exception\Handler->handleError(8, 'Undefined index...', 'E:\AUTODMS\Auto...', 2785, Array)
+#1 [internal function]: ProductsController->CreatePDFForms()
+#2 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(194): call_user_func_array(Array, Array)
+#3 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('CreatePDFForms', Array)
+#4 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ProductsController), Object(Illuminate\Routing\Route), 'CreatePDFForms')
+#5 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'ProductsControl...', 'CreatePDFForms')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Route.php(105): call_user_func_array(Object(Closure), Array)
+#8 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
+#19 {main} [] []
+[2014-04-22 21:52:53] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Unsupported operand types' in E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:250
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-23 14:34:36] production.ERROR: exception 'ErrorException' with message 'Trying to get property of non-object' in E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:2493
+Stack trace:
+#0 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php(2493): Illuminate\Exception\Handler->handleError(8, 'Trying to get p...', 'E:\AUTODMS\Auto...', 2493, Array)
+#1 [internal function]: ProductsController->printMenuPdf()
+#2 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(194): call_user_func_array(Array, Array)
+#3 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('printMenuPdf', Array)
+#4 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ProductsController), Object(Illuminate\Routing\Route), 'printMenuPdf')
+#5 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'ProductsControl...', 'printMenuPdf')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Route.php(105): call_user_func_array(Object(Closure), Array)
+#8 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
+#19 {main} [] []
+[2014-04-23 14:35:13] production.ERROR: exception 'ErrorException' with message 'Trying to get property of non-object' in E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:2493
+Stack trace:
+#0 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php(2493): Illuminate\Exception\Handler->handleError(8, 'Trying to get p...', 'E:\AUTODMS\Auto...', 2493, Array)
+#1 [internal function]: ProductsController->printMenuPdf()
+#2 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(194): call_user_func_array(Array, Array)
+#3 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('printMenuPdf', Array)
+#4 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ProductsController), Object(Illuminate\Routing\Route), 'printMenuPdf')
+#5 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(934): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'ProductsControl...', 'printMenuPdf')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Route.php(105): call_user_func_array(Object(Closure), Array)
+#8 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1000): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Routing\Router.php(968): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(738): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(708): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Http\FrameGuard.php(38): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Http\FrameGuard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#15 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#16 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#17 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#18 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
+#19 {main} [] []
