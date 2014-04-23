@@ -1,0 +1,2071 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.apd.protective.com/iapd/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.apd.protective.com/iapd/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides access to Protective's business functions for third party developers.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.apd.protective.com/iapd/">
+      <s:element name="GetDealerDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DealerRequest" type="tns:DealerDetailsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DealerDetailsRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerNumbers" type="tns:ArrayOfInt" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Validation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DealerNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDealerDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDealerDetailsResult" type="tns:DealerDetailsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DealerDetailsResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Dealers" type="tns:ArrayOfDealerDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealersErrors" type="tns:ArrayOfErrorMessage1" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDealerDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Dealer" nillable="true" type="tns:DealerDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DealerDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PBSAgentNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerAddress" type="tns:AddressDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerContact" type="tns:DealerContactDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerPersonnel" type="tns:DealerPersonnelDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerSalesPersons" type="tns:DealerSalesPersonDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnershipGroupCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnershipGroupDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerGroup" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerStatusCode" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerStatusDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerAccess" type="tns:DealerAccessDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerProducts" type="tns:ProtectiveProducts" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsAutomobileMPP" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="LEWUpsell" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCProductClassCodeList" type="tns:ArrayOfInt1" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerCarriers" type="tns:ArrayOfInt1" />
+          <s:element minOccurs="0" maxOccurs="1" name="DealerDetailsErrors" type="tns:ArrayOfErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AddressDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StateCode" type="tns:StateCodes" />
+          <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CountryCode" type="tns:CountryCodes" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="StateCodes">
+        <s:restriction base="s:string">
+          <s:enumeration value="AA" />
+          <s:enumeration value="AB" />
+          <s:enumeration value="AK" />
+          <s:enumeration value="AL" />
+          <s:enumeration value="AP" />
+          <s:enumeration value="AR" />
+          <s:enumeration value="AS" />
+          <s:enumeration value="AZ" />
+          <s:enumeration value="BC" />
+          <s:enumeration value="CA" />
+          <s:enumeration value="CO" />
+          <s:enumeration value="CT" />
+          <s:enumeration value="DA" />
+          <s:enumeration value="DC" />
+          <s:enumeration value="DE" />
+          <s:enumeration value="FL" />
+          <s:enumeration value="GA" />
+          <s:enumeration value="GN" />
+          <s:enumeration value="GR" />
+          <s:enumeration value="GU" />
+          <s:enumeration value="HI" />
+          <s:enumeration value="IA" />
+          <s:enumeration value="ID" />
+          <s:enumeration value="IL" />
+          <s:enumeration value="IN" />
+          <s:enumeration value="KS" />
+          <s:enumeration value="KY" />
+          <s:enumeration value="LA" />
+          <s:enumeration value="MA" />
+          <s:enumeration value="MB" />
+          <s:enumeration value="MD" />
+          <s:enumeration value="ME" />
+          <s:enumeration value="MG" />
+          <s:enumeration value="MI" />
+          <s:enumeration value="MN" />
+          <s:enumeration value="MO" />
+          <s:enumeration value="MS" />
+          <s:enumeration value="MT" />
+          <s:enumeration value="MX" />
+          <s:enumeration value="NB" />
+          <s:enumeration value="NC" />
+          <s:enumeration value="ND" />
+          <s:enumeration value="NE" />
+          <s:enumeration value="NH" />
+          <s:enumeration value="NI" />
+          <s:enumeration value="NJ" />
+          <s:enumeration value="NL" />
+          <s:enumeration value="NM" />
+          <s:enumeration value="NS" />
+          <s:enumeration value="NU" />
+          <s:enumeration value="NV" />
+          <s:enumeration value="NY" />
+          <s:enumeration value="OH" />
+          <s:enumeration value="OK" />
+          <s:enumeration value="ON" />
+          <s:enumeration value="OR" />
+          <s:enumeration value="PA" />
+          <s:enumeration value="PE" />
+          <s:enumeration value="PR" />
+          <s:enumeration value="QC" />
+          <s:enumeration value="QU" />
+          <s:enumeration value="RI" />
+          <s:enumeration value="SC" />
+          <s:enumeration value="SD" />
+          <s:enumeration value="SH" />
+          <s:enumeration value="SK" />
+          <s:enumeration value="ST" />
+          <s:enumeration value="TL" />
+          <s:enumeration value="TN" />
+          <s:enumeration value="TO" />
+          <s:enumeration value="TT" />
+          <s:enumeration value="TX" />
+          <s:enumeration value="UT" />
+          <s:enumeration value="VA" />
+          <s:enumeration value="VI" />
+          <s:enumeration value="VT" />
+          <s:enumeration value="WA" />
+          <s:enumeration value="WI" />
+          <s:enumeration value="WO" />
+          <s:enumeration value="WT" />
+          <s:enumeration value="WV" />
+          <s:enumeration value="WY" />
+          <s:enumeration value="YT" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CountryCodes">
+        <s:restriction base="s:string">
+          <s:enumeration value="UnitedStatesOfAmerica" />
+          <s:enumeration value="Mexico" />
+          <s:enumeration value="Canada" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="DealerContactDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Contact" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PhoneNumber" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="FaxNumber" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WebAddress" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DealerPersonnelDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Principal" type="tns:FullName" />
+          <s:element minOccurs="0" maxOccurs="1" name="FIManager" type="tns:FullName" />
+          <s:element minOccurs="0" maxOccurs="1" name="OfficeManager" type="tns:PartialName" />
+          <s:element minOccurs="0" maxOccurs="1" name="SalesManager" type="tns:PartialName" />
+          <s:element minOccurs="0" maxOccurs="1" name="Correspondent" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FullName">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleInitial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PartialName">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DealerSalesPersonDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Agent" type="tns:SalesPersonSummary" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServicingAgent" type="tns:SalesPersonSummary" />
+          <s:element minOccurs="0" maxOccurs="1" name="RegionalSalesManager" type="tns:SalesPersonSummary" />
+          <s:element minOccurs="0" maxOccurs="1" name="RegionalVicePresident" type="tns:SalesPersonSummary" />
+          <s:element minOccurs="0" maxOccurs="1" name="DivisionalVicePresident" type="tns:SalesPersonSummary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Consultant" type="tns:SalesPersonSummary" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SalesPersonSummary">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SalesPersonNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SalesPersonName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SalesPersonType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SalesPersonDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DealerAccessDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RateQuoteAccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractEntryAccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="CancelQuoteAccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowRateQuoteMarkUp" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="WebAccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EspressoAccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EspressoAccessDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="MigrationDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="CutOffDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="NetInvoiceDealer" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MenuBasicServices" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MenuFactoryRates" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MenuDMSIntegration" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MenuReporting" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProtectiveProducts">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SellsAutomobileVSC" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsSignature" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsAutomobileTSP" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsAutomobileGAP" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsPowersportsGAP" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductDetails" type="tns:ArrayOfProtectiveProductDetails" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsAutomobileMPP" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsRV" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsTT" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsMarine" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsPowerSports" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SellsIndy" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfProtectiveProductDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ProductDetail" nillable="true" type="tns:ProtectiveProductDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProtectiveProductDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProductClass" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BatchNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BulkUploadBatchNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateMethod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CategoryCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Prefixes" type="tns:ArrayOfProtectivePrefixDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="Coverages" type="tns:ArrayOfProtectiveCoverageDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfProtectivePrefixDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Prefix" nillable="true" type="tns:ProtectivePrefixDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProtectivePrefixDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefixName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Carrier" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ValidNewGAP" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfProtectiveCoverageDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Coverage" nillable="true" type="tns:ProtectiveCoverageDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProtectiveCoverageDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageCodeName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageTypeDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageSortOrder" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfInt1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DealerDetailsError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ErrorMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DealersError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMarineRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RateRequest" type="tns:RateQuoteRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileRateQuoteRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="RVs" type="tns:ArrayOfRVRateQuoteRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="Marines" type="tns:ArrayOfMarineRateQuoteRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="Powersports" type="tns:ArrayOfPowersportsRateQuoteRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileRateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileRateQuoteRequest" nillable="true" type="tns:AutomobileRateQuoteRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuoteRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="GAPRateOptions" type="tns:AutomobileRateQuoteGAP" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:AutomobileVehicleDetails" />
+              <s:element minOccurs="0" maxOccurs="1" name="MarkUp" type="tns:AutomobileRateQuoteMarkup" />
+              <s:element minOccurs="0" maxOccurs="1" name="VSCRateOptions" type="tns:AutomobileRateQuoteVSC" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseRateQuoteRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Lender" type="tns:LendingInstitution" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="LendingInstitution">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Other" />
+          <s:enumeration value="Toyota" />
+          <s:enumeration value="Ford" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="PowersportsRateQuoteRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseRateQuoteRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Markup" type="tns:PowersportsRateQuoteMarkup" />
+              <s:element minOccurs="0" maxOccurs="1" name="TWMarkup" type="tns:PowersportsRateQuoteMarkup" />
+              <s:element minOccurs="0" maxOccurs="1" name="TrailerMarkup" type="tns:PowersportsRateQuoteMarkup" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:PowersportsVehicleDetails" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PowersportsRateQuoteMarkup">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteMarkup">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:RateQuoteMarkupType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteMarkup">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MarkupType" type="tns:RateQuoteMarkupType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RateQuoteMarkupType">
+        <s:restriction base="s:string">
+          <s:enumeration value="ByPercent" />
+          <s:enumeration value="ByAmount" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="MarineRateQuoteMarkup">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteMarkup">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:RateQuoteMarkupType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuoteMarkup">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteMarkup">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:RateQuoteMarkupType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PowersportsVehicleDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PSPlanType" type="tns:PlanType" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductType" type="tns:PowersportsProductType" />
+          <s:element minOccurs="1" maxOccurs="1" name="WarrantyStartDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="FactoryWarrantyTerm" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Make" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Odometer" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="EngineUnitLabel" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineSize" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="ModelYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeABS" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeTouring" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurchargeHarley" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OPTireAndWheel" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OPTrailer" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PlanType">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="New" />
+          <s:enumeration value="PreOwned" />
+          <s:enumeration value="PostSale" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PowersportsProductType">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="OnRoadMotorCycle" />
+          <s:enumeration value="MopedScooter" />
+          <s:enumeration value="ChopperCustomVTwin" />
+          <s:enumeration value="Trike" />
+          <s:enumeration value="OffRoadMotorcycle" />
+          <s:enumeration value="ATV" />
+          <s:enumeration value="PersonalWatercraft" />
+          <s:enumeration value="SportBoat" />
+          <s:enumeration value="UTVSport" />
+          <s:enumeration value="UTVElectric" />
+          <s:enumeration value="UTV" />
+          <s:enumeration value="Snowmobile" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="MarineRateQuoteRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseRateQuoteRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Markup" type="tns:MarineRateQuoteMarkup" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccessoryMarkup" type="tns:MarineRateQuoteMarkup" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:MarineVehicleDetails" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="MarineVehicleDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="EnginePlanType" type="tns:MarineEnginePlanType" />
+          <s:element minOccurs="1" maxOccurs="1" name="WarrantyStartDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="FactoryWarrantyTerm" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfEngines" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Engine" type="tns:MarineEngine" />
+          <s:element minOccurs="1" maxOccurs="1" name="IncludeTrailerCoverage" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccessoryPacs" type="tns:ArrayOfMarineAccessoryPac" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MarineEnginePlanType">
+        <s:restriction base="s:string">
+          <s:enumeration value="New" />
+          <s:enumeration value="PreOwned" />
+          <s:enumeration value="PostSale" />
+          <s:enumeration value="RePower" />
+          <s:enumeration value="None" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="MarineEngine">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FuelType" type="tns:MarineFuelType" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineStyle" type="tns:MarineEngineStyle" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineMake" type="tns:MarineEngineMake" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineModelYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineSize" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="EngineSizeMeasurement" type="tns:MarineEngineSizeMeasurement" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MarineFuelType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Gas" />
+          <s:enumeration value="Diesel" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MarineEngineStyle">
+        <s:restriction base="s:string">
+          <s:enumeration value="STERN" />
+          <s:enumeration value="STERN525EFI" />
+          <s:enumeration value="STERN81POD" />
+          <s:enumeration value="INBOARD" />
+          <s:enumeration value="OUTBOARDCARB" />
+          <s:enumeration value="OUTBOARDEFI" />
+          <s:enumeration value="OUTBOARDDI" />
+          <s:enumeration value="DIESEL" />
+          <s:enumeration value="DIESELPOD" />
+          <s:enumeration value="JETSPORT" />
+          <s:enumeration value="JETPWC" />
+          <s:enumeration value="NONE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MarineEngineMake">
+        <s:restriction base="s:string">
+          <s:enumeration value="Mercruiser" />
+          <s:enumeration value="OMC" />
+          <s:enumeration value="Volvo" />
+          <s:enumeration value="Crusader" />
+          <s:enumeration value="Indmar" />
+          <s:enumeration value="Kem" />
+          <s:enumeration value="Kodiak" />
+          <s:enumeration value="MarinePower" />
+          <s:enumeration value="PleasureCraft" />
+          <s:enumeration value="Evinrude" />
+          <s:enumeration value="Force" />
+          <s:enumeration value="Honda" />
+          <s:enumeration value="Johnson" />
+          <s:enumeration value="Mariner" />
+          <s:enumeration value="Mercury" />
+          <s:enumeration value="Nissan" />
+          <s:enumeration value="Suzuki" />
+          <s:enumeration value="Tohatsu" />
+          <s:enumeration value="Yamaha" />
+          <s:enumeration value="Caterpillar" />
+          <s:enumeration value="Cummins" />
+          <s:enumeration value="Detroit" />
+          <s:enumeration value="Mann" />
+          <s:enumeration value="Yanmar" />
+          <s:enumeration value="BRP" />
+          <s:enumeration value="Kawasaki" />
+          <s:enumeration value="MercurySportJet" />
+          <s:enumeration value="SeaDoo" />
+          <s:enumeration value="None" />
+          <s:enumeration value="Ilmor" />
+          <s:enumeration value="BOMBARDIER" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MarineEngineSizeMeasurement">
+        <s:restriction base="s:string">
+          <s:enumeration value="HP" />
+          <s:enumeration value="Liters" />
+          <s:enumeration value="CC" />
+          <s:enumeration value="NONE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfMarineAccessoryPac">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarineAccessoryPac" type="tns:MarineAccessoryPac" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MarineAccessoryPac">
+        <s:restriction base="s:string">
+          <s:enumeration value="CruiserFishingPac" />
+          <s:enumeration value="CruiserPac" />
+          <s:enumeration value="CruiserPacPlus" />
+          <s:enumeration value="NavigationPac" />
+          <s:enumeration value="PontoonPac" />
+          <s:enumeration value="RunaboutPac" />
+          <s:enumeration value="SailorsChoicePac" />
+          <s:enumeration value="SkiBoatPac" />
+          <s:enumeration value="TrophyFishingPac" />
+          <s:enumeration value="YachtmasterPac" />
+          <s:enumeration value="TireAndWheelPac" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RVRateQuoteRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:RVVehicleDetails" />
+              <s:element minOccurs="0" maxOccurs="1" name="VSCRateOptions" type="tns:RVRateQuoteVSC" />
+              <s:element minOccurs="0" maxOccurs="1" name="MarkUp" type="tns:VehicleRateQuoteMarkup" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProductType" type="tns:RVProductType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RVVehicleDetails">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleDetails">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ChassisYear" type="s:unsignedInt" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChassisModel" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChassisMake" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LienHolder" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LienHolderAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LienHolderCity" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LienHolderState" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LienHolderZip" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TTVehicleType" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="InServiceDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PurchasePrice" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="VehicleYear" type="s:unsignedInt" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleModel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleModelOther" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleMake" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfCylinders" type="s:unsignedInt" />
+          <s:element minOccurs="1" maxOccurs="1" name="Diesel" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="RearEngineDiesel" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Turbo" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FourByFour" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleMakeAbbreviation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleModelAbbreviation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleSeries" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleSeriesAbbreviation" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehicleMsrp" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileVehicleDetails">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleDetails">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleClassCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Electric" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ValidVIN" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RVRateQuoteVSC">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteVSC">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Surcharges" type="tns:RVRateQuoteSurcharges" />
+              <s:element minOccurs="1" maxOccurs="1" name="VehiclePlan" type="tns:VehiclePlans" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteVSC">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="InServiceDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginningOdometer" type="s:unsignedInt" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuoteVSC">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteVSC">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="VehiclePlan" type="tns:VehiclePlans" />
+              <s:element minOccurs="0" maxOccurs="1" name="Surcharges" type="tns:AutomobileRateQuoteSurcharges" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="VehiclePlans">
+        <s:restriction base="s:string">
+          <s:enumeration value="New" />
+          <s:enumeration value="PreOwned" />
+          <s:enumeration value="ExtendedEligibilityProgram" />
+          <s:enumeration value="Unknown" />
+          <s:enumeration value="BestAvailablePlan" />
+          <s:enumeration value="PostSale" />
+          <s:enumeration value="Rental" />
+          <s:enumeration value="Renewal" />
+          <s:enumeration value="ThreeMonthTerm" />
+          <s:enumeration value="VehiclesWithoutCoachManufacturersWarranty" />
+          <s:enumeration value="VehiclesWith6monthManufacturersWarranty" />
+          <s:enumeration value="WrapNew" />
+          <s:enumeration value="WrapOemCpo" />
+          <s:enumeration value="WrapPreOwned" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AutomobileRateQuoteSurcharges">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteSurcharges">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ConversionPackage" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ConversionVAN" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ElectronicsPackage" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="GPS" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="MobilityEquipment" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="SealsGaskets" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="VideoPackage" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DualWheel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="KiaElligibility" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Kia100000" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LimitedLiability75k" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EngineSize" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKit" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKit100" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKit200" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKit4Inch" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKit6Inch" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EntertainmentPackage" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PaintlessDentRemoval" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="WindShield" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommercialUse" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PowerSteps" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="OneTon" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="TireWheel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Turbo" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Diesel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="FourByFour" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="FourWheelSteering" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LEWUpsell" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="TenCylinder" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="TwelveCylinder" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Hybrid" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="FourWDTurbo" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ACSystem" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="LiftKitTireWheel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="SnowPlow" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteSurcharges">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="BusinessUse" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVRateQuoteSurcharges">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteSurcharges">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="DeluxeComponents" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="AudioVisual" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Levelling" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="SlideOut" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="RearDiesel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="FrontDiesel" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommercialUse" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Monaco" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="TwoYearMfg" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ThreeYearMfg" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ExtendedEligibility" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ConsequentialFailure" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="SixMonths" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="RVProductType">
+        <s:restriction base="s:string">
+          <s:enumeration value="MH" />
+          <s:enumeration value="TT" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AutomobileRateQuoteGAP">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteGap" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteGap">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AmountMSRP" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AmountFinanced" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinancingType" type="tns:FinancingType" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehiclePurchasePrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginningOdometer" type="s:unsignedInt" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="FinancingType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Unknown" />
+          <s:enumeration value="Purchase" />
+          <s:enumeration value="Lease" />
+          <s:enumeration value="Balloon" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfRVRateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RVRateQuoteRequest" nillable="true" type="tns:RVRateQuoteRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMarineRateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarineRateQuoteRequest" nillable="true" type="tns:MarineRateQuoteRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPowersportsRateQuoteRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PowersportsRateQuoteRequest" nillable="true" type="tns:PowersportsRateQuoteRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMarineRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMarineRatesResult" type="tns:RateQuoteResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileRateQuoteResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="Marines" type="tns:ArrayOfMarineRateQuoteResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="Powersports" type="tns:ArrayOfPowersportsRateQuoteResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateQuoteErrors" type="tns:ArrayOfErrorMessage6" />
+          <s:element minOccurs="0" maxOccurs="1" name="RVs" type="tns:ArrayOfRVRateQuoteResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileRateQuoteResponse" nillable="true" type="tns:AutomobileRateQuoteResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuoteResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteResponse">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="GAPRateOptions" type="tns:AutomobileRateQuoteGAP" />
+              <s:element minOccurs="0" maxOccurs="1" name="AutomobileRateQuotes" type="tns:AutomobileRateQuotes" />
+              <s:element minOccurs="0" maxOccurs="1" name="AutomobileErrors" type="tns:ArrayOfErrorMessage2" />
+              <s:element minOccurs="0" maxOccurs="1" name="VSCRateOptions" type="tns:AutomobileRateQuoteVSC" />
+              <s:element minOccurs="0" maxOccurs="1" name="MarkUp" type="tns:AutomobileRateQuoteMarkup" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:AutomobileVehicleDetails" />
+              <s:element minOccurs="0" maxOccurs="1" name="RateQuoteNumbers" type="tns:RateQuoteNumbers" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="EffectiveDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVRateQuoteResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteResponse">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:RVVehicleDetails" />
+              <s:element minOccurs="0" maxOccurs="1" name="VSCRateOptions" type="tns:RVRateQuoteVSC" />
+              <s:element minOccurs="0" maxOccurs="1" name="RVErrors" type="tns:ArrayOfErrorMessage7" />
+              <s:element minOccurs="0" maxOccurs="1" name="RateQuoteNumbers" type="tns:RateQuoteNumbers" />
+              <s:element minOccurs="0" maxOccurs="1" name="RVRateQuotes" type="tns:RVRateQuotes" />
+              <s:element minOccurs="0" maxOccurs="1" name="RateQuoteErrors" type="tns:ArrayOfErrorMessage6" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage7">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ErrorMessage" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RateQuoteNumbers">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RateQuoteNumber" type="tns:RateQuoteNumber" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RateQuoteNumber">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RateNumber" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductClass" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="EffectiveDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="COID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Type" type="tns:RateType" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateNumberErrors" type="tns:ArrayOfErrorMessage3" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RateType">
+        <s:restriction base="s:string">
+          <s:enumeration value="VSC" />
+          <s:enumeration value="VSC_Wrap" />
+          <s:enumeration value="AutoXtra" />
+          <s:enumeration value="GAP" />
+          <s:enumeration value="New_GAP_Under_12_Precent" />
+          <s:enumeration value="New_GAP_Over_12_Precent" />
+          <s:enumeration value="RV" />
+          <s:enumeration value="TravelTrailer" />
+          <s:enumeration value="Marine" />
+          <s:enumeration value="Limited" />
+          <s:enumeration value="Powersports" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfErrorMessage3">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RateNumberError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVRateQuotes">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuotes">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="RVRateQuote" type="tns:ArrayOfRVRateQuote" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuotes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RateQuote" type="tns:ArrayOfVehicleRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfVehicleRateQuote">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="VehicleRateQuote" nillable="true" type="tns:VehicleRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="VehicleRateQuote">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProductClass" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductClassCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Coverage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageTermMonths" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageTermMinMonths" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageTermMiles" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageSortOrder" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Deductible" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerCost" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="RetailPrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractFormID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RateNumber" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVRateQuote">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuote">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProductType" type="tns:RVProductType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PowersportsRateQuote">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuote" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="MarineRateQuote">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuote" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuote">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuote">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="DisappearingDeductible" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProductType" type="tns:AutomobileProductType" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleClassCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="AutomobileProductType">
+        <s:restriction base="s:string">
+          <s:enumeration value="VSC" />
+          <s:enumeration value="GAP" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfRVRateQuote">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RVRateQuote" nillable="true" type="tns:RVRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage6">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RateQuoteError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PowersportsRateQuoteResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VehicleRateQuoteResponse">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="PowersportsRateQuotes" type="tns:PowersportsRateQuotes" />
+              <s:element minOccurs="0" maxOccurs="1" name="PowersportsErrors" type="tns:ArrayOfErrorMessage5" />
+              <s:element minOccurs="0" maxOccurs="1" name="RateQuoteNumbers" type="tns:RateQuoteNumbers" />
+              <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:PowersportsVehicleDetails" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PowersportsRateQuotes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PowersportsRateQuote" type="tns:PowersportsRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage5">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PowersportsError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileRateQuotes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileRateQuote" type="tns:AutomobileRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMarineRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarineRateQuoteResponse" nillable="true" type="tns:MarineRateQuoteResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MarineRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MarineRateQuotes" type="tns:MarineRateQuotes" />
+          <s:element minOccurs="0" maxOccurs="1" name="MarineErrors" type="tns:ArrayOfErrorMessage4" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateQuoteNumbers" type="tns:RateQuoteNumbers" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:MarineVehicleDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MarineRateQuotes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarineRateQuote" type="tns:MarineRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage4">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarineError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPowersportsRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PowersportsRateQuoteResponse" nillable="true" type="tns:PowersportsRateQuoteResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRVRateQuoteResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RVRateQuoteResponse" nillable="true" type="tns:RVRateQuoteResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPowersportsRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RateRequest" type="tns:RateQuoteRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPowersportsRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPowersportsRatesResult" type="tns:RateQuoteResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RateRequest" type="tns:RateQuoteRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRatesResult" type="tns:RateQuoteResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContractNumbers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NumbersRequest" type="tns:ContractNumbersRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractNumbersRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractNumberRequests" type="tns:ArrayOfContractNumberRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfContractNumberRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractNumberRequest" nillable="true" type="tns:ContractNumberRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContractNumberRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContractNumbersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContractNumbersResult" type="tns:ContractNumbersResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractNumbersResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractNumberResponses" type="tns:ArrayOfContractNumberResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractNumbersErrors" type="tns:ArrayOfErrorMessage8" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfContractNumberResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractNumberResponse" nillable="true" type="tns:ContractNumberResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContractNumberResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractNumber" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage8">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractNumbersError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContractForms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="contractFormsRequest" type="tns:ContractFormsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractFormsRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileContractFormsRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileContractFormsRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileContractFormsRequest" nillable="true" type="tns:AutomobileContractFormsRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractFormsRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Purchaser" type="tns:ContractPurchaser" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lienholder" type="tns:Lienholder" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContract" type="tns:AutomobileContractEntryVSC" />
+          <s:element minOccurs="0" maxOccurs="1" name="GAPContract" type="tns:AutomobileContractEntryGAP" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ContractPurchaser">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FirstPurchaser" type="tns:FullName" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondPurchaser" type="tns:FullName" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:AddressDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerPhoneNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerEmail" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Lienholder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:AddressDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractEntryVSC">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContractDetails" type="tns:AutomobileContractDetails" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehiclePlan" type="tns:VehiclePlans" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginningOdometer" type="s:unsignedInt" />
+          <s:element minOccurs="1" maxOccurs="1" name="InServiceDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehiclePurchasePrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractSalesTax" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinancingType" type="tns:FinancingType" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surcharges" type="tns:AutomobileRateQuoteSurcharges" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractNumber" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="EffectiveDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="PurchaseDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateQuote" type="tns:AutomobileRateQuote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractEntryGAP">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="GAPContractDetails" type="tns:AutomobileContractDetails" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinancingType" type="tns:FinancingType" />
+          <s:element minOccurs="1" maxOccurs="1" name="AmountFinanced" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="APR" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AmountMSRP" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginningOdometer" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DownPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="InsuranceDeductible" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContractFormsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContractFormsResult" type="tns:ContractFormsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractFormsResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileContractFormsResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileContractFormsResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileContractFormsResponse" nillable="true" type="tns:AutomobileContractFormsResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractFormsResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:AutomobileContractEntryResponse" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AutomobileContractEntryResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:AutomobileVehicleDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="Purchaser" type="tns:ContractPurchaser" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContract" type="tns:AutomobileContractEntryVSC" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCAcknowledgement" type="tns:AutomobileContractEntryAcknowledgement" />
+          <s:element minOccurs="0" maxOccurs="1" name="GAPContract" type="tns:AutomobileContractEntryGAP" />
+          <s:element minOccurs="0" maxOccurs="1" name="GAPAcknowledgement" type="tns:AutomobileContractEntryAcknowledgement" />
+          <s:element minOccurs="0" maxOccurs="1" name="AutomobileErrors" type="tns:ArrayOfErrorMessage2" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AutomobileContractEntryAcknowledgement">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Contract" type="tns:ContractIdentity" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractErrors" type="tns:ArrayOfErrorMessage9" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormPDF" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="BatchNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SignatureCoordinates" type="tns:DocumentSignatureCoordinates" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContractIdentity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractNumber" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractSequence" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractQualifier" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage9">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DocumentSignatureCoordinates">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TopRightX" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="TopRightY" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="BottomLeftX" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="BottomLeftY" type="s:float" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SubmitContracts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractRequest" type="tns:ContractEntryRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractEntryRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileContractEntryRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="RVs" type="tns:ArrayOfRVContractEntryRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileContractEntryRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileContractEntryRequest" nillable="true" type="tns:AutomobileContractEntryRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AutomobileContractEntryRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Purchaser" type="tns:ContractPurchaser" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lienholder" type="tns:Lienholder" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContract" type="tns:AutomobileContractEntryVSC" />
+          <s:element minOccurs="0" maxOccurs="1" name="GAPContract" type="tns:AutomobileContractEntryGAP" />
+          <s:element minOccurs="1" maxOccurs="1" name="SaveWithoutRating" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProvideFormsWithResponse" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="FinanceInfo" type="tns:ContractZeroPercentFinanceInfo" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ContractZeroPercentFinanceInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AmountFinanced" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinancedFee" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="DownPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfPayments" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MonthlyPaymentAmount" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="FinanceCompany" type="tns:FinanceCompanyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FinanceCompanyType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FinanceCompany" type="tns:FinanceCompanys" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="FinanceCompanys">
+        <s:restriction base="s:string">
+          <s:enumeration value="SPP" />
+          <s:enumeration value="MepCo" />
+          <s:enumeration value="TouchPoint" />
+          <s:enumeration value="None" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfRVContractEntryRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RVContractEntryRequest" nillable="true" type="tns:RVContractEntryRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVContractEntryRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Purchaser" type="tns:ContractPurchaser" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContract" type="tns:RVContractEntryVSC" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:RVVehicleDetails" />
+          <s:element minOccurs="1" maxOccurs="1" name="SaveWithoutRating" type="s:boolean" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RVContractEntryVSC">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContractDetails" type="tns:RVContractDetails" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehiclePlan" type="tns:VehiclePlans" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginningOdometer" type="s:unsignedInt" />
+          <s:element minOccurs="1" maxOccurs="1" name="InServiceDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehiclePurchasePrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinancingType" type="tns:FinancingType" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surcharges" type="tns:RVRateQuoteSurcharges" />
+          <s:element minOccurs="0" maxOccurs="1" name="XtraPointsUser" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVContractDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContractNumber" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="EffectiveDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="PurchaseDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateQuote" type="tns:RVRateQuote" />
+          <s:element minOccurs="0" maxOccurs="1" name="LienHolder" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SubmitContractsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubmitContractsResult" type="tns:ContractEntryResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractEntryResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Automobiles" type="tns:ArrayOfAutomobileContractEntryResponse" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractEntryErrors" type="tns:ArrayOfErrorMessage10" />
+          <s:element minOccurs="0" maxOccurs="1" name="RVs" type="tns:ArrayOfRVContractEntryResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAutomobileContractEntryResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomobileContractEntryResponse" nillable="true" type="tns:AutomobileContractEntryResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfErrorMessage10">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractEntryError" nillable="true" type="tns:ErrorMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRVContractEntryResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RVContractEntryResponse" nillable="true" type="tns:RVContractEntryResponse" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RVContractEntryResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleDetails" type="tns:RVVehicleDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="Purchaser" type="tns:ContractPurchaser" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCContract" type="tns:RVContractEntryVSC" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSCAcknowledgement" type="tns:RVContractEntryAcknowledgement" />
+          <s:element minOccurs="0" maxOccurs="1" name="RVErrors" type="tns:ArrayOfErrorMessage2" />
+        </s:sequence>
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RVContractEntryAcknowledgement">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Contract" type="tns:ContractIdentity" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractErrors" type="tns:ArrayOfErrorMessage9" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPrintablePrefixes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="dealerNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrintablePrefixesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrintablePrefixesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRVRates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RateRequest" type="tns:RateQuoteRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRVRatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRVRatesResult" type="tns:RateQuoteResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoverageCodesForWebDisplay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DealerNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="GroupID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MAXDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MAXTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Process" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarrierNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProductClassCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MAXEffectiveDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CoID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoverageCodesForWebDisplayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCoverageCodesForWebDisplayResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelsByMake">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="make" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="dealerNumber" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelsByMakeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelsByMakeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VINDecode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VINDecodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VINResponse" nillable="true" type="tns:DecodeVINResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DecodeVINResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="AutoVehicleDetails" type="tns:AutomobileVehicleDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContractPrefixCoverageCodes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="request" type="tns:ContractPrefixCoverageRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractPrefixCoverageRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefixes" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContractPrefixCoverageCodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContractPrefixCoverageCodesResult" type="tns:ContractPrefixCoverageResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractPrefixCoverageResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefixesAndCoverages" type="tns:ArrayOfContractPrefixCoverageMap" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfContractPrefixCoverageMap">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContractPrefixCoverageMap" nillable="true" type="tns:ContractPrefixCoverageMap" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContractPrefixCoverageMap">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Coverages" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SubmitContractPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="request" type="tns:ContractSubmitFormRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractSubmitFormRequest">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractInfo" type="tns:ContractIdentity" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractPDF" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Validation" type="tns:Validation" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SubmitContractPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubmitContractPDFResult" type="tns:ContractSubmitFormResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContractSubmitFormResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DealerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContractInfo" type="tns:ContractIdentity" />
+          <s:element minOccurs="1" maxOccurs="1" name="SuccessfullyReceived" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TonyTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="variable" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TonyTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TonyTestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDealerDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDealerDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetDealerDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDealerDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMarineRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMarineRates" />
+  </wsdl:message>
+  <wsdl:message name="GetMarineRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMarineRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPowersportsRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPowersportsRates" />
+  </wsdl:message>
+  <wsdl:message name="GetPowersportsRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPowersportsRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRates" />
+  </wsdl:message>
+  <wsdl:message name="GetRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContractNumbersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContractNumbers" />
+  </wsdl:message>
+  <wsdl:message name="GetContractNumbersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContractNumbersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContractFormsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContractForms" />
+  </wsdl:message>
+  <wsdl:message name="GetContractFormsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContractFormsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubmitContractsSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitContracts" />
+  </wsdl:message>
+  <wsdl:message name="SubmitContractsSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitContractsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrintablePrefixesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrintablePrefixes" />
+  </wsdl:message>
+  <wsdl:message name="GetPrintablePrefixesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrintablePrefixesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRVRatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRVRates" />
+  </wsdl:message>
+  <wsdl:message name="GetRVRatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRVRatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCoverageCodesForWebDisplaySoapIn">
+    <wsdl:part name="parameters" element="tns:GetCoverageCodesForWebDisplay" />
+  </wsdl:message>
+  <wsdl:message name="GetCoverageCodesForWebDisplaySoapOut">
+    <wsdl:part name="parameters" element="tns:GetCoverageCodesForWebDisplayResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelsByMakeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelsByMake" />
+  </wsdl:message>
+  <wsdl:message name="GetModelsByMakeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelsByMakeResponse" />
+  </wsdl:message>
+  <wsdl:message name="VINDecodeSoapIn">
+    <wsdl:part name="parameters" element="tns:VINDecode" />
+  </wsdl:message>
+  <wsdl:message name="VINDecodeSoapOut">
+    <wsdl:part name="parameters" element="tns:VINDecodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContractPrefixCoverageCodesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContractPrefixCoverageCodes" />
+  </wsdl:message>
+  <wsdl:message name="GetContractPrefixCoverageCodesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContractPrefixCoverageCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubmitContractPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:SubmitContractPDF" />
+  </wsdl:message>
+  <wsdl:message name="SubmitContractPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:SubmitContractPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="TonyTestSoapIn">
+    <wsdl:part name="parameters" element="tns:TonyTest" />
+  </wsdl:message>
+  <wsdl:message name="TonyTestSoapOut">
+    <wsdl:part name="parameters" element="tns:TonyTestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ProtectiveServicesSoap">
+    <wsdl:operation name="GetDealerDetails">
+      <wsdl:input message="tns:GetDealerDetailsSoapIn" />
+      <wsdl:output message="tns:GetDealerDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMarineRates">
+      <wsdl:input message="tns:GetMarineRatesSoapIn" />
+      <wsdl:output message="tns:GetMarineRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPowersportsRates">
+      <wsdl:input message="tns:GetPowersportsRatesSoapIn" />
+      <wsdl:output message="tns:GetPowersportsRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRates">
+      <wsdl:input message="tns:GetRatesSoapIn" />
+      <wsdl:output message="tns:GetRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContractNumbers">
+      <wsdl:input message="tns:GetContractNumbersSoapIn" />
+      <wsdl:output message="tns:GetContractNumbersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContractForms">
+      <wsdl:input message="tns:GetContractFormsSoapIn" />
+      <wsdl:output message="tns:GetContractFormsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContracts">
+      <wsdl:input message="tns:SubmitContractsSoapIn" />
+      <wsdl:output message="tns:SubmitContractsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrintablePrefixes">
+      <wsdl:input message="tns:GetPrintablePrefixesSoapIn" />
+      <wsdl:output message="tns:GetPrintablePrefixesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRVRates">
+      <wsdl:input message="tns:GetRVRatesSoapIn" />
+      <wsdl:output message="tns:GetRVRatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCoverageCodesForWebDisplay">
+      <wsdl:input message="tns:GetCoverageCodesForWebDisplaySoapIn" />
+      <wsdl:output message="tns:GetCoverageCodesForWebDisplaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelsByMake">
+      <wsdl:input message="tns:GetModelsByMakeSoapIn" />
+      <wsdl:output message="tns:GetModelsByMakeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VINDecode">
+      <wsdl:input message="tns:VINDecodeSoapIn" />
+      <wsdl:output message="tns:VINDecodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContractPrefixCoverageCodes">
+      <wsdl:input message="tns:GetContractPrefixCoverageCodesSoapIn" />
+      <wsdl:output message="tns:GetContractPrefixCoverageCodesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContractPDF">
+      <wsdl:input message="tns:SubmitContractPDFSoapIn" />
+      <wsdl:output message="tns:SubmitContractPDFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TonyTest">
+      <wsdl:input message="tns:TonyTestSoapIn" />
+      <wsdl:output message="tns:TonyTestSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProtectiveServicesSoap" type="tns:ProtectiveServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDealerDetails">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetDealerDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMarineRates">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetMarineRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPowersportsRates">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetPowersportsRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRates">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractNumbers">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetContractNumbers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractForms">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetContractForms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContracts">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/SubmitContracts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrintablePrefixes">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetPrintablePrefixes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRVRates">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetRVRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCoverageCodesForWebDisplay">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetCoverageCodesForWebDisplay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelsByMake">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetModelsByMake" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VINDecode">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/VINDecode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractPrefixCoverageCodes">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/GetContractPrefixCoverageCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContractPDF">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/SubmitContractPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TonyTest">
+      <soap:operation soapAction="http://www.apd.protective.com/iapd/TonyTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProtectiveServicesSoap12" type="tns:ProtectiveServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDealerDetails">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetDealerDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMarineRates">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetMarineRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPowersportsRates">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetPowersportsRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRates">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractNumbers">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetContractNumbers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractForms">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetContractForms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContracts">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/SubmitContracts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrintablePrefixes">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetPrintablePrefixes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRVRates">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetRVRates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCoverageCodesForWebDisplay">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetCoverageCodesForWebDisplay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelsByMake">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetModelsByMake" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VINDecode">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/VINDecode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractPrefixCoverageCodes">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/GetContractPrefixCoverageCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitContractPDF">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/SubmitContractPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TonyTest">
+      <soap12:operation soapAction="http://www.apd.protective.com/iapd/TonyTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProtectiveServices">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service provides access to Protective's business functions for third party developers.</wsdl:documentation>
+    <wsdl:port name="ProtectiveServicesSoap" binding="tns:ProtectiveServicesSoap">
+      <soap:address location="http://www.ficafe.protective.com/_webservices/protectiveservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ProtectiveServicesSoap12" binding="tns:ProtectiveServicesSoap12">
+      <soap12:address location="http://www.ficafe.protective.com/_webservices/protectiveservices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

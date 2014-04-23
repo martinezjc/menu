@@ -78,6 +78,39 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.ContractEntryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.ContractFormsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.ContractNumbersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.ContractPrefixCoverageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.ContractSubmitFormResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.DealerDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.DecodeVINResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.RateQuoteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ProtectiveFormLive\Automatrix.Menu.Service.Test.ProtectiveFormLive.VINDecodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\ProtectiveFormLive\configuration91.svcinfo" />
+    <None Include="Service References\ProtectiveFormLive\configuration.svcinfo" />
+    <None Include="Service References\ProtectiveFormLive\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Service References\ProtectiveForm\Automatrix.Menu.Service.Test.ProtectiveForm.ContractEntryResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -106,7 +139,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <None Include="Service References\ProtectiveForm\protectiveservices.disco" />
+    <None Include="Service References\ProtectiveFormLive\protectiveservices.wsdl" />
     <None Include="Service References\ProtectiveForm\configuration91.svcinfo" />
     <None Include="Service References\ProtectiveForm\configuration.svcinfo" />
     <None Include="Service References\ProtectiveForm\Reference.svcmap">
@@ -238,6 +271,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ProtectiveFormLive\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\ProtectiveForm\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -289,6 +327,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ProtectiveFormLive\" />
     <WCFMetadataStorage Include="Service References\ProtectiveForm\" />
     <WCFMetadataStorage Include="Service References\RoadVantageForm\" />
     <WCFMetadataStorage Include="Service References\RoadVantageRates\" />
