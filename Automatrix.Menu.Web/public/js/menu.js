@@ -602,26 +602,27 @@ UpdatePlansArray = function(){
     $("#1 :checkbox").each(function () {
         var currentproduct = $(this)[0];
         console.dir(currentproduct);
-        premiumarray[index] = currentproduct.id;
+        //premiumarray[index] = currentproduct.id;
 
         if(currentproduct.checked)
         {
-            premiumacceptedarray[index2] = currentproduct.id;
-            index2= index2 + 1;
+            premiumacceptedarray[index] = currentproduct.id;
+            costpremiumarray[index] = currentproduct.value.replace(',','!');
+            index = index + 1;
         }
 
-        if(index<total-1)
-            preferredarray[index] = currentproduct.id;
+        // if(index<total-1)
+        //     preferredarray[index] = currentproduct.id;
 
-        if(index<total-2)
-            economyarray[index] = currentproduct.id;
+        // if(index<total-2)
+        //     economyarray[index] = currentproduct.id;
 
-        if(index<total-3)
-            basicarray[index] = currentproduct.id;
+        // if(index<total-3)
+        //     basicarray[index] = currentproduct.id;
 
-        costpremiumarray[index] = currentproduct.value.replace(',','!');
+        // costpremiumarray[index] = currentproduct.value.replace(',','!');
 
-        index =  index + 1;
+        // index =  index + 1;
     });
 
     index=0;
@@ -632,11 +633,12 @@ UpdatePlansArray = function(){
         if(currentproduct.checked)
         {
             preferredacceptedarray[index] = currentproduct.id;
+            costpreferredarray[index] = currentproduct.value.replace(',','!');
             index =  index + 1;
         }
 
-        costpreferredarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        // costpreferredarray[index2] = currentproduct.value.replace(',','!');
+        // index2 = index2 + 1 ;
     });
 
     index=0;
@@ -646,11 +648,12 @@ UpdatePlansArray = function(){
         if(currentproduct.checked)
         {
             economyacceptedarray[index] = currentproduct.id;
+            costeconomyarray[index] = currentproduct.value.replace(',','!');
             index =  index + 1;
         }
 
-        costeconomyarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        // costeconomyarray[index2] = currentproduct.value.replace(',','!');
+        //index2 = index2 + 1 ;
     });
 
     index=0;
@@ -660,11 +663,12 @@ UpdatePlansArray = function(){
         if(currentproduct.checked)
         {
             basicacceptedarray[index] = currentproduct.id;
+            costbasicarray[index] = currentproduct.value.replace(',','!');
             index =  index + 1;
         }
 
-        costbasicarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        // costbasicarray[index2] = currentproduct.value.replace(',','!');
+        // index2 = index2 + 1 ;
     });
 
 

@@ -176,7 +176,7 @@ namespace Automatrix.Menu.Service.Test
                 {
                     new AutomobileContractFormsRequest()
                     {
-                        VIN = "4T3ZA3BB3CU056910",
+                        VIN = "WBAKF3C56BE567901",
                         Purchaser = new ContractPurchaser()
                         {
                             FirstPurchaser = new FullName()
@@ -268,7 +268,7 @@ namespace Automatrix.Menu.Service.Test
                 {
                     new AutomobileContractFormsRequest()
                     {
-                        VIN = "4T3ZA3BB3CU056910",
+                        VIN = "WBAKF3C56BE567901",
                         Purchaser = new ContractPurchaser()
                         {
                             FirstPurchaser = new FullName()
@@ -417,7 +417,7 @@ namespace Automatrix.Menu.Service.Test
                 Automobiles = new AutomobileContractEntryRequest[]
                 {
                     new AutomobileContractEntryRequest{
-                    VIN = "WDDHF8HB0AA130688",
+                    VIN = "WBAKF3C56BE567901",
                     Purchaser = new ContractPurchaser()
                     {
                         FirstPurchaser = new FullName()
@@ -535,7 +535,7 @@ namespace Automatrix.Menu.Service.Test
                 Automobiles = new AutomobileRateQuoteRequest[] 
                 { 
                     new AutomobileRateQuoteRequest { 
-                        VIN = "4T3ZA3BB3CU056910", 
+                        VIN = "WBAKF3C56BE567901", 
                         //Lender = LendingInstitution.None, 
                         MarkUp = new AutomobileRateQuoteMarkup 
                         { 
@@ -546,8 +546,155 @@ namespace Automatrix.Menu.Service.Test
                         VSCRateOptions = new AutomobileRateQuoteVSC 
                         {
                             InServiceDate = DateTime.Now,
-                            BeginningOdometer = 1000,
+                            BeginningOdometer = 5000,
                             VehiclePlan = VehiclePlans.New,
+                            Surcharges = new AutomobileRateQuoteSurcharges
+                            {
+                                BusinessUse = false,
+                                ConversionPackage = false,
+                                ConversionVAN = false,
+                                ElectronicsPackage = false,
+                                GPS = false,
+                                MobilityEquipment = false,
+                                SealsGaskets = false,
+                                VideoPackage = false,
+                                DualWheel = false,
+                                KiaElligibility = false,
+                                Kia100000 = false,
+                                LimitedLiability75k = false,
+                                EngineSize = false,
+                                LiftKit = false,
+                                LiftKit100 = false,
+                                LiftKit200 = false,
+                                LiftKit4Inch = false,
+                                LiftKit6Inch = false,
+                                EntertainmentPackage = false,
+                                PaintlessDentRemoval = false,
+                                WindShield = false,
+                                CommercialUse = false,
+                                PowerSteps = false,
+                                OneTon = false,
+                                TireWheel = false,
+                                Turbo = false,
+                                Diesel = false,
+                                FourByFour = false,
+                                FourWheelSteering = false,
+                                LEWUpsell = false
+                            }
+                        }
+                    },
+                    new AutomobileRateQuoteRequest { 
+                        VIN = "WBAKF3C56BE567901", 
+                        //Lender = LendingInstitution.None, 
+                        MarkUp = new AutomobileRateQuoteMarkup 
+                        { 
+                            MarkupType = RateQuoteMarkupType.ByPercent, 
+                            Type = RateQuoteMarkupType.ByPercent, 
+                            Value = 0,
+                        },
+                        VSCRateOptions = new AutomobileRateQuoteVSC 
+                        {
+                            InServiceDate = DateTime.Now,
+                            BeginningOdometer = 5000,
+                            VehiclePlan = VehiclePlans.Renewal,
+                            Surcharges = new AutomobileRateQuoteSurcharges
+                            {
+                                BusinessUse = false,
+                                ConversionPackage = false,
+                                ConversionVAN = false,
+                                ElectronicsPackage = false,
+                                GPS = false,
+                                MobilityEquipment = false,
+                                SealsGaskets = false,
+                                VideoPackage = false,
+                                DualWheel = false,
+                                KiaElligibility = false,
+                                Kia100000 = false,
+                                LimitedLiability75k = false,
+                                EngineSize = false,
+                                LiftKit = false,
+                                LiftKit100 = false,
+                                LiftKit200 = false,
+                                LiftKit4Inch = false,
+                                LiftKit6Inch = false,
+                                EntertainmentPackage = false,
+                                PaintlessDentRemoval = false,
+                                WindShield = false,
+                                CommercialUse = false,
+                                PowerSteps = false,
+                                OneTon = false,
+                                TireWheel = false,
+                                Turbo = false,
+                                Diesel = false,
+                                FourByFour = false,
+                                FourWheelSteering = false,
+                                LEWUpsell = false
+                            }
+                        }
+                    },
+                    new AutomobileRateQuoteRequest { 
+                        VIN = "WBAKF3C56BE567901", 
+                        //Lender = LendingInstitution.None, 
+                        MarkUp = new AutomobileRateQuoteMarkup 
+                        { 
+                            MarkupType = RateQuoteMarkupType.ByPercent, 
+                            Type = RateQuoteMarkupType.ByPercent, 
+                            Value = 0,
+                        },
+                        VSCRateOptions = new AutomobileRateQuoteVSC 
+                        {
+                            InServiceDate = DateTime.Now,
+                            BeginningOdometer = 5000,
+                            VehiclePlan = VehiclePlans.ExtendedEligibilityProgram,
+                            Surcharges = new AutomobileRateQuoteSurcharges
+                            {
+                                BusinessUse = false,
+                                ConversionPackage = false,
+                                ConversionVAN = false,
+                                ElectronicsPackage = false,
+                                GPS = false,
+                                MobilityEquipment = false,
+                                SealsGaskets = false,
+                                VideoPackage = false,
+                                DualWheel = false,
+                                KiaElligibility = false,
+                                Kia100000 = false,
+                                LimitedLiability75k = false,
+                                EngineSize = false,
+                                LiftKit = false,
+                                LiftKit100 = false,
+                                LiftKit200 = false,
+                                LiftKit4Inch = false,
+                                LiftKit6Inch = false,
+                                EntertainmentPackage = false,
+                                PaintlessDentRemoval = false,
+                                WindShield = false,
+                                CommercialUse = false,
+                                PowerSteps = false,
+                                OneTon = false,
+                                TireWheel = false,
+                                Turbo = false,
+                                Diesel = false,
+                                FourByFour = false,
+                                FourWheelSteering = false,
+                                LEWUpsell = false
+                            }
+                        }
+                    },
+                    new AutomobileRateQuoteRequest { 
+                        VIN = "WBAKF3C56BE567901", 
+                        //Lender = LendingInstitution.None, 
+                        MarkUp = new AutomobileRateQuoteMarkup 
+                        { 
+                            MarkupType = RateQuoteMarkupType.ByPercent, 
+                            Type = RateQuoteMarkupType.ByPercent, 
+                            Value = 0,
+                        },
+                        VSCRateOptions = new AutomobileRateQuoteVSC 
+                        {
+                            InServiceDate = DateTime.Now,
+                            BeginningOdometer = 5000,
+                            VehiclePlan = VehiclePlans.BestAvailablePlan,
                             Surcharges = new AutomobileRateQuoteSurcharges
                             {
                                 BusinessUse = false,
@@ -602,7 +749,7 @@ namespace Automatrix.Menu.Service.Test
                 Automobiles = new AutomobileRateQuoteRequest[] 
                 { 
                     new AutomobileRateQuoteRequest { 
-                        VIN = "4T3ZA3BB3CU056910", 
+                        VIN = "WBAKF3C56BE567901", 
                         //ProductClassCode = 1,
                         ID = "",
                         //Lender = LendingInstitution.Other, 
@@ -619,6 +766,7 @@ namespace Automatrix.Menu.Service.Test
                                 BeginningOdometer = 5000,
                                 FinancingType  = FinancingType.Purchase,
                                 ContractPrefix = "401",
+                                
                                 //VehiclePurchasePrice = 15000,
                                 
                         }
