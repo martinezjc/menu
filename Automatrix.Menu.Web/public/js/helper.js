@@ -140,3 +140,9 @@ function ajaxBuilder(url, parameters, callback_function)
         }
     });
 }
+
+function setErrorClass(containerClass, element, message)
+{
+    $('#'+containerClass).addClass('has-error');
+    showErrorMessage(element, message);
+}

@@ -296,7 +296,7 @@ $("#saveModalDisclosure")
 					}
 					;
 
-					if (ProductBaseType == 'WARRANTY') {
+					if (ProductBaseType == 'WARRANTY' && $("#ModalMileage").is(':visible')) {
 						var years = TermText / 12;
 						var description = $(GlobalSectionProduct).find(
 								'.description-product').text();
@@ -398,57 +398,6 @@ $("#saveModalDisclosure")
 					$('#myModal1').modal('hide');
 				})
 
-$(".linkmodal2")
-		.click(
-				function() {
-					GlobalSectionProduct = $(this).parent().parent();
-					var Brochure = $(GlobalSectionProduct).find(
-							'.BrochureImage').val();
-					var dimension = $(GlobalSectionProduct).find(
-							'.BrochureImage').attr('name');
-					var path = $('#ImgModal2').attr('name');
-					var arrayDimension = dimension.split('-');
-					$('.videoPlayer1').attr('data', '');
-					$('.videoPlayer2').attr('src', '');
-
-					var height = parseInt(arrayDimension[0]);
-					var width = parseInt(arrayDimension[1]);
-
-					if (height < 10 || width < 10) {
-						width = 320;
-						height = 240;
-					}
-
-					if (isUrl(Brochure) == true) {
-						var url = FixURL(Brochure);
-						if (url == 0) {
-							toastr.error('Invalid URL Video', "Message");
-							return false;
-						}
-
-						$('#ImgModal2').hide();
-						$('.videoPlayer').show();
-						$('.videoPlayer').attr('height', height);
-						$('.videoPlayer').attr('width', width);
-						$('.videoPlayer1').attr('data', url);
-						$('.videoPlayer2').attr('src', url);
-					} else {
-						$('.videoPlayer').hide();
-
-						var img = path + Brochure;
-
-						if (Brochure == '') {
-							toastr.error('No brochure', "Message");
-							return false;
-						} else {
-							$('#ImgModal2').show();
-							$('#ImgModal2').attr('src', img);
-							$('#ModalContainer').attr('height', height);
-							$('#ModalContainer').attr('width', width);
-						}
-					}
-					;
-				});
 
 $("#ButtonNext").click(function() {
 	DefineId(GlobalPlanChoosed);

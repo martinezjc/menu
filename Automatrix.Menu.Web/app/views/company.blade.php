@@ -76,13 +76,13 @@ if (is_null($UserSessionInfo)) {
 	      </div>
 	      <div class="modal-body row-fluid">
 	        <div class="span6">
-	          <div class="form-group">
+	          <div id="company-name-group" class="form-group">
 	            <label for="CompanyId">Company Name</label>
 	            <input type="text" name="CompanyName" id="CompanyName" class="form-control" style="width:40%" required>
 	          </div>
-                   <div class="form-group">
+                   <div id="company-url-group" class="form-group">
                     <label for="URL">URL</label>
-                    <input type="text" name="URL" id="URL" class="form-control" style="width:40%" required>
+                    <input type="text" name="URL" id="URL" class="form-control" style="width:70%" required>
                   </div>
                   <!-- <div class="form-group">
                     <label for="Username">Username</label>
@@ -114,7 +114,7 @@ if (is_null($UserSessionInfo)) {
 	      </div>
 	      <div class="modal-body row">
 	        <div class="col-md-6">
-	          <div class="form-group">
+	          <div id="company-name-group-modified" class="form-group">
 	            <label for="CompanyId">Company Name</label>
 	            <input type="text" name="CompanyNameUpdate" id="CompanyNameUpdate" class="form-control" required>
                   </div>
@@ -126,7 +126,7 @@ if (is_null($UserSessionInfo)) {
                     <label for="PasswordUpdate">Password</label>
                     <input type="text" name="PasswordUpdate" id="PasswordUpdate" class="form-control" required> 
                   </div> -->
-                  <div class="form-group">    
+                  <div id="company-url-group-modified" class="form-group">    
                     <label for="URLUpdate">URL</label>
                     <input type="text" name="URLUpdate" id="URLUpdate" class="form-control" required>
                   </div>

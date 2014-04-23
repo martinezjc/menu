@@ -579,7 +579,7 @@ if (is_null($UserSessionInfo)) {
 						    <tr>
 							  <td><b>Vehicle Purchase Price</b></td>
 							  <td></td>
-							  <td style="width: 70%"><input type="text" name="VehiclePurchasePrice" id="VehiclePurchasePrice" class="form-control" @if ($settings)
+							  <td style="width: 70%"><input type="text" name="VehiclePurchasePrice" placeholder="Vehicle Purchase Price field from DMS webservice" id="VehiclePurchasePrice" class="form-control" @if ($settings)
 				                  @if ($settings->VehiclePurchasePrice) value="{{
 								$settings->VehiclePurchasePrice }}" @endif @endif></td>
 						    </tr>

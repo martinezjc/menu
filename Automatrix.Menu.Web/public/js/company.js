@@ -10,6 +10,26 @@ $("body").on("click", "a", function (event) {
     productIdGlobal = $(this).attr('name');
 });
 
+// Bindings
+
+$('#CompanyName').bind('keyup', function(e){
+    $('#company-name-group').hasClass('has-error') && $('#company-name-group').removeClass('has-error');
+})
+
+$('#URL').bind('keyup', function(e){
+    $('#company-url-group').hasClass('has-error') && $('#company-url-group').removeClass('has-error');
+})
+
+$('#CompanyNameUpdate').bind('keyup', function(e){
+    $('#company-name-group-modified').hasClass('has-error') && $('#company-name-group-modified').removeClass('has-error');
+})
+
+$('#URLUpdate').bind('keyup', function(e){
+    $('#company-url-group-modified').hasClass('has-error') && $('#company-url-group-modified').removeClass('has-error');
+})
+
+// End binding
+
 function validateURL(textval) {
       var urlregex = new RegExp(
             "^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
@@ -54,23 +74,20 @@ $('#companyUpdateModal').on('show.bs.modal', function () {
 
 $('#updateCompanyInfo').click(function () {
     if (!($('#CompanyNameUpdate').val())) {
-        $('#CompanyNameUpdate').focus();
-        toastr.error('Please enter a company name', "Message");
+        setErrorClass('company-name-group-modified', $('#CompanyNameUpdate'), 'Please enter a company name');
         return false;
     };
+
     if ($('#URLUpdate').val()) {
         if (!(validateURL($('#URLUpdate').val()))) {
-            $('#URLUpdate').focus();
-            toastr.error('Please enter a valid URL', "Message");
+            setErrorClass('company-url-group-modified', $('#URL'), 'Please enter a valid URL');
             return false;
-        }        
+        }
+    } else {
+        setErrorClass('company-url-group-modified', $('#URL'), 'Please provide the URL for the company');
+        return false;     
     };
     
-    if (!($('#UsernameUpdate').val()) && ($('#PasswordUpdate').val())) {
-        $('#UsernameUpdate').focus();
-        toastr.error('Please enter a Username', "Message");
-        return false;
-    };
     $.ajax({
         type: "GET",
         url: "updateCompanyInfo",
@@ -90,24 +107,25 @@ $('#updateCompanyInfo').click(function () {
     });
 });
 
+
+
 $('#saveCompanyInfo').click(function () {
+
     if (!($('#CompanyName').val())) {
-        $('#CompanyName').focus();
-        toastr.error('Please enter a company name', "Message");
+        setErrorClass('company-name-group', $('#CompanyName'), 'Please enter a company name');
         return false;
     };
+
      if ($('#URL').val()) {
         if (!(validateURL($('#URL').val()))) {
-            $('#URL').focus();
-            toastr.error('Please enter a valid URL', "Message");
+            setErrorClass('company-url-group', $('#URL'), 'Please enter a valid URL');
             return false;
-        }        
+        }
+    } else {
+        setErrorClass('company-url-group', $('#URL'), 'Please provide the URL for the company');
+        return false;    
     };
-    if (!($('#Username').val()) && ($('#Password').val())) {
-        $('#Username').focus();
-        toastr.error('Please enter a Username', "Message");
-        return false;
-    };
+
     $.ajax({
         type: "GET",
         url: "createCompany",

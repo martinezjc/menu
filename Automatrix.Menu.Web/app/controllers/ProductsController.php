@@ -456,6 +456,8 @@ class ProductsController extends BaseController
                         //echo $e;
                         $FailWebservice->flag = 1;
                     } // end catch
+                    if($product->ProductBaseId==12||$product->ProductBaseId==11||$product->ProductBaseId==2||$product->ProductBaseId==3)
+                        $product->Years=round($product->Term/12,1);
                 }// end for each
 
                 Session::put('productRates', $productRates);

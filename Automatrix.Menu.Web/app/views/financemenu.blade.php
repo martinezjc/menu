@@ -300,24 +300,53 @@ $WebService = $deal;
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
-												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												@if ( $Product->ProductBaseId == 12 )
+													@if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  / {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -461,23 +490,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -615,23 +673,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -769,23 +856,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
