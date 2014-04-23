@@ -383,7 +383,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -569,7 +569,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -753,7 +753,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -936,7 +936,7 @@ $WebService = $deal;
 
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -1098,6 +1098,9 @@ $WebService = $deal;
       <input name="DownPayment" id="HiddenDownPayment" type="hidden"/>
 
       <input name="ProtectiveVsc" id="HiddenProtectiveVsc" value="0,0,0,0" type="hidden"/>
+
+      <input name="FailureProductsRates" id="FailureProductsRates" value="{{{  json_encode($FailWebservice->failureProductRates) }}}" type="hidden">
+
       
 		<button id="ButtonNext" type="submit" class="btn btn-lg btn-primary pull-right" disabled style="padding-left:15%; padding-right:15%;margin-bottom:25px;">
 	               Next  <i class="fa fa-arrow-right"></i>
@@ -1232,7 +1235,6 @@ $WebService = $deal;
 <input type="hidden" id="ValidatePage" value="0">
 <input type="hidden" id="FailWebService" value="{{{ $FailWebservice->flag }}}" message="{{ $FailWebservice->message}}">
 <!--<input type="hidden" id="FailureProductsRates" value="{{{  json_encode(array('items' => $FailWebservice->failureProductRates), JSON_FORCE_OBJECT) }}}">-->
-<input type="hidden" id="FailureProductsRates" value="{{{  json_encode($FailWebservice->failureProductRates) }}}">
  
 
 @stop

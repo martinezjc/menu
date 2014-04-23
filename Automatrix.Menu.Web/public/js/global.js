@@ -19,8 +19,9 @@ var GlobalTaxRate;
 
 $(document).ready(function () {
     StartToastMessage();
+    DisableFailedProducts();
     
-    GlobalTaxRate = $("#dealerTaxRate").val();
+    GlobalTaxRate = $("#dealerTaxRate").val();    
 
     if (!($(document).height() > $(window).height())) {
         $('footer').removeClass('footerApp');
@@ -1108,4 +1109,15 @@ function getMonthlyPayment(financedAmount, term, apr) {
 function ApplyTaxRate(price) {
     price = price * (1 + (GlobalTaxRate / 100));
     return price;
+}
+
+// this function disable interactin with product when failed retrieve of rates
+function DisableFailedProducts () {
+    $(".messageWarning").each(function(){
+       var section = $(this).parent().parent();
+       section.find(':checkbox').attr('checked', false);
+       section.find(':checkbox').attr('disabled', true);
+       section.find('.linkmodal1').hide(); 
+       section.find('.PdfContract').hide();
+    })
 }

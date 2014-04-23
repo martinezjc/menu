@@ -90,7 +90,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                $request->Automobiles[0]->Lender = 'Other';
+                //$request->Automobiles[0]->Lender = 'Other';
                 $request->Automobiles[0]->ProductClassCode = 0;
                 
                 $request->Automobiles[0]->MarkUp = new \stdClass();

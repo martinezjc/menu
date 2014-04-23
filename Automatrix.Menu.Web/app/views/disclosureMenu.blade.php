@@ -39,11 +39,11 @@ $IntervalRejectedArray = explode(",",$rejectedInterval);
 $DescriptionAcceptedArray = explode(",",$acceptedDescription);
 $DescriptionRejectedArray = explode(",",$rejectedDescription);
 
-// print_r($Products);
+//print_r($FailureProductsRates);
 // echo "<br>";
 // print_r($MileageAcceptedArray);
 //     echo "<br>";
-//     die();
+    //die();
    
 
 if (is_null($UserSessionInfo)) {
@@ -262,14 +262,21 @@ if (is_null($UserSessionInfo)) {
                                                             
                                                   @else
                                                             <a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
-                                                            
                                                   @endif
+                                                  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>    
+                                                  
+                                                  @foreach ($FailureProductsRates as $FailureProductsRate => $pf)
+                                                    @if($pf->ProductId ==  $Product->ProductId)
+                                                    <a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf->Message }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                    @endif
+                                                  @endforeach
+                                                  <a style="padding-right:5px;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract"><i class="fa fa-file-text"></i></a>
+
                                                   <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
                                                   <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
                                                   <input type="hidden" class="UseDeductible" value="{{{ $Product->UseDeductible }}}">
                                                   <input type="hidden" class="TermValue" value="">
-                                                  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>    
-                                                  <a style="padding-right:5px;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract"><i class="fa fa-file-text"></i></a>
+                                                  
                                                                                                                    
                                         </div>  
                                                <input class="ProductSellingPrice" name="${{{ number_format($Product->SellingPrice, 2) }}}" type="text"  hidden>
@@ -339,14 +346,21 @@ if (is_null($UserSessionInfo)) {
                                                   @else
                                                             <a style="padding-right:5px;" id="modal1" class="linkmodal1 UsingWebService"data-toggle="modal" data-target="#myModal1" ><i class="fa fa-cog" title="Options"></i></a>
                                                   @endif
+
+                                                   <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>    
+                                                  
+                                                  @foreach ($FailureProductsRates as $FailureProductsRate => $pf)
+                                                    @if($pf->ProductId ==  $Product->ProductId)
+                                                    <a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf->Message }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                    @endif
+                                                  @endforeach
+
+                                                  <a style="padding-right:5px;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract"><i class="fa fa-file-text"></i></a>
+                                                  
                                                   <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
                                                   <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">
                                                   <input type="hidden" class="UseDeductible" value="{{{ $Product->UseDeductible }}}">
-                                                   
-                                                  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>  
-                                                   @if($Product->UsingWebService == 1)
-                                                            <a style="padding-right:5px;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract"><i class="fa fa-file-text"></i></a>
-                                                  @endif                                                                      
+                                                                                                                     
                                         </div>
                                                <input class="ProductSellingPrice" name="${{{ number_format($Product->SellingPrice, 2) }}}" type="text"  hidden>
                                                <input class="ProductType" name="<?php echo $TypeRejectedArray[$WebIndex]; ?>" type="text" hidden>

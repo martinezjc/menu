@@ -35,7 +35,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 			if ($request->type == 0) { // Get rates
 					$method = $this->getMethod($request);
-					$response = $this->proxy->$method ($this->getParameters($request));
+					$response = $this->proxy->$method ($this->getParameters($request)); //if ($request->product->ProductBaseId == 5 || $request->product->ProductBaseId == 2) {print_r($response);echo "<br><br>";}
 					$dat = ( array ) $response;
 					$xml = simplexml_load_string ( $dat [$method.'Result'] );
 					$json = json_encode ( $xml );
