@@ -79,7 +79,7 @@ $(document).ready(function () {
 function checkWebService(){
     var FailWebService = parseInt($('#FailWebService').val());
     if (FailWebService == 1) {
-        toastr.error('Conection refused! try again', "Message");
+        toastr.error('We were unable to get the rates for some products, try again', "Message");
     };
 }
 
