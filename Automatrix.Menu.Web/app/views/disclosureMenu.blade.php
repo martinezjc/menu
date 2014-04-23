@@ -614,11 +614,7 @@ if (is_null($UserSessionInfo)) {
           </fieldset>      
           </div>  
            <div class="col-md-6"> 
-              <div class="form-group">
-             <input type="checkbox" id="ApplyChanges" name="ApplyChanges" ><label for="checkbox" style="margin-left:2%;"> Copy to all menu columns</label>
-          </div> 
-
-          <div class="Protective">
+           <div class="Protective">
               <div class="form-group" style="margin-top:20%;">
                      <input type="checkbox" id="BusinessUse" name="protective" ><label for="checkbox" style="margin-left:2%;"> Business Use</label>
                   </div>
