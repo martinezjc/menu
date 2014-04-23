@@ -382,7 +382,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         $request->DealerNumber = $data->dealercode;
         $request->ContractNumberRequests = new \stdClass();
         $request->ContractNumberRequests->ContractNumberRequest = new \stdClass();
-       // $request->ContractNumberRequests->ContractNumberRequest->ContractPrefix = $data->productRates->ContractPrefix;
+        $request->ContractNumberRequests->ContractNumberRequest->ContractPrefix = $data->productRates->ContractPrefix;
         
         $parameters = array(
             "NumbersRequest" => $request
