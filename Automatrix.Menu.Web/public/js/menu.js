@@ -743,8 +743,11 @@ $('#saveDealSettings').click( function() {
             calculatePlans();
         } else {
             $(this).prop("checked", true);
+            if ( $(this).prop("checked", true) && $('section[id^="'+productId+'"]').is(":hidden") ) {
+                $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
+                $('section[id^="'+productId+'"]').css("opacity", "1");
+            }
             $('section[id^="'+productId+'"]').show();
-            $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
             calculatePlans();
         }
     });
