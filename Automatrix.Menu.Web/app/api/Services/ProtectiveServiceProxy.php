@@ -33,7 +33,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         try
         {
             $response = $this->proxy->$method($this->getParameters($request));
-            
+            //if ($request->product->ProductBaseId == 12) {print_r($response);echo "<br><br>";die();}
             if($request->type == 0)
             { // Get Rates
                 $dat = (array) $response;
@@ -90,7 +90,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                //$request->Automobiles[0]->Lender = 'Other';
+                $request->Automobiles[0]->Lender = 'None';
                 $request->Automobiles[0]->ProductClassCode = 0;
                 
                 $request->Automobiles[0]->MarkUp = new \stdClass();
