@@ -13,12 +13,12 @@
                             {{ HTML::image("images/logo.png", "Logo", array('width' => '90%')  ) }}                                
 	                    <h2>Menu App</h2>
 
-	                    <div id="circleG" style="display:none;">
-							<div id="circleG_1" class="circleG">
+	                    <div id="circleG">
+							<div id="circleG_1" style="display:none;" class="circleG">
 							</div>
-							<div id="circleG_2" class="circleG">
+							<div id="circleG_2" style="display:none;" class="circleG">
 							</div>
-							<div id="circleG_3" class="circleG">
+							<div id="circleG_3" style="display:none;" class="circleG">
 							</div>
 						</div>	                    
 	        	</div> 

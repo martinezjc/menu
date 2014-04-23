@@ -157,8 +157,6 @@ class ProductsController extends BaseController
             
             $products4 = $products;
             
-            $productDetail = DB::table('ProductDetail')->get();
-            
             $plansProducts = DB::table('PlansProducts')->get();
             
             // TODO: Call remote webservice to get product information
@@ -478,7 +476,6 @@ class ProductsController extends BaseController
                 ->with('Products2', $products2)
                 ->with('Products3', $products3)
                 ->with('Products4', $products4)
-                ->with('Datas', $productDetail)
                 ->with('Settings', $settings)
                 ->with('PlansProducts', $plansProducts)
                 ->with('ShowPrintButton', false)
@@ -935,10 +932,6 @@ class ProductsController extends BaseController
                 );
             }
         }
-        // }
-        /*
-         * $ProductDetail = DB::table('ProductDetail') ->where('ProductId', '=', $Product->id) ->get(); foreach( $ProductDetail as $Detail => $DetailInfo ){ $data[]['Bullets'] = $DetailInfo->BulletPoint; }
-         */
         
         return json_encode($data);
     }
@@ -1602,8 +1595,6 @@ class ProductsController extends BaseController
         
         $DeletePrices = DB::table('ProductPrice')->where('ProductId', '=', $ProductId)->delete();
         
-        $DeletedBullet = DB::table('ProductDetail')->where('ProductId', '=', $ProductId)->delete();
-        
         $DeletedProduct = DB::table('PlansProducts')->where('ProductId', '=', $ProductId)->delete();
         
         $DeletedProduct2 = DB::table('Products')->where('id', '=', $ProductId)->delete();
@@ -1677,14 +1668,9 @@ class ProductsController extends BaseController
             ->orderBy('PlansProducts.Order', 'asc')
             ->get();
         
-        // $ProductsInverted = DB::table ( 'Products' )->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )->orderBy ( 'PlansProducts.Order', 'desc' )->get ();
-        
-        $ProductDetail = DB::table('ProductDetail')->get();
-        
         $PlansProducts = DB::table('PlansProducts')->get();
         
         return View::make('disclosureMenu')->with('Products', $Products)
-            ->with('Details', $ProductDetail)
             ->with('PlansProducts', $PlansProducts)
             ->with('Accepted', $Accepted)
             ->with('Rejected', $Rejected)
@@ -1769,9 +1755,7 @@ class ProductsController extends BaseController
             ->orderBy('PlansProducts.Order', 'asc')
             ->get();
         
-        $productDetails = DB::table('ProductDetail')->get();
-        
-        return exportPDF($Accepted, $Rejected, $Total, $products, $productDetails);
+        return exportPDF($Accepted, $Rejected, $Total, $products);
     }
 
     public function exportPDF()
@@ -1839,8 +1823,6 @@ class ProductsController extends BaseController
                     ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                     ->orderBy ( 'PlansProducts.Order', 'asc' )
                     ->get ();
-
-    $productDetails = DB::table ( 'ProductDetail' )->get ();
 
     $Dealer = DB::table ('Dealer')
                  ->where('DealerId','=', $UserSessionInfo->DealerId)
@@ -2226,8 +2208,6 @@ class ProductsController extends BaseController
                     ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                     ->orderBy ( 'PlansProducts.Order', 'asc' )
                     ->get ();
-
-    $productDetails = DB::table ( 'ProductDetail' )->get ();
 
     $Dealer = DB::table ('Dealer')
                  ->where('DealerId','=', $UserSessionInfo->DealerId)

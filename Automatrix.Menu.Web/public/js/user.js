@@ -288,7 +288,10 @@ function deleteUser(id) {
 
 $('#Password').keyup(function (e) {
     if (e.keyCode == 13) {
-        $("#circleG").show();
+        //$("#circleG").show();
+        $('#circleG_1').show();
+        $('#circleG_2').show();
+        $('#circleG_3').show();
         if ($("#remeberme").prop("checked")) {
             authenticate(1);
         } else{
@@ -299,7 +302,10 @@ $('#Password').keyup(function (e) {
 });
 
 $('#loginPlan').click(function () {
-    $("#circleG").show();
+    //$("#circleG").show();
+    $('#circleG_1').show();
+    $('#circleG_2').show();
+    $('#circleG_3').show();
     if ($("#remeberme").prop("checked")) {
         authenticate(1);
     } else{
@@ -326,12 +332,18 @@ function authenticate(remeberme) {
             }
         },
         failure: function (msg) {
-            $("#circleG").hide();
+            //$("#circleG").hide();
+            $('#circleG_1').hide();
+            $('#circleG_2').hide();
+            $('#circleG_3').hide();
             toastr.error('User not found', "Message");
 
         }
     }).always(function() {
-      $("#circleG").hide();
+      //$("#circleG").hide();
+      $('#circleG_1').hide();
+      $('#circleG_2').hide();
+      $('#circleG_3').hide();
     });
 }
 
