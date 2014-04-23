@@ -454,8 +454,6 @@ class ProductsController extends BaseController
                         //echo $e;
                         $FailWebservice->flag = 1;
                     } // end catch
-                    if($product->ProductBaseId==12||$product->ProductBaseId==11||$product->ProductBaseId==2||$product->ProductBaseId==3)
-                        $product->Years=round($product->Term/12,1);
                 }// end for each
 
                 Session::put('productRates', $productRates);
@@ -1657,9 +1655,6 @@ class ProductsController extends BaseController
         $downPayment = Input::get('DownPayment');
         
         $surcharges = Input::get('ProtectiveVsc');
-
-        $FailureProductsRates = json_decode(Input::get('FailureProductsRates'));
-
         
         $Products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
             ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
@@ -1699,7 +1694,6 @@ class ProductsController extends BaseController
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
             ->with('taxRate', $taxRate)
-            ->with('FailureProductsRates', $FailureProductsRates)
             ->with('ShowMenuPrintButton', false);
     }
 
@@ -2325,20 +2319,20 @@ class ProductsController extends BaseController
                          <table class="tableCommon">
                             <tr><td class="tableheader" style="background-color:#5CB85C">Premium</td></tr>
                             <tr><td><table>';
-                            if(count($PremiumAccepted)>0)
+                            if(count($Premium)>0)
                             {
                                 $i = 0;
                                 foreach($products as $valor) 
                                 {
-                                    if(in_array($valor->id,$PremiumAccepted))
+                                    if(in_array($valor->id,$Premium))
                                     {
                                     $html .='
                                     <tr>
                                         <td style="color:#41699A">';
-                                        // if(in_array($valor->id,$PremiumAccepted))
+                                        if(in_array($valor->id,$PremiumAccepted))
                                             $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        // else
-                                            // $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
                                          
                                         $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
                                         $premiumPrice = str_replace('!', '', $CostPremium[$i]);
@@ -2372,20 +2366,20 @@ class ProductsController extends BaseController
                          <table class="tableCommon">
                         <tr><td class="tableheader" style="background-color:#3E9DD3">Preferred</td></tr>
                             <tr><td><table>';
-                            if(count($PreferredAccepted)>0)
+                            if(count($Preferred)>0)
                             {
                                 $i = 0;
                                 foreach($products as $valor) 
                                 {
-                                    if(in_array($valor->id,$PreferredAccepted))
+                                    if(in_array($valor->id,$Preferred))
                                     {
                                     $html .='
                                     <tr>
                                         <td style="color:#41699A">';
-                                        // if(in_array($valor->id,$PreferredAccepted))
+                                        if(in_array($valor->id,$PreferredAccepted))
                                             $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        // else
-                                        //     $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
                                         $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
                                         $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
@@ -2420,20 +2414,20 @@ class ProductsController extends BaseController
                          <table class="tableCommon">
                         <tr><td class="tableheader" style="background-color:#DBB333">Economy</td></tr>
                             <tr><td><table>';
-                            if(count($EconomyAccepted)>0)
+                            if(count($Economy)>0)
                             {
                                 $i = 0;
                                 foreach($products as $valor) 
                                 {
-                                    if(in_array($valor->id,$EconomyAccepted))
+                                    if(in_array($valor->id,$Economy))
                                     {
                                     $html .='
                                     <tr>
                                         <td style="color:#41699A">';
-                                        // if(in_array($valor->id,$EconomyAccepted))
+                                        if(in_array($valor->id,$EconomyAccepted))
                                             $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        // else
-                                        //     $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
                                         $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
                                         $economyPrice = str_replace('!', '', $CostEconomy[$i]);
@@ -2468,20 +2462,20 @@ class ProductsController extends BaseController
                          <table class="tableCommon">
                         <tr><td class="tableheader" style="background-color:#8F8772">Basic</td></tr>
                             <tr><td><table>';
-                            if(count($BasicAccepted)>0)
+                            if(count($Basic)>0)
                             {
                                 $i = 0;
                                 foreach($products as $valor) 
                                 {
-                                    if(in_array($valor->id,$BasicAccepted))
+                                    if(in_array($valor->id,$Basic))
                                     {
                                     $html .='
                                     <tr>
                                         <td style="color:#41699A">';
-                                        // if(in_array($valor->id,$BasicAccepted))
+                                        if(in_array($valor->id,$BasicAccepted))
                                             $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        // else
-                                        //     $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+                                        else
+                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
                                         $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
                                         $basicPrice = str_replace('!', '', $CostBasic[$i]);
@@ -3174,6 +3168,6 @@ class ProductsController extends BaseController
             $message = $name.' not allowed vehicles with more than 113999 miles';
         }
 
-        return $message; 
+        return $message;
     }
 }
