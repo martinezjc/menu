@@ -33,7 +33,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         try
         {
             $response = $this->proxy->$method($this->getParameters($request));
-            
+            //if ($request->product->ProductBaseId == 12) {print_r($response);echo "<br><br>";die();}
             if($request->type == 0)
             { // Get Rates
                 $dat = (array) $response;
@@ -90,7 +90,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                //$request->Automobiles[0]->Lender = 'Other';
+                $request->Automobiles[0]->Lender = 'None';
                 $request->Automobiles[0]->ProductClassCode = 0;
                 
                 $request->Automobiles[0]->MarkUp = new \stdClass();
@@ -382,7 +382,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         $request->DealerNumber = $data->dealercode;
         $request->ContractNumberRequests = new \stdClass();
         $request->ContractNumberRequests->ContractNumberRequest = new \stdClass();
-        $request->ContractNumberRequests->ContractNumberRequest->ContractPrefix = $data->productRates->ContractPrefix;
+       // $request->ContractNumberRequests->ContractNumberRequest->ContractPrefix = $data->productRates->ContractPrefix;
         
         $parameters = array(
             "NumbersRequest" => $request
@@ -464,6 +464,18 @@ class ProtectiveServiceProxy extends ServiceProxy
     //
     private function GetContractPrefix($CoverageCode)
     {
+
+         // Product Automobile: PREFERRED,PREFERRED WRAP,PREFERRED DOMESTIC CERTIFIED ,PREFERRED ASIAN CERTIFIED
+        if($CoverageCode == "PR08" || $CoverageCode == "WRPR08" || $CoverageCode == "PRC08" || $CoverageCode == "PRCA08" )
+        {
+            $ContractPrefix = "AD40";
+        }
+
+        // Product Automobile: ADVANTAGE; POWERTRAIN PLUS; POWERTRAIN; ADVANTAGE WRAP; POWERTRAIN PLUS HIGH MILEAGE;POWERTRAIN HIGH MILEAGE; ADVANTAGE DOMESTIC CERTIFIED; ADVANTAGE ASIAN CERTIFIED
+        if ($CoverageCode == "AD08" || $CoverageCode == "PP08" || $CoverageCode == "PT08" || $CoverageCode == "WRAD08" || $CoverageCode == "PPH08" || $CoverageCode == "PTH08"|| $CoverageCode == "ADC08" || $CoverageCode == "ADCA08" ) {
+            $ContractPrefix = "AD40";
+        }
+
         // Product Automobile: Lifetime
         if($CoverageCode == "00ENG")
         {
