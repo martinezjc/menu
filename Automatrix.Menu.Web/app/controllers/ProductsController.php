@@ -25,7 +25,7 @@ class ProductsController extends BaseController
      */
     public function get_ShowProductsViews()
     {
-        $this->deleteVarSession();
+        //$this->deleteVarSession();
         
         $URLSession = new stdClass();
         $DealerCode = '11401';
@@ -64,7 +64,7 @@ class ProductsController extends BaseController
             $EmptyDeal = 0;
             
             $deal = new Deal();
-            $BeginningOdometer = 0;
+           // $BeginningOdometer = 0;
             try
             {
                 $response = file_get_contents($settings->URL . $param);
@@ -136,7 +136,8 @@ class ProductsController extends BaseController
                 $deal->TaxRate = $taxRate;
                 
                 $EmptyDeal = 1;
-                $BeginningOdometer = $deal->BeginningOdometer;
+                //$BeginningOdometer = $deal->BeginningOdometer;
+                Session::put('WebServiceInfo', $deal);
             }
             catch (Exception $e)
             {
@@ -483,8 +484,8 @@ class ProductsController extends BaseController
             } // end if
 
 
-            $deal->BeginningOdometer = $BeginningOdometer;
-            Session::put('WebServiceInfo', $deal);
+            //$deal->BeginningOdometer = $BeginningOdometer;
+            //Session::put('WebServiceInfo', $deal);
             
             $FailWebservice->failMatchingRate = $arrayProductsMatchingRateFail; 
 
