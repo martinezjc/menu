@@ -270,7 +270,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     //Ramin indico que el SalesPrice seria el campo a enviar aca
                     $request->Automobiles[0]->VSCContract->VehiclePurchasePrice = $data->deal->SalesPrice; // 20000;                    
                     $request->Automobiles[0]->VSCContract->FinancingType = 'Purchase';
-                    $request->Automobiles[0]->VSCContract->ContractSalesTax = 0;
+                    $request->Automobiles[0]->VSCContract->ContractSalesTax =  $data->deal->TaxRate;
                     
                     $request->Automobiles[0]->VSCContract->Surcharges = new \stdClass();
                     $request->Automobiles[0]->VSCContract->Surcharges->BusinessUse = $data->productOptions->surcharges[0];
@@ -318,7 +318,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 {
                     $request->Automobiles[0]->GAPContract = new \stdClass();
                     $request->Automobiles[0]->GAPContract->AmountFinanced = $data->deal->NewFinancedAmount;
-                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->NewFinancedAmount;
+                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->SalesPrice;
                     $request->Automobiles[0]->GAPContract->APR = $data->deal->NewAPR;
                     $request->Automobiles[0]->GAPContract->BeginningOdometer = $data->deal->BeginningOdometer;
                     $request->Automobiles[0]->GAPContract->DownPayment = $data->deal->NewDownPayment;
@@ -428,6 +428,10 @@ class ProtectiveServiceProxy extends ServiceProxy
             $data->deal->ZipCode = 12345;
         }
         
+        // if product dont use tax rate in settings, delete.
+        if ($data->product->IsTaxable == 0) {
+            $data->deal->TaxRate = 0;
+        }
         /*$fullName = explode(" ", trim($data->deal->Buyer), 2);
         $data->FirstName = $fullName[0];
         

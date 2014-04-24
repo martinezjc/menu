@@ -180,7 +180,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Customer = new \stdClass();
 			$data->Customer->FirstName = $request->deal->FirstName;
 			$data->Customer->LastName = $request->deal->LastName;
-			$data->Customer->MiddleInitial=$request->deal->MiddleName;
+			$data->Customer->MiddleInitial= substr($request->deal->MiddleName, 0, 1); // Only send the intials middlename
 			$data->Customer->Email = $request->deal->Email;
 
 			$data->Customer->Address = new \stdClass();

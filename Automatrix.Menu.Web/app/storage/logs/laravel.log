@@ -11413,3 +11413,15 @@ Stack trace:
 #17 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #18 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #19 {main} [] []
+[2014-04-24 14:46:59] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Cannot access empty property' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-24 14:48:58] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected ';'' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-24 14:49:12] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Cannot access empty property' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
