@@ -55,7 +55,7 @@
 	    <div class="modal-content">
 	        <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalLabel">Password Lookup</h4>
+	        <h4 class="modal-title" id="myModalLabel">Password Reset</h4>
 	      </div>
 	      <div class="modal-body row-fluid">
 	        <div class="span6">
@@ -65,6 +65,7 @@
 	                <input type="text" name="Email" id="Email" class="form-control" style="width:40%" placeholder="your@email.com" required>
 	              </div>
 	              <span class="help-block"><small>Enter the email address you used to sign-up.</small></span>
+	              <span id="errorMessage" style="color:#F00"></span>
 	          </div>
 	        </div>
 	      </div>

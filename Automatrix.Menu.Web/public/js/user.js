@@ -348,17 +348,42 @@ function authenticate(remeberme) {
 }
 
 $('#resetPassword').click( function(){
-    $.ajax({
-        type: "GET",
-        url: "sendMailPassword",
-        data: {
-            Email: $('#Email').val()
-        },
-        success: function (msg) {
-            toastr.success(msg + '.');
-            $('#resetPasswordModal').modal('hide');
-        },
-        failure: function (msg) {
-        }
-    });
+    var email=$('#Email').val();
+    if(email!==''){
+        $.ajax({
+            type: "GET",
+            url: "sendMailPassword",
+            data: {
+                Email: email
+            },
+            success: function (msg) {
+                var response=JSON.parse(msg);
+                if(response.Found)
+                {
+                    toastr.success(response.Message + '.');
+                    $('#resetPasswordModal').modal('hide');
+                }
+                else{
+                    $('#errorMessage').html(response.Message+ '.');
+                }
+            },
+            failure: function (msg) {
+            }
+        });
+    }
+    else
+       $('#errorMessage').html('Please enter an Email address.'); 
 });
+
+$('#Email').keypress(function(){
+    $('#errorMessage').html('');
+});
+
+$('#resetPasswordModal').on('hidden.bs.modal',function(){
+    $('#Email').val('');
+    $('#errorMessage').html('');
+});
+
+$('#changePassword').click(function(){
+    console.debug('change');
+})

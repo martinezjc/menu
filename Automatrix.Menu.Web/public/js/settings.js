@@ -692,7 +692,7 @@ $('#resetPassword').click( function(){
             Email: $('#Email').val()
         },
         success: function (msg) {
-            toastr.success(msg + '.');
+            toastr.success(msg.Message + '.');
             $('#resetPasswordModal').modal('hide');
         },
         failure: function (msg) {
