@@ -1231,7 +1231,7 @@ $WebService = $deal;
       <div  class="modal-body row">
       	<div id="ModalContainer" style="overflow:hidden;">
       		<?php 
-			$path = "/menuapp/public/uploads/brochure/ ";
+			$path = "/uploads/brochure/ ";
       			$path = rtrim($path);
       		 ?>
 			<img id="ImgModal2" src="" name="<?php echo $path; ?>" class="img-responsive img-rounded" alt="Responsive image">
