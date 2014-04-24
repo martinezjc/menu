@@ -155,9 +155,9 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->PlanCode = $request->productRates->Plan->PlanCode;
 			$data->RateBook = $request->productRates->Plan->RateBook;
 			$data->FinalCopy = true;
-			$data->NetCost = $request->productOptions->price;//$request->productRates->Rate->NetRate;
+			$data->NetCost = $request->productRates->Rate->NetRate;
 			$data->GenerateContractDocument= true;
-			$data->RetailCost = $request->productOptions->price;//$request->productRates->Rate->RetailRate;
+			$data->RetailCost = $request->productRates->Rate->RetailRate;
 			$data->ManufWarrTerm = $request->productRates->ManufactureWarranty{0}->Term;
 			$data->ManufWarrMiles = $request->productRates->ManufactureWarranty{0}->Mile;
 			$data->FirstPaymentDate = date('c');
