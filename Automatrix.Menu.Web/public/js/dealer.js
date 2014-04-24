@@ -319,11 +319,11 @@ function deleteDealer(DealerIdValue){
             if (msg==1) {
                 window.location.href = 'dealer-settings';
             } else{
-                toastr.error("Please delete user and products before","Message");
+                toastr.error("Please delete user and products before.","Message");
             };
         },
         error: function (msg) {
-            toastr.error("Please delete user before","Message");
+            toastr.error("Please delete user before.","Message");
         }
     });
 }
@@ -345,14 +345,14 @@ $('#saveCodeInfo').click( function() {
         },
         success: function (msg) {
             if (msg == 'duplicate') {
-                toastr.error("Cannot duplicate one existing configuration");
+                toastr.error("Cannot duplicate one existing configuration.");
                 return false;
             } else {
                 $('#addModal').modal('hide');
                 $('#DealerId option').eq(1).prop('selected', true);
                 $('#CompanyId option').eq(1).prop('selected', true);
                 $('#DealerCode').val("");
-                toastr.success("The setting has been saved", "Success");
+                toastr.success("The setting has been saved.", "Success");
                 window.location.href = "settings-dealercode";    
             }
         },
@@ -398,7 +398,7 @@ function updateSettingCode(AccountNumberValue){
             DealerCode: $('#DealerCodeModified').val()
         },
         success: function (msg) {
-            toastr.success("The selected setting has been updated", "Success");
+            toastr.success("The selected setting has been updated.", "Success");
             $('#ModifyModal').modal('hide');
             window.location.href = "settings-dealercode?DealerId=" + $('#DealerIdModified').val();
         },
@@ -415,7 +415,7 @@ function deleteSettingCode(AccountNumberValue){
             AccountNumber: AccountNumberValue
         },
         success: function (msg) {
-            toastr.success("The selected setting has been removed", "Success");
+            toastr.success("The selected setting has been removed.", "Success");
             window.location.href = "settings-dealercode";
         },
         failure: function (msg) {

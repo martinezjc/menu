@@ -290,19 +290,19 @@ $('#saveProduct').click(function () {
 
             if (!$('#useManualPricing').prop("checked")) {
                 if (!($('#cost').val()) || !($('#sellingPrice').val())) {
-                    toastr.error('Enter the cost and price', "Message");
+                    toastr.error('Enter the cost and price.', "Message");
                     return false;
                 } else {
                     if (isNaN($('#cost').val()) || isNaN($('#sellingPrice').val())) {
                         if (!ValidateExpression(Cost, 'Money')) {
                             $('#cost').focus();
-                            toastr.error('Invalid cost format', "Message");
+                            toastr.error('Invalid cost format.', "Message");
                             return false;
                         }
 
                         if (!ValidateExpression(SellingPrice, 'Money')) {
                             $('#sellingPrice').focus();
-                            toastr.error('Invalid selling price format', "Message");
+                            toastr.error('Invalid selling price format.', "Message");
                             return false;
                         }
                     }
@@ -353,7 +353,7 @@ $('#saveProduct').click(function () {
     IsTaxableValue = getBitFromCheckBox('#IsTaxable');
 
     if (SellingPrice < 0 && Cost < 0) {
-        toastr.error('The cost and selling price must be positive numbers', "Message");
+        toastr.error('The cost and selling price must be positive numbers.', "Message");
         return false;
     }
 
@@ -363,7 +363,7 @@ $('#saveProduct').click(function () {
         }
         else {
             $('#urlVideo').focus();
-            toastr.error('Invalid URL', "Message");
+            toastr.error('Invalid URL.', "Message");
             return false;
         }
     }
@@ -377,7 +377,7 @@ $('#saveProduct').click(function () {
     }
 
     if (emptyBullets == true) {
-        toastr.error('At least one bullet point must be specified', "Message");
+        toastr.error('At least one bullet point must be specified.', "Message");
         return false;
     }
 
@@ -427,7 +427,7 @@ $('#saveProduct').click(function () {
               if (callback == true) {
                   if ( $('#PDFSelected').val() != 'yes') {
                       $.unblockUI();
-                      toastr.success("The product has been added", "Success");
+                      toastr.success("The product has been added.", "Success");
                       setTimeout(function(){
                         window.location.href = 'settings-page';
                       },3000);
@@ -437,7 +437,7 @@ $('#saveProduct').click(function () {
         },
         failure: function (idSaved) {
             $.unblockUI();
-            toastr.error('Error, try again', "Message");
+            toastr.error('Error, try again.', "Message");
         }
     });
 });
@@ -482,24 +482,24 @@ $('#updateInfo').click(function () {
         case 'Manual':
             if (!$('#useManualPricing').prop("checked")) {
                 if (!($('#costModified').val()) || !($('#sellingPriceModified').val())) {
-                    toastr.error('Please fill the cost and price fields', "Message");
+                    toastr.error('Please fill the cost and price fields.', "Message");
                     return false;
                 }
 
                 if (SellingPrice < 0 && Cost < 0) {
-                    toastr.error('The cost and selling price must be positive numbers', "Message");
+                    toastr.error('The cost and selling price must be positive numbers.', "Message");
                     return false;
                 }
 
                 if (!ValidateExpression(Cost, 'Money')) {
                     $('#costModified').focus();
-                    toastr.error('Invalid cost format', "Message");
+                    toastr.error('Invalid cost format.', "Message");
                     return false;
                 };
 
                 if (!ValidateExpression(SellingPrice, 'Money')) {
                     $('#sellingPriceModified').focus();
-                    toastr.error('Invalid selling price format', "Message");
+                    toastr.error('Invalid selling price format.', "Message");
                     return false;
                 };
 
@@ -518,7 +518,7 @@ $('#updateInfo').click(function () {
     }
 
     if (emptyBullets == true) {
-        toastr.error('At least one bullet point must be specified', "Message");
+        toastr.error('At least one bullet point must be specified.', "Message");
         return false;
     }
 
@@ -566,7 +566,7 @@ $('#updateInfo').click(function () {
         else
         {
             $('#urlVideoModified').focus();
-            toastr.error('Invalid URL', "Message");
+            toastr.error('Invalid URL.', "Message");
 
             return false;
         }
@@ -621,7 +621,7 @@ $('#updateInfo').click(function () {
                 if (callback == true) {
                   if ( $('#PDFSelected').val() != 'yes') {
                       $.unblockUI(); 
-                      toastr.success("The product has been updated", "Success");
+                      toastr.success("The product has been updated.", "Success");
                       setTimeout(function(){
                         window.location.href = 'settings-page';
                       },3000);
@@ -654,12 +654,12 @@ $('#saveRangePricing').click( function() {
   });
 
   if (notnumber == true) {
-    toastr.error("The fields must be filled with numbers not letters", "Error");
+    toastr.error("The fields must be filled with numbers not letters.", "Error");
     return false;
   }
 
   if ( empty == true) {
-    toastr.error("Please complete all the fields", "Error");
+    toastr.error("Please complete all the fields.", "Error");
     return false;
   }
 
@@ -683,7 +683,7 @@ $('#saveRangePricing').click( function() {
             $('#RangePricingModal').modal('hide');
         },
         failure: function (msg) {
-            toastr.error(msg, "Message");
+            toastr.error(msg + '.', "Message");
         }
     });
 })
@@ -729,7 +729,7 @@ function loadCompanyProducts(companyId, typeSelected) {
             }
         },
         failure: function (msg) {
-            toastr.error('Company List could not be loaded', "Message");
+            toastr.error('Company List could not be loaded.', "Message");
         }
     });
 }
