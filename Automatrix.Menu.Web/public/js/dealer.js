@@ -284,6 +284,7 @@ $("#saveSettings").click(function () {
             LienHolderContact: $('#LienHolderContact').val(),
             TaxRate: TaxRate,
             VehiclePurchasePrice: $('#VehiclePurchasePrice').val(),
+            VehiclePurchaseDate: $('#VehiclePurchaseDate').val(),
             Disclosure: $('#Disclosure').code()
         },
         success: function (msg) {

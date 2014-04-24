@@ -583,6 +583,13 @@ if (is_null($UserSessionInfo)) {
 				                  @if ($settings->VehiclePurchasePrice) value="{{
 								$settings->VehiclePurchasePrice }}" @endif @endif></td>
 						    </tr>
+						    <tr>
+							  <td><b>Vehicle Purchase Date &#42;</b></td>
+							  <td></td>
+							  <td style="width: 70%"><input type="text" name="VehiclePurchaseDate" placeholder="Vehicle Purchase Date field from DMS webservice" id="VehiclePurchaseDate" class="form-control" @if ($settings)
+				                  @if ($settings->VehiclePurchaseDate) value="{{
+								$settings->VehiclePurchaseDate }}" @endif @endif></td>
+						    </tr>
 					      </tbody>
 			        </table>
 			    	 
