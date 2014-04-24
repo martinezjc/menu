@@ -60,17 +60,6 @@ $('#productsTable').delegate(':button', 'click', function () {
         }, 1000);
     });
 
-/*function retrieveListProducts() {
-    $.ajax({
-        type: "GET",
-        url: "getTable",
-        success: onProductsLoad,
-        failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
-        }
-    });
-}*/
-
 function retrieveListProducts() {
     $.ajax({
         type: "GET",
@@ -79,7 +68,7 @@ function retrieveListProducts() {
             $('#productsTable').html(msg);
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }
@@ -96,7 +85,7 @@ function deleteProduct(idProduct) {
           FillSortableTable();
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }
@@ -109,10 +98,10 @@ function removeProduct(idProduct) {
             ProductId: idProduct
         },
         success: function (msg) {
-            toastr.success("The product has been deleted", "Success");
+            toastr.success("The product has been deleted.", "Success");
         },
         failure: function (msg) {
-            toastr.error('Product could not be removed' , "Message");
+            toastr.error('Product could not be removed.' , "Message");
         }
     });
 }
@@ -129,7 +118,7 @@ function insertProduct(idProduct) {
           FillSortableTable();
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }
@@ -147,7 +136,7 @@ function FillSortableTable() {
             Sortable();
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }
@@ -160,7 +149,7 @@ function Sortable() {
             stop: function (event, ui) {
                  Globalorder = $(".sortable").sortable('toArray');
                  UpdatetOrderTable(Globalorder);
-                 toastr.success("The product order has been updated", "Success");
+                 toastr.success("The product order has been updated.", "Success");
             }
         });
         $(".sortable").disableSelection();
@@ -182,7 +171,7 @@ function UpdatetOrderTable(Order) {
             success: function (msg) {
             },
             failure: function (msg) {
-                toastr.error('A error has ocurred', "Message");
+                toastr.error('An error has ocurred.', "Message");
             }
         });
     }

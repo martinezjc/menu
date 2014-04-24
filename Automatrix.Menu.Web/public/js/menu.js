@@ -79,7 +79,7 @@ $(document).ready(function () {
 function checkWebService(){
     var FailWebService = parseInt($('#FailWebService').val());
     if (FailWebService == 1) {
-        toastr.error('We were unable to get the rates for some products, try again', "Message");
+        toastr.error('We were unable to get the rates for some products, please try again.', "Message");
     };
 }
 
@@ -91,8 +91,6 @@ $("#ButtonNext").click(function () {
         return false;
     };
 });
-
-//updateSaveDMSButton();
 
 // Calculates the total of each plan
 function calculatePlans() {
@@ -320,7 +318,7 @@ $("#saveModal1").click(function () {
    }
     
     if (!ValidateExpression(SellingPrice,'Money')) {            
-            toastr.error('Invalid selling price format', "Message");
+            toastr.error('Invalid selling price format.', "Message");
             return false;
     }
     SellingPrice = GetFloat(SellingPrice).toFixed(2); 
@@ -536,7 +534,7 @@ function CreatePDf() {
       success: function (msg) {
       },
       failure: function (msg) {
-        toastr.error('User not found', "Message");
+        toastr.error('User not found.', "Message");
       }
    }); 
 }

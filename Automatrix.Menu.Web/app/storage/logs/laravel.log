@@ -11513,6 +11513,17 @@ Stack trace:
 #28 E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #29 {main} [] []
 [2014-04-24 15:52:18] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function execute() on a non-object' in E:\AUTODMS\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:698
+=======
+[2014-04-24 14:46:59] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Cannot access empty property' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-24 14:48:58] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected ';'' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-24 14:49:12] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Cannot access empty property' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ProtectiveServiceProxy.php:432
+>>>>>>> e0d7bd1b3513fab735ae83806d831d42e697b527
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []

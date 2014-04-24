@@ -66,7 +66,7 @@ $('#companyUpdateModal').on('show.bs.modal', function () {
             $('#PasswordUpdate').val(data[0].Password);            
         },
         failure: function (msg) {
-            toastr.error('Error :' + msg, "Message");
+            toastr.error('Error :' + msg, "Message.");
 
         }
     });
@@ -163,7 +163,7 @@ function loadListCompanyProducts(CompanySelected){
           );
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }

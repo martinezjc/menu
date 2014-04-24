@@ -130,6 +130,8 @@ class ProductsController extends BaseController
                 $deal->DealerName = $settings->DealerName;
                 
                 $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
+
+                $deal->TaxRate = $taxRate;
                 
                 $EmptyDeal = 1;
                 $BeginningOdometer = $deal->BeginningOdometer;
@@ -247,7 +249,7 @@ class ProductsController extends BaseController
                                         if(array_key_exists('MileageTerm', $rate))
                                         {
                                             $temp['Mileage'] = str_replace(',', '', $rate['MileageTerm']);
-                                            $temp['Mileage'] = $temp['Mileage'] / 1000;
+                                            $temp['Mileage'] = (int)$temp['Mileage'] / (int)1000;
                                         }
 
                                         $temp['OrderNumber'] = $index;
