@@ -428,23 +428,16 @@ class ProtectiveServiceProxy extends ServiceProxy
             $data->deal->ZipCode = 12345;
         }
         
-        // if product dont use tax rate in settings, delete.
-        if ($data->product->IsTaxable == 0) {
-            $data->deal->TaxRate = 0;
+        /*
+        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+        *   
+        */
+        if ($data->product->IsTaxable == 1) {
+            //$data->productOptions->price = ($data->productOptions->price) * (1 + ($data->deal->TaxRate / 100));  
+
+        }else{ // if product dont use tax rate in settings, delete.
+             $data->deal->TaxRate = 0;
         }
-        /*$fullName = explode(" ", trim($data->deal->Buyer), 2);
-        $data->FirstName = $fullName[0];
-        
-        // if surename is too longer , only show the initial of last string
-        if(strlen(trim($fullName[1])) > 15)
-        {
-            $arr = explode(" ", trim($fullName[1]), 2);
-            $data->LastName = $arr[0] . ' ' . substr($arr[1], 0, 1);
-        }
-        else
-        {
-            $data->LastName = trim($fullName[1]);
-        }*/
         
         if(empty($data->productOptions->mileage))
         {

@@ -444,6 +444,13 @@ $("#saveModal1").click(function () {
                  $(GlobalSectionProduct).find( ':checkbox' ).attr('OrderNumber', OrderNumber);  
                                 
             } 
+
+           $(GlobalSectionProduct).find( '.ProductType' ).attr('name', Type);
+           $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name', TermText);
+           $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name', Deductible);           
+           $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name', Mileage);
+           $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name', tireRotation);
+           $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name', interval);
             
     }
     calculatePlans();

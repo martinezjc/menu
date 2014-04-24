@@ -132,6 +132,13 @@ class RoadVantageServiceProxy extends ServiceProxy
 
 		} else { //Get PDF Contract
 
+			/*
+		     *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+		     *   
+		    */
+			if ($request->product->IsTaxable == 1) {
+				$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+			}
 			
 			$data = new \stdClass();
 			$data->UserId = $request->deal->Username;

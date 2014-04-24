@@ -256,6 +256,15 @@ class USWarrantyServiceProxy extends ServiceProxy
 				if (strlen(round($request->deal->ZipCode)) < 5) {
 					$request->deal->ZipCode = 12345;
 				}
+
+				 /*
+		        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+		        *   
+		        */
+		        if ($request->product->IsTaxable == 1) {
+		            //$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+
+		        }
 				
 				//$fullName = explode(" ", $request->deal->Buyer);
 						
@@ -324,7 +333,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Maintenance->FiledAmount = $request->productOptions->price;
 		        $data->Products->Maintenance->TermMonths = $request->productOptions->term;
 		        $data->Products->Maintenance->TermMiles = ($request->productOptions->mileage)*1000;
-		        $data->Products->Maintenance->Interval = $request->productRates->Interval;
+		        $data->Products->Maintenance->Interval = $request->productOptions->interval;
 		        $data->Products->Maintenance->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->Maintenance->Options = new \stdClass();
 		        $data->Products->Maintenance->Options->Option = "";
