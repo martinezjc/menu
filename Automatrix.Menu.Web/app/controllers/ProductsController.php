@@ -2749,6 +2749,8 @@ class ProductsController extends BaseController
         $productOption->mileage = Input::get('mileage');
         $productOption->price = Input::get('price');
         $productOption->surcharges = explode(",", Input::get('surcharges'));
+        $productOption->tireRotation = Input::get('tire');
+        $productOption->interval = Input::get('interval');
         $findKey = Input::get('key');
         
         $deal = Session::get('WebServiceInfo');
@@ -2757,7 +2759,6 @@ class ProductsController extends BaseController
         $deal->NewDownPayment = Input::get('downpayment');
         $deal->NewAPR = Input::get('apr');
 
-        
         $productRatesFull = Session::get('productRatesFull');
         
         $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
@@ -2838,12 +2839,15 @@ class ProductsController extends BaseController
                         }
                         catch (Exception $e)
                         {
-                            echo "An error has occurred";
+                            echo "An error has occurred <br>";
+                            echo "Could not retrieve pdf contract";
+                            //echo $data;
                         }
                     }
                     else
                     {
-                        echo "An error has occurred";
+                        echo "An error has occurred <br>";
+                        echo "Empty response from server";
                     }
                 }
                 
@@ -2914,7 +2918,6 @@ class ProductsController extends BaseController
                         {
                             print_r($data->GenerateContractResult->Messages->Message->Text);
                         }
-                        print_r(round($deal->ZipCode));
                         die();
                     }
                     $data = base64_decode($data->GenerateContractResult->ContractDocument);

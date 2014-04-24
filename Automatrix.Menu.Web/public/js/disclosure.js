@@ -385,14 +385,18 @@ $("#saveModalDisclosure")
 
 					}
 
-					$(GlobalSectionProduct).find('.ProductType').attr('name',
-							Type);
-					$(GlobalSectionProduct).find('.ProductTerm').attr('name',
-							TermText);
+					$(GlobalSectionProduct).find('.ProductType').attr(
+							'name',	Type);
+					$(GlobalSectionProduct).find('.ProductTerm').attr(
+							'name', TermText);
 					$(GlobalSectionProduct).find('.ProductDeductible').attr(
 							'name', Deductible);
 					$(GlobalSectionProduct).find('.ProductMileage').attr(
 							'name', Mileage);
+					$(GlobalSectionProduct).find( '.ProductTireRotation' ).attr(
+							'name', tireRotation);
+           			$(GlobalSectionProduct).find( '.ProductInterval' ).attr(
+           					'name', interval);
 
 					calculateCheckedProducts();
 					$('#myModal1').modal('hide');
@@ -496,6 +500,12 @@ $(".PdfContract").click(
 			var apr = getCurrentAPR();
 
 			var downpayment = getCurrentDownPayment();
+
+			var tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+
+			var interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
+
+           
 			
 			if (OrderNumber.length == 0) {
 				OrderNumber = 0;
@@ -536,6 +546,8 @@ $(".PdfContract").click(
 									+ '&downpayment=' + downpayment
 									+ '&apr=' + apr
 									+ '&key=' + OrderNumber
+									+ '&tire=' + tireRotation
+									+ '&interval=' + interval
 									+ '&price=' + Price);
 				} 
 				else 
@@ -550,6 +562,8 @@ $(".PdfContract").click(
 											+ '&financedAmount=' + financedAmount
 											+ '&downpayment=' + downpayment
 											+ '&apr=' + apr
+											+ '&tire=' + tireRotation
+											+ '&interval=' + interval
 											+ '&mileage=' + Mileage + '&price='
 											+ Price);
 				}
