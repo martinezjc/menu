@@ -343,8 +343,9 @@ class ProductsController extends BaseController
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
 
-                                    if($product->ProductBaseId == 12)
+                                    if($product->ProductBaseId == 12 )
                                     {
+                                        $product->Type = $rate['Coverage'];
                                         $product->Term = $rate['CoverageTermMonths'];
                                         $product->Mileage = $rate['CoverageTermMiles'];
                                         $product->Deductible = $rate['Deductible'];
@@ -456,6 +457,7 @@ class ProductsController extends BaseController
                         //$message = $this->GetReasonFailWebService();
                         array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
                         //echo $e;
+                        //die();
                         $FailWebservice->flag = 1;
                     } // end catch
                 }// end for each
@@ -533,19 +535,12 @@ class ProductsController extends BaseController
                 {
                     if($product->ProductBaseId == 2)
                     {
-                        if($product->Deductible == $rate[$deductible])
+                        if($product->Deductible == $rate[$deductible] && ($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]))
                         {
-                            $eval = array(
-                                $rate,
-                                $index
-                            );
-                            if(($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]))
-                            {
-                                return array(
+                             return array(
                                     $rate,
                                     $index
                                 );
-                            }
                         }
                     }
                     elseif($product->ProductBaseId == 4)
@@ -569,11 +564,6 @@ class ProductsController extends BaseController
                 $index ++;
             } // end for each
               
-            // return rate matching
-            if($eval != 0)
-            {
-                return $eval;
-            }
             
             // By default returns the first rate
             return array(
@@ -2766,7 +2756,7 @@ class ProductsController extends BaseController
         $deal->NewFinancedAmount = Input::get('financedAmount');
         $deal->NewDownPayment = Input::get('downpayment');
         $deal->NewAPR = Input::get('apr');
-        
+
         
         $productRatesFull = Session::get('productRatesFull');
         
@@ -3043,9 +3033,9 @@ class ProductsController extends BaseController
             
             $obj->AmtDueWtyCo = $product->Cost;
             $obj->FiledAmount = $productOption->price;
-            $obj->TermMonths = $productOption->term;
-            $obj->Deductible = $productOption->deductible;
-            $obj->TermMiles = $productOption->mileage;
+            $obj->TermMonths = $product->Term;
+            $obj->Deductible = $product->Deductible;
+            $obj->TermMiles = $product->Mileage;
             $obj->Interval = 1;
         }
         if($product->CompanyId == 2)
