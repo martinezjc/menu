@@ -16,6 +16,8 @@ namespace Automatrix.Menu.Service.Test
 
         ContractServiceSoapClient serviceform = new ContractServiceSoapClient();
 
+        string vinbase = "1C3CCBAB5DN560707";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string type = Request.Params.Get("type");
@@ -45,13 +47,16 @@ namespace Automatrix.Menu.Service.Test
                 Password = "dq5aJBFU",
                 TpaCode = "DEMO",
                 DealerNo = "MENU001",
-                VIN = "KMHGC4DD4CU176780",
+                VIN = vinbase,
                 VehiclePurchasePrice = 25000,
-                VehicleOdometer = 15000,
+                VehicleOdometer = 33533,
                 NewUsed = "N",
                 SaleDate = DateTime.Now,
                 FinancedAmount = 20000,
                 FinanceTerm = 3,
+                FinanceType = "F",
+                FinanceApr = 4,
+                MSRP = 22000,
                 InserviceDate = DateTime.Now,
                 VehiclePurchaseDate = DateTime.Now
             });
@@ -83,23 +88,23 @@ namespace Automatrix.Menu.Service.Test
                 ContractFormNumber = "DAP DemoForm",
                 //ContractNumber = "999999",
                 SaleDate = DateTime.Now,
-                SaleOdometer = 1000,
-                QuoteId = 19796,
-                PlanCode = "TW",
+                SaleOdometer = 0,
+                QuoteId = 22831,
+                PlanCode = "PDR",
                 RateBook = 422,
                 FinalCopy = true,
-                NetCost = 400,
+                NetCost = 100,
                 GenerateContractDocument = true,
-                RetailCost = 400,
-                //FinanceTerm = 3,
+                RetailCost = 100,
                 //FinancedAmount = 20000,
-                //FinanceType = "LOAN",
-                //FinanceApr = "",
+                //FinanceTerm = 3,
+                //FinanceType = "F",
+                //FinanceApr = 4,
                 TermMile = new RoadVantageForm.TermMileage()
                 {
-                    TermId = 9,
+                    TermId = 119,
                     Term = 24,
-                    Mileage = 24000
+                    Mileage = 100000
                 },
                 Deductible = new RoadVantageForm.Deductible()
                 {
@@ -109,8 +114,8 @@ namespace Automatrix.Menu.Service.Test
                 },
                 Vehicle = new Vehicle()
                 {
-                    VinNumber = "KMHGC4DD4CU176780",
-                    VehicleType = "n"
+                    VinNumber = vinbase,
+                    VehicleType = "N"
                 },
                 Customer = new Customer()
                 {
@@ -127,44 +132,83 @@ namespace Automatrix.Menu.Service.Test
                 LienHolder = new LienHolder()
                 {
                     Name = "Bac",
-                    Phone = "123456789",
+                    Phone = "3058525858",
                     Address1 = "primary address", //Primary address information.  It's required
                     Address2 = "secondary Address",//Secondary address information.
                     City = "Miami", //City name of address, It's required
                     State = "FL", //State name of the address.
                     ZipCode = "33126"
-                }
+                },
+                //BalloonAmount = ,
+                //BaseACV = ,
+                //BaseMarkup = ,
+                //ContractNumber,
+                //ContractOptions = new RoadVantageForm.ContractOption(){
+                //Id = "",
+                //Description = "",
+                //IsSurcharge = false,
+                //NetCost = 0
+                //},
+                //ContractPDF = "",
+                //DigitallySigned = false,
+                //FIMarkup = 0,
+                //FirstPaymentDate = "",
+                //InserviceDate = "",
+                //InsuranceDeductible = 0,
+                //IsTaxExempt = true,
+                //ManufWarrMiles = 0,
+                //ManufWarrTerm = 0,
+                //MonthlyPayment = 0,
+                //Msrp = 0,
+                //NADAValue = 0,
+                //RateBook = 0,
+                //RegisterNumber="",
+                //ResidualValue= 0,
+                //RetailCost,
+                //SalesPersonFname ="",
+                //SalesPersonLname="",
+                //VehiclePurchaseDate  ="",
+                //VehiclePurchasePrice = 0
+
             });
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            string json = js.Serialize(result);
+            //JavaScriptSerializer js = new JavaScriptSerializer();
+            //string json = js.Serialize(result);
 
-            Response.Write(json);
+            //Response.Write(json);
 
-            //if (result.ContractDocument != null)
-            //{
-            //    if (result.ContractDocument.Length > 0)
-            //    {
-            //        Response.ContentType = "Application/pdf";
-            //        byte[] bytes = Convert.FromBase64String(result.ContractDocument);
-            //        Response.BinaryWrite(bytes);
-            //        Response.End();
-            //    }
-            //    else
-            //    {
-            //        JavaScriptSerializer js = new JavaScriptSerializer();
-            //        string json = js.Serialize(result);
+            if (result.Messages != null)
+                if (result.Messages.Length > 0)
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    string json = js.Serialize(result.Messages);
+                    Logger.Debug(json);
+                }
 
-            //        Response.Write(json);
-            //    }
-            //}
-            //else
-            //{
-            //    JavaScriptSerializer js = new JavaScriptSerializer();
-            //    string json = js.Serialize(result);
+            if (result.ContractDocument != null)
+            {
+                if (result.ContractDocument.Length > 0)
+                {
+                    Response.ContentType = "Application/pdf";
+                    byte[] bytes = Convert.FromBase64String(result.ContractDocument);
+                    Response.BinaryWrite(bytes);
+                    Response.End();
+                }
+                else
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    string json = js.Serialize(result);
 
-            //    Response.Write(json);
-            //}
+                    Response.Write(json);
+                }
+            }
+            else
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string json = js.Serialize(result);
+
+                Response.Write(json);
+            }
         }
 
         private void VoidContract(string contractnumber)
@@ -178,7 +222,7 @@ namespace Automatrix.Menu.Service.Test
                 RequestingUser = "Ernesto",
                 TpaCode = "DEMO",
                 UserId = "AMATRX",
-                VIN = "1NXBR12E32Z600032"
+                VIN = vinbase
             });
 
             JavaScriptSerializer js = new JavaScriptSerializer();
