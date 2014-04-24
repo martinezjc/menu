@@ -588,13 +588,11 @@ function ChangeMileageOrder(SelectedMileage) {
 }
 
 function ChangeTireRotationOrder(SelectedTireRotation){
-    var optionSelected = SelectedTireRotation.toString();
-    SelectedTireRotation = optionSelected.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     var options = $('#TireRotation option');
     var arr = options.map(function(_, o) {
         return {
-            text: $(o).text(),
-            value: o.value
+            text: $(o).text().replace(',', ''),
+            value: o.value.replace(',', '')
         };
     }).get();
     arr.sort(function(a, b) { return a.text - b.text;});
@@ -603,11 +601,11 @@ function ChangeTireRotationOrder(SelectedTireRotation){
     selectTireRotation.options.length = 0;
 
     for (var i = 0; i < arr.length; i++) {
-        selectTireRotation.options[selectTireRotation.options.length] = new Option(arr[i].text, arr[i].value);
+        selectTireRotation.options[selectTireRotation.options.length] = new Option(arr[i].text.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), arr[i].value);
 
-        if (SelectedTireRotation == arr[i].text) {
+        if (SelectedTireRotation == parseInt( arr[i].text.replace(',','') ) ) {
             $("#TireRotation option").filter(function() {
-            return $(this).text() == arr[i].text; 
+            return $(this).val() == parseInt( arr[i].text.replace(',','') ); 
             }).prop('selected', true);
         }; 
     };

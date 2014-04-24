@@ -79,7 +79,7 @@ $(document).ready(function () {
 function checkWebService(){
     var FailWebService = parseInt($('#FailWebService').val());
     if (FailWebService == 1) {
-        toastr.error('Conection refused! try again', "Message");
+        toastr.error('We were unable to get the rates for some products, try again', "Message");
     };
 }
 
@@ -564,8 +564,25 @@ UpdatePlansArray = function(){
     var preferreddescriptionarray = [];
     var economydescriptionarray = [];
     var basicdescriptionarray = [];
+    var visibleproductsarray=[];
     var index = 0;
     var index2 = 0;
+
+    index = 0;
+    $('#1 section.products').each(function(){
+        console.warn('aqui');
+        var currentnode = $(this);
+        var styleattibute = currentnode.attr('style');
+
+        if(styleattibute!=undefined)
+        {
+            if(styleattibute.match('none'))
+                visibleproductsarray[index] =  currentnode.attr('id');
+        }
+
+        index += 1;
+
+    });
 
     var index = 0;
     $('#1 div.displayname-product').each(function(){
@@ -598,7 +615,7 @@ UpdatePlansArray = function(){
     index = 0;
     $("#1 :checkbox").each(function () {
         var currentproduct = $(this)[0];
-        console.dir(currentproduct);
+
         premiumarray[index] = currentproduct.id;
 
         if(currentproduct.checked)
@@ -607,14 +624,14 @@ UpdatePlansArray = function(){
             index2= index2 + 1;
         }
 
-        if(index<total-1)
-            preferredarray[index] = currentproduct.id;
+        // if(index<total-1)
+        //     preferredarray[index] = currentproduct.id;
 
-        if(index<total-2)
-            economyarray[index] = currentproduct.id;
+        // if(index<total-2)
+        //     economyarray[index] = currentproduct.id;
 
-        if(index<total-3)
-            basicarray[index] = currentproduct.id;
+        // if(index<total-3)
+        //     basicarray[index] = currentproduct.id;
 
         costpremiumarray[index] = currentproduct.value.replace(',','!');
 
@@ -630,12 +647,12 @@ UpdatePlansArray = function(){
 
         if(currentproduct.checked)
         {
-            preferredacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            preferredacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costpreferredarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costpreferredarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
     index=0;
@@ -646,12 +663,12 @@ UpdatePlansArray = function(){
 
         if(currentproduct.checked)
         {
-            economyacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            economyacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costeconomyarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costeconomyarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
     index=0;
@@ -662,12 +679,12 @@ UpdatePlansArray = function(){
         
         if(currentproduct.checked)
         {
-            basicacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            basicacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costbasicarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costbasicarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
 
@@ -716,6 +733,7 @@ UpdatePlansArray = function(){
     $('#preferreddescription').val(preferreddescriptionarray);
     $('#economydescription').val(economydescriptionarray);
     $('#basicdescription').val(basicdescriptionarray);
+    $('#visibleproducts').val(visibleproductsarray);
 };
 
 $('#saveDealSettings').click( function() {
@@ -749,8 +767,11 @@ $('#saveDealSettings').click( function() {
             calculatePlans();
         } else {
             $(this).prop("checked", true);
+            if ( $(this).prop("checked", true) && $('section[id^="'+productId+'"]').is(":hidden") ) {
+                $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
+                $('section[id^="'+productId+'"]').css("opacity", "1");
+            }
             $('section[id^="'+productId+'"]').show();
-            $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
             calculatePlans();
         }
     });

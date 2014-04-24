@@ -304,7 +304,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Vsc->ContractNumber= '';
 		        $data->Products->Vsc->CvCvty = $request->productRates->CvCvty;//"US46E";
 		        $data->Products->Vsc->Cost = $request->productRates->AmtDueWtyCo;// '';
-		        $data->Products->Vsc->RetailAmount = '';
+		        $data->Products->Vsc->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->Vsc->FiledAmount= $request->productRates->FiledAmount;// '';
 		        $data->Products->Vsc->TermMonths= $request->productOptions->term;
 		        $data->Products->Vsc->TermMiles= $request->productOptions->mileage;//"6,000";
@@ -320,10 +320,10 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Maintenance->ContractNumber = "";
 		        $data->Products->Maintenance->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->Maintenance->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Maintenance->RetailAmount = "";
+		        $data->Products->Maintenance->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->Maintenance->FiledAmount = $request->productRates->FiledAmount;
 		        $data->Products->Maintenance->TermMonths = $request->productOptions->term;
-		        $data->Products->Maintenance->TermMiles = $request->productRates->MileageTerm;
+		        $data->Products->Maintenance->TermMiles = $request->productOptions->mileage;
 		        $data->Products->Maintenance->Interval = $request->productRates->Interval;
 		        $data->Products->Maintenance->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->Maintenance->Options = new \stdClass();
@@ -333,10 +333,10 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->RoadHazard->ContractNumber = "";
 		        $data->Products->RoadHazard->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->RoadHazard->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->RoadHazard->RetailAmount = "";
+		        $data->Products->RoadHazard->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->RoadHazard->FiledAmount = $request->productRates->FiledAmount;
 		        $data->Products->RoadHazard->TermMonths = $request->productOptions->term;
-		        $data->Products->RoadHazard->TermMiles = $request->productRates->MileageTerm;
+		        $data->Products->RoadHazard->TermMiles = $request->productOptions->mileage;
 		        $data->Products->RoadHazard->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->RoadHazard->Options = new \stdClass();
 		        $data->Products->RoadHazard->Options->Option = "";
@@ -345,7 +345,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Key->ContractNumber = '';
 		        $data->Products->Key->CvCvty = $request->productRates->CvCvty;//'GKN';
 		        $data->Products->Key->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Key->RetailAmount = "";
+		        $data->Products->Key->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->Key->FiledAmount = $request->productRates->FiledAmount;
 		        $data->Products->Key->TermYears = ($request->productOptions->term)/12;
 		        $data->Products->Key->VehicleType = 'U';
@@ -357,7 +357,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Dent->ContractNumber = "";
 		        $data->Products->Dent->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->Dent->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Dent->RetailAmount = "";
+		        $data->Products->Dent->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->Dent->FiledAmount = $request->productRates->FiledAmount;
 		        $data->Products->Dent->TermYears = ($request->productOptions->term)/12;
 		        $data->Products->Dent->FormNumber = $request->productRates->FormNumber;
@@ -367,7 +367,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 		        $data->Products->Gap = new \stdClass();
 		        $data->Products->Gap->ContractNumber = "";
-		        $data->Products->Gap->RetailAmount = ""; 
+		        $data->Products->Gap->RetailAmount = $request->productRates->FiledAmount;
 		        $data->Products->Gap->FiledAmount = $request->productRates->FiledAmount;
 		        $data->Products->Gap->TermMonths = $request->productOptions->term;
 		        $data->Products->Gap->PurchasePrice = $request->deal->SalesPrice;

@@ -1667,6 +1667,8 @@ class ProductsController extends BaseController
         $downPayment = Input::get('DownPayment');
         
         $surcharges = Input::get('ProtectiveVsc');
+
+        $FailureProductsRates = json_decode( Input::get('FailureProductsRates') );
         
         $Products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
             ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
@@ -1711,9 +1713,10 @@ class ProductsController extends BaseController
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
             ->with('taxRate', $taxRate)
+            ->with('FailureProductsRates', $FailureProductsRates)
             ->with('ShowMenuPrintButton', false);
     }
-
+ 
     public function loadCompanyProducts()
     {
         $type = Input::get('type');
@@ -2153,6 +2156,7 @@ class ProductsController extends BaseController
     $PreferredDescriptionArray = Input::get('preferreddescription');
     $EconomyDescriptionArray = Input::get('economydescription');
     $BasicDescriptionArray = Input::get('basicdescription');
+    $VisibleProductsArray = Input::get('visibleproducts');
 
     $Premium = explode(",",$PremiumArray);
     $Preferred  = explode(",",$PreferredArray);
@@ -2173,7 +2177,8 @@ class ProductsController extends BaseController
     $NewPreferredDescription = explode("!",$PreferredDescriptionArray);
     $NewEconomyDescription = explode("!",$EconomyDescriptionArray);
     $NewBasicDescription = explode("!",$BasicDescriptionArray);
-    
+    $VisibleProducts = explode(",",$VisibleProductsArray);
+
     $PremiumDescription = array();
     $x = 0;
     foreach ($NewPremiumDescription as $key => $value) {
@@ -2347,8 +2352,8 @@ class ProductsController extends BaseController
                                 $i = 0;
                                 foreach($Premium as $key => $value) 
                                 {
-                                    // if(in_array($value,$PremiumAccepted))
-                                    // {
+                                    if(!in_array($value,$VisibleProducts))
+                                    {
                                         foreach ($products as $valor) 
                                         {
                                             if($valor->id==$value)
@@ -2382,7 +2387,7 @@ class ProductsController extends BaseController
                                                 ';
                                             }
                                         }
-                                    // }
+                                    }
                                 
                                 $i = $i + 1;
                                 }
@@ -2400,8 +2405,8 @@ class ProductsController extends BaseController
                                 $i = 0;
                                 foreach($Preferred as $key => $value) 
                                 {
-                                    // if(in_array($value,$PreferredAccepted))
-                                    // {
+                                    if(!in_array($value,$VisibleProducts))
+                                    {
                                         foreach ($products as $valor) 
                                         {
                                             if($valor->id==$value)
@@ -2435,7 +2440,7 @@ class ProductsController extends BaseController
                                                 ';
                                             }
                                         }
-                                    // }
+                                    }
                                 
                                 $i = $i + 1;
                                 }
@@ -2453,8 +2458,8 @@ class ProductsController extends BaseController
                                 $i = 0;
                                 foreach($Economy as $key => $value) 
                                 {
-                                    // if(in_array($value,$EconomyAccepted))
-                                    // {
+                                    if(!in_array($value,$VisibleProducts))
+                                    {
                                         foreach ($products as $valor) 
                                         {
                                             if($valor->id==$value)
@@ -2488,7 +2493,7 @@ class ProductsController extends BaseController
                                                 ';
                                             }
                                         }
-                                    // }
+                                    }
                                 
                                 $i = $i + 1;
                                 }
@@ -2506,8 +2511,8 @@ class ProductsController extends BaseController
                                 $i = 0;
                                 foreach($Basic as $key => $value) 
                                 {
-                                    // if(in_array($value,$BasicAccepted))
-                                    // {
+                                    if(!in_array($value,$VisibleProducts))
+                                    {
                                         foreach ($products as $valor) 
                                         {
                                             if($valor->id==$value)
@@ -2541,7 +2546,7 @@ class ProductsController extends BaseController
                                                 ';
                                             }
                                         }
-                                    // }
+                                    }
                                 
                                 $i = $i + 1;
                                 }

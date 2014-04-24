@@ -139,6 +139,7 @@ if (is_null($UserSessionInfo->DealerId)) {
                 <input type="hidden" id="preferreddescription" name="preferreddescription" value=''></input>
                 <input type="hidden" id="economydescription" name="economydescription" value=''></input>
                 <input type="hidden" id="basicdescription" name="basicdescription" value=''></input>
+                <input type="hidden" id="visibleproducts" name="visibleproducts" value=''></input>
                 @if(!empty($WebServiceDeal))  
                      <button class ="printpdf" id="printmenupdf" name="printmenupdf" type="submit"><i class="fa fa-print" title="Print menu in pdf"></a></i></button>
                 @endif
