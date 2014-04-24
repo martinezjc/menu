@@ -131,6 +131,7 @@ class ProductsController extends BaseController
                 $deal->DealerName = $settings->DealerName;
                 
                 $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
+                $deal->VehiclePurchaseDate = $newArray[$settings->VehiclePurchaseDate];
 
                 $deal->TaxRate = $taxRate;
                 

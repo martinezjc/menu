@@ -82,6 +82,7 @@ class GeneralController extends BaseController {
         $LienHolderContact = Input::get('LienHolderContact');
         $TaxRate = Input::get('TaxRate');
         $VehiclePurchasePrice = Input::get('VehiclePurchasePrice');
+        $VehiclePurchaseDate = Input::get('VehiclePurchaseDate');
         $Disclosure = Input::get('Disclosure');
         $Vin = Input::get('Vin');
         $DisplayPayOff = Input::get('DisplayPayOff');
@@ -151,6 +152,7 @@ class GeneralController extends BaseController {
                                        'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
         	           	                 'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $InsertedDealerId;
@@ -209,6 +211,7 @@ class GeneralController extends BaseController {
                                        'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
         	           	                 'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $DealerId;
