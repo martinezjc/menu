@@ -433,7 +433,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         *   
         */
         if ($data->product->IsTaxable == 1) {
-            $data->productOptions->price = ($data->productOptions->price) * (1 + ($data->deal->TaxRate / 100));  
+            //$data->productOptions->price = ($data->productOptions->price) * (1 + ($data->deal->TaxRate / 100));  
 
         }else{ // if product dont use tax rate in settings, delete.
              $data->deal->TaxRate = 0;
