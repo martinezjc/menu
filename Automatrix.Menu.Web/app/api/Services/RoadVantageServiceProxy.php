@@ -138,7 +138,6 @@ class RoadVantageServiceProxy extends ServiceProxy
 		    */
 			if ($request->product->IsTaxable == 1) {
 				$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
-				print_r($request->productOptions->price); die();
 			}
 			
 			$data = new \stdClass();
