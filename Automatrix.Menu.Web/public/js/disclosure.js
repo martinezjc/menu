@@ -359,7 +359,7 @@ $("#saveModalDisclosure")
 					;
 
 					if (!ValidateExpression(SellingPrice, 'Money')) {
-						toastr.error('Invalid selling price format', "Message");
+						toastr.error('Invalid selling price format.', "Message");
 						return false;
 					}
 					;
@@ -443,12 +443,12 @@ function SavetoDMS(products) {
 				SendToDMS(msg);
 			} catch (e) {
 				$("#SaveConfig").removeAttr("disabled");
-				toastr.error(msg, "Message");
+				toastr.error(msg + '.', "Message");
 			}
 		},
 		failure : function(msg) {
 			$("#SaveConfig").removeAttr("disabled");
-			toastr.error('error', "Message");
+			toastr.error('Error: ' + msg + '.', "Message");
 		}
 	});
 }
@@ -462,11 +462,11 @@ function SendToDMS(data) {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(msg) {
-			toastr.success(msg, "Message");
+			toastr.success(msg + '.', "Message");
 			$("#SaveConfig").removeAttr("disabled");
 		},
 		error : function(msg) {
-			toastr.error(msg.responseJSON.Message, "Message");
+			toastr.error(msg.responseJSON.Message + '.', "Message");
 			$("#SaveConfig").removeAttr("disabled");
 		}
 	});

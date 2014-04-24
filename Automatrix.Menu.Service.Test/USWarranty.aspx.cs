@@ -56,11 +56,19 @@ namespace Automatrix.Menu.Service.Test
             else if (type.ToLower() == "voidcontract".ToLower())
                 VoidContract();
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(result);
-            string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(doc);
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(result);
+                string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(doc);
 
-            Response.Write(json);
+                Response.Write(json);
+            }
+            catch (Exception)
+            {
+                Response.Write(result);
+            }
+
 
             //SubmitContract();
 

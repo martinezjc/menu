@@ -103,7 +103,7 @@ function ValidationEmptyDeal () {
     var text = $("#ModelValidate").html();
     if (text.length < 10) {
        $("#Deal").focus();
-       toastr.error("Please enter a deal", "Message");
+       toastr.error("Please enter a deal.", "Message");
         return true;
     }
     return false;
@@ -668,7 +668,7 @@ $(".linkmodal2").click(function () {
     if (isUrl(Brochure) == true) {
         var url = FixURL(Brochure);
         if (url == 0) {
-            toastr.error('Invalid URL Video', "Message");
+            toastr.error('Invalid URL Video.', "Message");
             return false;
         }
 
@@ -685,7 +685,7 @@ $(".linkmodal2").click(function () {
         
 
         if (Brochure == '') {
-            toastr.error('No brochure', "Message");
+            toastr.error('No brochure.', "Message");
             return false;
         } else {
             $('#ImgModal2').show();

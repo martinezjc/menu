@@ -209,8 +209,6 @@ $WebService = $deal;
             <td style="text-align:center; font-size: 12px;" colspan="2">
             	@if ($WebService->Deal != 0)
               		<a href="#ModalDealSettings" data-dismiss="modal" data-toggle="modal" id="dealSettingsModal" class="">Deal settings</a>
-              		@else
-              		<a href="javascript:void()" data-dismiss="modal" data-toggle="modal" id="dealSettingsModal" class="">Deal settings</a>
                 @endif
             </td>
            </tr>        

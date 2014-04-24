@@ -114,12 +114,12 @@ function validateURLField(id, message)
 function showErrorMessage(field, message) 
 {
     field.focus();
-    toastr.error(message, "Message");
+    toastr.error(message + '.', "Message");
 }
 
 function showSuccessMessage(message, action, url) 
 {
-    toastr.success(message, "Message");
+    toastr.success(message + '.', "Message");
 
     switch(action) 
     {

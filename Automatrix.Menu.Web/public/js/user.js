@@ -6,7 +6,7 @@ $('#saveUserData').click( function() {
 
     if ( $('#Username').val() == '' || $('#Password').val() == '' || $('#FirstName').val() == '' ) 
     {
-        toastr.error('Please fill the form', "Attention!");
+        toastr.error('Please fill the form.', "Attention!");
         $('#FirstName').focus();
         return false;
     }
@@ -62,7 +62,7 @@ $('#insertUser').click( function() {
     var pathname = $(location).attr('href');
 
 	if ( $('#Username').val() == '' || $('#Password').val() == '' || $('#FirstName').val() == '' ) {
-		toastr.error('Please fill the form', "Attention!");
+		toastr.error('Please fill the form.', "Attention!");
 		$('#FirstName').focus();
 		return false;
 	}
@@ -91,7 +91,7 @@ $('#insertUser').click( function() {
             window.location.href = pathname;
         },
         failure: function (msg) {
-            toastr.error(msg, "Attention!");
+            toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -218,7 +218,7 @@ $.ajax({
             window.location.href = pathname;
         },
         failure: function (msg) {
-        	toastr.error(msg, "Attention!");
+        	toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -259,13 +259,13 @@ $.ajax({
             PasswordChange: PasswordValueChange
         },
         success: function (msg) {
-            toastr.success('The account has been updated', 'success');
+            toastr.success('The account has been updated.', 'success');
             setTimeout(function(){
               window.location.href = 'dealer-settings';
             }, 2000);
         },
         failure: function (msg) {
-            toastr.error(msg, "Attention!");
+            toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -336,7 +336,7 @@ function authenticate(remeberme) {
             $('#circleG_1').hide();
             $('#circleG_2').hide();
             $('#circleG_3').hide();
-            toastr.error('User not found', "Message");
+            toastr.error('User not found.', "Message");
 
         }
     }).always(function() {
@@ -355,7 +355,7 @@ $('#resetPassword').click( function(){
             Email: $('#Email').val()
         },
         success: function (msg) {
-            toastr.success(msg);
+            toastr.success(msg + '.');
             $('#resetPasswordModal').modal('hide');
         },
         failure: function (msg) {

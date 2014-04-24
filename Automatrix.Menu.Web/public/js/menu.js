@@ -79,7 +79,7 @@ $(document).ready(function () {
 function checkWebService(){
     var FailWebService = parseInt($('#FailWebService').val());
     if (FailWebService == 1) {
-        toastr.error('We were unable to get the rates for some products, try again', "Message");
+        toastr.error('We were unable to get the rates for some products, please try again.', "Message");
     };
 }
 
@@ -91,8 +91,6 @@ $("#ButtonNext").click(function () {
         return false;
     };
 });
-
-//updateSaveDMSButton();
 
 // Calculates the total of each plan
 function calculatePlans() {
@@ -320,7 +318,7 @@ $("#saveModal1").click(function () {
    }
     
     if (!ValidateExpression(SellingPrice,'Money')) {            
-            toastr.error('Invalid selling price format', "Message");
+            toastr.error('Invalid selling price format.', "Message");
             return false;
     }
     SellingPrice = GetFloat(SellingPrice).toFixed(2); 
@@ -536,7 +534,7 @@ function CreatePDf() {
       success: function (msg) {
       },
       failure: function (msg) {
-        toastr.error('User not found', "Message");
+        toastr.error('User not found.', "Message");
       }
    }); 
 }
@@ -691,26 +689,26 @@ UpdatePlansArray = function(){
     costfooterarray[0] = $('#CostDayPremium').text();
     costfooterarray[1] = $('#AdditionalPremium').text();
     costfooterarray[2] = $('#MonthlyPremium').text();
-    costfooterarray[3] = $('#PremiumSpanTermId').text().trim();
-    costfooterarray[4] = $('#PremiumSpanTerm2Id').text().trim();
+    costfooterarray[3] = $('#PremiumSpanTerm2Id').text().trim();
+    costfooterarray[4] = $('#PremiumSpanTermId').text().trim();
 
     costfooterarray[5] = $('#CostDayPreferred').text();
     costfooterarray[6] = $('#AdditionalPreferred').text();
     costfooterarray[7] = $('#MonthlyPreferred').text();
-    costfooterarray[8] = $('#PreferredSpanTermId').text().trim();
-    costfooterarray[9] = $('#PreferredSpanTerm2Id').text().trim();
+    costfooterarray[8] = $('#PreferredSpanTerm2Id').text().trim();
+    costfooterarray[9] = $('#PreferredSpanTermId').text().trim();
 
     costfooterarray[10] = $('#CostDayEconomy').text();
     costfooterarray[11] = $('#AdditionalEconomy').text();
     costfooterarray[12] = $('#MonthlyEconomy').text();
-    costfooterarray[13] = $('#EconomySpanTermId').text().trim();
-    costfooterarray[14] = $('#EconomySpanTerm2Id').text().trim();
+    costfooterarray[13] = $('#EconomySpanTerm2Id').text().trim();
+    costfooterarray[14] = $('#EconomySpanTermId').text().trim();
 
     costfooterarray[15] = $('#CostDayBasic').text();
     costfooterarray[16] = $('#AdditionalBasic').text();
     costfooterarray[17] = $('#MonthlyBasic').text(); 
-    costfooterarray[18] = $('#BasicSpanTermId').text().trim();
-    costfooterarray[19] = $('#BasicSpanTerm2Id').text().trim();
+    costfooterarray[18] = $('#BasicSpanTerm2Id').text().trim();
+    costfooterarray[19] = $('#BasicSpanTermId').text().trim();
 
     $("#premiumarray").val(premiumarray);
     $("#preferredarray").val(preferredarray);
