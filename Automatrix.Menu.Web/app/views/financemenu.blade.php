@@ -377,8 +377,13 @@ $WebService = $deal;
 												  
 												<?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
 												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
@@ -563,8 +568,13 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>				
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
 												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
@@ -747,8 +757,13 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
 												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
@@ -930,8 +945,13 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
 												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>

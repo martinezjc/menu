@@ -30,6 +30,7 @@ class ProductsController extends BaseController
         $URLSession = new stdClass();
         $DealerCode = '11401';
         $arrayProductsFailure = array();
+        $arrayProductsMatchingRateFail = array();
         
         if(Input::get('Deal') != '')
         {
@@ -176,6 +177,7 @@ class ProductsController extends BaseController
             $FailWebservice->flag = 0;
             $FailWebservice->message = '';
             $FailWebservice->failureProductRates = array();
+            $FailWebservice->failMatchingRate = array();
             // echo "deal = ".$EmptyDeal;
             if($EmptyDeal == 1)
             {
@@ -273,6 +275,10 @@ class ProductsController extends BaseController
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
 
+                                    if ( $rateIndex[2] == 0 ) {
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                    }
+
                                     if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
                                     {
                                         $product->Type = $rate['CoverageDesc'];
@@ -341,6 +347,10 @@ class ProductsController extends BaseController
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
 
+                                    if ( $rateIndex[2] == 0 ) {
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                    }
+
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
 
                                     if($product->ProductBaseId == 12 )
@@ -389,10 +399,14 @@ class ProductsController extends BaseController
                                 
                                 // Check if is possible to get the matching rate from the webservice response
                                 $rateIndex = $this->getMatchingRate($product, $rates);
-                                
+
                                 $rate = $rateIndex[0];
                                 $product->OrderNumber = $rateIndex[1];
-                                
+
+                                if ( $rateIndex[2] == 0 ) {
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                }
+
                                 $product->SellingPrice = (float) str_replace(',', '', $rate->Rate->RetailRate);
                             } // end product company 3
                         }
@@ -470,6 +484,8 @@ class ProductsController extends BaseController
 
             $deal->BeginningOdometer = $BeginningOdometer;
             Session::put('WebServiceInfo', $deal);
+            
+            $FailWebservice->failMatchingRate = $arrayProductsMatchingRateFail; 
 
             if ($FailWebservice->flag == 1) {
 
@@ -539,7 +555,8 @@ class ProductsController extends BaseController
                         {
                              return array(
                                     $rate,
-                                    $index
+                                    $index,
+                                    1
                                 );
                         }
                     }
@@ -549,7 +566,8 @@ class ProductsController extends BaseController
                         {
                             return array(
                                 $rate,
-                                $index
+                                $index,
+                                1
                             );
                         }
                     }
@@ -557,7 +575,8 @@ class ProductsController extends BaseController
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                 }
@@ -568,6 +587,7 @@ class ProductsController extends BaseController
             // By default returns the first rate
             return array(
                 $rates['Rate'][0],
+                0,
                 0
             );
         }
@@ -589,7 +609,8 @@ class ProductsController extends BaseController
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                 }
@@ -601,7 +622,8 @@ class ProductsController extends BaseController
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                     else
@@ -610,7 +632,8 @@ class ProductsController extends BaseController
                         {
                             return array(
                                 $rate,
-                                $index
+                                $index,
+                                1
                             );
                         }
                     }
@@ -622,6 +645,7 @@ class ProductsController extends BaseController
             // By Default returns the first rate
             return array(
                 $rates['AutomobileRateQuote'][0],
+                0,
                 0
             );
         }
@@ -634,7 +658,8 @@ class ProductsController extends BaseController
                 $index = $rate->TermMile->TermId;
                 return array(
                     $rate,
-                    $index
+                    $index,
+                    1
                 );
             }
             
@@ -651,7 +676,8 @@ class ProductsController extends BaseController
                 {
                     return array(
                         $rate,
-                        $index
+                        $index,
+                        1
                     );
                 }
                 $index ++;
@@ -660,7 +686,8 @@ class ProductsController extends BaseController
             $rates = $rates->Plan->RateClassMoneys->RateClassMoney{0};
             return array(
                 $rates,
-                $rates->TermMile->TermId
+                $rates->TermMile->TermId,
+                0
             );
         }
         return null;
