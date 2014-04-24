@@ -1,3 +1,9 @@
 /.settings
 /.buildpath
 /.project
+
+app/config/database.php
+public/js/uploadify.php
+app/storage/
+vendor/thujohn/pdf/src/Thujohn/Pdf/dompdf/lib/fonts/
+vendor/swiftmailer/swiftmailer/tests/_samples/charsets/iso-2022-jp/one.txt
