@@ -256,6 +256,15 @@ class USWarrantyServiceProxy extends ServiceProxy
 				if (strlen(round($request->deal->ZipCode)) < 5) {
 					$request->deal->ZipCode = 12345;
 				}
+
+				 /*
+		        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+		        *   
+		        */
+		        if ($request->product->IsTaxable == 1) {
+		            $request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+
+		        }
 				
 				//$fullName = explode(" ", $request->deal->Buyer);
 						
