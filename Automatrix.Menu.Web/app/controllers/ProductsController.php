@@ -142,7 +142,7 @@ class ProductsController extends BaseController
                 }
                 catch (Exception $e)
                 {
-                    echo $e;
+                    //echo $e;
                 }
                 
             }// end if
