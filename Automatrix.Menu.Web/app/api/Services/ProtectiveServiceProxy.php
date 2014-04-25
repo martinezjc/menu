@@ -198,7 +198,9 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                $request->Automobiles[0]->VehiclePurchaseDate = date('c');
+
+                $date=explode('T',$data->deal->VehiclePurchaseDate);
+                $request->Automobiles[0]->VehiclePurchaseDate = date('c', strtotime($date[0]));
                 
                 $request->Automobiles[0]->Lienholder = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Name = $data->deal->LienHolderName;
@@ -241,7 +243,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->ContractPrefix = $data->productRates->ContractPrefix; // "CG50";
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->EffectiveDate = date('c');
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->PurchaseDate = date('c');
-                    $request->Automobiles[0]->VSCContract->VSCContractDetails->VehiclePurchaseDate = date('c');
+                    $request->Automobiles[0]->VSCContract->VSCContractDetails->VehiclePurchaseDate = date('c', strtotime($date[0]));
                     
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote = new \stdClass();
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->CoverageTermMonths = $data->productOptions->term;
@@ -265,7 +267,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->MileageAtInServiceDate = ""; // date('c');
                     $request->Automobiles[0]->VSCContract->VehiclePlan = $data->product->VehiclePlan;
                     $request->Automobiles[0]->VSCContract->BeginningOdometer = $data->deal->BeginningOdometer;
-                    $request->Automobiles[0]->VSCContract->InServiceDate = date('c');
+                    $request->Automobiles[0]->VSCContract->InServiceDate = date('c', strtotime($date[0]."12:00:00"));
 
                     //Ramin indico que el SalesPrice seria el campo a enviar aca
                     $request->Automobiles[0]->VSCContract->VehiclePurchasePrice = $data->deal->SalesPrice; // 20000;                    
@@ -331,7 +333,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->ContractNumber = $contractNumber; // 50000;
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->EffectiveDate = date('c');
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->PurchaseDate = date('c');
-                    $request->Automobiles[0]->GAPContract->GAPContractDetails->VehiclePurchaseDate = date('c');
+                    $request->Automobiles[0]->GAPContract->GAPContractDetails->VehiclePurchaseDate = date('c', strtotime($date[0]));
                     
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->RateQuote = new \stdClass();
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->RateQuote->ProductClass = $data->productRates->ProductClass; // "GAP";

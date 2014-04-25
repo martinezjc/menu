@@ -142,7 +142,7 @@ class ProductsController extends BaseController
                 }
                 catch (Exception $e)
                 {
-                    echo $e;
+                    //echo $e;
                 }
                 
             }// end if
@@ -191,7 +191,6 @@ class ProductsController extends BaseController
                 {
                     try
                     {
-
                         // Detect if the product must get pricing from the webservice
                         if($product->UsingWebService)
                         {
@@ -281,7 +280,7 @@ class ProductsController extends BaseController
                                     $product->OrderNumber = $rateIndex[1];
 
                                     if ( $rateIndex[2] == 0 ) {
-                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
                                     }
 
                                     if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
@@ -353,7 +352,7 @@ class ProductsController extends BaseController
                                     $product->OrderNumber = $rateIndex[1];
 
                                     if ( $rateIndex[2] == 0 ) {
-                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
                                     }
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
@@ -409,7 +408,7 @@ class ProductsController extends BaseController
                                 $product->OrderNumber = $rateIndex[1];
 
                                 if ( $rateIndex[2] == 0 ) {
-                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => 'The response dont match with the defaults values.'));
+                                    array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
                                 }
 
                                 $product->SellingPrice = (float) str_replace(',', '', $rate->Rate->RetailRate);
@@ -474,7 +473,7 @@ class ProductsController extends BaseController
                     catch (Exception $e)
                     {
                         //$message = $this->GetReasonFailWebService();
-                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
                         //echo $e;
                         //die();
                         $FailWebservice->flag = 1;
@@ -549,7 +548,12 @@ class ProductsController extends BaseController
                 {
                     $term = 'EndMonthTerm';
                 }
-                
+
+                if ( $product->ProductBaseId == 11 )
+                {
+
+                }
+
                 // Options fields in product should match the fields in the response
                 if($product->Type == $rate[$type] && $product->Term == $rate[$term])
                 {
@@ -609,6 +613,31 @@ class ProductsController extends BaseController
                 // only for GAP
                 if($product->ProductBaseId == 11)
                 {
+                    if ( ($product->Type == $rate[$type]) && ( $rate[$term] >=1 || $rate[$term] <= 60 ) ) 
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );
+                    } 
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >=61 || $rate[$term] <= 72 ) )
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );    
+                    } 
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >= 73 || $rate[$term] <= 84 ) )
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );    
+                    }
+                    
                     if($product->Type == $rate[$type] && $product->Term > $lastRateTerm && $product->Term <= $rate[$term])
                     {
                         return array(
@@ -3236,11 +3265,17 @@ class ProductsController extends BaseController
     *   Add here all Known reason of product fail
     *
     */
-    private function GetReasonFailWebService($name, $deal)
+    private function GetReasonFailWebService($productBaseId, $name, $deal)
     {
-        $message =  $name.'is not available! try again';
-        if ($deal->BeginningOdometer > 113999) {
-            $message = $name.' not allowed vehicles with more than 113999 miles';
+        $message =  $name.' is not available! try again';
+
+        if ( $deal->BeginningOdometer > 113999 ) {
+            $message = $name.' not allowed vehicles with more than 113999 miles.';
+        } elseif ( $deal->BeginningOdometer == '' ) {
+            $message = 'Beginning Odometer cannot be empty';
+        //} elseif (  ) {
+        } else {
+            $message = 'Could not retrieve rates.';
         }
 
         return $message;

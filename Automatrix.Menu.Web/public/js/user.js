@@ -348,17 +348,82 @@ function authenticate(remeberme) {
 }
 
 $('#resetPassword').click( function(){
-    $.ajax({
-        type: "GET",
-        url: "sendMailPassword",
-        data: {
-            Email: $('#Email').val()
-        },
-        success: function (msg) {
-            toastr.success(msg + '.');
-            $('#resetPasswordModal').modal('hide');
-        },
-        failure: function (msg) {
-        }
+    var email=$('#Email').val();
+    if(email!==''){
+        $.ajax({
+            type: "GET",
+            url: "sendMailPassword",
+            data: {
+                Email: email
+            },
+            success: function (msg) {
+                var response=JSON.parse(msg);
+                if(response.Found)
+                {
+                    toastr.success(response.Message + '.');
+                    $('#resetPasswordModal').modal('hide');
+                }
+                else{
+                    $('#errorMessage').html(response.Message+ '.');
+                }
+            },
+            failure: function (msg) {
+            }
+        });
+    }
+    else
+       $('#errorMessage').html('Please enter an Email address.'); 
+});
+
+$('#Email').keypress(function(){
+    $('#errorMessage').html('');
+});
+
+$('#resetPasswordModal').on('hidden.bs.modal',function(){
+    $('#Email').val('');
+    $('#errorMessage').html('');
+});
+
+$('#changePassword').click(function(){
+    var passwordNew=$('#passwordNew').val();
+    var passwordConfirm=$('#passwordConfirm').val();
+    if(passwordNew===''||passwordConfirm===''){
+        $('#errorMessage').html('Please fill both password fields.'); 
+    }
+    else if(passwordNew===passwordConfirm)
+    {
+        $('#errorMessage').html("");
+        $.ajax({
+            type: "GET",
+            url: "savePassword",
+            data: {
+                UserId:getUrlVars()["UserId"],
+                newPassword: passwordNew
+            },
+            success: function (msg) {
+                if(msg==1){
+                    toastr.success('Your password has been changed successfully!');
+                    setTimeout('window.location.href = "login"',2000);
+                }
+                else
+                    toastr.error('An error occurred, please try again.');
+            },
+            failure: function (msg) {
+            }
+        }); 
+    }
+    else
+        $('#errorMessage').html("Passwords doesn't match"); 
+});
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
     });
+    return vars;
+};
+
+$('#passwordNew, #passwordConfirm').keypress(function(){
+    $('#errorMessage').html('');
 });

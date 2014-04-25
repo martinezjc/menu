@@ -115,6 +115,7 @@ if (is_null($UserSessionInfo)) {
 			                value="{{ $settings->DealerLogo }}"
 			            @endif
 			            @endif style="width:60%;" ></td>
+                                    <input type="hidden" id="logoSelected">
 			        </tr>
 			        <tr>
 			          <td style="width: 30%"></td>
@@ -685,13 +686,15 @@ if (is_null($UserSessionInfo)) {
         'auto'     : false,
         'onSelect' : function(file) {
             $("#DealerLogoField").val( file.name );
+            $("#logoSelected").val('yes'); 
         },
         'onUploadStart' : function(file) {
           var formData = { 'DealerId': DealerIdValue, 'Option' : 'UpdateDealer', 'type' : 'DealerLogo' }
           $('#DealerLogo').uploadify("settings", "formData", formData);
         },
         'onUploadSuccess' : function(file, data, response) {
-            window.location.href = 'dealer-settings';
+            toastr.success("Dealer settings has been saved.", "Success");
+            window.location.href = $('#redirectAction').text();
         }
       });
 });

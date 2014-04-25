@@ -170,6 +170,8 @@ Route::get('sendMailPassword', array('uses' => 'GeneralController@send_mailReset
 
 Route::get('password-reset', array('uses' => 'GeneralController@load_resetPassword'));
 
+Route::get('savePassword', array('uses' => 'GeneralController@save_newPassword'));
+
 Route::get('settings-dealercode', array('uses' => 'DealerController@get_settingsCode'));
 
 Route::get('save-settingcode', array('uses' => 'DealerController@save_settingCode'));

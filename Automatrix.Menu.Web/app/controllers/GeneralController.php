@@ -472,6 +472,9 @@ class GeneralController extends BaseController {
     {
         $Email = Input::get('Email');
         $data = array();
+        $response=new \stdClass();
+        $response->Found=false;
+        $response->Message="Invalid Email";
 
         $User = DB::table('UsersTable')
                     ->where('Email', '=', $Email)
@@ -488,11 +491,14 @@ class GeneralController extends BaseController {
                   $message->from('admin@automatrixdms.com', 'Automatrixdms');
                   $message->to( Input::get('Email'), 'Financing Plans' )->subject('Financing Plans: Recover Password');
               });
+              $response->Message=$Email;
+              $response->Found=true;
             } catch(Exception $e) {
             }
 
-            return $Email;
         }
+
+        return json_encode((array)$response);
     }
 
     public function load_resetPassword()
@@ -504,8 +510,8 @@ class GeneralController extends BaseController {
 
     public function save_newPassword()
     {
-        $UserId = Input::get('UserId');
-        $newPassword = Input::get('newPassword');
+        $UserId = $_GET['UserId'];
+        $newPassword = $_GET['newPassword'];
 
         $updatePassword = DB::table('UsersTable')
                           ->where('UserId', '=', $UserId)
