@@ -291,12 +291,13 @@ $("#saveSettings").click(function () {
             saveLogo($('#DealerIdHidden').val(), function(callback){
                 if(callback==true)
                 {
-                    setTimeout(function(){
-                       window.location.href = $('#redirectAction').text();
-                    }, 2000);  
+                    if ( $('#logoSelected').val() != 'yes' )
+                    {
+                       toastr.success("Dealer settings has been saved.", "Success"); 
+                       window.location.href = $('#redirectAction').text(); 
+                    }
                 }
             });
-            toastr.success("Dealer settings has been saved.", "Success");
         },
         error: function (msg) {
             toastr.error(msg);
