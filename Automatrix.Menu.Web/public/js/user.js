@@ -385,5 +385,45 @@ $('#resetPasswordModal').on('hidden.bs.modal',function(){
 });
 
 $('#changePassword').click(function(){
-    console.debug('change');
-})
+    var passwordNew=$('#passwordNew').val();
+    var passwordConfirm=$('#passwordConfirm').val();
+    if(passwordNew===''||passwordConfirm===''){
+        $('#errorMessage').html('Please fill both password fields.'); 
+    }
+    else if(passwordNew===passwordConfirm)
+    {
+        $('#errorMessage').html("");
+        $.ajax({
+            type: "GET",
+            url: "savePassword",
+            data: {
+                UserId:getUrlVars()["UserId"],
+                newPassword: passwordNew
+            },
+            success: function (msg) {
+                if(msg==1){
+                    toastr.success('Your password has been changed successfully!');
+                    setTimeout('window.location.href = "login"',2000);
+                }
+                else
+                    toastr.error('An error occurred, please try again.');
+            },
+            failure: function (msg) {
+            }
+        }); 
+    }
+    else
+        $('#errorMessage').html("Passwords doesn't match"); 
+});
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+};
+
+$('#passwordNew, #passwordConfirm').keypress(function(){
+    $('#errorMessage').html('');
+});

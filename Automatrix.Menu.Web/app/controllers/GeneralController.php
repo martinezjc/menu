@@ -82,6 +82,7 @@ class GeneralController extends BaseController {
         $LienHolderContact = Input::get('LienHolderContact');
         $TaxRate = Input::get('TaxRate');
         $VehiclePurchasePrice = Input::get('VehiclePurchasePrice');
+        $VehiclePurchaseDate = Input::get('VehiclePurchaseDate');
         $Disclosure = Input::get('Disclosure');
         $Vin = Input::get('Vin');
         $DisplayPayOff = Input::get('DisplayPayOff');
@@ -151,6 +152,7 @@ class GeneralController extends BaseController {
                                        'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
         	           	                 'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $InsertedDealerId;
@@ -209,6 +211,7 @@ class GeneralController extends BaseController {
                                        'LienHolderContact' => $LienHolderContact,
                                        'TaxRate' => $TaxRate,
                                        'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
         	           	                 'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $DealerId;
@@ -471,7 +474,7 @@ class GeneralController extends BaseController {
         $data = array();
         $response=new \stdClass();
         $response->Found=false;
-        $response->Message="Invalid Mail";
+        $response->Message="Invalid Email";
 
         $User = DB::table('UsersTable')
                     ->where('Email', '=', $Email)
@@ -507,8 +510,8 @@ class GeneralController extends BaseController {
 
     public function save_newPassword()
     {
-        $UserId = Input::get('UserId');
-        $newPassword = Input::get('newPassword');
+        $UserId = $_GET['UserId'];
+        $newPassword = $_GET['newPassword'];
 
         $updatePassword = DB::table('UsersTable')
                           ->where('UserId', '=', $UserId)
