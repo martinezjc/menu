@@ -401,6 +401,7 @@ function LoadOptionDefault() {
     var ArrayMileage = [];
     var ArrayTireRotation = [];
     var ArrayInterval = [];
+    var ArrayDeductible = [];
 
     var selectTerm = document.getElementById("TermFinance");
     selectTerm.options.length = 0;
@@ -430,28 +431,28 @@ function LoadOptionDefault() {
     var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
     var ProductBaseType = $(GlobalSectionProduct).find( '.ProductBaseType' ).attr('name');
 
-    //load Deductible
-    (selectDeductible.options[selectDeductible.options.length] = new Option('$0', '0')); 
-    (selectDeductible.options[selectDeductible.options.length] = new Option('$50', '50')); 
-    (selectDeductible.options[selectDeductible.options.length] = new Option('$100', '100')); 
-    (selectDeductible.options[selectDeductible.options.length] = new Option('$100 Disappearing', '100D')); 
-    (selectDeductible.options[selectDeductible.options.length] = new Option('$200', '200')); 
+    // //load Deductible
+    // (selectDeductible.options[selectDeductible.options.length] = new Option('$0', '0')); 
+    // (selectDeductible.options[selectDeductible.options.length] = new Option('$50', '50')); 
+    // (selectDeductible.options[selectDeductible.options.length] = new Option('$100', '100')); 
+    // (selectDeductible.options[selectDeductible.options.length] = new Option('$100 Disappearing', '100D')); 
+    // (selectDeductible.options[selectDeductible.options.length] = new Option('$200', '200')); 
 
-    if (ProductBaseId != 12) {
-        $("#DeductibleFinance option[value='100D']").hide();
-    } else{
-        $("#DeductibleFinance option[value='100D']").show();
-    };
+    // if (ProductBaseId == 12) {
+    //     $("#DeductibleFinance option[value='100D']").hide();
+    // } else{
+    //     $("#DeductibleFinance option[value='100D']").show();
+    // };
 
-    $("#DeductibleFinance option").filter(function() {
-            return $(this).val() == SelectedDeductible; 
-    }).prop('selected', true);
-
+    // $("#DeductibleFinance option").filter(function() {
+    //         return $(this).val() == SelectedDeductible; 
+    // }).prop('selected', true);
 
     eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
     
     eval("var obj = productRates.product" + idSave);
     var typeFind = SearchObjType( obj, SelectedType );
+    var flag100 = 0;
     for(var i = 0; i < countproductRates; i++) {
             eval("var obj = productRates.product" + idSave + "[i];");
              validate = ArrayTerm.indexOf(obj.Term);
@@ -459,6 +460,7 @@ function LoadOptionDefault() {
              validate3 = ArrayMileage.indexOf(obj.Mileage);
              validate4 = ArrayTireRotation.indexOf(obj.Mileage);
              validate5 = ArrayInterval.indexOf(obj.Interval);
+             validate6= ArrayDeductible.indexOf(obj.Deductible)
 
              if (validate2 < 0) {
                         ArrayType[i] = obj.Type;
@@ -479,10 +481,31 @@ function LoadOptionDefault() {
                         ArrayTerm[i] = obj.Term; 
                         (selectTerm.options[selectTerm.options.length] = new Option(obj.Term, obj.SellingPrice)).setAttribute('OrderNumber', obj.OrderNumber);
                      };
+                     if(validate6 < 0){
+                        if (ProductBaseId == 12) {
+                            if(obj.Deductible == 100 && flag100 == 0){
+                              flag100 = 1;
+                            }else{
+                              ArrayDeductible[i] = obj.Deductible;
+                            }
+                            if (obj.DisappearingDeductible == true) {
+                                (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible)+" Disappearing", parseInt(obj.Deductible)+"D")).setAttribute('Disappearing', obj.DisappearingDeductible);
+                            }else{
+                               (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
+                            }
+                            
+                        } else{
+                            ArrayDeductible[i] = obj.Deductible;
+                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', 'false');
+
+                        }
+                        
+                     }
                      
              }; 
     }
     ChangeTermOrder(SelectedTerm); 
+    ChangeDeductibleOrder(SelectedDeductible);
     
     var FindType = $("#TypeFinance :selected").text();
     var FindTerm = $("#TermFinance :selected").text();
@@ -557,6 +580,33 @@ function ChangeTermOrder(SelectedTerm) {
         (selectTerm.options[selectTerm.options.length] = new Option(arr[i].text, arr[i].value)).setAttribute('OrderNumber', arr[i].order);
         if (SelectedTerm == arr[i].text) {
             $("#TermFinance option").filter(function() {
+            return $(this).text() == arr[i].text; 
+            }).prop('selected', true);
+        }
+    };
+}
+
+function ChangeDeductibleOrder(SelectedDeductible) {
+    var options = $('#DeductibleFinance option');
+    var arr = options.map(function(_, o) {
+        return {
+            text: $(o).text(),
+            value: o.value,
+            Disappearing: $(o).attr('Disappearing')
+        };
+    }).get();
+    arr.sort(function(a, b) { return a.text - b.text; });
+    var selectDeductible = document.getElementById("DeductibleFinance");
+    selectDeductible.options.length = 0;
+
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].Disappearing == true) {
+            (selectDeductible.options[selectDeductible.options.length] = new Option(arr[i].text, arr[i].value)).setAttribute('Disappearing', arr[i].Disappearing);
+        } else{
+            (selectDeductible.options[selectDeductible.options.length] = new Option(arr[i].text, arr[i].value)).setAttribute('Disappearing', arr[i].Disappearing);
+        }
+        if (SelectedDeductible == arr[i].value) {
+            $("#DeductibleFinance option").filter(function() {
             return $(this).text() == arr[i].text; 
             }).prop('selected', true);
         }
@@ -709,6 +759,7 @@ $('#myModal2').on('hide.bs.modal', function () {
 
 $( "#TypeFinance" ).change(function() {
     LoadOptionTypeOnSelect($('#TypeFinance :selected').text());
+    LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
 
 $( "#TermFinance" ).change(function() {
@@ -720,7 +771,7 @@ function LoadOptionTypeOnSelect(SelectedType) {
     var ArrayMileage = [];
     var ArrayTerm = [];
     var ArrayType = [];
-
+    
     var selectMileage = document.getElementById("MileageFinance");
      selectMileage.options.length = 0;
     
@@ -739,15 +790,15 @@ function LoadOptionTypeOnSelect(SelectedType) {
             eval("var obj = productRates.product" + idSave + "[i];");
             validate = ArrayTerm.indexOf(obj.Term);
             validate2 = ArrayMileage.indexOf(obj.Mileage);
-
+            
             if (SelectedType == obj.Type) {
                 if (validate < 0) {
                     ArrayTerm[i] = obj.Term; 
                     (selectTerm.options[selectTerm.options.length] = new Option(obj.Term, obj.SellingPrice)).setAttribute('OrderNumber',obj.OrderNumber);   
 
-                };                 
-             };               
-   } 
+                }              
+            }               
+    } 
    
    ChangeTermOrder(SelectedTerm); 
     
@@ -775,8 +826,15 @@ function LoadOptionTypeOnSelect(SelectedType) {
 
 function LoadOptionTermOnSelect (SelectedTerm) {
     var ArrayMileage = [];
+    var ArrayDeductible = [];
+
     var selectMileage = document.getElementById("MileageFinance");
     selectMileage.options.length = 0;
+    var selectDeductible = document.getElementById("DeductibleFinance");
+    selectDeductible.options.length = 0;
+
+    var SelectedDeductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    
     var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
 
     var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
@@ -787,9 +845,12 @@ function LoadOptionTermOnSelect (SelectedTerm) {
 
     eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
 
+    var flag100 = 0;
     for (var i = 0; i < countproductRates; i++) {
         eval("var obj = productRates.product" + idSave + "[i];");
         validate3 = ArrayMileage.indexOf(obj.Mileage);
+        validate6= ArrayDeductible.indexOf(obj.Deductible)
+
         if (FindType == obj.Type) {
             if (FindTerm == obj.Term) {
                 // only for VSC ---------------
@@ -797,13 +858,32 @@ function LoadOptionTermOnSelect (SelectedTerm) {
                     if (validate3 < 0 ) {
                         ArrayMileage[i] = obj.Mileage; 
                         selectMileage.options[selectMileage.options.length] = new Option(obj.Mileage, obj.Mileage);                                                       
-                    };                            
-                }; 
-            };
-        };
+                    }                            
+                }
+                if(validate6 < 0){
+                    if (ProductBaseId == 12) {
+                        if(obj.Deductible == 100 && flag100 == 0){
+                          flag100 = 1;
+                        }else{
+                          ArrayDeductible[i] = obj.Deductible;
+                        }
+                       if (obj.DisappearingDeductible == true) {
+                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible)+" Disappearing", parseInt(obj.Deductible)+"D")).setAttribute('Disappearing', obj.DisappearingDeductible);
+                        }else{
+                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
+                        }
+                    } else{
+                        ArrayDeductible[i] = obj.Deductible;
+                        (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', 'false');
+                    }
+
+                } // end validate 6  
+            }
+        }
 
     };
     ChangeMileageOrder(SelectedMileage); 
+    ChangeDeductibleOrder(SelectedDeductible);
 
 }
 
