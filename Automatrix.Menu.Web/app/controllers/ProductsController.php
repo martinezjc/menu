@@ -191,7 +191,6 @@ class ProductsController extends BaseController
                 {
                     try
                     {
-
                         // Detect if the product must get pricing from the webservice
                         if($product->UsingWebService)
                         {
@@ -474,7 +473,7 @@ class ProductsController extends BaseController
                     catch (Exception $e)
                     {
                         //$message = $this->GetReasonFailWebService();
-                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
                         //echo $e;
                         //die();
                         $FailWebservice->flag = 1;
@@ -3236,11 +3235,17 @@ class ProductsController extends BaseController
     *   Add here all Known reason of product fail
     *
     */
-    private function GetReasonFailWebService($name, $deal)
+    private function GetReasonFailWebService($productBaseId, $name, $deal)
     {
-        $message =  $name.'is not available! try again';
-        if ($deal->BeginningOdometer > 113999) {
-            $message = $name.' not allowed vehicles with more than 113999 miles';
+        $message =  $name.' is not available! try again';
+
+        if ( $deal->BeginningOdometer > 113999 ) {
+            $message = $name.' not allowed vehicles with more than 113999 miles.';
+        } elseif ( $deal->BeginningOdometer == '' ) {
+            $message = 'Beginning Odometer cannot be empty';
+        //} elseif (  ) {
+        } else {
+            $message = 'Could not retrieve rates.';
         }
 
         return $message;
