@@ -285,20 +285,40 @@ function GetValueWebService (type,term,mileage,tireRotation,interval,deductible,
     for(var i = 0; i < countproductRates; i++) {
             eval("var obj = productRates.product" + idSave + "[i];");
 
+            if ( productBaseId == 11 )
+            {
+                if ( ( type == obj.Type ) && ( obj.Term >= 1 || obj.Term <= 60 ) ) 
+                {
+                    return obj.SellingPrice;
+                };
+
+                if ( ( type == obj.Type ) && ( obj.Term >= 61 || obj.Term <= 72 ) )
+                {
+                    return obj.SellingPrice;
+                };
+
+                if ( ( type == obj.Type ) && ( obj.Term >= 73 || obj.Term <= 84 ) )
+                {
+                    return obj.SellingPrice;
+                };
+
+
+            }; 
+
             if (type == obj.Type) {
                 if (term == obj.Term) {
                         if (productBaseId == 12) {
                             if (mileage == obj.Mileage) {
                                 SellingPrice = obj.SellingPrice;
                                     if (deductible == obj.Deductible) {
-                                            SellingPrice = obj.SellingPrice;
-                                            if (flagDeductible == 1) {
-                                                if (obj.DisappearingDeductible == true) {
-                                                    return obj.SellingPrice;
-                                                };
-                                            }else{
-                                                return SellingPrice;
-                                            }
+                                        SellingPrice = obj.SellingPrice;
+                                        if (flagDeductible == 1) {
+                                            if (obj.DisappearingDeductible == true) {
+                                                return obj.SellingPrice;
+                                            };
+                                        }else{
+                                            return SellingPrice;
+                                        }
                                     };
                             };
                         };// end productBaseId == 12
@@ -306,9 +326,13 @@ function GetValueWebService (type,term,mileage,tireRotation,interval,deductible,
                         if (productBaseId == 4) {
                             if (mileage == obj.Mileage) {
                                 if ( tireRotation = obj.TireRotation) {
+                                    SellingPrice = obj.SellingPrice;
                                     if ( interval == obj.Interval ) {
                                         SellingPrice = obj.SellingPrice;
+                                        $('.messageWarningMatching').hide();
                                         return SellingPrice;
+                                    } else {
+                                        $('.messageWarningMatching').show();
                                     }
                                 }
                             }
@@ -324,7 +348,7 @@ function GetValueWebService (type,term,mileage,tireRotation,interval,deductible,
                         
                 };
             };
-     }
+     } 
 
      return SellingPrice;
 }
@@ -432,23 +456,6 @@ function LoadOptionDefault() {
     var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
     var ProductBaseType = $(GlobalSectionProduct).find( '.ProductBaseType' ).attr('name');
 
-    // //load Deductible
-    // (selectDeductible.options[selectDeductible.options.length] = new Option('$0', '0')); 
-    // (selectDeductible.options[selectDeductible.options.length] = new Option('$50', '50')); 
-    // (selectDeductible.options[selectDeductible.options.length] = new Option('$100', '100')); 
-    // (selectDeductible.options[selectDeductible.options.length] = new Option('$100 Disappearing', '100D')); 
-    // (selectDeductible.options[selectDeductible.options.length] = new Option('$200', '200')); 
-
-    // if (ProductBaseId == 12) {
-    //     $("#DeductibleFinance option[value='100D']").hide();
-    // } else{
-    //     $("#DeductibleFinance option[value='100D']").show();
-    // };
-
-    // $("#DeductibleFinance option").filter(function() {
-    //         return $(this).val() == SelectedDeductible; 
-    // }).prop('selected', true);
-
     eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
     
     eval("var obj = productRates.product" + idSave);
@@ -470,7 +477,7 @@ function LoadOptionDefault() {
              if (SelectedType == 'none' || SelectedType == 'None'  || typeFind==0) {
                 SelectedType =  obj.Type;
                 typeFind = 1;
-             };              
+             };
 
              if (SelectedType == obj.Type) {
                      $("#TypeFinance option").filter(function() {
@@ -512,6 +519,9 @@ function LoadOptionDefault() {
     var FindType = $("#TypeFinance :selected").text();
     var FindTerm = $("#TermFinance :selected").text();
     var FindMileage = $("#MileageFinance :selected").text();
+    var FindTireRotation = $("#TireRotation :selected").text();
+    var FindInterval = $("#Interval :selected").text();
+
     for (var i = 0; i < countproductRates; i++) {
         eval("var obj = productRates.product" + idSave + "[i];");
         validate3 = ArrayMileage.indexOf(obj.Mileage);
@@ -519,26 +529,26 @@ function LoadOptionDefault() {
         validate5 = ArrayInterval.indexOf(obj.Interval);
         if (FindType == obj.Type) {
             if (FindTerm == obj.Term) {
-                // only for VSC ---------------
                 if (ProductBaseId == 12 || ProductBaseId == 2 || ProductBaseId == 4) {
                     if (validate3 < 0 ) {
                         ArrayMileage[i] = obj.Mileage; 
                         selectMileage.options[selectMileage.options.length] = new Option(obj.Mileage, obj.Mileage);                                                       
-                    };                         
-                };
+                    };
 
-                if ( ProductBaseId == 4 ){
-                    if ( validate4 <= 0 ){
-                        ArrayTireRotation[i] = obj.TireRotation;
-                        selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
-                    }
-                };
-                
-                if ( ProductBaseId == 4 ){
-                    if ( validate5 < 0 ){
-                        ArrayInterval[i] = obj.Interval;
-                        selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
-                    }
+                    if ( SelectedMileage == obj.Mileage ) 
+                    {
+                        if ( validate4 <= 0 )
+                        {
+                            ArrayTireRotation[i] = obj.TireRotation;
+                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
+                        }
+
+                        if ( validate5 < 0 )
+                        {
+                            ArrayInterval[i] = obj.Interval;
+                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
+                        }
+                    }              
                 };
 
                 // ends 
@@ -637,6 +647,8 @@ function ChangeMileageOrder(SelectedMileage) {
             }).prop('selected', true);
         }; 
     };
+
+
 }
 
 function ChangeTireRotationOrder(SelectedTireRotation){
@@ -768,6 +780,11 @@ $( "#TermFinance" ).change(function() {
     LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
 
+$( "#MileageFinance" ).change(function() {
+    LoadOptionsMileageOnSelect($('#MileageFinance :selected').text());
+});
+
+
 function LoadOptionTypeOnSelect(SelectedType) {
 
     var ArrayMileage = [];
@@ -811,7 +828,6 @@ function LoadOptionTypeOnSelect(SelectedType) {
         validate3 = ArrayMileage.indexOf(obj.Mileage);
         if (FindType == obj.Type) {
             if (FindTerm == obj.Term) {
-                // only for VSC ---------------
                 if (ProductBaseId == 12 || ProductBaseId == 2  || ProductBaseId == 4) {
                     if (validate3 < 0 ) {
                         ArrayMileage[i] = obj.Mileage; 
@@ -857,7 +873,6 @@ function LoadOptionTermOnSelect (SelectedTerm) {
         
         if (FindType == obj.Type) {
             if (FindTerm == obj.Term) {
-                // only for VSC ---------------
                 if (ProductBaseId == 12 || ProductBaseId == 2  || ProductBaseId == 4) {
                     if (validate3 < 0 ) {
                         ArrayMileage[i] = obj.Mileage; 
@@ -893,6 +908,61 @@ function LoadOptionTermOnSelect (SelectedTerm) {
     ChangeMileageOrder(SelectedMileage); 
     ChangeDeductibleOrder(SelectedDeductible);
 
+}
+
+function LoadOptionsMileageOnSelect(SelectedMileage)
+{
+    var ArrayMileage = [];
+    var ArrayTireRotation = [];
+    var ArrayInterval = [];
+
+    var selectTireRotation = document.getElementById("TireRotation");
+    selectTireRotation.options.length = 0;
+
+    var selectInterval = document.getElementById("Interval");
+    selectInterval.options.length = 0;
+
+    //var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
+    var SelectedTireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+    var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
+
+    var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
+    var idSave = GlobalSectionProduct.attr('id');
+
+    var FindType = $("#TypeFinance :selected").text();
+    var FindTerm = $("#TermFinance :selected").text();
+
+    eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
+
+    for (var i = 0; i < countproductRates; i++) {
+        eval("var obj = productRates.product" + idSave + "[i];");
+        validate4 = ArrayTireRotation.indexOf(obj.TireRotation);
+        validate5 = ArrayInterval.indexOf(obj.Interval);
+        
+        if (FindType == obj.Type) {
+            if (FindTerm == obj.Term) {
+                if ( ProductBaseId == 4 ) {
+                    if ( SelectedMileage == obj.Mileage ) 
+                    {
+                        if ( validate4 <= 0 )
+                        {
+                            ArrayTireRotation[i] = obj.TireRotation;
+                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
+                        }
+
+                        if ( validate5 < 0 )
+                        {
+                            ArrayInterval[i] = obj.Interval;
+                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ChangeTireRotationOrder(SelectedTireRotation);
+    ChangeIntervalOrder(SelectedInterval);
 }
 
 function ValidateExpression (text, type) {
