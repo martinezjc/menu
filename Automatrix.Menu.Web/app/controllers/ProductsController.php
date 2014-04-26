@@ -155,19 +155,40 @@ class ProductsController extends BaseController
                 ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
                 ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                 ->orderBy('PlansProducts.Order', 'asc')
-                ->get();
+                //->get(); 
+                ->get(array(
+                    "Products.id",
+                    "Products.ProductBaseId",
+                    "Products.DealerId",
+                    "Products.DisplayName",
+                    "Products.ProductDescription",
+                    "Products.IsTaxable",
+                    "Products.SellingPrice",
+                    "Products.UsingWebService",
+                    "Products.Bullets",
+                    "Products.BrochureImage",
+                    "Products.BrochureHeight",
+                    "Products.BrochureWidth",
+                    "Products.UseTerm",
+                    "Products.UseType",
+                    "Products.UseDeductible",
+                    "Products.UseTireRotation",
+                    "Products.UseInterval",
+                    "Products.UseRangePricing",
+                    "Products.VehiclePlan",
+                    "Products.Type",
+                    "Products.Term",
+                    "Products.Deductible",
+                    "Products.Mileage",
+                    "Products.TireRotation",
+                    "Products.Interval",
+                    "ProductBase.CompanyId",
+                    "ProductBase.ProductName",
+                    "ProductBase.ProductType",
+                    "PlansProducts.ProductId"
+                ));
             
             $rangePricing = DB::table('ProductPrice')->get();
-            
-            $products2 = $products;
-            
-            $products3 = $products;
-            
-            $products4 = $products;
-            
-            $productDetail = DB::table('ProductDetail')->get();
-            
-            $plansProducts = DB::table('PlansProducts')->get();
             
             // TODO: Call remote webservice to get product information
             // TODO: Read dynamically the name of the product that should be processed.
@@ -204,7 +225,7 @@ class ProductsController extends BaseController
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                             ->where('DealerId', '=', $product->DealerId)
-                            ->first();
+                            ->first(array("DealerCode"));
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
@@ -424,7 +445,7 @@ class ProductsController extends BaseController
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                             ->where('DealerId', '=', $product->DealerId)
-                            ->first();
+                            ->first(array("DealerCode"));
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
@@ -474,7 +495,7 @@ class ProductsController extends BaseController
                     {
                         //$message = $this->GetReasonFailWebService();
                         array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
-                        //echo $e;
+                        //echo $e."<br><br>";
                         //die();
                         $FailWebservice->flag = 1;
                     } // end catch
@@ -499,12 +520,7 @@ class ProductsController extends BaseController
                 //$FailWebservice->message = $this->GetReasonFailWebService();
             }
             return View::make('financemenu')->with('Products', $products)
-                ->with('Products2', $products2)
-                ->with('Products3', $products3)
-                ->with('Products4', $products4)
-                ->with('Datas', $productDetail)
                 ->with('Settings', $settings)
-                ->with('PlansProducts', $plansProducts)
                 ->with('ShowPrintButton', false)
                 ->with('FailWebservice', $FailWebservice)
                 ->with('ShowMenuPrintButton', true)
@@ -1727,17 +1743,40 @@ class ProductsController extends BaseController
             ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
             ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
             ->orderBy('PlansProducts.Order', 'asc')
-            ->get();
-        
-        // $ProductsInverted = DB::table ( 'Products' )->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )->orderBy ( 'PlansProducts.Order', 'desc' )->get ();
-        
-        $ProductDetail = DB::table('ProductDetail')->get();
-        
-        $PlansProducts = DB::table('PlansProducts')->get();
-        
+            //->get();
+            ->get(array(
+                    "Products.id",
+                    "Products.ProductBaseId",
+                    "Products.DealerId",
+                    "Products.DisplayName",
+                    "Products.ProductDescription",
+                    "Products.IsTaxable",
+                    "Products.SellingPrice",
+                    "Products.UsingWebService",
+                    "Products.Bullets",
+                    "Products.BrochureImage",
+                    "Products.BrochureHeight",
+                    "Products.BrochureWidth",
+                    "Products.UseTerm",
+                    "Products.UseType",
+                    "Products.UseDeductible",
+                    "Products.UseTireRotation",
+                    "Products.UseInterval",
+                    "Products.UseRangePricing",
+                    "Products.VehiclePlan",
+                    "Products.Type",
+                    "Products.Term",
+                    "Products.Deductible",
+                    "Products.Mileage",
+                    "Products.TireRotation",
+                    "Products.Interval",
+                    "ProductBase.CompanyId",
+                    "ProductBase.ProductName",
+                    "ProductBase.ProductType",
+                    "PlansProducts.ProductId"
+                ));
+         
         return View::make('disclosureMenu')->with('Products', $Products)
-            ->with('Details', $ProductDetail)
-            ->with('PlansProducts', $PlansProducts)
             ->with('Accepted', $Accepted)
             ->with('Rejected', $Rejected)
             ->with('AcceptedPrice', $AcceptedPrice)
@@ -1760,7 +1799,6 @@ class ProductsController extends BaseController
             ->with('rejectedDescription', $rejectedDescription)
             ->with('downPayment', $downPayment)
             ->with('term', $term)
-            ->with('apr', $apr)
             ->with('apr', $apr)
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
@@ -2837,7 +2875,7 @@ class ProductsController extends BaseController
             
             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                 ->where('DealerId', '=', $product->DealerId)
-                ->first();
+                ->first(array("DealerCode"));
             
             // if ($product->UsingWebService == 0 && $product->id == $productId) {
             // echo "Contract available soon";
@@ -3233,27 +3271,7 @@ class ProductsController extends BaseController
             }
         }
         
-        // $url = "http://webservice.automatrix.co/api/deal/";
-        // $productDeal = json_encode($productDeal);
-        // $options = array(
-        // 'http' => array(
-        // 'method' => 'PUT',
-        // 'content' => $productDeal,
-        // 'header'=> "Content-Type: application/json\r\n" .
-        // "Accept: application/json\r\n"
-        // )
-        // );
-        
-        // $context = stream_context_create($options);
-        // $result = file_get_contents($url, false, $context);
-        // $response = json_decode($result);
-        // var_dump($response);
-        
-        // print_r($productsJson);
-        // echo "<br>";
-        // echo "<br>";
-        
-        return json_encode($productDeal);
+       return json_encode($productDeal);
     }
 
     private function deleteVarSession()
