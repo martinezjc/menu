@@ -402,6 +402,7 @@ function LoadOptionDefault() {
     var ArrayTireRotation = [];
     var ArrayInterval = [];
     var ArrayDeductible = [];
+    var ArrayDisappearing = [];
 
     var selectTerm = document.getElementById("TermFinance");
     selectTerm.options.length = 0;
@@ -452,7 +453,6 @@ function LoadOptionDefault() {
     
     eval("var obj = productRates.product" + idSave);
     var typeFind = SearchObjType( obj, SelectedType );
-    var flag100 = 0;
     for(var i = 0; i < countproductRates; i++) {
             eval("var obj = productRates.product" + idSave + "[i];");
              validate = ArrayTerm.indexOf(obj.Term);
@@ -481,26 +481,28 @@ function LoadOptionDefault() {
                         ArrayTerm[i] = obj.Term; 
                         (selectTerm.options[selectTerm.options.length] = new Option(obj.Term, obj.SellingPrice)).setAttribute('OrderNumber', obj.OrderNumber);
                      };
-                     if(validate6 < 0){
-                        if (ProductBaseId == 12) {
-                            if(obj.Deductible == 100 && flag100 == 0){
-                              flag100 = 1;
+                    if(validate6 < 0){
+                    if (ProductBaseId == 12) {
+                            if(obj.Deductible == 100){
+                              validateDisappearing = ArrayDisappearing.indexOf(obj.DisappearingDeductible);
+                              if (validateDisappearing >= 0) {  // if deductible 100 with same disappearing , continue next iteration
+                                    continue; 
+                              }
+                              ArrayDisappearing[i] = obj.DisappearingDeductible;
                             }else{
                               ArrayDeductible[i] = obj.Deductible;
                             }
-                            if (obj.DisappearingDeductible == true) {
+                           if (obj.DisappearingDeductible == true) {
                                 (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible)+" Disappearing", parseInt(obj.Deductible)+"D")).setAttribute('Disappearing', obj.DisappearingDeductible);
                             }else{
-                               (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
+                                (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
                             }
-                            
                         } else{
                             ArrayDeductible[i] = obj.Deductible;
                             (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', 'false');
-
                         }
-                        
-                     }
+
+                    } // end validate 6  
                      
              }; 
     }
@@ -827,6 +829,7 @@ function LoadOptionTypeOnSelect(SelectedType) {
 function LoadOptionTermOnSelect (SelectedTerm) {
     var ArrayMileage = [];
     var ArrayDeductible = [];
+    var ArrayDisappearing = [];
 
     var selectMileage = document.getElementById("MileageFinance");
     selectMileage.options.length = 0;
@@ -846,11 +849,12 @@ function LoadOptionTermOnSelect (SelectedTerm) {
     eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
 
     var flag100 = 0;
+    
     for (var i = 0; i < countproductRates; i++) {
         eval("var obj = productRates.product" + idSave + "[i];");
         validate3 = ArrayMileage.indexOf(obj.Mileage);
         validate6= ArrayDeductible.indexOf(obj.Deductible)
-
+        
         if (FindType == obj.Type) {
             if (FindTerm == obj.Term) {
                 // only for VSC ---------------
@@ -862,8 +866,12 @@ function LoadOptionTermOnSelect (SelectedTerm) {
                 }
                 if(validate6 < 0){
                     if (ProductBaseId == 12) {
-                        if(obj.Deductible == 100 && flag100 == 0){
-                          flag100 = 1;
+                        if(obj.Deductible == 100){
+                          validateDisappearing = ArrayDisappearing.indexOf(obj.DisappearingDeductible);
+                          if (validateDisappearing >= 0) {  // if deductible 100 with same disappearing , continue next iteration
+                            continue; 
+                          }
+                          ArrayDisappearing[i] = obj.DisappearingDeductible;
                         }else{
                           ArrayDeductible[i] = obj.Deductible;
                         }
