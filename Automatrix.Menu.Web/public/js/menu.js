@@ -79,7 +79,7 @@ $(document).ready(function () {
 function checkWebService(){
     var FailWebService = parseInt($('#FailWebService').val());
     if (FailWebService == 1) {
-        toastr.error('Conection refused! try again', "Message");
+        toastr.error('We were unable to get the rates for some products, please try again.', "Message");
     };
 }
 
@@ -91,8 +91,6 @@ $("#ButtonNext").click(function () {
         return false;
     };
 });
-
-//updateSaveDMSButton();
 
 // Calculates the total of each plan
 function calculatePlans() {
@@ -320,7 +318,7 @@ $("#saveModal1").click(function () {
    }
     
     if (!ValidateExpression(SellingPrice,'Money')) {            
-            toastr.error('Invalid selling price format', "Message");
+            toastr.error('Invalid selling price format.', "Message");
             return false;
     }
     SellingPrice = GetFloat(SellingPrice).toFixed(2); 
@@ -380,7 +378,7 @@ $("#saveModal1").click(function () {
 
     
 
-    if (ProductBaseType == 'WARRANTY'  && $("#ModalMileage").is(':visible')) {
+    if (ProductBaseType == 'WARRANTY') {
         var years = TermText / 12;
         var description = $(GlobalSectionProduct).find( '.description-product' ).text();
 
@@ -446,6 +444,13 @@ $("#saveModal1").click(function () {
                  $(GlobalSectionProduct).find( ':checkbox' ).attr('OrderNumber', OrderNumber);  
                                 
             } 
+
+           $(GlobalSectionProduct).find( '.ProductType' ).attr('name', Type);
+           $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name', TermText);
+           $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name', Deductible);           
+           $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name', Mileage);
+           $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name', tireRotation);
+           $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name', interval);
             
     }
     calculatePlans();
@@ -536,7 +541,7 @@ function CreatePDf() {
       success: function (msg) {
       },
       failure: function (msg) {
-        toastr.error('User not found', "Message");
+        toastr.error('User not found.', "Message");
       }
    }); 
 }
@@ -564,8 +569,25 @@ UpdatePlansArray = function(){
     var preferreddescriptionarray = [];
     var economydescriptionarray = [];
     var basicdescriptionarray = [];
+    var visibleproductsarray=[];
     var index = 0;
     var index2 = 0;
+
+    index = 0;
+    $('#1 section.products').each(function(){
+        console.warn('aqui');
+        var currentnode = $(this);
+        var styleattibute = currentnode.attr('style');
+
+        if(styleattibute!=undefined)
+        {
+            if(styleattibute.match('none'))
+                visibleproductsarray[index] =  currentnode.attr('id');
+        }
+
+        index += 1;
+
+    });
 
     var index = 0;
     $('#1 div.displayname-product').each(function(){
@@ -598,7 +620,7 @@ UpdatePlansArray = function(){
     index = 0;
     $("#1 :checkbox").each(function () {
         var currentproduct = $(this)[0];
-        console.dir(currentproduct);
+
         premiumarray[index] = currentproduct.id;
 
         if(currentproduct.checked)
@@ -607,14 +629,14 @@ UpdatePlansArray = function(){
             index2= index2 + 1;
         }
 
-        if(index<total-1)
-            preferredarray[index] = currentproduct.id;
+        // if(index<total-1)
+        //     preferredarray[index] = currentproduct.id;
 
-        if(index<total-2)
-            economyarray[index] = currentproduct.id;
+        // if(index<total-2)
+        //     economyarray[index] = currentproduct.id;
 
-        if(index<total-3)
-            basicarray[index] = currentproduct.id;
+        // if(index<total-3)
+        //     basicarray[index] = currentproduct.id;
 
         costpremiumarray[index] = currentproduct.value.replace(',','!');
 
@@ -626,68 +648,74 @@ UpdatePlansArray = function(){
     $("#2 :checkbox").each(function () {
         // console.dir($(this));
         var currentproduct = $(this)[0];
+        preferredarray[index] = currentproduct.id;
+
         if(currentproduct.checked)
         {
-            preferredacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            preferredacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costpreferredarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costpreferredarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
     index=0;
     index2 = 0;
     $("#3 :checkbox").each(function () {
         var currentproduct = $(this)[0];
+        economyarray[index] = currentproduct.id;
+
         if(currentproduct.checked)
         {
-            economyacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            economyacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costeconomyarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costeconomyarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
     index=0;
     index2 = 0;
     $("#4 :checkbox").each(function () {
         var currentproduct = $(this)[0];
+        basicarray[index] = currentproduct.id;
+        
         if(currentproduct.checked)
         {
-            basicacceptedarray[index] = currentproduct.id;
-            index =  index + 1;
+            basicacceptedarray[index2] = currentproduct.id;
+            index2 =  index2 + 1;
         }
 
-        costbasicarray[index2] = currentproduct.value.replace(',','!');
-        index2 = index2 + 1 ;
+        costbasicarray[index] = currentproduct.value.replace(',','!');
+        index = index + 1 ;
     });
 
 
     costfooterarray[0] = $('#CostDayPremium').text();
     costfooterarray[1] = $('#AdditionalPremium').text();
     costfooterarray[2] = $('#MonthlyPremium').text();
-    costfooterarray[3] = $('#PremiumSpanTermId').text().trim();
-    costfooterarray[4] = $('#PremiumSpanTerm2Id').text().trim();
+    costfooterarray[3] = $('#PremiumSpanTerm2Id').text().trim();
+    costfooterarray[4] = $('#PremiumSpanTermId').text().trim();
 
     costfooterarray[5] = $('#CostDayPreferred').text();
     costfooterarray[6] = $('#AdditionalPreferred').text();
     costfooterarray[7] = $('#MonthlyPreferred').text();
-    costfooterarray[8] = $('#PreferredSpanTermId').text().trim();
-    costfooterarray[9] = $('#PreferredSpanTerm2Id').text().trim();
+    costfooterarray[8] = $('#PreferredSpanTerm2Id').text().trim();
+    costfooterarray[9] = $('#PreferredSpanTermId').text().trim();
 
     costfooterarray[10] = $('#CostDayEconomy').text();
     costfooterarray[11] = $('#AdditionalEconomy').text();
     costfooterarray[12] = $('#MonthlyEconomy').text();
-    costfooterarray[13] = $('#EconomySpanTermId').text().trim();
-    costfooterarray[14] = $('#EconomySpanTerm2Id').text().trim();
+    costfooterarray[13] = $('#EconomySpanTerm2Id').text().trim();
+    costfooterarray[14] = $('#EconomySpanTermId').text().trim();
 
     costfooterarray[15] = $('#CostDayBasic').text();
     costfooterarray[16] = $('#AdditionalBasic').text();
     costfooterarray[17] = $('#MonthlyBasic').text(); 
-    costfooterarray[18] = $('#BasicSpanTermId').text().trim();
-    costfooterarray[19] = $('#BasicSpanTerm2Id').text().trim();
+    costfooterarray[18] = $('#BasicSpanTerm2Id').text().trim();
+    costfooterarray[19] = $('#BasicSpanTermId').text().trim();
 
     $("#premiumarray").val(premiumarray);
     $("#preferredarray").val(preferredarray);
@@ -710,6 +738,7 @@ UpdatePlansArray = function(){
     $('#preferreddescription').val(preferreddescriptionarray);
     $('#economydescription').val(economydescriptionarray);
     $('#basicdescription').val(basicdescriptionarray);
+    $('#visibleproducts').val(visibleproductsarray);
 };
 
 $('#saveDealSettings').click( function() {
@@ -743,8 +772,11 @@ $('#saveDealSettings').click( function() {
             calculatePlans();
         } else {
             $(this).prop("checked", true);
+            if ( $(this).prop("checked", true) && $('section[id^="'+productId+'"]').is(":hidden") ) {
+                $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
+                $('section[id^="'+productId+'"]').css("opacity", "1");
+            }
             $('section[id^="'+productId+'"]').show();
-            $('input:checkbox[id^="'+productId+'"]').prop('checked', true);
             calculatePlans();
         }
     });

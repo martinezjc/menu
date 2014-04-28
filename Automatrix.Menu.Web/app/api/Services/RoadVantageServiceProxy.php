@@ -132,6 +132,13 @@ class RoadVantageServiceProxy extends ServiceProxy
 
 		} else { //Get PDF Contract
 
+			/*
+		     *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+		     *   
+		    */
+			if ($request->product->IsTaxable == 1) {
+				$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+			}
 			
 			$data = new \stdClass();
 			$data->UserId = $request->deal->Username;
@@ -180,7 +187,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Customer = new \stdClass();
 			$data->Customer->FirstName = $request->deal->FirstName;
 			$data->Customer->LastName = $request->deal->LastName;
-			$data->Customer->MiddleInitial=$request->deal->MiddleName;
+			$data->Customer->MiddleInitial= substr($request->deal->MiddleName, 0, 1); // Only send the intials middlename
 			$data->Customer->Email = $request->deal->Email;
 
 			$data->Customer->Address = new \stdClass();

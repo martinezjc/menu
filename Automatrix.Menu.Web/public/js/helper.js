@@ -114,12 +114,12 @@ function validateURLField(id, message)
 function showErrorMessage(field, message) 
 {
     field.focus();
-    toastr.error(message, "Message");
+    toastr.error(message + '.', "Message");
 }
 
 function showSuccessMessage(message, action, url) 
 {
-    toastr.success(message, "Message");
+    toastr.success(message + '.', "Message");
 
     switch(action) 
     {
@@ -139,4 +139,10 @@ function ajaxBuilder(url, parameters, callback_function)
             showErrorMessage(null, msg);
         }
     });
+}
+
+function setErrorClass(containerClass, element, message)
+{
+    $('#'+containerClass).addClass('has-error');
+    showErrorMessage(element, message);
 }

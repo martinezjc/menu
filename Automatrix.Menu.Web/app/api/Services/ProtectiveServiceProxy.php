@@ -33,7 +33,7 @@ class ProtectiveServiceProxy extends ServiceProxy
         try
         {
             $response = $this->proxy->$method($this->getParameters($request));
-            
+            //if ($request->product->ProductBaseId == 12) {print_r($response);echo "<br><br>";die();}
             if($request->type == 0)
             { // Get Rates
                 $dat = (array) $response;
@@ -90,7 +90,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                $request->Automobiles[0]->Lender = 'Other';
+                $request->Automobiles[0]->Lender = 'None';
                 $request->Automobiles[0]->ProductClassCode = 0;
                 
                 $request->Automobiles[0]->MarkUp = new \stdClass();
@@ -198,7 +198,9 @@ class ProtectiveServiceProxy extends ServiceProxy
                 $request->Automobiles = array();
                 $request->Automobiles[0] = new \stdClass();
                 $request->Automobiles[0]->VIN = $data->deal->VIN;
-                $request->Automobiles[0]->VehiclePurchaseDate = date('c');
+
+                $date=explode('T',$data->deal->VehiclePurchaseDate);
+                $request->Automobiles[0]->VehiclePurchaseDate = date('c', strtotime($date[0]));
                 
                 $request->Automobiles[0]->Lienholder = new \stdClass();
                 $request->Automobiles[0]->Lienholder->Name = $data->deal->LienHolderName;
@@ -241,7 +243,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->ContractPrefix = $data->productRates->ContractPrefix; // "CG50";
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->EffectiveDate = date('c');
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->PurchaseDate = date('c');
-                    $request->Automobiles[0]->VSCContract->VSCContractDetails->VehiclePurchaseDate = date('c');
+                    $request->Automobiles[0]->VSCContract->VSCContractDetails->VehiclePurchaseDate = date('c', strtotime($date[0]));
                     
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote = new \stdClass();
                     $request->Automobiles[0]->VSCContract->VSCContractDetails->RateQuote->CoverageTermMonths = $data->productOptions->term;
@@ -265,12 +267,12 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->VSCContract->MileageAtInServiceDate = ""; // date('c');
                     $request->Automobiles[0]->VSCContract->VehiclePlan = $data->product->VehiclePlan;
                     $request->Automobiles[0]->VSCContract->BeginningOdometer = $data->deal->BeginningOdometer;
-                    $request->Automobiles[0]->VSCContract->InServiceDate = date('c');
+                    $request->Automobiles[0]->VSCContract->InServiceDate = date('c', strtotime($date[0]."12:00:00"));
 
                     //Ramin indico que el SalesPrice seria el campo a enviar aca
                     $request->Automobiles[0]->VSCContract->VehiclePurchasePrice = $data->deal->SalesPrice; // 20000;                    
                     $request->Automobiles[0]->VSCContract->FinancingType = 'Purchase';
-                    $request->Automobiles[0]->VSCContract->ContractSalesTax = 0;
+                    $request->Automobiles[0]->VSCContract->ContractSalesTax =  $data->deal->TaxRate;
                     
                     $request->Automobiles[0]->VSCContract->Surcharges = new \stdClass();
                     $request->Automobiles[0]->VSCContract->Surcharges->BusinessUse = $data->productOptions->surcharges[0];
@@ -318,7 +320,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 {
                     $request->Automobiles[0]->GAPContract = new \stdClass();
                     $request->Automobiles[0]->GAPContract->AmountFinanced = $data->deal->NewFinancedAmount;
-                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->NewFinancedAmount;
+                    $request->Automobiles[0]->GAPContract->AmountMSRP = $data->deal->SalesPrice;
                     $request->Automobiles[0]->GAPContract->APR = $data->deal->NewAPR;
                     $request->Automobiles[0]->GAPContract->BeginningOdometer = $data->deal->BeginningOdometer;
                     $request->Automobiles[0]->GAPContract->DownPayment = $data->deal->NewDownPayment;
@@ -331,7 +333,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->ContractNumber = $contractNumber; // 50000;
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->EffectiveDate = date('c');
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->PurchaseDate = date('c');
-                    $request->Automobiles[0]->GAPContract->GAPContractDetails->VehiclePurchaseDate = date('c');
+                    $request->Automobiles[0]->GAPContract->GAPContractDetails->VehiclePurchaseDate = date('c', strtotime($date[0]));
                     
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->RateQuote = new \stdClass();
                     $request->Automobiles[0]->GAPContract->GAPContractDetails->RateQuote->ProductClass = $data->productRates->ProductClass; // "GAP";
@@ -428,19 +430,16 @@ class ProtectiveServiceProxy extends ServiceProxy
             $data->deal->ZipCode = 12345;
         }
         
-        /*$fullName = explode(" ", trim($data->deal->Buyer), 2);
-        $data->FirstName = $fullName[0];
-        
-        // if surename is too longer , only show the initial of last string
-        if(strlen(trim($fullName[1])) > 15)
-        {
-            $arr = explode(" ", trim($fullName[1]), 2);
-            $data->LastName = $arr[0] . ' ' . substr($arr[1], 0, 1);
+        /*
+        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+        *   
+        */
+        if ($data->product->IsTaxable == 1) {
+            //$data->productOptions->price = ($data->productOptions->price) * (1 + ($data->deal->TaxRate / 100));  
+
+        }else{ // if product dont use tax rate in settings, delete.
+             $data->deal->TaxRate = 0;
         }
-        else
-        {
-            $data->LastName = trim($fullName[1]);
-        }*/
         
         if(empty($data->productOptions->mileage))
         {
@@ -464,6 +463,18 @@ class ProtectiveServiceProxy extends ServiceProxy
     //
     private function GetContractPrefix($CoverageCode)
     {
+
+         // Product Automobile: PREFERRED,PREFERRED WRAP,PREFERRED DOMESTIC CERTIFIED ,PREFERRED ASIAN CERTIFIED
+        if($CoverageCode == "PR08" || $CoverageCode == "WRPR08" || $CoverageCode == "PRC08" || $CoverageCode == "PRCA08" )
+        {
+            $ContractPrefix = "AD40";
+        }
+
+        // Product Automobile: ADVANTAGE; POWERTRAIN PLUS; POWERTRAIN; ADVANTAGE WRAP; POWERTRAIN PLUS HIGH MILEAGE;POWERTRAIN HIGH MILEAGE; ADVANTAGE DOMESTIC CERTIFIED; ADVANTAGE ASIAN CERTIFIED
+        if ($CoverageCode == "AD08" || $CoverageCode == "PP08" || $CoverageCode == "PT08" || $CoverageCode == "WRAD08" || $CoverageCode == "PPH08" || $CoverageCode == "PTH08"|| $CoverageCode == "ADC08" || $CoverageCode == "ADCA08" ) {
+            $ContractPrefix = "AD40";
+        }
+
         // Product Automobile: Lifetime
         if($CoverageCode == "00ENG")
         {

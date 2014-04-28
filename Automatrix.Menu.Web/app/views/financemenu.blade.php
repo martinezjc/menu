@@ -209,8 +209,6 @@ $WebService = $deal;
             <td style="text-align:center; font-size: 12px;" colspan="2">
             	@if ($WebService->Deal != 0)
               		<a href="#ModalDealSettings" data-dismiss="modal" data-toggle="modal" id="dealSettingsModal" class="">Deal settings</a>
-              		@else
-              		<a href="javascript:void()" data-dismiss="modal" data-toggle="modal" id="dealSettingsModal" class="">Deal settings</a>
                 @endif
             </td>
            </tr>        
@@ -300,24 +298,53 @@ $WebService = $deal;
 											<div class="description-product" hidden>{{ $Product->ProductDescription }}</div>
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
-												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												@if ( $Product->ProductBaseId == 12 )
+													@if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  / {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years 
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -350,11 +377,16 @@ $WebService = $deal;
 												  
 												<?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -461,23 +493,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -507,11 +568,16 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>				
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -615,23 +681,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -662,11 +757,16 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -769,23 +869,52 @@ $WebService = $deal;
 											<div class="displayname-product">
 											@if ( $Product->UsingWebService == 1)
 												@if ( $Product->ProductBaseId == 12 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
 												  / ${{ $Product->Deductible }} Deductible
 												  @if ($Product->ProductDescription) 
 												    - {{$Product->ProductDescription}} 
 												  @endif 
 												@elseif ( $Product->ProductBaseId == 11 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 2 ) 
-												  {{ $Product->Term / 12 }} Years / {{ $Product->Mileage }},000 Miles / ${{ $Product->Deductible }} Deductible 
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		/ {{ $Product->Mileage }},000 Miles 
+												  		/ ${{ $Product->Deductible }} Deductible 
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
 												@elseif ( $Product->ProductBaseId == 3 ) 
-												  {{ $Product->Term / 12 }} Years @if ( $Product->Deductible != 0 ) / ${{ $Product->Deductible }} Deductible @endif
+												  @if(empty($Product->Years)) 
+												  		{{ $Product->Term / 12 }} 
+												  	@else
+												  		{{$Product->Years}}
+												  	@endif
+												  		Years  
+												  		@if ( $Product->Deductible != 0 ) 
+												  		/ ${{ $Product->Deductible }} Deductible 
+												  		@endif
 												  @if ( $Product->ProductDescription ) 
 												    - {{ $Product->ProductDescription }} 
 												  @endif
@@ -816,11 +945,16 @@ $WebService = $deal;
 												  <a style="padding-right:5px;" id="modal2" class="linkmodal2"data-toggle="modal" data-target="#myModal2" ><i class="fa fa-file-text-o" title="Brochure"></i></a>
 												  <?php
                                              		$ProductsFail = $FailWebservice->failureProductRates;
+                                             		$ProductsMatchingFail = $FailWebservice->failMatchingRate;
                                                	?>
-
+                                                  @foreach ($ProductsMatchingFail as $ProductMatchingFail => $matchFail)
+                                                  	@if ( $matchFail['ProductId'] == $Product->ProductId)
+                                                  	  <a class="messageWarningMatching" data-toggle="tooltip" data-placement="right" title="{{ $matchFail['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+                                                  	@endif
+                                                  @endforeach
 												  @foreach ($ProductsFail as $ProductFail => $pf)
 												    @if($pf['ProductId'] ==  $Product->ProductId)
-												  	<a style="padding-right:5px;" id="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
+												  	<a style="padding-right:5px;" class="messageWarning" data-toggle="tooltip" data-placement="right" title="{{ $pf['Message'] }}"><i style="font-size: 14px;" class="fa fa-exclamation-triangle"></i></a>
 												    @endif
 												  @endforeach
 											  </div>
@@ -982,6 +1116,9 @@ $WebService = $deal;
       <input name="DownPayment" id="HiddenDownPayment" type="hidden"/>
 
       <input name="ProtectiveVsc" id="HiddenProtectiveVsc" value="0,0,0,0" type="hidden"/>
+
+      <input name="FailureProductsRates" id="FailureProductsRates" value="{{{  json_encode($FailWebservice->failureProductRates) }}}" type="hidden">
+
       
 		<button id="ButtonNext" type="submit" class="btn btn-lg btn-primary pull-right" disabled style="padding-left:15%; padding-right:15%;margin-bottom:25px;">
 	               Next  <i class="fa fa-arrow-right"></i>
@@ -1094,7 +1231,7 @@ $WebService = $deal;
       <div  class="modal-body row">
       	<div id="ModalContainer" style="overflow:hidden;">
       		<?php 
-			$path = "/menuapp/public/uploads/brochure/ ";
+			$path = "/uploads/brochure/ ";
       			$path = rtrim($path);
       		 ?>
 			<img id="ImgModal2" src="" name="<?php echo $path; ?>" class="img-responsive img-rounded" alt="Responsive image">
@@ -1116,7 +1253,6 @@ $WebService = $deal;
 <input type="hidden" id="ValidatePage" value="0">
 <input type="hidden" id="FailWebService" value="{{{ $FailWebservice->flag }}}" message="{{ $FailWebservice->message}}">
 <!--<input type="hidden" id="FailureProductsRates" value="{{{  json_encode(array('items' => $FailWebservice->failureProductRates), JSON_FORCE_OBJECT) }}}">-->
-<input type="hidden" id="FailureProductsRates" value="{{{  json_encode($FailWebservice->failureProductRates) }}}">
  
 
 @stop

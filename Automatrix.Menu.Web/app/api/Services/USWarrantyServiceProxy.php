@@ -35,7 +35,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 			if ($request->type == 0) { // Get rates
 					$method = $this->getMethod($request);
-					$response = $this->proxy->$method ($this->getParameters($request));
+					$response = $this->proxy->$method ($this->getParameters($request)); //if ($request->product->ProductBaseId == 5 || $request->product->ProductBaseId == 2) {print_r($response);echo "<br><br>";}
 					$dat = ( array ) $response;
 					$xml = simplexml_load_string ( $dat [$method.'Result'] );
 					$json = json_encode ( $xml );
@@ -256,6 +256,15 @@ class USWarrantyServiceProxy extends ServiceProxy
 				if (strlen(round($request->deal->ZipCode)) < 5) {
 					$request->deal->ZipCode = 12345;
 				}
+
+				 /*
+		        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+		        *   
+		        */
+		        if ($request->product->IsTaxable == 1) {
+		            //$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+
+		        }
 				
 				//$fullName = explode(" ", $request->deal->Buyer);
 						
@@ -272,7 +281,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Customer->DealerCode = $dealercode;
 		        $data->Products->Customer->LastName = $request->deal->LastName;
 		        $data->Products->Customer->FirstName = $request->deal->FirstName;
-		        $data->Products->Customer->MiddleInitial = $request->deal->MiddleName;
+		        $data->Products->Customer->MiddleInitial = substr($request->deal->MiddleName, 0, 1); // Only send the intials middlename
 		        $data->Products->Customer->LastName2 = '';
 		        $data->Products->Customer->FirstName2 = '';
 		        $data->Products->Customer->MiddleInitial2 = '';
@@ -304,10 +313,10 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Vsc->ContractNumber= '';
 		        $data->Products->Vsc->CvCvty = $request->productRates->CvCvty;//"US46E";
 		        $data->Products->Vsc->Cost = $request->productRates->AmtDueWtyCo;// '';
-		        $data->Products->Vsc->RetailAmount = '';
-		        $data->Products->Vsc->FiledAmount= $request->productRates->FiledAmount;// '';
+		        $data->Products->Vsc->RetailAmount = $request->productOptions->price;
+		        $data->Products->Vsc->FiledAmount= $request->productOptions->price;// '';
 		        $data->Products->Vsc->TermMonths= $request->productOptions->term;
-		        $data->Products->Vsc->TermMiles= $request->productRates->MileageTerm;//"6,000";
+		        $data->Products->Vsc->TermMiles= ($request->productOptions->mileage)*1000;//"6,000";
 		        $data->Products->Vsc->InServiceDate= date('c');
 		        $data->Products->Vsc->Deductible= $request->productOptions->deductible;
 		        $data->Products->Vsc->Cert = "N";
@@ -320,11 +329,11 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Maintenance->ContractNumber = "";
 		        $data->Products->Maintenance->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->Maintenance->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Maintenance->RetailAmount = "";
-		        $data->Products->Maintenance->FiledAmount = $request->productRates->FiledAmount;
+		        $data->Products->Maintenance->RetailAmount = $request->productOptions->price;
+		        $data->Products->Maintenance->FiledAmount = $request->productOptions->price;
 		        $data->Products->Maintenance->TermMonths = $request->productOptions->term;
-		        $data->Products->Maintenance->TermMiles = $request->productRates->MileageTerm;
-		        $data->Products->Maintenance->Interval = $request->productRates->Interval;
+		        $data->Products->Maintenance->TermMiles = ($request->productOptions->mileage)*1000;
+		        $data->Products->Maintenance->Interval = $request->productOptions->interval;
 		        $data->Products->Maintenance->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->Maintenance->Options = new \stdClass();
 		        $data->Products->Maintenance->Options->Option = "";
@@ -333,10 +342,10 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->RoadHazard->ContractNumber = "";
 		        $data->Products->RoadHazard->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->RoadHazard->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->RoadHazard->RetailAmount = "";
-		        $data->Products->RoadHazard->FiledAmount = $request->productRates->FiledAmount;
+		        $data->Products->RoadHazard->RetailAmount = $request->productOptions->price;
+		        $data->Products->RoadHazard->FiledAmount = $request->productOptions->price;
 		        $data->Products->RoadHazard->TermMonths = $request->productOptions->term;
-		        $data->Products->RoadHazard->TermMiles = $request->productRates->MileageTerm;
+		        $data->Products->RoadHazard->TermMiles = ($request->productOptions->mileage)*1000;
 		        $data->Products->RoadHazard->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->RoadHazard->Options = new \stdClass();
 		        $data->Products->RoadHazard->Options->Option = "";
@@ -345,8 +354,8 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Key->ContractNumber = '';
 		        $data->Products->Key->CvCvty = $request->productRates->CvCvty;//'GKN';
 		        $data->Products->Key->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Key->RetailAmount = "";
-		        $data->Products->Key->FiledAmount = $request->productRates->FiledAmount;
+		        $data->Products->Key->RetailAmount = $request->productOptions->price;
+		        $data->Products->Key->FiledAmount = $request->productOptions->price;
 		        $data->Products->Key->TermYears = ($request->productOptions->term)/12;
 		        $data->Products->Key->VehicleType = 'U';
 		        $data->Products->Key->FormNumber = $request->productRates->FormNumber;
@@ -357,8 +366,8 @@ class USWarrantyServiceProxy extends ServiceProxy
 		        $data->Products->Dent->ContractNumber = "";
 		        $data->Products->Dent->CvCvty = $request->productRates->CvCvty;
 		        $data->Products->Dent->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Dent->RetailAmount = "";
-		        $data->Products->Dent->FiledAmount = $request->productRates->FiledAmount;
+		        $data->Products->Dent->RetailAmount = $request->productOptions->price;
+		        $data->Products->Dent->FiledAmount = $request->productOptions->price;
 		        $data->Products->Dent->TermYears = ($request->productOptions->term)/12;
 		        $data->Products->Dent->FormNumber = $request->productRates->FormNumber;
 		        $data->Products->Dent->Options = new \stdClass();
@@ -367,13 +376,13 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 		        $data->Products->Gap = new \stdClass();
 		        $data->Products->Gap->ContractNumber = "";
-		        $data->Products->Gap->RetailAmount = ""; 
-		        $data->Products->Gap->FiledAmount = $request->productRates->FiledAmount;
+		        $data->Products->Gap->RetailAmount = $request->productOptions->price;
+		        $data->Products->Gap->FiledAmount = $request->productOptions->price;
 		        $data->Products->Gap->TermMonths = $request->productOptions->term;
 		        $data->Products->Gap->PurchasePrice = $request->deal->SalesPrice;
 		        $data->Products->Gap->FinancedAmount = $request->deal->FinancedAmount;
-		        $data->Products->Gap->MSRP = '500';
-		        $data->Products->Gap->InterestRate = '10';
+		        $data->Products->Gap->MSRP = $request->deal->SalesPrice;
+		        $data->Products->Gap->InterestRate = $request->deal->NewAPR;
 		        $data->Products->Gap->FormNumber = $request->productRates->FormNumber; 
 		        $data->Products->Gap->FinanceType = "Purchase"; 
 

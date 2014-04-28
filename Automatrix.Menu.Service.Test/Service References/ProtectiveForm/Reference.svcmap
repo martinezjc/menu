@@ -19,10 +19,9 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://www.model.ficafe.protective.com/_webservices/protectiveservices.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://www.model.ficafe.protective.com/_webservices/protectiveservices.asmx?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="protectiveservices.disco" MetadataType="Disco" ID="f29935ea-1837-4f75-a750-7a074d7d3142" SourceId="1" SourceUrl="http://www.model.ficafe.protective.com/_webservices/protectiveservices.asmx?disco" />
     <MetadataFile FileName="protectiveservices.wsdl" MetadataType="Wsdl" ID="851c2dc4-ced2-4e50-97d5-26e5eb525764" SourceId="1" SourceUrl="http://www.model.ficafe.protective.com/_webservices/protectiveservices.asmx?wsdl" />
   </Metadata>
   <Extensions>

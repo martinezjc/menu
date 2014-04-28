@@ -76,5 +76,7 @@ class Deal
 
     public $SalesPrice = 0;
 
+    public $TaxRate = 0;
+
 
 }

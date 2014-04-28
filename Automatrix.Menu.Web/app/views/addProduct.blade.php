@@ -51,7 +51,7 @@ if (is_null($UserSessionInfo)) {
     </div>
     <div class="form-group">
       <label for="ProductDescription">Product Description</label>
-      <input id="ProductDescription" type="text"class="form-control" class="form-control" >
+      <input id="ProductDescription" type="text"class="form-control" class="form-control" aria-required="true" required >
     </div> 
     <div class="form-group">
       <label for="bulletsPoints">Bullets Points</label>

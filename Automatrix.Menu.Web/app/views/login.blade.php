@@ -13,12 +13,12 @@
                             {{ HTML::image("images/logo.png", "Logo", array('width' => '90%')  ) }}                                
 	                    <h2>Menu App</h2>
 
-	                    <div id="circleG" style="display:none;">
-							<div id="circleG_1" class="circleG">
+	                    <div id="circleG">
+							<div id="circleG_1" style="display:none;" class="circleG">
 							</div>
-							<div id="circleG_2" class="circleG">
+							<div id="circleG_2" style="display:none;" class="circleG">
 							</div>
-							<div id="circleG_3" class="circleG">
+							<div id="circleG_3" style="display:none;" class="circleG">
 							</div>
 						</div>	                    
 	        	</div> 
@@ -55,7 +55,7 @@
 	    <div class="modal-content">
 	        <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalLabel">Password Lookup</h4>
+	        <h4 class="modal-title" id="myModalLabel">Password Reset</h4>
 	      </div>
 	      <div class="modal-body row-fluid">
 	        <div class="span6">
@@ -65,6 +65,7 @@
 	                <input type="text" name="Email" id="Email" class="form-control" style="width:40%" placeholder="your@email.com" required>
 	              </div>
 	              <span class="help-block"><small>Enter the email address you used to sign-up.</small></span>
+	              <span id="errorMessage" style="color:#F00"></span>
 	          </div>
 	        </div>
 	      </div>

@@ -25,11 +25,12 @@ class ProductsController extends BaseController
      */
     public function get_ShowProductsViews()
     {
-        $this->deleteVarSession();
+        //$this->deleteVarSession();
         
         $URLSession = new stdClass();
         $DealerCode = '11401';
         $arrayProductsFailure = array();
+        $arrayProductsMatchingRateFail = array();
         
         if(Input::get('Deal') != '')
         {
@@ -63,82 +64,89 @@ class ProductsController extends BaseController
             $EmptyDeal = 0;
             
             $deal = new Deal();
-            $BeginningOdometer = 0;
-            try
-            {
-                $response = file_get_contents($settings->URL . $param);
-                
-                $response = str_replace('"', '', $response);
-                $response = str_replace('{', '', $response);
-                $response = str_replace('}', '', $response);
-                $response = explode(',', $response);
-                foreach ($response as $lineNum => $line)
-                {
-                    list ($key, $value) = explode(":", $line);
-                    $newArray[$key] = $value;
-                }
-                
-                $deal->Deal = $newArray[$settings->Deal];
-                $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
-                $deal->Year = $newArray[$settings->Year];
-                $deal->Make = $newArray[$settings->Make];
-                $deal->Model = $newArray[$settings->Model];
-                $deal->Trim = $newArray[$settings->Trim];
-                $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
-                $deal->APR = $newArray[$settings->APR];
-                $deal->Term = $newArray[$settings->Term];
-                $deal->DownPayment = $newArray[$settings->DownPayment];
-                $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
-                $deal->FirstName = $newArray[$settings->FirstNameParameter];
-                $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
-                $deal->LastName = $newArray[$settings->LastNameParameter];
-                $deal->Address1 = $newArray[$settings->Address1];
-                $deal->Address2 = $newArray[$settings->Address2];
-                $deal->City = $newArray[$settings->City];
-                $deal->State = $newArray[$settings->State];
-                $deal->StateCode = $newArray[$settings->StateCode];
-                $deal->ZipCode = $newArray[$settings->ZipCode];
-                $deal->Country = $newArray[$settings->Country];
-                $deal->CountryCode = $newArray[$settings->CountryCode];
-                $deal->Telephone = $newArray[$settings->Telephone];
-                $deal->Email = $newArray[$settings->Email];
+           // $BeginningOdometer = 0;
+            if (!empty($param)) {
                 try
                 {
-                    $deal->BasePayment = $newArray[$settings->BasePayment];
+                    $response = file_get_contents($settings->URL . $param);
+                    
+                    $response = str_replace('"', '', $response);
+                    $response = str_replace('{', '', $response);
+                    $response = str_replace('}', '', $response);
+                    $response = explode(',', $response);
+                    foreach ($response as $lineNum => $line)
+                    {
+                        list ($key, $value) = explode(":", $line);
+                        $newArray[$key] = $value;
+                    }
+                    
+                    $deal->Deal = $newArray[$settings->Deal];
+                    $deal->BeginningOdometer = round($newArray[$settings->BeginningOdometer]);
+                    $deal->VIN = $newArray[$settings->Vin]; // TODO: Read VIN from database configuration
+                    $deal->Year = $newArray[$settings->Year];
+                    $deal->Make = $newArray[$settings->Make];
+                    $deal->Model = $newArray[$settings->Model];
+                    $deal->Trim = $newArray[$settings->Trim];
+                    $deal->FinancedAmount = $newArray[$settings->FinancedAmount];
+                    $deal->APR = $newArray[$settings->APR];
+                    $deal->Term = $newArray[$settings->Term];
+                    $deal->DownPayment = $newArray[$settings->DownPayment];
+                    $deal->FirstName = $newArray[$settings->FirstNameParameter];
+                    $deal->MiddleName = $newArray[$settings->MiddleNameParameter];
+                    $deal->LastName = $newArray[$settings->LastNameParameter];
+                    $deal->Address1 = $newArray[$settings->Address1];
+                    $deal->Address2 = $newArray[$settings->Address2];
+                    $deal->City = $newArray[$settings->City];
+                    $deal->State = $newArray[$settings->State];
+                    $deal->StateCode = $newArray[$settings->StateCode];
+                    $deal->ZipCode = $newArray[$settings->ZipCode];
+                    $deal->Country = $newArray[$settings->Country];
+                    $deal->CountryCode = $newArray[$settings->CountryCode];
+                    $deal->Telephone = $newArray[$settings->Telephone];
+                    $deal->Email = $newArray[$settings->Email];
+                    try
+                    {
+                        $deal->BasePayment = $newArray[$settings->BasePayment];
+                    }
+                    catch (Exception $e)
+                    {
+                    }
+                    $deal->Buyer = $newArray[$settings->Buyer];
+                    $deal->CoBuyer = $newArray[$settings->CoBuyer];
+                    
+                    $deal->LienHolderName = $newArray[$settings->LienHolderName];
+                    $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
+                    $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
+                    $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
+                    $deal->LienHolderState = $newArray[$settings->LienHolderState];
+                    $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
+
+                    $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
+                    $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
+                    $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
+                    $deal->LienHolderType = $newArray[$settings->LienHolderType];
+                    $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
+                    
+                    $deal->Disclosure = $settings->Disclosure;
+                    $deal->DealerLogo = $settings->DealerLogo;
+                    $deal->DealerName = $settings->DealerName;
+                    
+                    $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
+                    $deal->VehiclePurchaseDate = $newArray[$settings->VehiclePurchaseDate];
+
+                    $deal->TaxRate = $taxRate;
+                    
+                    $EmptyDeal = 1;
+                    $BeginningOdometer = $deal->BeginningOdometer;
+                    Session::put('WebServiceInfo', $deal);
                 }
                 catch (Exception $e)
                 {
+                    //echo $e;
                 }
-                $deal->Buyer = $newArray[$settings->Buyer];
-                $deal->CoBuyer = $newArray[$settings->CoBuyer];
                 
-                $deal->LienHolderName = $newArray[$settings->LienHolderName];
-                $deal->LienHolderAddress = $newArray[$settings->LienHolderAddress];
-                $deal->LienHolderCountry = $newArray[$settings->LienHolderCountry];
-                $deal->LienHolderCity = $newArray[$settings->LienHolderCity];
-                $deal->LienHolderState = $newArray[$settings->LienHolderState];
-                $deal->LienHolderZip = $newArray[$settings->LienHolderZip];
-
-                $deal->LienHolderEmail = $newArray[$settings->LienHolderEmail];
-                $deal->LienHolderPhone = $newArray[$settings->LienHolderPhone];
-                $deal->LienHolderFax = $newArray[$settings->LienHolderFax];
-                $deal->LienHolderType = $newArray[$settings->LienHolderType];
-                $deal->LienHolderContact = $newArray[$settings->LienHolderContact];
-                
-                $deal->Disclosure = $settings->Disclosure;
-                $deal->DealerLogo = $settings->DealerLogo;
-                $deal->DealerName = $settings->DealerName;
-                
-                $deal->SalesPrice = $newArray[$settings->VehiclePurchasePrice];
-                
-                $EmptyDeal = 1;
-                $BeginningOdometer = $deal->BeginningOdometer;
-            }
-            catch (Exception $e)
-            {
-                //echo $e;
-                // Session::put ('WebServiceInfo', new Deal());
-            }
+            }// end if
+            
             
             $data = array();
             
@@ -147,19 +155,40 @@ class ProductsController extends BaseController
                 ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
                 ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                 ->orderBy('PlansProducts.Order', 'asc')
-                ->get();
+                //->get(); 
+                ->get(array(
+                    "Products.id",
+                    "Products.ProductBaseId",
+                    "Products.DealerId",
+                    "Products.DisplayName",
+                    "Products.ProductDescription",
+                    "Products.IsTaxable",
+                    "Products.SellingPrice",
+                    "Products.UsingWebService",
+                    "Products.Bullets",
+                    "Products.BrochureImage",
+                    "Products.BrochureHeight",
+                    "Products.BrochureWidth",
+                    "Products.UseTerm",
+                    "Products.UseType",
+                    "Products.UseDeductible",
+                    "Products.UseTireRotation",
+                    "Products.UseInterval",
+                    "Products.UseRangePricing",
+                    "Products.VehiclePlan",
+                    "Products.Type",
+                    "Products.Term",
+                    "Products.Deductible",
+                    "Products.Mileage",
+                    "Products.TireRotation",
+                    "Products.Interval",
+                    "ProductBase.CompanyId",
+                    "ProductBase.ProductName",
+                    "ProductBase.ProductType",
+                    "PlansProducts.ProductId"
+                ));
             
             $rangePricing = DB::table('ProductPrice')->get();
-            
-            $products2 = $products;
-            
-            $products3 = $products;
-            
-            $products4 = $products;
-            
-            $productDetail = DB::table('ProductDetail')->get();
-            
-            $plansProducts = DB::table('PlansProducts')->get();
             
             // TODO: Call remote webservice to get product information
             // TODO: Read dynamically the name of the product that should be processed.
@@ -174,6 +203,7 @@ class ProductsController extends BaseController
             $FailWebservice->flag = 0;
             $FailWebservice->message = '';
             $FailWebservice->failureProductRates = array();
+            $FailWebservice->failMatchingRate = array();
             // echo "deal = ".$EmptyDeal;
             if($EmptyDeal == 1)
             {
@@ -182,7 +212,6 @@ class ProductsController extends BaseController
                 {
                     try
                     {
-
                         // Detect if the product must get pricing from the webservice
                         if($product->UsingWebService)
                         {
@@ -196,7 +225,7 @@ class ProductsController extends BaseController
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                             ->where('DealerId', '=', $product->DealerId)
-                            ->first();
+                            ->first(array("DealerCode"));
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
@@ -247,7 +276,7 @@ class ProductsController extends BaseController
                                         if(array_key_exists('MileageTerm', $rate))
                                         {
                                             $temp['Mileage'] = str_replace(',', '', $rate['MileageTerm']);
-                                            $temp['Mileage'] = $temp['Mileage'] / 1000;
+                                            $temp['Mileage'] = (int)$temp['Mileage'] / (int)1000;
                                         }
 
                                         $temp['OrderNumber'] = $index;
@@ -271,15 +300,32 @@ class ProductsController extends BaseController
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
 
-                                    if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
+                                    if ( $rateIndex[2] == 0 ) {
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
+                                    }
+
+                                   if(($product->ProductBaseId == 2 || $product->ProductBaseId == 4)&& $product->OrderNumber == 0)
                                     {
                                         $product->Type = $rate['CoverageDesc'];
                                         $product->Term = $rate['MonthTerm'];
-                                        $product->Mileage = $rate['MileageTerm'];
-                                        $product->Deductible = $rate['Deductible'];
+                                        $product->Mileage = (int)$rate['MileageTerm'];
+                                        if (array_key_exists('Deductible', $rate)) {
+                                            $product->Deductible = $rate['Deductible'];
+                                        }
+                                        if(array_key_exists('Interval', $rate))
+                                        {
+                                            $product->Interval = $rate['Interval'];
+                                        }
+                                        if(array_key_exists('TiresMileageInterval', $rate))
+                                        {
+                                            $product->TireRotation = $rate['TiresMileageInterval'];
+                                        }
+                                        
                                     }
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
+
+                                    
                                 }
 
                                 if($product->CompanyId == 2)
@@ -339,10 +385,15 @@ class ProductsController extends BaseController
                                     $rate = $rateIndex[0];
                                     $product->OrderNumber = $rateIndex[1];
 
+                                    if ( $rateIndex[2] == 0 ) {
+                                        array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
+                                    }
+
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['RetailPrice']);
 
-                                    if($product->ProductBaseId == 12)
+                                    if($product->ProductBaseId == 12 )
                                     {
+                                        $product->Type = $rate['Coverage'];
                                         $product->Term = $rate['CoverageTermMonths'];
                                         $product->Mileage = $rate['CoverageTermMiles'];
                                         $product->Deductible = $rate['Deductible'];
@@ -386,10 +437,14 @@ class ProductsController extends BaseController
                                 
                                 // Check if is possible to get the matching rate from the webservice response
                                 $rateIndex = $this->getMatchingRate($product, $rates);
-                                
+
                                 $rate = $rateIndex[0];
                                 $product->OrderNumber = $rateIndex[1];
-                                
+
+                                if ( $rateIndex[2] == 0 ) {
+                                    array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
+                                }
+
                                 $product->SellingPrice = (float) str_replace(',', '', $rate->Rate->RetailRate);
                             } // end product company 3
                         }
@@ -403,7 +458,7 @@ class ProductsController extends BaseController
                             
                             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                             ->where('DealerId', '=', $product->DealerId)
-                            ->first();
+                            ->first(array("DealerCode"));
                             
                             // Execute request to get pricing
                             $rates = $this->getProductDetail($proxy, $product, $deal, $CodeResult->DealerCode, 0, 0, 0);
@@ -452,20 +507,22 @@ class ProductsController extends BaseController
                     catch (Exception $e)
                     {
                         //$message = $this->GetReasonFailWebService();
-                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => 'Could not retrieve rates.'));
-                        //echo $e;
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
+                        //echo $e."<br><br>";
+                        //die();
                         $FailWebservice->flag = 1;
                     } // end catch
                 }// end for each
 
                 Session::put('productRates', $productRates);
                 Session::put('productRatesFull', $productRatesFull);
-
             } // end if
 
 
-            $deal->BeginningOdometer = $BeginningOdometer;
-            Session::put('WebServiceInfo', $deal);
+            //$deal->BeginningOdometer = $BeginningOdometer;
+            //Session::put('WebServiceInfo', $deal);
+            
+            $FailWebservice->failMatchingRate = $arrayProductsMatchingRateFail; 
 
             if ($FailWebservice->flag == 1) {
 
@@ -476,12 +533,7 @@ class ProductsController extends BaseController
                 //$FailWebservice->message = $this->GetReasonFailWebService();
             }
             return View::make('financemenu')->with('Products', $products)
-                ->with('Products2', $products2)
-                ->with('Products3', $products3)
-                ->with('Products4', $products4)
-                ->with('Datas', $productDetail)
                 ->with('Settings', $settings)
-                ->with('PlansProducts', $plansProducts)
                 ->with('ShowPrintButton', false)
                 ->with('FailWebservice', $FailWebservice)
                 ->with('ShowMenuPrintButton', true)
@@ -525,25 +577,24 @@ class ProductsController extends BaseController
                 {
                     $term = 'EndMonthTerm';
                 }
-                
+
+                if ( $product->ProductBaseId == 11 )
+                {
+
+                }
+
                 // Options fields in product should match the fields in the response
                 if($product->Type == $rate[$type] && $product->Term == $rate[$term])
                 {
                     if($product->ProductBaseId == 2)
                     {
-                        if($product->Deductible == $rate[$deductible])
+                        if($product->Deductible == $rate[$deductible] && ($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]))
                         {
-                            $eval = array(
-                                $rate,
-                                $index
-                            );
-                            if(($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]))
-                            {
-                                return array(
+                             return array(
                                     $rate,
-                                    $index
+                                    $index,
+                                    1
                                 );
-                            }
                         }
                     }
                     elseif($product->ProductBaseId == 4)
@@ -552,7 +603,8 @@ class ProductsController extends BaseController
                         {
                             return array(
                                 $rate,
-                                $index
+                                $index,
+                                1
                             );
                         }
                     }
@@ -560,22 +612,19 @@ class ProductsController extends BaseController
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                 }
                 $index ++;
             } // end for each
               
-            // return rate matching
-            if($eval != 0)
-            {
-                return $eval;
-            }
             
             // By default returns the first rate
             return array(
                 $rates['Rate'][0],
+                0,
                 0
             );
         }
@@ -593,11 +642,37 @@ class ProductsController extends BaseController
                 // only for GAP
                 if($product->ProductBaseId == 11)
                 {
+                    if ( ($product->Type == $rate[$type]) && ( $rate[$term] >=1 || $rate[$term] <= 60 ) ) 
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );
+                    } 
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >=61 || $rate[$term] <= 72 ) )
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );    
+                    } 
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >= 73 || $rate[$term] <= 84 ) )
+                    {
+                        return array(
+                            $rate,
+                            $index,
+                            1 
+                        );    
+                    }
+                    
                     if($product->Type == $rate[$type] && $product->Term > $lastRateTerm && $product->Term <= $rate[$term])
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                 }
@@ -609,7 +684,8 @@ class ProductsController extends BaseController
                     {
                         return array(
                             $rate,
-                            $index
+                            $index,
+                            1
                         );
                     }
                     else
@@ -618,7 +694,8 @@ class ProductsController extends BaseController
                         {
                             return array(
                                 $rate,
-                                $index
+                                $index,
+                                1
                             );
                         }
                     }
@@ -630,6 +707,7 @@ class ProductsController extends BaseController
             // By Default returns the first rate
             return array(
                 $rates['AutomobileRateQuote'][0],
+                0,
                 0
             );
         }
@@ -642,7 +720,8 @@ class ProductsController extends BaseController
                 $index = $rate->TermMile->TermId;
                 return array(
                     $rate,
-                    $index
+                    $index,
+                    1
                 );
             }
             
@@ -659,7 +738,8 @@ class ProductsController extends BaseController
                 {
                     return array(
                         $rate,
-                        $index
+                        $index,
+                        1
                     );
                 }
                 $index ++;
@@ -668,7 +748,8 @@ class ProductsController extends BaseController
             $rates = $rates->Plan->RateClassMoneys->RateClassMoney{0};
             return array(
                 $rates,
-                $rates->TermMile->TermId
+                $rates->TermMile->TermId,
+                0
             );
         }
         return null;
@@ -1667,23 +1748,48 @@ class ProductsController extends BaseController
         $downPayment = Input::get('DownPayment');
         
         $surcharges = Input::get('ProtectiveVsc');
+
+        $FailureProductsRates = json_decode( Input::get('FailureProductsRates') );
         
         $Products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
             ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
             ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
             ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
             ->orderBy('PlansProducts.Order', 'asc')
-            ->get();
-        
-        // $ProductsInverted = DB::table ( 'Products' )->join ( 'PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId' )->orderBy ( 'PlansProducts.Order', 'desc' )->get ();
-        
-        $ProductDetail = DB::table('ProductDetail')->get();
-        
-        $PlansProducts = DB::table('PlansProducts')->get();
-        
+            //->get();
+            ->get(array(
+                    "Products.id",
+                    "Products.ProductBaseId",
+                    "Products.DealerId",
+                    "Products.DisplayName",
+                    "Products.ProductDescription",
+                    "Products.IsTaxable",
+                    "Products.SellingPrice",
+                    "Products.UsingWebService",
+                    "Products.Bullets",
+                    "Products.BrochureImage",
+                    "Products.BrochureHeight",
+                    "Products.BrochureWidth",
+                    "Products.UseTerm",
+                    "Products.UseType",
+                    "Products.UseDeductible",
+                    "Products.UseTireRotation",
+                    "Products.UseInterval",
+                    "Products.UseRangePricing",
+                    "Products.VehiclePlan",
+                    "Products.Type",
+                    "Products.Term",
+                    "Products.Deductible",
+                    "Products.Mileage",
+                    "Products.TireRotation",
+                    "Products.Interval",
+                    "ProductBase.CompanyId",
+                    "ProductBase.ProductName",
+                    "ProductBase.ProductType",
+                    "PlansProducts.ProductId"
+                ));
+         
         return View::make('disclosureMenu')->with('Products', $Products)
-            ->with('Details', $ProductDetail)
-            ->with('PlansProducts', $PlansProducts)
             ->with('Accepted', $Accepted)
             ->with('Rejected', $Rejected)
             ->with('AcceptedPrice', $AcceptedPrice)
@@ -1707,13 +1813,13 @@ class ProductsController extends BaseController
             ->with('downPayment', $downPayment)
             ->with('term', $term)
             ->with('apr', $apr)
-            ->with('apr', $apr)
             ->with('surcharges', $surcharges)
             ->with('ShowPrintButton', true)
             ->with('taxRate', $taxRate)
+            ->with('FailureProductsRates', $FailureProductsRates)
             ->with('ShowMenuPrintButton', false);
     }
-
+ 
     public function loadCompanyProducts()
     {
         $type = Input::get('type');
@@ -2153,6 +2259,7 @@ class ProductsController extends BaseController
     $PreferredDescriptionArray = Input::get('preferreddescription');
     $EconomyDescriptionArray = Input::get('economydescription');
     $BasicDescriptionArray = Input::get('basicdescription');
+    $VisibleProductsArray = Input::get('visibleproducts');
 
     $Premium = explode(",",$PremiumArray);
     $Preferred  = explode(",",$PreferredArray);
@@ -2173,7 +2280,8 @@ class ProductsController extends BaseController
     $NewPreferredDescription = explode("!",$PreferredDescriptionArray);
     $NewEconomyDescription = explode("!",$EconomyDescriptionArray);
     $NewBasicDescription = explode("!",$BasicDescriptionArray);
-    
+    $VisibleProducts = explode(",",$VisibleProductsArray);
+
     $PremiumDescription = array();
     $x = 0;
     foreach ($NewPremiumDescription as $key => $value) {
@@ -2345,43 +2453,49 @@ class ProductsController extends BaseController
                             if(count($Premium)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Premium as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Premium))
+                                    if(!in_array($value,$VisibleProducts))
                                     {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$PremiumAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-                                         
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $premiumPrice = str_replace('!', '', $CostPremium[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $premiumPrice ) ,2, '.', ',').'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$PremiumDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
-                                        }
-                                    }   
-                                    $html .= '
-                                    </td></tr>
-                                    ';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$PremiumAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
 
-                                    $i = $i + 1;
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $premiumPrice = str_replace('!', '', $CostPremium[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $premiumPrice ) ,2, '.', ',').'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$PremiumDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }   
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
+                                        }
                                     }
+                                
+                                $i = $i + 1;
                                 }
                             }
-                         $html .= '
+                            $html .= '
                             </table></td></tr>
                          </table>
                     </td>
@@ -2392,41 +2506,46 @@ class ProductsController extends BaseController
                             if(count($Preferred)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Preferred as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Preferred))
+                                    if(!in_array($value,$VisibleProducts))
                                     {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$PreferredAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $preferredPrice ),2,  '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$PreferredDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$PreferredAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $preferredPrice = str_replace('!', '', $CostPreferred[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $preferredPrice ),2,  '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$PreferredDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
                                     }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '
@@ -2440,41 +2559,46 @@ class ProductsController extends BaseController
                             if(count($Economy)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Economy as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Economy))
+                                    if(!in_array($value,$VisibleProducts))
                                     {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$EconomyAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $economyPrice = str_replace('!', '', $CostEconomy[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $economyPrice ), 2, '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$EconomyDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$EconomyAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $economyPrice = str_replace('!', '', $CostEconomy[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $economyPrice ), 2, '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$EconomyDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
                                     }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '
@@ -2488,41 +2612,46 @@ class ProductsController extends BaseController
                             if(count($Basic)>0)
                             {
                                 $i = 0;
-                                foreach($products as $valor) 
+                                foreach($Basic as $key => $value) 
                                 {
-                                    if(in_array($valor->id,$Basic))
+                                    if(!in_array($value,$VisibleProducts))
                                     {
-                                    $html .='
-                                    <tr>
-                                        <td style="color:#41699A">';
-                                        if(in_array($valor->id,$BasicAccepted))
-                                            $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
-                                        else
-                                            $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
-
-                                        $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
-                                        $basicPrice = str_replace('!', '', $CostBasic[$i]);
-                                        $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $basicPrice ), 2, '.', ',' ).'</div></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">'.$BasicDescription[$i].'</td>
-                                    </tr>
-                                    <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
-                                    $Bullets = explode(',', $valor->Bullets);
-                                    foreach($Bullets as $Bullet)
-                                    {
-                                        if (!(empty($Bullet)))
+                                        foreach ($products as $valor) 
                                         {
-                                            $html .= '<li>'.$Bullet.'</li>';
+                                            if($valor->id==$value)
+                                            {
+                                                $html .='
+                                                <tr>
+                                                    <td style="color:#41699A">';
+                                                    if(in_array($valor->id,$BasicAccepted))
+                                                        $html .= '<img style="padding-top:2px" src="images/checked.gif" width="8" height="8"/>';
+                                                    else
+                                                        $html .= '<img style="padding-top:2px" src="images/unchecked.gif" width="8" height="8"/>';
+
+                                                    $html .= '<strong>&nbsp;'.$valor->DisplayName.'</strong></td>';
+                                                    $basicPrice = str_replace('!', '', $CostBasic[$i]);
+                                                    $html .= '<td valign="top" style="text-align:right"><b><div>$'.number_format( (float) str_replace( '$', '', $basicPrice ), 2, '.', ',' ).'</div></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">'.$BasicDescription[$i].'</td>
+                                                </tr>
+                                                <tr><td style="border-bottom: 1px dotted #AEAEAE;" colspan="2">';
+                                                $Bullets = explode(',', $valor->Bullets);
+                                                foreach($Bullets as $Bullet)
+                                                {
+                                                    if (!(empty($Bullet)))
+                                                    {
+                                                        $html .= '<li>'.$Bullet.'</li>';
+                                                    }
+                                                }       
+                                                $html .= '
+                                                </td></tr>
+                                                ';
+                                            }
                                         }
-                                    }       
-                                    $html .= '
-                                    </td></tr>
-                                    ';
-
-                                    $i = $i + 1;
-
                                     }
+                                
+                                $i = $i + 1;
                                 }
                             }
                             $html .= '
@@ -2731,6 +2860,8 @@ class ProductsController extends BaseController
         $productOption->mileage = Input::get('mileage');
         $productOption->price = Input::get('price');
         $productOption->surcharges = explode(",", Input::get('surcharges'));
+        $productOption->tireRotation = Input::get('tire');
+        $productOption->interval = Input::get('interval');
         $findKey = Input::get('key');
         
         $deal = Session::get('WebServiceInfo');
@@ -2738,8 +2869,7 @@ class ProductsController extends BaseController
         $deal->NewFinancedAmount = Input::get('financedAmount');
         $deal->NewDownPayment = Input::get('downpayment');
         $deal->NewAPR = Input::get('apr');
-        
-        
+
         $productRatesFull = Session::get('productRatesFull');
         
         $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
@@ -2758,7 +2888,7 @@ class ProductsController extends BaseController
             
             $CodeResult = DB::table('SettingsTable')->where('CompanyId', '=', $product->CompanyId)
                 ->where('DealerId', '=', $product->DealerId)
-                ->first();
+                ->first(array("DealerCode"));
             
             // if ($product->UsingWebService == 0 && $product->id == $productId) {
             // echo "Contract available soon";
@@ -2820,12 +2950,15 @@ class ProductsController extends BaseController
                         }
                         catch (Exception $e)
                         {
-                            echo "An error has occurred";
+                            echo "An error has occurred <br>";
+                            echo "Could not retrieve pdf contract";
+                            //echo $data;
                         }
                     }
                     else
                     {
-                        echo "An error has occurred";
+                        echo "An error has occurred <br>";
+                        echo "Empty response from server";
                     }
                 }
                 
@@ -2896,7 +3029,6 @@ class ProductsController extends BaseController
                         {
                             print_r($data->GenerateContractResult->Messages->Message->Text);
                         }
-                        print_r(round($deal->ZipCode));
                         die();
                     }
                     $data = base64_decode($data->GenerateContractResult->ContractDocument);
@@ -3015,9 +3147,9 @@ class ProductsController extends BaseController
             
             $obj->AmtDueWtyCo = $product->Cost;
             $obj->FiledAmount = $productOption->price;
-            $obj->TermMonths = $productOption->term;
-            $obj->Deductible = $productOption->deductible;
-            $obj->TermMiles = $productOption->mileage;
+            $obj->TermMonths = $product->Term;
+            $obj->Deductible = $product->Deductible;
+            $obj->TermMiles = $product->Mileage;
             $obj->Interval = 1;
         }
         if($product->CompanyId == 2)
@@ -3152,27 +3284,7 @@ class ProductsController extends BaseController
             }
         }
         
-        // $url = "http://webservice.automatrix.co/api/deal/";
-        // $productDeal = json_encode($productDeal);
-        // $options = array(
-        // 'http' => array(
-        // 'method' => 'PUT',
-        // 'content' => $productDeal,
-        // 'header'=> "Content-Type: application/json\r\n" .
-        // "Accept: application/json\r\n"
-        // )
-        // );
-        
-        // $context = stream_context_create($options);
-        // $result = file_get_contents($url, false, $context);
-        // $response = json_decode($result);
-        // var_dump($response);
-        
-        // print_r($productsJson);
-        // echo "<br>";
-        // echo "<br>";
-        
-        return json_encode($productDeal);
+       return json_encode($productDeal);
     }
 
     private function deleteVarSession()
@@ -3184,11 +3296,17 @@ class ProductsController extends BaseController
     *   Add here all Known reason of product fail
     *
     */
-    private function GetReasonFailWebService($name, $deal)
+    private function GetReasonFailWebService($productBaseId, $name, $deal)
     {
-        $message =  $name.'is not available! try again';
-        if ($deal->BeginningOdometer > 113999) {
-            $message = $name.' not allowed vehicles with more than 113999 miles';
+        $message =  $name.' is not available! try again';
+
+        if ( $deal->BeginningOdometer > 113999 ) {
+            $message = $name.' not allowed vehicles with more than 113999 miles.';
+        } elseif ( $deal->BeginningOdometer == '' ) {
+            $message = 'Beginning Odometer cannot be empty';
+        //} elseif (  ) {
+        } else {
+            $message = 'Could not retrieve rates.';
         }
 
         return $message;

@@ -334,11 +334,11 @@ function deleteDealer(DealerIdValue){
             if (msg==1) {
                 window.location.href = 'dealer-settings';
             } else{
-                toastr.error("Please delete user and products before","Message");
+                toastr.error("Please delete user and products before.","Message");
             };
         },
         error: function (msg) {
-            toastr.error("Please delete user before","Message");
+            toastr.error("Please delete user before.","Message");
         }
     });
 }
@@ -379,7 +379,7 @@ $('#companyUpdateModal').on('show.bs.modal', function () {
             $('#PasswordUpdate').val(data[0].Password);            
         },
         failure: function (msg) {
-            toastr.error('Error :' + msg, "Message");
+            toastr.error('Error :' + msg + '.', "Message");
 
         }
     });
@@ -388,20 +388,20 @@ $('#companyUpdateModal').on('show.bs.modal', function () {
 $('#updateCompanyInfo').click(function () {
     if (!($('#CompanyNameUpdate').val())) {
         $('#CompanyNameUpdate').focus();
-        toastr.error('Please enter a company name', "Message");
+        toastr.error('Please enter a company name.', "Message");
         return false;
     };
     if ($('#URLUpdate').val()) {
         if (!(validateURL($('#URLUpdate').val()))) {
             $('#URLUpdate').focus();
-            toastr.error('Please enter a valid URL', "Message");
+            toastr.error('Please enter a valid URL.', "Message");
             return false;
         }        
     };
     
     if (!($('#UsernameUpdate').val()) && ($('#PasswordUpdate').val())) {
         $('#UsernameUpdate').focus();
-        toastr.error('Please enter a Username', "Message");
+        toastr.error('Please enter a Username.', "Message");
         return false;
     };
     $.ajax({
@@ -426,19 +426,19 @@ $('#updateCompanyInfo').click(function () {
 $('#saveCompanyInfo').click(function () {
     if (!($('#CompanyName').val())) {
         $('#CompanyName').focus();
-        toastr.error('Please enter a company name', "Message");
+        toastr.error('Please enter a company name.', "Message");
         return false;
     };
      if ($('#URL').val()) {
         if (!(validateURL($('#URL').val()))) {
             $('#URL').focus();
-            toastr.error('Please enter a valid URL', "Message");
+            toastr.error('Please enter a valid URL.', "Message");
             return false;
         }        
     };
     if (!($('#Username').val()) && ($('#Password').val())) {
         $('#Username').focus();
-        toastr.error('Please enter a Username', "Message");
+        toastr.error('Please enter a username.', "Message");
         return false;
     };
     $.ajax({
@@ -498,7 +498,7 @@ function authenticate(remeberme) {
         },
         failure: function (msg) {
             $("#circleG").hide();
-            toastr.error('User not found', "Message");
+            toastr.error('User not found.', "Message");
 
         }
     }).always(function() {
@@ -603,7 +603,7 @@ function loadListCompanyProducts(CompanySelected){
           );
         },
         failure: function (msg) {
-            toastr.error('Table could not be loaded', "Message");
+            toastr.error('Table could not be loaded.', "Message");
         }
     });
 }
@@ -692,7 +692,7 @@ $('#resetPassword').click( function(){
             Email: $('#Email').val()
         },
         success: function (msg) {
-            toastr.success(msg);
+            toastr.success(msg.Message + '.');
             $('#resetPasswordModal').modal('hide');
         },
         failure: function (msg) {
@@ -713,7 +713,7 @@ $('#saveCodeInfo').click( function() {
             $('#DealerId option').eq(1).prop('selected', true);
             $('#CompanyId option').eq(1).prop('selected', true);
             $('#DealerCode').val("");
-            toastr.success("The setting has been saved", "Success");
+            toastr.success("The setting has been saved.", "Success");
             $('#addModal').modal('hide');
 
             window.location.href = "settings-dealercode";
@@ -758,7 +758,7 @@ function updateSettingCode(AccountNumberValue){
             DealerCode: $('#DealerCodeModified').val()
         },
         success: function (msg) {
-            toastr.success("The selected setting has been updated", "Success");
+            toastr.success("The selected setting has been updated.", "Success");
             window.location.href = "settings-dealercode";
         },
         failure: function (msg) {
@@ -774,7 +774,7 @@ function deleteSettingCode(AccountNumberValue){
             AccountNumber: AccountNumberValue
         },
         success: function (msg) {
-            toastr.success("The selected setting has been removed", "Success");
+            toastr.success("The selected setting has been removed.", "Success");
             window.location.href = "settings-dealercode";
         },
         failure: function (msg) {

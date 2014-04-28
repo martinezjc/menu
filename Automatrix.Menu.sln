@@ -7,6 +7,8 @@ Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Automatrix.Menu.Web", "Auto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automatrix.Menu.Tests", "Automatrix.Menu.Tests\Automatrix.Menu.Tests.csproj", "{CA11803A-8954-4AC5-A9B6-8423B798E55B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automatrix.Menu.Service.Test", "Automatrix.Menu.Service.Test\Automatrix.Menu.Service.Test.csproj", "{D4C1A828-8BA9-475B-8127-ADA15A138455}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CA11803A-8954-4AC5-A9B6-8423B798E55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA11803A-8954-4AC5-A9B6-8423B798E55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA11803A-8954-4AC5-A9B6-8423B798E55B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C1A828-8BA9-475B-8127-ADA15A138455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C1A828-8BA9-475B-8127-ADA15A138455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C1A828-8BA9-475B-8127-ADA15A138455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C1A828-8BA9-475B-8127-ADA15A138455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

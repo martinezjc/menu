@@ -359,7 +359,7 @@ $("#saveModalDisclosure")
 					;
 
 					if (!ValidateExpression(SellingPrice, 'Money')) {
-						toastr.error('Invalid selling price format', "Message");
+						toastr.error('Invalid selling price format.', "Message");
 						return false;
 					}
 					;
@@ -385,70 +385,23 @@ $("#saveModalDisclosure")
 
 					}
 
-					$(GlobalSectionProduct).find('.ProductType').attr('name',
-							Type);
-					$(GlobalSectionProduct).find('.ProductTerm').attr('name',
-							TermText);
+					$(GlobalSectionProduct).find('.ProductType').attr(
+							'name',	Type);
+					$(GlobalSectionProduct).find('.ProductTerm').attr(
+							'name', TermText);
 					$(GlobalSectionProduct).find('.ProductDeductible').attr(
 							'name', Deductible);
 					$(GlobalSectionProduct).find('.ProductMileage').attr(
 							'name', Mileage);
+					$(GlobalSectionProduct).find( '.ProductTireRotation' ).attr(
+							'name', tireRotation);
+           			$(GlobalSectionProduct).find( '.ProductInterval' ).attr(
+           					'name', interval);
 
 					calculateCheckedProducts();
 					$('#myModal1').modal('hide');
 				})
 
-$(".linkmodal2")
-		.click(
-				function() {
-					GlobalSectionProduct = $(this).parent().parent();
-					var Brochure = $(GlobalSectionProduct).find(
-							'.BrochureImage').val();
-					var dimension = $(GlobalSectionProduct).find(
-							'.BrochureImage').attr('name');
-					var path = $('#ImgModal2').attr('name');
-					var arrayDimension = dimension.split('-');
-					$('.videoPlayer1').attr('data', '');
-					$('.videoPlayer2').attr('src', '');
-
-					var height = parseInt(arrayDimension[0]);
-					var width = parseInt(arrayDimension[1]);
-
-					if (height < 10 || width < 10) {
-						width = 320;
-						height = 240;
-					}
-
-					if (isUrl(Brochure) == true) {
-						var url = FixURL(Brochure);
-						if (url == 0) {
-							toastr.error('Invalid URL Video', "Message");
-							return false;
-						}
-
-						$('#ImgModal2').hide();
-						$('.videoPlayer').show();
-						$('.videoPlayer').attr('height', height);
-						$('.videoPlayer').attr('width', width);
-						$('.videoPlayer1').attr('data', url);
-						$('.videoPlayer2').attr('src', url);
-					} else {
-						$('.videoPlayer').hide();
-
-						var img = path + Brochure;
-
-						if (Brochure == '') {
-							toastr.error('No brochure', "Message");
-							return false;
-						} else {
-							$('#ImgModal2').show();
-							$('#ImgModal2').attr('src', img);
-							$('#ModalContainer').attr('height', height);
-							$('#ModalContainer').attr('width', width);
-						}
-					}
-					;
-				});
 
 $("#ButtonNext").click(function() {
 	DefineId(GlobalPlanChoosed);
@@ -494,12 +447,12 @@ function SavetoDMS(products) {
 				SendToDMS(msg);
 			} catch (e) {
 				$("#SaveConfig").removeAttr("disabled");
-				toastr.error(msg, "Message");
+				toastr.error(msg + '.', "Message");
 			}
 		},
 		failure : function(msg) {
 			$("#SaveConfig").removeAttr("disabled");
-			toastr.error('error', "Message");
+			toastr.error('Error: ' + msg + '.', "Message");
 		}
 	});
 }
@@ -513,11 +466,11 @@ function SendToDMS(data) {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(msg) {
-			toastr.success(msg, "Message");
+			toastr.success(msg + '.', "Message");
 			$("#SaveConfig").removeAttr("disabled");
 		},
 		error : function(msg) {
-			toastr.error(msg.responseJSON.Message, "Message");
+			toastr.error(msg.responseJSON.Message + '.', "Message");
 			$("#SaveConfig").removeAttr("disabled");
 		}
 	});
@@ -547,6 +500,12 @@ $(".PdfContract").click(
 			var apr = getCurrentAPR();
 
 			var downpayment = getCurrentDownPayment();
+
+			var tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+
+			var interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
+
+           
 			
 			if (OrderNumber.length == 0) {
 				OrderNumber = 0;
@@ -587,6 +546,8 @@ $(".PdfContract").click(
 									+ '&downpayment=' + downpayment
 									+ '&apr=' + apr
 									+ '&key=' + OrderNumber
+									+ '&tire=' + tireRotation
+									+ '&interval=' + interval
 									+ '&price=' + Price);
 				} 
 				else 
@@ -601,6 +562,8 @@ $(".PdfContract").click(
 											+ '&financedAmount=' + financedAmount
 											+ '&downpayment=' + downpayment
 											+ '&apr=' + apr
+											+ '&tire=' + tireRotation
+											+ '&interval=' + interval
 											+ '&mileage=' + Mileage + '&price='
 											+ Price);
 				}

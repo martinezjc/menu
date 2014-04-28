@@ -6,7 +6,7 @@ $('#saveUserData').click( function() {
 
     if ( $('#Username').val() == '' || $('#Password').val() == '' || $('#FirstName').val() == '' ) 
     {
-        toastr.error('Please fill the form', "Attention!");
+        toastr.error('Please fill the form.', "Attention!");
         $('#FirstName').focus();
         return false;
     }
@@ -62,7 +62,7 @@ $('#insertUser').click( function() {
     var pathname = $(location).attr('href');
 
 	if ( $('#Username').val() == '' || $('#Password').val() == '' || $('#FirstName').val() == '' ) {
-		toastr.error('Please fill the form', "Attention!");
+		toastr.error('Please fill the form.', "Attention!");
 		$('#FirstName').focus();
 		return false;
 	}
@@ -91,7 +91,7 @@ $('#insertUser').click( function() {
             window.location.href = pathname;
         },
         failure: function (msg) {
-            toastr.error(msg, "Attention!");
+            toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -218,7 +218,7 @@ $.ajax({
             window.location.href = pathname;
         },
         failure: function (msg) {
-        	toastr.error(msg, "Attention!");
+        	toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -259,13 +259,13 @@ $.ajax({
             PasswordChange: PasswordValueChange
         },
         success: function (msg) {
-            toastr.success('The account has been updated', 'success');
+            toastr.success('The account has been updated.', 'success');
             setTimeout(function(){
               window.location.href = 'dealer-settings';
             }, 2000);
         },
         failure: function (msg) {
-            toastr.error(msg, "Attention!");
+            toastr.error(msg + '.', "Attention!");
         }
     });
 });
@@ -288,7 +288,10 @@ function deleteUser(id) {
 
 $('#Password').keyup(function (e) {
     if (e.keyCode == 13) {
-        $("#circleG").show();
+        //$("#circleG").show();
+        $('#circleG_1').show();
+        $('#circleG_2').show();
+        $('#circleG_3').show();
         if ($("#remeberme").prop("checked")) {
             authenticate(1);
         } else{
@@ -299,7 +302,10 @@ $('#Password').keyup(function (e) {
 });
 
 $('#loginPlan').click(function () {
-    $("#circleG").show();
+    //$("#circleG").show();
+    $('#circleG_1').show();
+    $('#circleG_2').show();
+    $('#circleG_3').show();
     if ($("#remeberme").prop("checked")) {
         authenticate(1);
     } else{
@@ -326,27 +332,98 @@ function authenticate(remeberme) {
             }
         },
         failure: function (msg) {
-            $("#circleG").hide();
-            toastr.error('User not found', "Message");
+            //$("#circleG").hide();
+            $('#circleG_1').hide();
+            $('#circleG_2').hide();
+            $('#circleG_3').hide();
+            toastr.error('User not found.', "Message");
 
         }
     }).always(function() {
-      $("#circleG").hide();
+      //$("#circleG").hide();
+      $('#circleG_1').hide();
+      $('#circleG_2').hide();
+      $('#circleG_3').hide();
     });
 }
 
 $('#resetPassword').click( function(){
-    $.ajax({
-        type: "GET",
-        url: "sendMailPassword",
-        data: {
-            Email: $('#Email').val()
-        },
-        success: function (msg) {
-            toastr.success(msg);
-            $('#resetPasswordModal').modal('hide');
-        },
-        failure: function (msg) {
-        }
+    var email=$('#Email').val();
+    if(email!==''){
+        $.ajax({
+            type: "GET",
+            url: "sendMailPassword",
+            data: {
+                Email: email
+            },
+            success: function (msg) {
+                var response=JSON.parse(msg);
+                if(response.Found)
+                {
+                    toastr.success(response.Message + '.');
+                    $('#resetPasswordModal').modal('hide');
+                }
+                else{
+                    $('#errorMessage').html(response.Message+ '.');
+                }
+            },
+            failure: function (msg) {
+            }
+        });
+    }
+    else
+       $('#errorMessage').html('Please enter an Email address.'); 
+});
+
+$('#Email').keypress(function(){
+    $('#errorMessage').html('');
+});
+
+$('#resetPasswordModal').on('hidden.bs.modal',function(){
+    $('#Email').val('');
+    $('#errorMessage').html('');
+});
+
+$('#changePassword').click(function(){
+    var passwordNew=$('#passwordNew').val();
+    var passwordConfirm=$('#passwordConfirm').val();
+    if(passwordNew===''||passwordConfirm===''){
+        $('#errorMessage').html('Please fill both password fields.'); 
+    }
+    else if(passwordNew===passwordConfirm)
+    {
+        $('#errorMessage').html("");
+        $.ajax({
+            type: "GET",
+            url: "savePassword",
+            data: {
+                UserId:getUrlVars()["UserId"],
+                newPassword: passwordNew
+            },
+            success: function (msg) {
+                if(msg==1){
+                    toastr.success('Your password has been changed successfully!');
+                    setTimeout('window.location.href = "login"',2000);
+                }
+                else
+                    toastr.error('An error occurred, please try again.');
+            },
+            failure: function (msg) {
+            }
+        }); 
+    }
+    else
+        $('#errorMessage').html("Passwords doesn't match"); 
+});
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
     });
+    return vars;
+};
+
+$('#passwordNew, #passwordConfirm').keypress(function(){
+    $('#errorMessage').html('');
 });
