@@ -72,6 +72,8 @@ function getAcceptedProductsAmount() {
             total += getFloat($(this).val());
         };
     });
+
+    total = total * 1.0035;
 	
 	return total;
 }
