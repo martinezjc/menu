@@ -304,15 +304,28 @@ class ProductsController extends BaseController
                                         array_push($arrayProductsMatchingRateFail, array('ProductId'=> $product->ProductId, 'Message' => "The response didn't match the default values."));
                                     }
 
-                                    if($product->ProductBaseId == 2 && $product->OrderNumber == 0)
+                                   if(($product->ProductBaseId == 2 || $product->ProductBaseId == 4)&& $product->OrderNumber == 0)
                                     {
                                         $product->Type = $rate['CoverageDesc'];
                                         $product->Term = $rate['MonthTerm'];
-                                        $product->Mileage = $rate['MileageTerm'];
-                                        $product->Deductible = $rate['Deductible'];
+                                        $product->Mileage = (int)$rate['MileageTerm'];
+                                        if (array_key_exists('Deductible', $rate)) {
+                                            $product->Deductible = $rate['Deductible'];
+                                        }
+                                        if(array_key_exists('Interval', $rate))
+                                        {
+                                            $product->Interval = $rate['Interval'];
+                                        }
+                                        if(array_key_exists('TiresMileageInterval', $rate))
+                                        {
+                                            $product->TireRotation = $rate['TiresMileageInterval'];
+                                        }
+                                        
                                     }
 
                                     $product->SellingPrice = (float) str_replace(',', '', $rate['FiledAmount']);
+
+                                    
                                 }
 
                                 if($product->CompanyId == 2)
