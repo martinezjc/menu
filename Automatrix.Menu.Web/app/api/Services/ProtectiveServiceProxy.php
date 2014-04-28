@@ -210,7 +210,7 @@ class ProtectiveServiceProxy extends ServiceProxy
                 //$request->Automobiles[0]->Lienholder->Address->Address2 = ""; //$data->deal->LienHolderAddress2;
                 $request->Automobiles[0]->Lienholder->Address->City = $data->deal->LienHolderCity;
                 $request->Automobiles[0]->Lienholder->Address->State = $data->deal->LienHolderState;
-                $request->Automobiles[0]->Lienholder->Address->StateCode=$data->deal->State;
+                $request->Automobiles[0]->Lienholder->Address->StateCode=$data->deal->LienHolderState;
                 $request->Automobiles[0]->Lienholder->Address->Country = $data->deal->LienHolderCountry;
                 $request->Automobiles[0]->Lienholder->Address->CountryCode = 'UnitedStatesOfAmerica';
                 $request->Automobiles[0]->Lienholder->Address->ZipCode = $data->deal->LienHolderZip;
@@ -456,11 +456,11 @@ class ProtectiveServiceProxy extends ServiceProxy
             $data->productRates->ContractPrefix = $this->GetContractPrefix($data->productRates->CoverageCode);
         }
         
-        if (strlen($data->deal->State) == 2) {
-            $data->deal->State = strtoupper($data->deal->State);
+        if (strlen(trim($data->deal->LienHolderState)) == 2) {
+            $data->deal->LienHolderState = strtoupper(trim($data->deal->LienHolderState));
         }
         else{
-            $data->deal->State = "FL";
+            $data->deal->LienHolderState = "FL";
         }
         // return request validated
         return $data;
