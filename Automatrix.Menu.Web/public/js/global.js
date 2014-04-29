@@ -630,17 +630,21 @@ $('#myModal2').on('hide.bs.modal', function () {
     $('.videoPlayer2').attr('src', url); 
 });
 
-$( "#TypeFinance" ).change(function() {
+$( "#TypeFinance Option" ).change(function() {
     LoadOptionTypeOnSelect($('#TypeFinance :selected').text());
     //LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
 
 $( "#TermFinance" ).change(function() {
     LoadOptionTermOnSelect($('#TermFinance :selected').text());
+    if ((parseInt(GlobalSectionProduct.attr('name'))) == 4) {
+        LoadOptionsMileageOnSelect($('#MileageFinance :selected').text());
+    }
 });
 
 $( "#MileageFinance" ).change(function() {
     LoadOptionsMileageOnSelect($('#MileageFinance :selected').text());
+
 });
 
 $( "#TireRotation" ).change(function() {
@@ -1150,7 +1154,6 @@ function GetArrrayOption (findValues, findFields) {
                      });
                      
                 }
-
             }
             if (findFields.interval == true && typeof obj.Interval != "undefined") {
                 validate = arrayObjectIndexOf(ArrayInterval, obj.Interval, 'text'); 
