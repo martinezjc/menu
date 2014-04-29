@@ -801,6 +801,7 @@ function DefineId(num) {
 
 function GetIdProducts(id) {
     var i = 0;
+    var Hiddenfields = new Object();
     GlobalAccepted = [];
     OrderNumberAccepted = [];
     OrderNumberRejected = [];
@@ -895,55 +896,56 @@ function GetIdProducts(id) {
     });
 
 
-    OrderNumberAccepted = $.grep(OrderNumberAccepted, function (n) { return (n) });
-    OrderNumberRejected = $.grep(OrderNumberRejected, function (n) { return (n) });
-    GlobalAccepted = $.grep(GlobalAccepted, function (n) { return (n) });
-    GlobalRejected = $.grep(GlobalRejected, function (n) { return (n) });
-    GlobalAcceptedPrice = $.grep(GlobalAcceptedPrice, function (n) { return (n) });
-    GlobalRejectedPrice = $.grep(GlobalRejectedPrice, function (n) { return (n) });
-    TypeAccepted = $.grep(TypeAccepted, function (n) { return (n) });
-    TypeRejected = $.grep(TypeRejected, function (n) { return (n) });
-    TermAccepted = $.grep(TermAccepted, function (n) { return (n) });
-    TermRejected = $.grep(TermRejected, function (n) { return (n) });
-    DeductibleAccepted = $.grep(DeductibleAccepted, function (n) { return (n) });
-    DeductibleRejected = $.grep(DeductibleRejected, function (n) { return (n) });
-    MileageAccepted = $.grep(MileageAccepted, function (n) { return (n) });
-    MileageRejected = $.grep(MileageRejected, function (n) { return (n) });
-    TireRotationAccepted = $.grep(TireRotationAccepted, function (n) { return (n) });
-    TireRotationRejected = $.grep(TireRotationRejected, function (n) { return (n) });
-    IntervalAccepted = $.grep(IntervalAccepted, function (n) { return (n) });
-    IntervalRejected = $.grep(IntervalRejected, function (n) { return (n) });
-    DescriptionAccepted = $.grep(DescriptionAccepted, function (n) { return (n) });
-    DescriptionRejected = $.grep(DescriptionRejected, function (n) { return (n) });
+    Hiddenfields.OrderNumberAccepted = $.grep(OrderNumberAccepted, function (n) { return (n) });
+    Hiddenfields.OrderNumberRejected = $.grep(OrderNumberRejected, function (n) { return (n) });
+    Hiddenfields.GlobalAccepted = $.grep(GlobalAccepted, function (n) { return (n) });
+    Hiddenfields.GlobalRejected = $.grep(GlobalRejected, function (n) { return (n) });
+    Hiddenfields.GlobalAcceptedPrice = $.grep(GlobalAcceptedPrice, function (n) { return (n) });
+    Hiddenfields.GlobalRejectedPrice = $.grep(GlobalRejectedPrice, function (n) { return (n) });
+    Hiddenfields.TypeAccepted = $.grep(TypeAccepted, function (n) { return (n) });
+    Hiddenfields.TypeRejected = $.grep(TypeRejected, function (n) { return (n) });
+    Hiddenfields.TermAccepted = $.grep(TermAccepted, function (n) { return (n) });
+    Hiddenfields.TermRejected = $.grep(TermRejected, function (n) { return (n) });
+    Hiddenfields.DeductibleAccepted = $.grep(DeductibleAccepted, function (n) { return (n) });
+    Hiddenfields.DeductibleRejected = $.grep(DeductibleRejected, function (n) { return (n) });
+    Hiddenfields.MileageAccepted = $.grep(MileageAccepted, function (n) { return (n) });
+    Hiddenfields.MileageRejected = $.grep(MileageRejected, function (n) { return (n) });
+    Hiddenfields.TireRotationAccepted = $.grep(TireRotationAccepted, function (n) { return (n) });
+    Hiddenfields.TireRotationRejected = $.grep(TireRotationRejected, function (n) { return (n) });
+    Hiddenfields.IntervalAccepted = $.grep(IntervalAccepted, function (n) { return (n) });
+    Hiddenfields.IntervalRejected = $.grep(IntervalRejected, function (n) { return (n) });
+    Hiddenfields.DescriptionAccepted = $.grep(DescriptionAccepted, function (n) { return (n) });
+    Hiddenfields.DescriptionRejected = $.grep(DescriptionRejected, function (n) { return (n) });
 
     
-    $("#HiddenAccepted").val(GlobalAccepted.toString());
-    $("#HiddenRejected").val(GlobalRejected.toString());
+    $("#HiddenAccepted").val(Hiddenfields.GlobalAccepted.toString());
+    $("#HiddenRejected").val(Hiddenfields.GlobalRejected.toString());
 
-    $("#HiddenTypeAccepted").val(TypeAccepted.toString());
-    $("#HiddenTypeRejected").val(TypeRejected.toString());
-    $("#HiddenTermAccepted").val(TermAccepted.toString());
-    $("#HiddenTermRejected").val(TermRejected.toString());
-    $("#HiddenDeductibleAccepted").val(DeductibleAccepted.toString());
-    $("#HiddenDeductibleRejected").val(DeductibleRejected.toString());
+    $("#HiddenTypeAccepted").val(Hiddenfields.TypeAccepted.toString());
+    $("#HiddenTypeRejected").val(Hiddenfields.TypeRejected.toString());
+    $("#HiddenTermAccepted").val(Hiddenfields.TermAccepted.toString());
+    $("#HiddenTermRejected").val(Hiddenfields.TermRejected.toString());
+    $("#HiddenDeductibleAccepted").val(Hiddenfields.DeductibleAccepted.toString());
+    $("#HiddenDeductibleRejected").val(Hiddenfields.DeductibleRejected.toString());
 
-    $("#HiddenOrderAccepted").val(OrderNumberAccepted.toString());
-    $("#HiddenOrderRejected").val(OrderNumberRejected.toString());
+    $("#HiddenOrderAccepted").val(Hiddenfields.OrderNumberAccepted.toString());
+    $("#HiddenOrderRejected").val(Hiddenfields.OrderNumberRejected.toString());
 
-    $("#HiddenAcceptedPrice").val(GlobalAcceptedPrice.toString());    
-    $("#HiddenRejectedPrice").val(GlobalRejectedPrice.toString());
+    $("#HiddenAcceptedPrice").val(Hiddenfields.GlobalAcceptedPrice.toString());    
+    $("#HiddenRejectedPrice").val(Hiddenfields.GlobalRejectedPrice.toString());
 
-    $("#HiddenMileageAccepted").val(MileageAccepted.toString());
-    $("#HiddenMileageRejected").val(MileageRejected.toString());
+    $("#HiddenMileageAccepted").val(Hiddenfields.MileageAccepted.toString());
+    $("#HiddenMileageRejected").val(Hiddenfields.MileageRejected.toString());
 
-    $("#HiddenTireRotationAccepted").val(TireRotationAccepted.toString());
-    $("#HiddenTireRotationRejected").val(TireRotationRejected.toString());
+    $("#HiddenTireRotationAccepted").val(Hiddenfields.TireRotationAccepted.toString());
+    $("#HiddenTireRotationRejected").val(Hiddenfields.TireRotationRejected.toString());
 
-    $("#HiddenIntervalAccepted").val(IntervalAccepted.toString());
-    $("#HiddenIntervalRejected").val(IntervalRejected.toString());
+    $("#HiddenIntervalAccepted").val(Hiddenfields.IntervalAccepted.toString());
+    $("#HiddenIntervalRejected").val(Hiddenfields.IntervalRejected.toString());
 
-    $("#HiddenDescriptionAccepted").val(DescriptionAccepted.toString());
-    $("#HiddenDescriptionRejected").val(DescriptionRejected.toString());
+    $("#HiddenDescriptionAccepted").val(Hiddenfields.DescriptionAccepted.toString());
+    $("#HiddenDescriptionRejected").val(Hiddenfields.DescriptionRejected.toString());
+
     
     $("#CostPerDayFinance").val($("#" + id + " .CostDay").text());
     $("#AdditionalPaymentFinance").val($("#" + id + " .Additional").text());
@@ -954,6 +956,8 @@ function GetIdProducts(id) {
     var option = getSelectedPaymentOption();
     $("#HiddenTerm").val(option == "2" ? getFooterTerm() : getCurrentTerm());
     $("#HiddenAPR").val(option == "2" ? getFooterAPR() : getCurrentAPR());
+
+    $("#Hiddenfields").val(JSON.stringify(Hiddenfields));
 }
 
 function getSelectedPaymentOption()

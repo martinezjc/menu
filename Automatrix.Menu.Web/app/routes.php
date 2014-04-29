@@ -18,6 +18,12 @@
 
 // Old navigation
 Route::get('/', array('uses' => 'ProductsController@get_ShowProductsViews'));
+
+// Plan routes
+Route::get('plans', 'PlanController@index');
+Route::any('plans/disclosure', 'PlanController@disclosure');
+Route::get('plans/contract', 'PlanController@contract');
+
 // Dealer routes
 
 Route::get('dealers', 'DealerController@index');

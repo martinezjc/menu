@@ -204,7 +204,7 @@ class ProductsController extends BaseController
             $FailWebservice->message = '';
             $FailWebservice->failureProductRates = array();
             $FailWebservice->failMatchingRate = array();
-            // echo "deal = ".$EmptyDeal;
+
             if($EmptyDeal == 1)
             {
                 Session::put('settings', $settings);
@@ -294,7 +294,7 @@ class ProductsController extends BaseController
                                     $productRates["product" . $product->id] = $data;
                                     $productRatesFull["product" . $product->id] = $rates;
 
-                                // Check if is possible to get the matching rate from the webservice response
+                                   // Check if is possible to get the matching rate from the webservice response
                                     $rateIndex = $this->getMatchingRate($product, $rates);
 
                                     $rate = $rateIndex[0];

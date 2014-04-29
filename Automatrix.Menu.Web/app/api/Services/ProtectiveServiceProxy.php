@@ -367,16 +367,6 @@ class ProtectiveServiceProxy extends ServiceProxy
 
     private function GetContractNumbers($data)
     {
-        // if ($data->product->ProductBaseId == 11) {
-        // $data->productRates->ContractPrefix = "401";
-        // }
-        
-        // if (empty($data->productRates->ContractPrefix)) {
-        // $data->productRates->ContractPrefix = "SELUP";
-        // }
-        
-        // print_r($data->productRates->CoverageCode);
-        // die();
         $request = new \stdClass();
         $request->Validation = new \stdClass();
         $request->Validation->Username = $data->deal->Username;
