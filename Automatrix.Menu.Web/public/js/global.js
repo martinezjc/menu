@@ -420,144 +420,34 @@ function LoadManualPriceOption () {
 
 
 function LoadOptionDefault() {
-    var ArrayTerm = [];
-    var ArrayType = [];
-    var ArrayMileage = [];
-    var ArrayTireRotation = [];
-    var ArrayInterval = [];
-    var ArrayDeductible = [];
-    var ArrayDisappearing = [];
-
-    var selectTerm = document.getElementById("TermFinance");
-    selectTerm.options.length = 0;
-
-    var selectType = document.getElementById("TypeFinance");
-     selectType.options.length = 0;
-
-    var selectMileage = document.getElementById("MileageFinance");
-     selectMileage.options.length = 0;
-
-     var selectTireRotation = document.getElementById("TireRotation");
-     selectTireRotation.options.length = 0;
-
-    var selectDeductible = document.getElementById("DeductibleFinance");
-    selectDeductible.options.length = 0;
-
-    var selectInterval = document.getElementById("Interval");
-    selectInterval.options.length = 0;
     
-    idSave = GlobalSectionProduct.attr('id');
-    ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
-    var SelectedTerm = $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name');
-    var SelectedType = $(GlobalSectionProduct).find( '.ProductType' ).attr('name');
-    var SelectedDeductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
-    var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
-    var SelectedTireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
-    var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
-    var ProductBaseType = $(GlobalSectionProduct).find( '.ProductBaseType' ).attr('name');
+    var findValues = new Object();
+    findValues.type = $(GlobalSectionProduct).find( '.ProductType' ).attr('name');
+    findValues.term = $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name');
+    findValues.deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    findValues.mileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
+    findValues.tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+    findValues.interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-    eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
+    var findFields = new Object();
+    findFields.type = true;
+    findFields.term = true;
+    findFields.deductible = true;
+    findFields.mileage = true;
+    findFields.tireRotation = true;
+    findFields.interval = true;
     
-    eval("var obj = productRates.product" + idSave);
-    var typeFind = SearchObjType( obj, SelectedType );
-    for(var i = 0; i < countproductRates; i++) {
-            eval("var obj = productRates.product" + idSave + "[i];");
-             validate = ArrayTerm.indexOf(obj.Term);
-             validate2 = ArrayType.indexOf(obj.Type);
-             validate3 = ArrayMileage.indexOf(obj.Mileage);
-             validate4 = ArrayTireRotation.indexOf(obj.Mileage);
-             validate5 = ArrayInterval.indexOf(obj.Interval);
-             validate6= ArrayDeductible.indexOf(obj.Deductible)
+    //console.time("My Function #1");
+    array = GetArrrayOption(findValues, findFields);
+    //console.timeEnd("My Function #1");
 
-             if (validate2 < 0) {
-                        ArrayType[i] = obj.Type;
-                        (selectType.options[selectType.options.length] = new Option(obj.Type, obj.Type)).setAttribute('OrderNumber',obj.OrderNumber);                 
-             };
+    ChangeTypeOrder(findValues.type, array.type);
+    ChangeTermOrder(findValues.term, array.term); 
+    ChangeDeductibleOrder(findValues.deductible, array.deductible);
+    ChangeMileageOrder(findValues.mileage, array.mileage);
+    ChangeTireRotationOrder(findValues.tireRotation, array.tireRotation);
+    ChangeIntervalOrder(findValues.interval, array.interval);
 
-             if (SelectedType == 'none' || SelectedType == 'None'  || typeFind==0) {
-                SelectedType =  obj.Type;
-                typeFind = 1;
-             };
-
-             if (SelectedType == obj.Type) {
-                     $("#TypeFinance option").filter(function() {
-                           return $(this).text() == obj.Type; 
-                        }).prop('selected', true);
-
-                     if (validate < 0) {
-                        ArrayTerm[i] = obj.Term; 
-                        (selectTerm.options[selectTerm.options.length] = new Option(obj.Term, obj.SellingPrice)).setAttribute('OrderNumber', obj.OrderNumber);
-                     };
-                    if(validate6 < 0){
-                    if (ProductBaseId == 12) {
-                            if(obj.Deductible == 100){
-                              validateDisappearing = ArrayDisappearing.indexOf(obj.DisappearingDeductible);
-                              if (validateDisappearing >= 0) {  // if deductible 100 with same disappearing , continue next iteration
-                                    continue; 
-                              }
-                              ArrayDisappearing[i] = obj.DisappearingDeductible;
-                            }else{
-                              ArrayDeductible[i] = obj.Deductible;
-                            }
-                           if (obj.DisappearingDeductible == true) {
-                                (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible)+" Disappearing", parseInt(obj.Deductible)+"D")).setAttribute('Disappearing', obj.DisappearingDeductible);
-                            }else{
-                                (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
-                            }
-                        } else{
-                            ArrayDeductible[i] = obj.Deductible;
-                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', 'false');
-                        }
-
-                    } // end validate 6  
-                     
-             }; 
-    }
-    ChangeTermOrder(SelectedTerm); 
-    ChangeDeductibleOrder(SelectedDeductible);
-    
-    var FindType = $("#TypeFinance :selected").text();
-    var FindTerm = $("#TermFinance :selected").text();
-    
-    for (var i = 0; i < countproductRates; i++) {
-        eval("var obj = productRates.product" + idSave + "[i];");
-        validate3 = ArrayMileage.indexOf(obj.Mileage);
-        validate4 = ArrayTireRotation.indexOf(obj.TireRotation);
-        validate5 = ArrayInterval.indexOf(obj.Interval);
-        if (FindType == obj.Type) {
-            if (FindTerm == obj.Term) {
-                if (ProductBaseId == 12 || ProductBaseId == 2 || ProductBaseId == 4) {
-                    if (validate3 < 0 ) {
-                        ArrayMileage[i] = obj.Mileage; 
-                        selectMileage.options[selectMileage.options.length] = new Option(obj.Mileage, obj.Mileage);                                                       
-                    };
-
-                    if ( SelectedMileage == obj.Mileage ) 
-                    {
-                        if ( validate4 <= 0 )
-                        {
-                            ArrayTireRotation[i] = obj.TireRotation;
-                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
-                        }
-
-                        if ( validate5 < 0 )
-                        {
-                            ArrayInterval[i] = obj.Interval;
-                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
-                        }
-                    }              
-                };
-
-                // ends 
-            };
-        };
-
-    };
-    
-    ChangeMileageOrder(SelectedMileage);
-    ChangeTireRotationOrder(SelectedTireRotation);
-    ChangeIntervalOrder(SelectedInterval);
-  
 }
 
 function SearchObjType( obj, SelectedType ){
@@ -571,20 +461,23 @@ function SearchObjType( obj, SelectedType ){
     }  
     return 0;
 }
+function ChangeTypeOrder(SelectedType, arr) {
+    var selectType = document.getElementById("TypeFinance");
+    selectType.options.length = 0;
+    for (var i = 0; i < arr.length; i++) {
+        (selectType.options[selectType.options.length] = new Option(arr[i].text, arr[i].value)).setAttribute('OrderNumber', arr[i].order);
+        if (SelectedType == arr[i].text) {
+            $("#TypeFinance option").filter(function() {
+            return $(this).text() == arr[i].text; 
+            }).prop('selected', true);
+        }
+    };
+}
 
-function ChangeTermOrder(SelectedTerm) {
-    var options = $('#TermFinance option');
-    var arr = options.map(function(_, o) {
-        return {
-            text: $(o).text(),
-            value: o.value,
-            order: $(o).attr('OrderNumber')
-        };
-    }).get();
+function ChangeTermOrder(SelectedTerm, arr) {
     arr.sort(function(a, b) { return a.text - b.text; });
     var selectTerm = document.getElementById("TermFinance");
     selectTerm.options.length = 0;
-
     for (var i = 0; i < arr.length; i++) {
         (selectTerm.options[selectTerm.options.length] = new Option(arr[i].text, arr[i].value)).setAttribute('OrderNumber', arr[i].order);
         if (SelectedTerm == arr[i].text) {
@@ -595,15 +488,7 @@ function ChangeTermOrder(SelectedTerm) {
     };
 }
 
-function ChangeDeductibleOrder(SelectedDeductible) {
-    var options = $('#DeductibleFinance option');
-    var arr = options.map(function(_, o) {
-        return {
-            text: $(o).text(),
-            value: o.value,
-            Disappearing: $(o).attr('Disappearing')
-        };
-    }).get();
+function ChangeDeductibleOrder(SelectedDeductible, arr) {
     arr.sort(function(a, b) { return a.text - b.text; });
     var selectDeductible = document.getElementById("DeductibleFinance");
     selectDeductible.options.length = 0;
@@ -622,16 +507,9 @@ function ChangeDeductibleOrder(SelectedDeductible) {
     };
 }
 
-function ChangeMileageOrder(SelectedMileage) {
-    var options = $('#MileageFinance option');
-    var arr = options.map(function(_, o) {
-        return {
-            text: $(o).text(),
-            value: o.value
-        };
-    }).get();
+function ChangeMileageOrder(SelectedMileage, arr) {
+    
     arr.sort(function(a, b) { return a.text - b.text;});
-
     var selectMileage = document.getElementById("MileageFinance");
     selectMileage.options.length = 0;
 
@@ -648,16 +526,9 @@ function ChangeMileageOrder(SelectedMileage) {
 
 }
 
-function ChangeTireRotationOrder(SelectedTireRotation){
-    var options = $('#TireRotation option');
-    var arr = options.map(function(_, o) {
-        return {
-            text: $(o).text().replace(',', ''),
-            value: o.value.replace(',', '')
-        };
-    }).get();
+function ChangeTireRotationOrder(SelectedTireRotation, arr){
+    
     arr.sort(function(a, b) { return a.text - b.text;});
-
     var selectTireRotation = document.getElementById("TireRotation");
     selectTireRotation.options.length = 0;
 
@@ -672,19 +543,10 @@ function ChangeTireRotationOrder(SelectedTireRotation){
     };
 }
 
-function ChangeIntervalOrder(SelectedInterval){
+function ChangeIntervalOrder(SelectedInterval, arr){
     //var optionSelected = SelectedTireRotation.toString();
     //SelectedTireRotation = optionSelected.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-    SelectedInterval = SelectedInterval.replace(/ +/g, "");
-    var options = $('#Interval option');
-    var arr = options.map(function(_, o) {
-        return {
-            text: $(o).text(),
-            value: o.value
-        };
-    }).get();
     arr.sort(function(a, b) { return a.text - b.text;});
-
     var selectInterval = document.getElementById("Interval");
     selectInterval.options.length = 0;
 
@@ -768,270 +630,129 @@ $('#myModal2').on('hide.bs.modal', function () {
     $('.videoPlayer2').attr('src', url); 
 });
 
-$( "#TypeFinance" ).change(function() {
+$( "#TypeFinance Option" ).change(function() {
     LoadOptionTypeOnSelect($('#TypeFinance :selected').text());
-    LoadOptionTermOnSelect($('#TermFinance :selected').text());
+    //LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
 
 $( "#TermFinance" ).change(function() {
     LoadOptionTermOnSelect($('#TermFinance :selected').text());
+    if ((parseInt(GlobalSectionProduct.attr('name'))) == 4) {
+        LoadOptionsMileageOnSelect($('#MileageFinance :selected').text());
+    }
 });
 
 $( "#MileageFinance" ).change(function() {
     LoadOptionsMileageOnSelect($('#MileageFinance :selected').text());
+
+});
+
+$( "#TireRotation" ).change(function() {
+    LoadOptionsTireRotationOnSelect($('#TireRotation :selected').text());
 });
 
 
 function LoadOptionTypeOnSelect(SelectedType) {
 
-    var ArrayMileage = [];
-    var ArrayTerm = [];
-    var ArrayType = [];
-    var ArrayTireRotation = [];
-    var ArrayInterval = [];
-    
-    var selectMileage = document.getElementById("MileageFinance");
-    selectMileage.options.length = 0;
-    
-    var selectTerm = document.getElementById("TermFinance");
-    selectTerm.options.length = 0;
-
-    var selectTireRotation = document.getElementById("TireRotation");
-    selectTireRotation.options.length = 0;
-
-    var selectInterval = document.getElementById("Interval");
-    selectInterval.options.length = 0;
-
-    var SelectedType = $('#TypeFinance :selected').val();
-    var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
-    var SelectedTerm = $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name'); 
-    var SelectedTireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
-    var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
-
-    var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
-    var idSave = GlobalSectionProduct.attr('id');
-
-    eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
-    for(var i = 0; i < countproductRates; i++) {
-            eval("var obj = productRates.product" + idSave + "[i];");
-            validate = ArrayTerm.indexOf(obj.Term);
-            validate2 = ArrayMileage.indexOf(obj.Mileage);
-            
-            if (SelectedType == obj.Type) {
-                if (validate < 0) {
-                    ArrayTerm[i] = obj.Term; 
-                    (selectTerm.options[selectTerm.options.length] = new Option(obj.Term, obj.SellingPrice)).setAttribute('OrderNumber',obj.OrderNumber);   
-
-                }              
-            }               
-    } 
    
-   ChangeTermOrder(SelectedTerm); 
-    
-    var FindType = $("#TypeFinance :selected").text();
-    var FindTerm = $("#TermFinance :selected").text();
-    for (var i = 0; i < countproductRates; i++) {
-        eval("var obj = productRates.product" + idSave + "[i];");
-        validate3 = ArrayMileage.indexOf(obj.Mileage);
-        validate4 = ArrayTireRotation.indexOf(obj.TireRotation);
-        validate5 = ArrayInterval.indexOf(obj.Interval);
-        if (FindType == obj.Type) {
-            if (FindTerm == obj.Term) {
-                if (ProductBaseId == 12 || ProductBaseId == 2  || ProductBaseId == 4) {
-                    if (validate3 < 0 ) {
-                        ArrayMileage[i] = obj.Mileage; 
-                        selectMileage.options[selectMileage.options.length] = new Option(obj.Mileage, obj.Mileage);                                                       
-                    };  
-                    if ( SelectedMileage == obj.Mileage ) 
-                    {
-                        if ( validate4 <= 0 )
-                        {
-                            ArrayTireRotation[i] = obj.TireRotation;
-                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
-                        }
+    var findValues = new Object();
+    findValues.type = SelectedType;
+    findValues.term = $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name');
+    findValues.deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    findValues.mileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
+    findValues.tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+    findValues.interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-                        if ( validate5 < 0 )
-                        {
-                            ArrayInterval[i] = obj.Interval;
-                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
-                        }
-                    }                           
-                }; 
-            };
-        };
-
-    };
+    var findFields = new Object();
+    findFields.type = false;
+    findFields.term = true;
+    findFields.deductible = true;
+    findFields.mileage = true;
+    findFields.tireRotation = true;
+    findFields.interval = true;
     
-    ChangeMileageOrder(SelectedMileage);  
-    ChangeTireRotationOrder(SelectedTireRotation);
-    ChangeIntervalOrder(SelectedInterval);     
+    array = GetArrrayOption(findValues, findFields);
+    
+    ChangeTermOrder(findValues.term, array.term); 
+    ChangeDeductibleOrder(findValues.deductible, array.deductible);
+    ChangeMileageOrder(findValues.mileage, array.mileage);
+    ChangeTireRotationOrder(findValues.tireRotation, array.tireRotation);
+    ChangeIntervalOrder(findValues.interval, array.interval);
 }
 
 function LoadOptionTermOnSelect (SelectedTerm) {
-    var ArrayMileage = [];
-    var ArrayDeductible = [];
-    var ArrayDisappearing = [];
-    var ArrayTireRotation = [];
-    var ArrayInterval = [];
 
-    var selectMileage = document.getElementById("MileageFinance");
-    selectMileage.options.length = 0;
-    var selectDeductible = document.getElementById("DeductibleFinance");
-    selectDeductible.options.length = 0;
-    var selectTireRotation = document.getElementById("TireRotation");
-    selectTireRotation.options.length = 0;
-    var selectInterval = document.getElementById("Interval");
-    selectInterval.options.length = 0;
+    var findValues = new Object();
+    findValues.type = $('#TypeFinance :selected').val();
+    findValues.term = SelectedTerm
+    findValues.deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    findValues.mileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
+    findValues.tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+    findValues.interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-    var SelectedDeductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');    
-    var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
-    var SelectedTireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
-    var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
-
-    var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
-    var idSave = GlobalSectionProduct.attr('id');
-
-    var FindType = $("#TypeFinance :selected").text();
-    var FindTerm = SelectedTerm;
-
-    eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
-
-    var flag100 = 0;
+    var findFields = new Object();
+    findFields.type = false;
+    findFields.term = false;
+    findFields.deductible = true;
+    findFields.mileage = true;
+    findFields.tireRotation = true;
+    findFields.interval = true;
     
-    for (var i = 0; i < countproductRates; i++) {
-        eval("var obj = productRates.product" + idSave + "[i];");
-        validate3 = ArrayMileage.indexOf(obj.Mileage);
-        validate6= ArrayDeductible.indexOf(obj.Deductible)
-        
-        if (FindType == obj.Type) {
-            if (FindTerm == obj.Term) {
-                if (ProductBaseId == 12 || ProductBaseId == 2  || ProductBaseId == 4) {
-                    if (validate3 < 0 ) {
-                        ArrayMileage[i] = obj.Mileage; 
-                        selectMileage.options[selectMileage.options.length] = new Option(obj.Mileage, obj.Mileage);                                                       
-                    }                           
-                }
-                if(validate6 < 0){
-                    if (ProductBaseId == 12) {
-                        if(obj.Deductible == 100){
-                          validateDisappearing = ArrayDisappearing.indexOf(obj.DisappearingDeductible);
-                          if (validateDisappearing >= 0) {  // if deductible 100 with same disappearing , continue next iteration
-                            continue; 
-                          }
-                          ArrayDisappearing[i] = obj.DisappearingDeductible;
-                        }else{
-                          ArrayDeductible[i] = obj.Deductible;
-                        }
-                       if (obj.DisappearingDeductible == true) {
-                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible)+" Disappearing", parseInt(obj.Deductible)+"D")).setAttribute('Disappearing', obj.DisappearingDeductible);
-                        }else{
-                            (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', obj.DisappearingDeductible);
-                        }
-                    } else{
-                        ArrayDeductible[i] = obj.Deductible;
-                        (selectDeductible.options[selectDeductible.options.length] = new Option("$"+parseInt(obj.Deductible), parseInt(obj.Deductible))).setAttribute('Disappearing', 'false');
-                    }
-
-                } // end validate 6  
-            }
-        }
-
-    };
-    ChangeMileageOrder(SelectedMileage); 
-    ChangeDeductibleOrder(SelectedDeductible);
+    array = GetArrrayOption(findValues, findFields);
     
-    FindType = $("#TypeFinance :selected").text();
-    FindTerm = $("#TermFinance :selected").text();
-    FindMileage = $("#MileageFinance :selected").text();
-    
-    for (var i = 0; i < countproductRates; i++) {
-        eval("var obj = productRates.product" + idSave + "[i];");
-        validate3 = ArrayMileage.indexOf(obj.Mileage);
-        validate4 = ArrayTireRotation.indexOf(obj.TireRotation);
-        validate5 = ArrayInterval.indexOf(obj.Interval);
-        if (FindType == obj.Type) {
-            if (FindTerm == obj.Term) {
-                if (ProductBaseId == 12 || ProductBaseId == 2 || ProductBaseId == 4) {
-                    if ( FindMileage == obj.Mileage ) 
-                    {
-                        if ( validate4 <= 0 )
-                        {
-                            ArrayTireRotation[i] = obj.TireRotation;
-                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
-                        }
-
-                        if ( validate5 < 0 )
-                        {
-                            ArrayInterval[i] = obj.Interval;
-                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
-                        }
-                    }              
-                };
-
-                // ends 
-            };
-        };
-
-    };
-    
-    ChangeTireRotationOrder(SelectedTireRotation);
-    ChangeIntervalOrder(SelectedInterval);
+    ChangeDeductibleOrder(findValues.deductible, array.deductible);
+    ChangeMileageOrder(findValues.mileage, array.mileage);
+    ChangeTireRotationOrder(findValues.tireRotation, array.tireRotation);
+    ChangeIntervalOrder(findValues.interval, array.interval);
 
 }
 
 function LoadOptionsMileageOnSelect(SelectedMileage)
 {
-    var ArrayMileage = [];
-    var ArrayTireRotation = [];
-    var ArrayInterval = [];
+   var findValues = new Object();
+    findValues.type = $('#TypeFinance :selected').val();
+    findValues.term = $("#TermFinance :selected").text();
+    findValues.deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    findValues.mileage = SelectedMileage;
+    findValues.tireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
+    findValues.interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-    var selectTireRotation = document.getElementById("TireRotation");
-    selectTireRotation.options.length = 0;
+    var findFields = new Object();
+    findFields.type = false;
+    findFields.term = false;
+    findFields.mileage = false;
+    findFields.deductible = true;
+    findFields.tireRotation = true;
+    findFields.interval = true;
+    
+    array = GetArrrayOption(findValues, findFields);
+    
+    ChangeDeductibleOrder(findValues.deductible, array.deductible);
+    ChangeTireRotationOrder(findValues.tireRotation, array.tireRotation);
+    ChangeIntervalOrder(findValues.interval, array.interval);
+}
 
-    var selectInterval = document.getElementById("Interval");
-    selectInterval.options.length = 0;
+function LoadOptionsTireRotationOnSelect (SelectedTireRotation) {
 
-    //var SelectedMileage = $(GlobalSectionProduct).find( '.ProductMileage' ).attr('name');
-    var SelectedTireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
-    var SelectedInterval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
+    var findValues = new Object();
+    findValues.type = $('#TypeFinance :selected').val();
+    findValues.term = $("#TermFinance :selected").text();
+    findValues.deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    findValues.mileage = $('#MileageFinance :selected').text();
+    findValues.tireRotation = SelectedTireRotation;
+    findValues.interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-    var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
-    var idSave = GlobalSectionProduct.attr('id');
-
-    var FindType = $("#TypeFinance :selected").text();
-    var FindTerm = $("#TermFinance :selected").text();
-
-    eval("var countproductRates = Object.keys(productRates.product" + idSave + ").length;");
-
-    for (var i = 0; i < countproductRates; i++) {
-        eval("var obj = productRates.product" + idSave + "[i];");
-        validate4 = ArrayTireRotation.indexOf(obj.TireRotation);
-        validate5 = ArrayInterval.indexOf(obj.Interval);
-        
-        if (FindType == obj.Type) {
-            if (FindTerm == obj.Term) {
-                if ( ProductBaseId == 4 ) {
-                    if ( SelectedMileage == obj.Mileage ) 
-                    {
-                        if ( validate4 <= 0 )
-                        {
-                            ArrayTireRotation[i] = obj.TireRotation;
-                            selectTireRotation.options[selectTireRotation.options.length] = new Option(obj.TireRotation, obj.TireRotation);
-                        }
-
-                        if ( validate5 < 0 )
-                        {
-                            ArrayInterval[i] = obj.Interval;
-                            selectInterval.options[selectInterval.options.length] = new Option(obj.Interval, obj.Interval);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    ChangeTireRotationOrder(SelectedTireRotation);
-    ChangeIntervalOrder(SelectedInterval);
+    var findFields = new Object();
+    findFields.type = false;
+    findFields.term = false;
+    findFields.mileage = false;
+    findFields.deductible = false;
+    findFields.tireRotation = true;
+    findFields.interval = true;
+    
+    array = GetArrrayOption(findValues, findFields);
+    
+    ChangeIntervalOrder(findValues.interval, array.interval);
 }
 
 function ValidateExpression (text, type) {
@@ -1080,6 +801,7 @@ function DefineId(num) {
 
 function GetIdProducts(id) {
     var i = 0;
+    var Hiddenfields = new Object();
     GlobalAccepted = [];
     OrderNumberAccepted = [];
     OrderNumberRejected = [];
@@ -1174,55 +896,56 @@ function GetIdProducts(id) {
     });
 
 
-    OrderNumberAccepted = $.grep(OrderNumberAccepted, function (n) { return (n) });
-    OrderNumberRejected = $.grep(OrderNumberRejected, function (n) { return (n) });
-    GlobalAccepted = $.grep(GlobalAccepted, function (n) { return (n) });
-    GlobalRejected = $.grep(GlobalRejected, function (n) { return (n) });
-    GlobalAcceptedPrice = $.grep(GlobalAcceptedPrice, function (n) { return (n) });
-    GlobalRejectedPrice = $.grep(GlobalRejectedPrice, function (n) { return (n) });
-    TypeAccepted = $.grep(TypeAccepted, function (n) { return (n) });
-    TypeRejected = $.grep(TypeRejected, function (n) { return (n) });
-    TermAccepted = $.grep(TermAccepted, function (n) { return (n) });
-    TermRejected = $.grep(TermRejected, function (n) { return (n) });
-    DeductibleAccepted = $.grep(DeductibleAccepted, function (n) { return (n) });
-    DeductibleRejected = $.grep(DeductibleRejected, function (n) { return (n) });
-    MileageAccepted = $.grep(MileageAccepted, function (n) { return (n) });
-    MileageRejected = $.grep(MileageRejected, function (n) { return (n) });
-    TireRotationAccepted = $.grep(TireRotationAccepted, function (n) { return (n) });
-    TireRotationRejected = $.grep(TireRotationRejected, function (n) { return (n) });
-    IntervalAccepted = $.grep(IntervalAccepted, function (n) { return (n) });
-    IntervalRejected = $.grep(IntervalRejected, function (n) { return (n) });
-    DescriptionAccepted = $.grep(DescriptionAccepted, function (n) { return (n) });
-    DescriptionRejected = $.grep(DescriptionRejected, function (n) { return (n) });
+    Hiddenfields.OrderNumberAccepted = $.grep(OrderNumberAccepted, function (n) { return (n) });
+    Hiddenfields.OrderNumberRejected = $.grep(OrderNumberRejected, function (n) { return (n) });
+    Hiddenfields.GlobalAccepted = $.grep(GlobalAccepted, function (n) { return (n) });
+    Hiddenfields.GlobalRejected = $.grep(GlobalRejected, function (n) { return (n) });
+    Hiddenfields.GlobalAcceptedPrice = $.grep(GlobalAcceptedPrice, function (n) { return (n) });
+    Hiddenfields.GlobalRejectedPrice = $.grep(GlobalRejectedPrice, function (n) { return (n) });
+    Hiddenfields.TypeAccepted = $.grep(TypeAccepted, function (n) { return (n) });
+    Hiddenfields.TypeRejected = $.grep(TypeRejected, function (n) { return (n) });
+    Hiddenfields.TermAccepted = $.grep(TermAccepted, function (n) { return (n) });
+    Hiddenfields.TermRejected = $.grep(TermRejected, function (n) { return (n) });
+    Hiddenfields.DeductibleAccepted = $.grep(DeductibleAccepted, function (n) { return (n) });
+    Hiddenfields.DeductibleRejected = $.grep(DeductibleRejected, function (n) { return (n) });
+    Hiddenfields.MileageAccepted = $.grep(MileageAccepted, function (n) { return (n) });
+    Hiddenfields.MileageRejected = $.grep(MileageRejected, function (n) { return (n) });
+    Hiddenfields.TireRotationAccepted = $.grep(TireRotationAccepted, function (n) { return (n) });
+    Hiddenfields.TireRotationRejected = $.grep(TireRotationRejected, function (n) { return (n) });
+    Hiddenfields.IntervalAccepted = $.grep(IntervalAccepted, function (n) { return (n) });
+    Hiddenfields.IntervalRejected = $.grep(IntervalRejected, function (n) { return (n) });
+    Hiddenfields.DescriptionAccepted = $.grep(DescriptionAccepted, function (n) { return (n) });
+    Hiddenfields.DescriptionRejected = $.grep(DescriptionRejected, function (n) { return (n) });
 
     
-    $("#HiddenAccepted").val(GlobalAccepted.toString());
-    $("#HiddenRejected").val(GlobalRejected.toString());
+    $("#HiddenAccepted").val(Hiddenfields.GlobalAccepted.toString());
+    $("#HiddenRejected").val(Hiddenfields.GlobalRejected.toString());
 
-    $("#HiddenTypeAccepted").val(TypeAccepted.toString());
-    $("#HiddenTypeRejected").val(TypeRejected.toString());
-    $("#HiddenTermAccepted").val(TermAccepted.toString());
-    $("#HiddenTermRejected").val(TermRejected.toString());
-    $("#HiddenDeductibleAccepted").val(DeductibleAccepted.toString());
-    $("#HiddenDeductibleRejected").val(DeductibleRejected.toString());
+    $("#HiddenTypeAccepted").val(Hiddenfields.TypeAccepted.toString());
+    $("#HiddenTypeRejected").val(Hiddenfields.TypeRejected.toString());
+    $("#HiddenTermAccepted").val(Hiddenfields.TermAccepted.toString());
+    $("#HiddenTermRejected").val(Hiddenfields.TermRejected.toString());
+    $("#HiddenDeductibleAccepted").val(Hiddenfields.DeductibleAccepted.toString());
+    $("#HiddenDeductibleRejected").val(Hiddenfields.DeductibleRejected.toString());
 
-    $("#HiddenOrderAccepted").val(OrderNumberAccepted.toString());
-    $("#HiddenOrderRejected").val(OrderNumberRejected.toString());
+    $("#HiddenOrderAccepted").val(Hiddenfields.OrderNumberAccepted.toString());
+    $("#HiddenOrderRejected").val(Hiddenfields.OrderNumberRejected.toString());
 
-    $("#HiddenAcceptedPrice").val(GlobalAcceptedPrice.toString());    
-    $("#HiddenRejectedPrice").val(GlobalRejectedPrice.toString());
+    $("#HiddenAcceptedPrice").val(Hiddenfields.GlobalAcceptedPrice.toString());    
+    $("#HiddenRejectedPrice").val(Hiddenfields.GlobalRejectedPrice.toString());
 
-    $("#HiddenMileageAccepted").val(MileageAccepted.toString());
-    $("#HiddenMileageRejected").val(MileageRejected.toString());
+    $("#HiddenMileageAccepted").val(Hiddenfields.MileageAccepted.toString());
+    $("#HiddenMileageRejected").val(Hiddenfields.MileageRejected.toString());
 
-    $("#HiddenTireRotationAccepted").val(TireRotationAccepted.toString());
-    $("#HiddenTireRotationRejected").val(TireRotationRejected.toString());
+    $("#HiddenTireRotationAccepted").val(Hiddenfields.TireRotationAccepted.toString());
+    $("#HiddenTireRotationRejected").val(Hiddenfields.TireRotationRejected.toString());
 
-    $("#HiddenIntervalAccepted").val(IntervalAccepted.toString());
-    $("#HiddenIntervalRejected").val(IntervalRejected.toString());
+    $("#HiddenIntervalAccepted").val(Hiddenfields.IntervalAccepted.toString());
+    $("#HiddenIntervalRejected").val(Hiddenfields.IntervalRejected.toString());
 
-    $("#HiddenDescriptionAccepted").val(DescriptionAccepted.toString());
-    $("#HiddenDescriptionRejected").val(DescriptionRejected.toString());
+    $("#HiddenDescriptionAccepted").val(Hiddenfields.DescriptionAccepted.toString());
+    $("#HiddenDescriptionRejected").val(Hiddenfields.DescriptionRejected.toString());
+
     
     $("#CostPerDayFinance").val($("#" + id + " .CostDay").text());
     $("#AdditionalPaymentFinance").val($("#" + id + " .Additional").text());
@@ -1233,6 +956,8 @@ function GetIdProducts(id) {
     var option = getSelectedPaymentOption();
     $("#HiddenTerm").val(option == "2" ? getFooterTerm() : getCurrentTerm());
     $("#HiddenAPR").val(option == "2" ? getFooterAPR() : getCurrentAPR());
+
+    $("#Hiddenfields").val(JSON.stringify(Hiddenfields));
 }
 
 function getSelectedPaymentOption()
@@ -1345,4 +1070,172 @@ function DisableFailedProducts () {
        section.find('.linkmodal1').hide(); 
        section.find('.PdfContract').hide();
     })
+}
+
+
+/*
+ *  Return an array with available options for show 
+ *  in select combobox
+ *
+ * @param findValues {object}
+ * @param findFields {object}
+ * @returns {object}
+*/
+function GetArrrayOption (findValues, findFields) {
+
+    var Options = new Object();
+    var ArrayType = [];
+    var ArrayTerm = [];
+    var ArrayMileage = [];
+    var ArrayMileage2 = [];
+    var ArrayDeductible = [];
+    var ArrayDeductible2 = [];
+    var ArrayTireRotation = [];
+    var ArrayInterval = [];
+
+    var ArrayDisappearing = [];
+    var ProductBaseId = parseInt(GlobalSectionProduct.attr('name'));
+    var productId = GlobalSectionProduct.attr('id');
+
+    eval("var countproductRates = Object.keys(productRates.product" + productId + ").length;");
+    eval("var obj = productRates.product" + productId);
+    var typeFind = SearchObjType( obj, findValues.type );
+    for(var i = 0; i < countproductRates; i++) {
+            eval("var obj = productRates.product" + productId + "[i];");
+
+            if (findFields.type == 'none' || findFields.type == 'None'  || typeFind==0) {
+                findFields.type =  obj.Type;
+                typeFind = 1;
+
+             }
+
+            if (findFields.type == true  && typeof obj.Type != "undefined") {
+                validate = arrayObjectIndexOf(ArrayType, obj.Type, 'text');                
+                if (validate < 0) {
+                     ArrayType.push({
+                        text: obj.Type,
+                        value: obj.Type,
+                        order: obj.OrderNumber
+                     });
+                     
+                }
+            }
+
+            if (findFields.term == true  && typeof obj.Term != "undefined") {
+                validate = arrayObjectIndexOf(ArrayTerm, obj.Term, 'text');                
+                if (findValues.type == obj.Type && validate < 0) {
+                     ArrayTerm.push({
+                        text: obj.Term,
+                        value: obj.SellingPrice,
+                        order: obj.OrderNumber
+                     });
+                     
+                }
+            }
+            if (findFields.mileage == true  && typeof obj.Mileage != "undefined") {
+                validate = arrayObjectIndexOf(ArrayMileage, obj.Mileage, 'text');  
+                if (findValues.type == obj.Type && findValues.term == obj.Term && validate < 0) {
+                     ArrayMileage.push({
+                        text: obj.Mileage,
+                        value: obj.Mileage,
+                     });                     
+                }
+                validate = arrayObjectIndexOf(ArrayMileage2, obj.Mileage, 'text');                  
+                if (findValues.type == obj.Type && (ProductBaseId == 2 || ProductBaseId == 4 || ProductBaseId == 12) && validate < 0) {
+                    ArrayMileage2.push({
+                        text: obj.Mileage,
+                        value: obj.Mileage,
+                     }); 
+                }
+            }
+
+            if (findFields.tireRotation == true && typeof obj.TireRotation != "undefined") {
+                validate = arrayObjectIndexOf(ArrayTireRotation, obj.TireRotation, 'text');                
+                if (findValues.type == obj.Type && findValues.term == obj.Term && findValues.mileage == obj.Mileage && validate < 0) {
+                     ArrayTireRotation.push({
+                        text: obj.TireRotation,
+                        value: obj.TireRotation,
+                     });
+                     
+                }
+            }
+            if (findFields.interval == true && typeof obj.Interval != "undefined") {
+                validate = arrayObjectIndexOf(ArrayInterval, obj.Interval, 'text'); 
+                if (findValues.type == obj.Type && findValues.term == obj.Term && findValues.mileage == obj.Mileage && findValues.tireRotation.replace(',', '') == obj.TireRotation.replace(',', '') && validate < 0) {
+                     ArrayInterval.push({
+                        text: obj.Interval,
+                        value: obj.Interval,
+                     });
+                     
+                }
+            }     
+            
+            if (findFields.deductible == true  && typeof obj.Deductible != "undefined") {
+                validate = arrayObjectIndexOf(ArrayDeductible, parseInt(obj.Deductible), 'value');                
+                if (findValues.type == obj.Type && findValues.term == obj.Term && validate < 0 && !isNaN(obj.Deductible)) {
+
+                    text = "$"+parseInt(obj.Deductible);
+                    value = parseInt(obj.Deductible);
+                    disappearing = 'false';
+
+                    if (ProductBaseId == 12) {
+                        if(obj.Deductible == 100){
+                            validateDisappearing = ArrayDisappearing.indexOf(obj.DisappearingDeductible);
+                            if (validateDisappearing >= 0) {  // if deductible 100 with same disappearing , continue next iteration
+                                continue; 
+                            }
+                            ArrayDisappearing[i] = obj.DisappearingDeductible;
+                        }
+                        if (obj.DisappearingDeductible == true) {
+                            text = text + " Disappearing";
+                            value = value+"D";
+                            disappearing = obj.DisappearingDeductible;
+                        }else{
+                            disappearing = obj.DisappearingDeductible;
+                        }
+
+                    }
+                    ArrayDeductible.push({
+                            text: text,
+                            value: value,
+                            disappearing: disappearing
+                    });
+                    
+                }
+                validate = arrayObjectIndexOf(ArrayDeductible2, parseInt(obj.Deductible), 'value'); 
+                if (findValues.type == obj.Type && validate < 0 && !isNaN(obj.Deductible) && Object.keys(ArrayDeductible).length <= 0) {
+                    ArrayDeductible2.push({
+                            text: "$"+parseInt(obj.Deductible),
+                            value: parseInt(obj.Deductible),
+                            disappearing: 'false'
+                    });
+                }
+
+            }
+             
+    } // end for
+
+    Options.type = ArrayType;
+    Options.term = ArrayTerm;
+    if (Object.keys(ArrayMileage).length > 0) {
+        Options.mileage = ArrayMileage;    
+    }else{
+        Options.mileage = ArrayMileage2;    
+    }
+    if (Object.keys(ArrayDeductible).length > 0) {
+        Options.deductible = ArrayDeductible;    
+    } else{
+        Options.deductible = ArrayDeductible2;
+    }
+    Options.tireRotation = ArrayTireRotation;
+    Options.interval = ArrayInterval;
+    
+    return Options;
+}
+
+function arrayObjectIndexOf(myArray, searchTerm, property) {
+    for(var i = 0, len = myArray.length; i < len; i++) {
+        if (myArray[i][property] === searchTerm) return i;
+    }
+    return -1;
 }
