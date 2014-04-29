@@ -35,11 +35,11 @@ class DealerController extends BaseController
 	
 	public function save()
 	{
-		$DealerId = Input::get('DealerId');
+		    $DealerId = Input::get('DealerId');
         $DealerCode = Input::get('DealerCode');
         $DealerName = Input::get('DealerName');
         $CompanyCode = Input::get('CompanyCode');
-    	$Deal = Input::get('Deal');
+        $Deal = Input::get('Deal');
         $URL = Input::get('URL');
         $Year = Input::get('Year');
         $Make = Input::get('Make');
@@ -55,6 +55,9 @@ class DealerController extends BaseController
         $TradeAllowance = Input::get('TradeAllowance');
         $TradePayOff = Input::get('TradePayOff');
         $BeginningOdometer = Input::get('BeginningOdometer');
+        $FirstName = Input::get('FirstName');
+        $MiddleName = Input::get('MiddleName');
+        $LastName = Input::get('LastName');
         $Address1 = Input::get('Address1');
         $Address2 = Input::get('Address2');
         $City = Input::get('City');
@@ -65,6 +68,20 @@ class DealerController extends BaseController
         $CountryCode = Input::get('CountryCode');
         $Telephone = Input::get('Telephone');
         $Email = Input::get('Email');
+        $LienHolderName = Input::get('LienHolderName');
+        $LienHolderAddress = Input::get('LienHolderAddress');
+        $LienHolderCountry = Input::get('LienHolderCountry');
+        $LienHolderCity = Input::get('LienHolderCity');
+        $LienHolderState = Input::get('LienHolderState');
+        $LienHolderZip = Input::get('LienHolderZip');
+        $LienHolderEmail = Input::get('LienHolderEmail');
+        $LienHolderPhone = Input::get('LienHolderPhone');
+        $LienHolderFax = Input::get('LienHolderFax');
+        $LienHolderType = Input::get('LienHolderType');
+        $LienHolderContact = Input::get('LienHolderContact');
+        $TaxRate = Input::get('TaxRate');
+        $VehiclePurchasePrice = Input::get('VehiclePurchasePrice');
+        $VehiclePurchaseDate = Input::get('VehiclePurchaseDate');
         $Disclosure = Input::get('Disclosure');
         $Vin = Input::get('Vin');
         $DisplayPayOff = Input::get('DisplayPayOff');
@@ -81,8 +98,8 @@ class DealerController extends BaseController
                          ->first();
 
         if ( empty($settingExists) ) {
-        	$InsertedDealerId = DB::table('Dealer')
-        	           ->insertGetId(array( 'DisplayPayOff' => $DisplayPayOff,
+          $InsertedDealerId = DB::table('Dealer')
+                     ->insertGetId(array( 'DisplayPayOff' => $DisplayPayOff,
                                        'DisplayTerm' => $DisplayTerm,
                                        'DisplayAPR' => $DisplayAPR,
                                        'DisplayFinancedAmount' => $DisplayFinancedAmount,
@@ -92,22 +109,25 @@ class DealerController extends BaseController
                                        'DisplayTradeIn' => $DisplayTradeIn,
                                        'CompanyCode' => $CompanyCode,
                                        'DealerName' => $DealerName,
-        	           	                 'Deal' => $Deal,
-        	           	                 'URL' => $URL,
-        	           	                 'Year' => $Year,
-        	           	                 'Make' => $Make,
-        	           	                 'Model' => $Model,
-        	           	                 'FinancedAmount' => $FinancedAmount,
-        	           	                 'BasePayment' => $BasePayment,
-        	           	                 'APR' => $APR,
-        	           	                 'Term' => $Term,
-        	           	                 'DownPayment' => $DownPayment,
-        	           	                 'Buyer' => $Buyer,
-        	           	                 'CoBuyer' => $CoBuyer,
+                                       'Deal' => $Deal,
+                                       'URL' => $URL,
+                                       'Year' => $Year,
+                                       'Make' => $Make,
+                                       'Model' => $Model,
+                                       'FinancedAmount' => $FinancedAmount,
+                                       'BasePayment' => $BasePayment,
+                                       'APR' => $APR,
+                                       'Term' => $Term,
+                                       'DownPayment' => $DownPayment,
+                                       'Buyer' => $Buyer,
+                                       'CoBuyer' => $CoBuyer,
                                        'Trim' => $Trim,
                                        'TradeAllowance' => $TradeAllowance,
                                        'TradePayOff' => $TradePayOff,
                                        'BeginningOdometer' => $BeginningOdometer,
+                                       'FirstNameParameter' => $FirstName,
+                                       'MiddleNameParameter' => $MiddleName,
+                                       'LastNameParameter' => $LastName,
                                        'Address1' => $Address1,
                                        'Address2' => $Address2,
                                        'City' => $City,
@@ -118,13 +138,27 @@ class DealerController extends BaseController
                                        'CountryCode' => $CountryCode,
                                        'Telephone' => $Telephone,
                                        'Email' => $Email,
-        	           	                 'Disclosure' => $Disclosure,
+                                       'LienHolderName' => $LienHolderName,
+                                       'LienHolderAddress' => $LienHolderAddress,
+                                       'LienHolderCountry' => $LienHolderCountry,
+                                       'LienHolderCity' => $LienHolderCity,
+                                       'LienHolderState' => $LienHolderState,
+                                       'LienHolderZip' => $LienHolderZip,
+                                       'LienHolderEmail' => $LienHolderEmail,
+                                       'LienHolderPhone' => $LienHolderPhone,
+                                       'LienHolderFax' => $LienHolderFax,
+                                       'LienHolderType' => $LienHolderType,
+                                       'LienHolderContact' => $LienHolderContact,
+                                       'TaxRate' => $TaxRate,
+                                       'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
+                                       'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $InsertedDealerId;
         } else {
             $settings = DB::table('Dealer')
                        ->where('DealerId', '=', $DealerId)
-        	           ->update(array( 'DisplayPayOff' => $DisplayPayOff,
+                     ->update(array( 'DisplayPayOff' => $DisplayPayOff,
                                        'DisplayTerm' => $DisplayTerm,
                                        'DisplayAPR' => $DisplayAPR,
                                        'DisplayFinancedAmount' => $DisplayFinancedAmount,
@@ -135,21 +169,24 @@ class DealerController extends BaseController
                                        'CompanyCode' => $CompanyCode,
                                        'DealerName' => $DealerName, 
                                        'Deal' => $Deal,
-        	           	                 'URL' => $URL,
-        	           	                 'Year' => $Year,
-        	           	                 'Make' => $Make,
-        	           	                 'Model' => $Model,
-        	           	                 'FinancedAmount' => $FinancedAmount,
-        	           	                 'BasePayment' => $BasePayment,
-        	           	                 'APR' => $APR,
-        	           	                 'Term' => $Term,
-        	           	                 'DownPayment' => $DownPayment,
-        	           	                 'Buyer' => $Buyer,
-        	           	                 'CoBuyer' => $CoBuyer,
+                                       'URL' => $URL,
+                                       'Year' => $Year,
+                                       'Make' => $Make,
+                                       'Model' => $Model,
+                                       'FinancedAmount' => $FinancedAmount,
+                                       'BasePayment' => $BasePayment,
+                                       'APR' => $APR,
+                                       'Term' => $Term,
+                                       'DownPayment' => $DownPayment,
+                                       'Buyer' => $Buyer,
+                                       'CoBuyer' => $CoBuyer,
                                        'Trim' => $Trim,
                                        'TradeAllowance' => $TradeAllowance,
                                        'TradePayOff' => $TradePayOff,
                                        'BeginningOdometer' => $BeginningOdometer,
+                                       'FirstNameParameter' => $FirstName,
+                                       'MiddleNameParameter' => $MiddleName,
+                                       'LastNameParameter' => $LastName,
                                        'Address1' => $Address1,
                                        'Address2' => $Address2,
                                        'City' => $City,
@@ -160,7 +197,21 @@ class DealerController extends BaseController
                                        'CountryCode' => $CountryCode,
                                        'Telephone' => $Telephone,
                                        'Email' => $Email,
-        	           	                 'Disclosure' => $Disclosure,
+                                       'LienHolderName' => $LienHolderName,
+                                       'LienHolderAddress' => $LienHolderAddress,
+                                       'LienHolderCountry' => $LienHolderCountry,
+                                       'LienHolderCity' => $LienHolderCity,
+                                       'LienHolderState' => $LienHolderState,
+                                       'LienHolderZip' => $LienHolderZip,
+                                       'LienHolderEmail' => $LienHolderEmail,
+                                       'LienHolderPhone' => $LienHolderPhone,
+                                       'LienHolderFax' => $LienHolderFax,
+                                       'LienHolderType' => $LienHolderType,
+                                       'LienHolderContact' => $LienHolderContact,
+                                       'TaxRate' => $TaxRate,
+                                       'VehiclePurchasePrice' => $VehiclePurchasePrice,
+                                       'VehiclePurchaseDate' => $VehiclePurchaseDate,
+                                       'Disclosure' => $Disclosure,
                                        'Vin' => $Vin));
             return $DealerId;
         }

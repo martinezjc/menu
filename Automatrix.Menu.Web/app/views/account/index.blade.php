@@ -1,4 +1,9 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
+
+@section('scripts')
+{{ HTML::script('scripts/user.js'); }}
+@stop
+
 @section('toolbar')
 <div class="row">
 	<div class="col-md-9">
@@ -26,9 +31,8 @@
 					<td></td>
 					<td>{{{ $user->FirstName }}}</td>
 					<td>{{{ $user->Username }}}</td>
-					<td style="width: 10%"><a href="#userUpdateModal"
-						data-dismiss="modal" data-toggle="modal" class="btn btn-warning"
-						name="{{ $user->UserId }}"><i class="fa fa-pencil-square-o"></i>
+					<td style="width: 10%"><a href="#" class="btn btn-warning"
+						onclick="showUser({{ $user->UserId }})"><i class="fa fa-pencil-square-o"></i>
 							Modify</a></td> @if(!(empty($currentUser->DealerId)))
 					<td style="width: 10%"><a href="#" class="btn btn-danger"
 						id="deleteUser"
@@ -37,7 +41,7 @@
 					@if(!(empty($DealerIdHidden)))
 					<td style="width: 10%"><a href="#" class="btn btn-danger"
 						id="deleteUser"
-						onClick="deleteUser({{ $user->UserId }}); return false;"><i
+						onClick="deleteUser({{ $user->UserId }});"><i
 							class="fa fa-trash-o"></i> Delete</a></td> @endif @endif
 				</tr>
 				@endforeach
@@ -61,6 +65,7 @@
 			<div class="modal-body row">
 				<div class="col-md-9">
 					<div class="form-group">
+					    <input type="hidden" id="UserId" >
 						<label for="FirstName">First Name</label> <input type="text"
 							name="FirstName" id="FirstName" class="form-control" required>
 					</div>
@@ -96,79 +101,13 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+			    <label style="float:left;line-height: 2em;">All fields are required. </label>
 				<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-				<button type="button" id="insertUser" class="btn btn-primary">Save</button>
+				<button type="button" id="saveUserData" class="btn btn-primary">Save</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- ends modal for new User -->
 
-<!-- Modal for edit User -->
-<div class="modal fade" id="userUpdateModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">
-					<i class="fa fa-user"></i> Edit User
-				</h4>
-			</div>
-			<div class="modal-body row">
-				<div class="col-md-9">
-					<div class="form-group">
-						<input type="hidden" name="UserId" id="UserId"> <label
-							for="FirstNameModified">First Name</label> <input type="text"
-							name="FirstNameModified" id="FirstNameModified"
-							class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label for="LastNameModified">Last Name</label> <input type="text"
-							name="LastNameModified" id="LastNameModified"
-							class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label for="EmailModified">Email</label> <input type="text"
-							name="EmailModified" id="EmailModified" class="form-control"
-							required>
-					</div>
-					<div class="form-group">
-						<label for="UsernameModified">Username</label> <input type="text"
-							name="UsernameModified" id="UsernameModified"
-							class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label for="PasswordModified">Password</label> <input
-							type="password" name="PasswordModified" id="PasswordModified"
-							class="form-control" required> <input type="hidden"
-							name="PasswordRemember" id="PasswordRemember">
-					</div>
-					@if (!(empty($currentUser->DealerId))) <input type="hidden"
-						name="DealerId" id="DealerIdModified" class="form-control"
-						value="{{$currentUser->DealerId}}"> @else
-					@if(!(empty($DealerIdHidden))) <input type="hidden" name="DealerId"
-						id="DealerIdModified" class="form-control"
-						value="{{$DealerIdHidden}}"> @else <input type="hidden"
-						name="DealerId" id="DealerIdModified" class="form-control"
-						value=""> @endif @endif @if ( is_null($currentUser->DealerId) )
-					<div class="form-group">
-						<label for="isAdministratorModified">Administrator </label> <input
-							type="checkbox" name="isAdministratorModified"
-							id="isAdministratorModified">
-					</div>
-					@endif <input type="hidden" name="DealerIdHidden"
-						id="DealerIdHidden">
-				</div>
-			</div>
-
-			<div class="modal-footer">
-				<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-				<button type="button" id="updateUser" class="btn btn-primary">Save</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ends modal for edit User -->
 @stop

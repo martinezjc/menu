@@ -7,6 +7,10 @@ class BaseController extends Controller {
 	 *
 	 * @return void
 	 */
+    public function __construct(){
+    	View::share('baseUrl', 'http://localhost:8080/menu/Automatrix.Menu.Web/public');
+    }
+
 	protected function setupLayout()
 	{
 		if ( ! is_null($this->layout))
@@ -14,5 +18,7 @@ class BaseController extends Controller {
 			$this->layout = View::make($this->layout);
 		}
 	}
+
+	
 
 }

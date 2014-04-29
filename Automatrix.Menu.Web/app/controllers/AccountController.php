@@ -102,12 +102,18 @@ class AccountController extends BaseController
 		}
 	}
 	
-	public function delete($id = null)
+	public function delete()
 	{
 		$userId = Input::get('id');
 	
 		$Result = DB::table('UsersTable')
 		->where('UserId', '=', $userId)
 		->delete();
+
+		if ( $Result ){
+			return 'true';
+		} else {
+			return 'false';
+		}
 	}
 }

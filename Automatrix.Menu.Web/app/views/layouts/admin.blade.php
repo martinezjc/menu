@@ -15,20 +15,13 @@
     {{ HTML::style('packages/webkit/css/layout.style.css') }}
    	{{ HTML::style('packages/webkit/css/navigation.css') }}
 
-   	<!-- Frameworks -->
    	{{ HTML::script('http://code.jquery.com/jquery-1.9.1.js'); }}
     {{ HTML::script('http://code.jquery.com/ui/1.10.4/jquery-ui.js'); }}
-    {{ HTML::script('packages/bootstrap/js/bootstrap.min.js'); }}
-    {{ HTML::script('packages/bootstrap/js/summernote.min.js'); }}
-   	{{ HTML::script('packages/toastr/js/toastr.min.js'); }}
-    {{ HTML::script('packages/blockUI/blockUI.js'); }}
-   	{{ HTML::script('js/jquery.uploadify.min.js'); }}
     
     <!-- Utitilies -->
     {{ HTML::script('js/helper.js'); }}
        
-    <!-- Custom Scripts -->
-    @yield("scripts")
+    
     
     <!-- 
     
@@ -75,5 +68,18 @@
         </div>
         <aside id="aside">Aside</aside>
     </div>
+
+    <!-- Frameworks -->
+
+    {{ HTML::script('packages/bootstrap/js/bootstrap.min.js'); }}
+    {{ HTML::script('packages/bootstrap/js/summernote.min.js'); }}
+    {{ HTML::script('packages/toastr/js/toastr.min.js'); }}
+    {{ HTML::script('packages/blockUI/blockUI.js'); }}
+    {{ HTML::script('js/jquery.uploadify.min.js'); }}
+    <!-- Custom Scripts -->
+    <script>
+    eval('var currentUrl = "<?php echo $baseUrl; ?>";');
+    </script>
+    @yield("scripts")
 </body>
 </html>

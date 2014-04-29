@@ -107,8 +107,6 @@ $('#updateCompanyInfo').click(function () {
     });
 });
 
-
-
 $('#saveCompanyInfo').click(function () {
 
     if (!($('#CompanyName').val())) {

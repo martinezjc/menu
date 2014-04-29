@@ -117,14 +117,9 @@ function showErrorMessage(field, message)
     toastr.error(message + '.', "Message");
 }
 
-function showSuccessMessage(message, action, url) 
+function showSuccessMessage(message) 
 {
     toastr.success(message + '.', "Message");
-
-    switch(action) 
-    {
-        case 'redirect': window.location.href = url; break;
-    }  
 }
 
 /* General AJAX Builder */
@@ -145,4 +140,22 @@ function setErrorClass(containerClass, element, message)
 {
     $('#'+containerClass).addClass('has-error');
     showErrorMessage(element, message);
+}
+
+function clearInputs(elements)
+{
+    alert(elements);
+    var elementsArray = elements.split(',');
+    var i;
+
+    for (i = 0; i < elementsArray.length; i++ )
+    {
+        switch(elementsArray[i])
+        {
+            case 'text': alert('text'); $('input[type="text"]').val(''); break;
+            case 'select': $('select').prop('selectedIndex', 0); break;
+            case 'textarea': $('textarea').val(''); break;
+            case 'checkbox': $('input[type="checkbox"]').prop('checked', false); break;
+        }
+    }
 }

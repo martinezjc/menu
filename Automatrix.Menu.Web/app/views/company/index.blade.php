@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-md-9">
-		<a class="btn btn-success" data-dismiss="modal" data-toggle="modal" href="#company-dialog">
+		<a class="btn btn-success" data-dismiss="modal" id="newCompanyDialog" data-toggle="modal" href="#company-dialog">
             <i class="fa fa-file-o"></i>Add new company
         </a>
 	</div>
@@ -66,14 +66,6 @@
 						<div class="form-group">
 							<label for="URL">URL</label> 
                             <input type="text" name="URL" id="URL" class="form-control" style="width: 40%" required />
-						</div>
-						<div class="form-group">
-							<label for="Username">Username</label> 
-                            <input type="text" name="Username" id="Username" class="form-control" style="width: 40%" required />
-						</div>
-						<div class="form-group">
-							<label for="Password">Password</label> 
-                            <input type="text" name="Password" id="Password" class="form-control" style="width: 40%" required />
 						</div>
 					</div>
 				</div>
