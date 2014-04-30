@@ -957,7 +957,7 @@ function GetIdProducts(id) {
     $("#HiddenTerm").val(option == "2" ? getFooterTerm() : getCurrentTerm());
     $("#HiddenAPR").val(option == "2" ? getFooterAPR() : getCurrentAPR());
 
-    $("#Hiddenfields").val(JSON.stringify(Hiddenfields));
+    //$("#Hiddenfields").val(JSON.stringify(Hiddenfields));
 }
 
 function getSelectedPaymentOption()

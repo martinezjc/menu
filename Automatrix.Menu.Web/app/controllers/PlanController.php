@@ -770,16 +770,16 @@ class PlanController extends BaseController
             return Redirect::to('home');
         }
 
-		$Json = Input::get('HiddenfieldsJson');
-		if (!empty($Json)) {
-			Session::put('JsonValues', $Json);
-		}else{
-			$Json = Session::get('JsonValues');
-		}
+		// $Json = Input::get('HiddenfieldsJson');
+		// if (!empty($Json)) {
+		// 	Session::put('JsonValues', $Json);
+		// }else{
+		// 	$Json = Session::get('JsonValues');
+		// }
 
-		if (empty($Json)) {
-			return "No data";
-		}
+		// if (empty($Json)) {
+		// 	return "No data";
+		// }
 
 
 		// get var from request
