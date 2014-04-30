@@ -630,7 +630,7 @@ $('#myModal2').on('hide.bs.modal', function () {
     $('.videoPlayer2').attr('src', url); 
 });
 
-$( "#TypeFinance Option" ).change(function() {
+$( "#TypeFinance" ).change(function() {
     LoadOptionTypeOnSelect($('#TypeFinance :selected').text());
     //LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
@@ -1230,6 +1230,7 @@ function GetArrrayOption (findValues, findFields) {
     Options.tireRotation = ArrayTireRotation;
     Options.interval = ArrayInterval;
     
+    console.debug(Options);
     return Options;
 }
 
