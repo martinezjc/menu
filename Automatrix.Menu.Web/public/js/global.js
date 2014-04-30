@@ -630,7 +630,7 @@ $('#myModal2').on('hide.bs.modal', function () {
     $('.videoPlayer2').attr('src', url); 
 });
 
-$( "#TypeFinance Option" ).change(function() {
+$( "#TypeFinance" ).change(function() {
     LoadOptionTypeOnSelect($('#TypeFinance :selected').text());
     //LoadOptionTermOnSelect($('#TermFinance :selected').text());
 });
@@ -957,7 +957,7 @@ function GetIdProducts(id) {
     $("#HiddenTerm").val(option == "2" ? getFooterTerm() : getCurrentTerm());
     $("#HiddenAPR").val(option == "2" ? getFooterAPR() : getCurrentAPR());
 
-    $("#Hiddenfields").val(JSON.stringify(Hiddenfields));
+    //$("#Hiddenfields").val(JSON.stringify(Hiddenfields));
 }
 
 function getSelectedPaymentOption()
@@ -1103,8 +1103,8 @@ function GetArrrayOption (findValues, findFields) {
     for(var i = 0; i < countproductRates; i++) {
             eval("var obj = productRates.product" + productId + "[i];");
 
-            if (findFields.type == 'none' || findFields.type == 'None'  || typeFind==0) {
-                findFields.type =  obj.Type;
+            if (findValues.type == 'none' || findValues.type == 'None'  || typeFind==0) {
+                findValues.type =  obj.Type;
                 typeFind = 1;
 
              }
@@ -1229,7 +1229,9 @@ function GetArrrayOption (findValues, findFields) {
     }
     Options.tireRotation = ArrayTireRotation;
     Options.interval = ArrayInterval;
-    
+
+    // show rates response
+    console.debug(Options);
     return Options;
 }
 

@@ -29,7 +29,8 @@ if (is_null($UserSessionInfo->DealerId)) {
         {{ HTML::script('assets/js/html5shiv.js') }}
         {{ HTML::script('assets/js/respond.min.js') }}
     <![endif]-->
-    <script src="js/xml2jsobj.js"></script>
+    <!-- script src="js/xml2jsobj.js"></script -->
+    {{ HTML::script('js/xml2jsobj.js');}}    
     <style type="text/css">
         .navbar-brand  {
             margin: 5px 0px 0px 10px;
