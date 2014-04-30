@@ -20,9 +20,13 @@
 Route::get('/', array('uses' => 'ProductsController@get_ShowProductsViews'));
 
 // Plan routes
-Route::get('plans', 'PlanController@index');
-Route::any('plans/disclosure', 'PlanController@disclosure');
-Route::get('plans/contract', 'PlanController@contract');
+Route::get('home2', 'PlanController@index');
+Route::get('plans/home', 'PlanController@index');
+Route::any('disclosure2', 'PlanController@disclosure');
+//Route::get('plans/contract', 'ProductsController@CreatePDFForms');
+
+// Contract Routes
+Route::get('contract2', 'ContractController@index');
 
 // Dealer routes
 
@@ -188,7 +192,7 @@ Route::get('update-settingcode', array('uses' => 'DealerController@update_settin
 
 Route::get('delete-settingcode', array('uses' => 'DealerController@delete_settingCode'));
 
-Route::get('CreatePDF', array('uses' => 'ProductsController@CreatePDFForms'));
+Route::get('contract', array('uses' => 'ProductsController@CreatePDFForms'));
 
 Route::get('SavetoDMS', array('uses' => 'ProductsController@SavetoDMS'));
 

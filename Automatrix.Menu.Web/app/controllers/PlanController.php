@@ -357,7 +357,7 @@ class PlanController extends BaseController
 
         		} catch (Exception $e) {
         			array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
-                    //echo $e;
+                    echo $e;
                     $FailWebservice->flag = 1;
         		} 
         	} #end foreach
@@ -757,6 +757,22 @@ class PlanController extends BaseController
         }
     }
 
+     private function GetReasonFailWebService($productBaseId, $name, $deal)
+    {
+        $message =  $name.' is not available! try again';
+
+        if ( $deal->BeginningOdometer > 113999 ) {
+            $message = $name.' not allowed vehicles with more than 113999 miles.';
+        } elseif ( $deal->BeginningOdometer == '' ) {
+            $message = 'Beginning Odometer cannot be empty';
+        //} elseif (  ) {
+        } else {
+            $message = 'Could not retrieve rates.';
+        }
+
+        return $message;
+    }
+
 	
 	public function disclosure()
 	{
@@ -872,9 +888,6 @@ class PlanController extends BaseController
 		$this->layout->with('term', $term);
 		$this->layout->with('apr', $apr);
 		$this->layout->with('downPayment', $downPayment);
-		
-					            
-					            
 
 		$this->layout->content = \View::make('plan.disclosure')
 								->with('Products', $Products)
@@ -905,11 +918,5 @@ class PlanController extends BaseController
 					            ->with('taxRate', $taxRate)
 					            ->with('FailureProductsRates', $FailureProductsRates);
 	}
-    
-    public function contract()
-    {
-        
-    }
-
 
 }

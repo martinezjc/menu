@@ -33,7 +33,6 @@ class ProtectiveServiceProxy extends ServiceProxy
         try
         {
             $response = $this->proxy->$method($this->getParameters($request));
-            //if ($request->product->ProductBaseId == 12) {print_r($response);echo "<br><br>";die();}
             if($request->type == 0)
             { // Get Rates
                 $dat = (array) $response;

@@ -1103,8 +1103,8 @@ function GetArrrayOption (findValues, findFields) {
     for(var i = 0; i < countproductRates; i++) {
             eval("var obj = productRates.product" + productId + "[i];");
 
-            if (findFields.type == 'none' || findFields.type == 'None'  || typeFind==0) {
-                findFields.type =  obj.Type;
+            if (findValues.type == 'none' || findValues.type == 'None'  || typeFind==0) {
+                findValues.type =  obj.Type;
                 typeFind = 1;
 
              }

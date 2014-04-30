@@ -1067,7 +1067,7 @@ $WebService = $deal;
 		
 	</div>
 	<div class="col-md-3 space">
-	{{ Form::open(array('url' => 'plans/disclosure', 'method' => 'get')) }}
+	{{ Form::open(array('url' => 'disclosure2', 'method' => 'get')) }}
 
 	  <!--input name="HiddenfieldsJson" id="Hiddenfields" type="hidden" / -->
 
