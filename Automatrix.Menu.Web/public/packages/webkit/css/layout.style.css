@@ -21,6 +21,35 @@
     
 }
 
+#header .header-right 
+{
+    
+}
+
+#header .header-right > p 
+{
+    font-size: 14px;
+    color: #fff;
+    margin-right: 5px;
+}
+
+#header .header-right > p > a
+{
+    color: #fff;
+}
+
+#header .toolbar-icons 
+{
+    font-size: 20px;
+    text-align: right;
+}
+
+#header .list-inline
+{
+    padding-left: 0;
+    list-style: none;
+}
+
 #article {
     background-color: transparent;
 }

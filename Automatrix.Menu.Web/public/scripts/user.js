@@ -35,7 +35,7 @@ $('#saveUserData').click( function() {
     
     if ($('#UserId').val() == '') 
     {
-        ajaxBuilder(currentUrl + '/accounts/create', parameters, function(insertUserData){
+        ajaxBuilder(currentUrl + '/dealers/' + $('#DealerId').val() + '/insertUser', parameters, function(insertUserData){
             if (insertUserData == 'true') 
             {
                 $('#userModal').modal('hide');
@@ -46,7 +46,7 @@ $('#saveUserData').click( function() {
 
     } else {
         
-        ajaxBuilder(currentUrl + '/accounts/update', parameters, function(updateUserData){
+        ajaxBuilder(currentUrl + '/dealers/' + $('#DealerId').val() + '/updateUser', parameters, function(updateUserData){
             if (updateUserData == 'true') 
             {
                 $('#userModal').modal('hide');
@@ -64,7 +64,7 @@ function deleteUser(userId)
         id : userId
     };
 
-    ajaxBuilder(currentUrl + "/accounts/delete", parameters, function(deleteUserData){
+    ajaxBuilder(currentUrl + '/dealers/' + $('#DealerId').val() + '/deleteUser', parameters, function(deleteUserData){
         if (deleteUserData == 'true')
         {
             showSuccessMessage('The user account has been removed.');
@@ -81,13 +81,13 @@ function showUser(userId)
                        id: userId 
                      };
 
-    ajaxBuilder(currentUrl + '/accounts/retrieve', parameters, function(retrieveUserData){ 
+    ajaxBuilder(currentUrl + '/dealers/' + $('#DealerId').val() + '/getUserData', parameters, function(retrieveUserData){ 
         var data = JSON.parse(retrieveUserData);
 
         $('#FirstName').val(data[0].FirstName);
         $('#Username').val(data[0].Username);
         $('#Password').val(data[0].Password);
-        $('#Password').val(data[0].Password);
+        $('#PasswordRemember').val(data[0].Password);
         $('#LastName').val(data[0].LastName);
         $('#Email').val(data[0].Email);
         $('#UserId').val(data[0].UserId);
@@ -102,4 +102,20 @@ function showUser(userId)
             $("#isAdministrator").prop("checked", false);
         }
     });
-} 
+}
+
+$('#userModal').on('show.bs.modal', function () {
+    clearUserForm();
+});
+
+function clearUserForm(){
+    $('UserId').val('');
+    $('#FirstName').val('');
+    $('#Username').val('');
+    $('#Password').val('');
+    $('#LastName').val('');
+    $('#Email').val('');
+    $('#DealerId option').eq(1).prop('selected', true);
+    $("#isAdministrator").prop("checked", false);
+    $('#FirstName').focus();
+}

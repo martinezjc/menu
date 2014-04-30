@@ -84,6 +84,7 @@
 					<div class="form-group">
 						<label for="Password">Password</label> <input type="password"
 							name="Password" id="Password" class="form-control" required>
+						    <input type="hidden" id="PasswordRemember">
 					</div>
 					@if (!(empty($currentUser->DealerId))) <input type="hidden"
 						name="DealerId" id="DealerId" class="form-control"

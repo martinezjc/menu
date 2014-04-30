@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Administration</title>
+    <title>Administration @if ($title) - {{ $title }} @endif</title>
     
     <!-- Frameworks -->
    	{{ HTML::style('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'); }}
@@ -14,26 +14,12 @@
     {{ HTML::style('packages/webkit/css/layout.css') }}
     {{ HTML::style('packages/webkit/css/layout.style.css') }}
    	{{ HTML::style('packages/webkit/css/navigation.css') }}
-
-   	{{ HTML::script('http://code.jquery.com/jquery-1.9.1.js'); }}
-    {{ HTML::script('http://code.jquery.com/ui/1.10.4/jquery-ui.js'); }}
     
-    <!-- Utitilies -->
-    {{ HTML::script('js/helper.js'); }}
-       
+    <!-- JQuery library -->
+   	{{ HTML::script('js/jquery-1.9.1.js'); }}
+    {{ HTML::script('js/jquery-ui.js'); }}
     
     
-    <!-- 
-    
-   	{{ HTML::script('js/settings.js'); }}
-   	{{ HTML::script('js/app.js'); }}
-   	{{ HTML::script('js/user.js'); }}
-   	
-   	{{ HTML::script('js/company.js'); }}
-   	 -->
-        
-    <!-- Webkit Scripts -->
-    {{ HTML::script('packages/webkit/js/cross-browser.js') }}
     
    <!--[if lt IE 9]>
         {{ HTML::script('assets/js/html5shiv.js') }}
@@ -47,9 +33,16 @@
     		{{HTML::image('images/logo.png')}}
     	</a>
     	</div>
-    	<div class="pull-right">
+    	<!-- <div class="pull-right">
     		<a href="close-session"><i class="fa fa-sign-out"></i> Logout</a></p>
-    	</div>
+    	</div> -->
+      <div class="header-right pull-right">
+        <ul class="toolbar-icons list-inline">
+          <li><a href="home" style="color:white;"><i class="fa fa-list-alt fa-6" title="Menu Page"></a></i></li>
+          <li><a href="settings-page" style="color:white;" ><i class="fa fa-cogs" title="Settings Page"></a></i></li>
+        </ul>
+        <p>Logged as <a href="profile?UserId={{$currentUser->UserId}}">{{ $currentUser->FirstName }}</a> <a href="{{ URL::action('LoginController@post_closeSession'); }}"><i class="fa fa-sign-out"></i> Logout</a></p>
+      </div>
     </header>
     <div id="container" class="x-flexbox x-flex-1">
         <nav id="nav" class="x-flexbox-v x-nav">
@@ -70,12 +63,15 @@
     </div>
 
     <!-- Frameworks -->
-
     {{ HTML::script('packages/bootstrap/js/bootstrap.min.js'); }}
     {{ HTML::script('packages/bootstrap/js/summernote.min.js'); }}
     {{ HTML::script('packages/toastr/js/toastr.min.js'); }}
     {{ HTML::script('packages/blockUI/blockUI.js'); }}
     {{ HTML::script('js/jquery.uploadify.min.js'); }}
+    <!-- Utitilies -->
+    {{ HTML::script('js/helper.js'); }}
+    <!-- Webkit Scripts -->
+    {{ HTML::script('packages/webkit/js/cross-browser.js') }}
     <!-- Custom Scripts -->
     <script>
     eval('var currentUrl = "<?php echo $baseUrl; ?>";');
