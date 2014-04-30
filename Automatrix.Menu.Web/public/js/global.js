@@ -1229,7 +1229,8 @@ function GetArrrayOption (findValues, findFields) {
     }
     Options.tireRotation = ArrayTireRotation;
     Options.interval = ArrayInterval;
-    
+
+    // show rates response
     console.debug(Options);
     return Options;
 }
