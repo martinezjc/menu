@@ -64,7 +64,7 @@ class ProductsController extends BaseController
             $EmptyDeal = 0;
             
             $deal = new Deal();
-           // $BeginningOdometer = 0;
+            $BeginningOdometer = 0;
             if (!empty($param)) {
                 try
                 {
@@ -137,12 +137,11 @@ class ProductsController extends BaseController
                     $deal->TaxRate = $taxRate;
                     
                     $EmptyDeal = 1;
-                    $BeginningOdometer = $deal->BeginningOdometer;
-                    Session::put('WebServiceInfo', $deal);
+                    $BeginningOdometer = $deal->BeginningOdometer;                    
                 }
                 catch (Exception $e)
                 {
-                    //echo $e;
+                    echo $e;
                 }
                 
             }// end if
@@ -531,6 +530,10 @@ class ProductsController extends BaseController
 
                 //Try to detect why reason webservice fail 
                 //$FailWebservice->message = $this->GetReasonFailWebService();
+            }
+            if ($BeginningOdometer > 0) {
+                $deal->BeginningOdometer = $BeginningOdometer;
+                Session::put('WebServiceInfo', $deal);
             }
             return View::make('financemenu')->with('Products', $products)
                 ->with('Settings', $settings)

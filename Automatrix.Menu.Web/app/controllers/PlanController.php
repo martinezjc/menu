@@ -150,7 +150,8 @@ class PlanController extends BaseController
                 Session::put('WebServiceInfo', $deal);
         		
         	} catch (Exception $e) {
-        		//echo $e; 
+        		echo $e; 
+                echo "<br>";
         	}
         }
 
@@ -358,6 +359,7 @@ class PlanController extends BaseController
         		} catch (Exception $e) {
         			array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
                     echo $e;
+                    echo "<br>";
                     $FailWebservice->flag = 1;
         		} 
         	} #end foreach

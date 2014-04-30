@@ -1747,3 +1747,19 @@ Stack trace:
 Stack trace:
 #0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
 #1 {main} [] []
+[2014-04-30 22:08:06] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 60 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ServiceProxyFactory.php:28
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-30 22:17:23] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 60 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ServiceProxyFactory.php:28
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-30 22:25:00] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 60 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ServiceProxyFactory.php:825
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-04-30 22:26:06] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function execute() on a non-object' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\PlanController.php:711
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
