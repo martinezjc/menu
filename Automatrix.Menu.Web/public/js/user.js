@@ -155,12 +155,12 @@ $.ajax({
         success: function (msg) {
             var data = JSON.parse(msg);
             
-            $('#FirstName').val(data[0].FirstName);
-            $('#Username').val(data[0].Username);
-            $('#Password').val(data[0].Password);
-            $('#Password').val(data[0].Password);
-            $('#LastName').val(data[0].LastName);
-            $('#Email').val(data[0].Email);
+            $('#FirstNameModified').val(data[0].FirstName);
+            $('#UsernameModified').val(data[0].Username);
+            $('#PasswordModified').val(data[0].Password);
+            $('#PasswordRemember').val(data[0].Password);
+            $('#LastNameModified').val(data[0].LastName);
+            $('#EmailModified').val(data[0].Email);
             
             if (data[0].DealerId) {
               $('#DealerIdHidden').val(data[0].DealerId);
