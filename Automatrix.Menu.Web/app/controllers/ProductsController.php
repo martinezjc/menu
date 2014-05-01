@@ -576,6 +576,10 @@ class ProductsController extends BaseController
                 
                 // print_r($product);
                 
+                if ($product->Type== 'none' || $product->Type== 'None') {
+                    $product->Type = $rate[$type];
+                }
+                
                 if($product->ProductName == 'Total Lost Protection (GAP)')
                 {
                     $term = 'EndMonthTerm';
