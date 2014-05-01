@@ -141,7 +141,7 @@ class ProductsController extends BaseController
                 }
                 catch (Exception $e)
                 {
-                    echo $e;
+                    //echo $e;
                 }
                 
             }// end if
@@ -3032,6 +3032,7 @@ class ProductsController extends BaseController
                     {
                         echo "An error has occurred";
                         echo "<br>";
+                        //print_r($data);
                         if(! (empty($data->GenerateContractResult->Messages->Message->Text)))
                         {
                             print_r($data->GenerateContractResult->Messages->Message->Text);
