@@ -52,6 +52,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 					if (!(empty($response->GenerateContractResult->ContractNumber))) {
 						$this->VoidContractPdf($response->GenerateContractResult->ContractNumber, $request);					
 					}
+					//print_r($response); die();
 					return  $response;
 				}
 						
@@ -163,8 +164,6 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->FirstPaymentDate = date('c');
 			$data->DigitallySigned = false;
 			$data->IsTaxExempt = false;
-			$data->LienholderName = $request->deal->LienHolderName;
-
 
 			$data->TermMile = new \stdClass();
 			$data->TermMile->TermId = $request->productRates->TermMile->TermId;
@@ -197,14 +196,14 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$data->Customer->Address->ZipCode = round($request->deal->ZipCode);
 			$data->Customer->Address->HomePhone = str_replace('-', '', $request->deal->Telephone);
 
-			$data->Lienholder = new \stdClass();
-			$data->Lienholder->Name=$request->deal->LienHolderName;
-			$data->Lienholder->Phone=$request->deal->LienHolderPhone;
-			$data->Lienholder->Address1=$request->deal->LienHolderAddress;
-			$data->Lienholder->Address2=""; //$request->deal->LienHolderAddress2;
-			$data->Lienholder->City=$request->deal->LienHolderCity;
-			$data->Lienholder->State=$request->deal->LienHolderState;
-			$data->Lienholder->ZipCode=$request->deal->LienHolderZip;
+			$data->LienHolder = new \stdClass();
+			$data->LienHolder->Name= $request->deal->LienHolderName;
+			$data->LienHolder->Phone= str_replace("-", "", $request->deal->LienHolderPhone);
+			$data->LienHolder->Address1= $request->deal->LienHolderAddress;
+			$data->LienHolder->Address2= ""; //$request->deal->LienHolderAddress2;
+			$data->LienHolder->City= $request->deal->LienHolderCity;
+			$data->LienHolder->State= $request->deal->LienHolderState;
+			$data->LienHolder->ZipCode= $request->deal->LienHolderZip;
 
 			$parameters = array 
 	        (
