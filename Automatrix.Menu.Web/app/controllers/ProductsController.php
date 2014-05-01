@@ -171,6 +171,7 @@ class ProductsController extends BaseController
                     "Products.UseTerm",
                     "Products.UseType",
                     "Products.UseDeductible",
+                    "Products.UseMileage",
                     "Products.UseTireRotation",
                     "Products.UseInterval",
                     "Products.UseRangePricing",
@@ -585,45 +586,72 @@ class ProductsController extends BaseController
                     $term = 'EndMonthTerm';
                 }
 
-                if ( $product->ProductBaseId == 11 )
-                {
+                # Case 1 : 
+                # all option in use, except deductible
+                # Deductible not exist in rate response
+                # e.g -> US Maintenance
+                if ($product->ProductBaseId == 9) {
+                    // print_r($product->Type); echo "--"; print_r($rate[$type]);
+                    // echo "<br>";
+                    // print_r($product->Term); echo "--"; print_r($rate[$term]);
+                    // echo "<br><br><br>";
+                }
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseDeductible != 1 && $product->UseMileage == 1 && $product->UseInterval == 1  && $product->UseTireRotation == 1 ) {
+                    
+                    #  Prepare format data for match
+                    $rate[$mileage] = str_replace(',', '', $rate[$mileage]);    
+                    $Mileage = $product->Mileage * 1000; 
+                    $rate[$interval] = rtrim($rate[$interval]);
 
+                    if ($product->Type == $rate[$type] && $product->Term == $rate[$term]  && $Mileage == $rate[$mileage] && $product->Interval == $rate[$interval] && number_format($product->TireRotation, 0, '.', ',') == $rate[$tireRotation]) {
+                       return array($rate,$index,1);
+                    }
                 }
 
-                // Options fields in product should match the fields in the response
-                if($product->Type == $rate[$type] && $product->Term == $rate[$term])
-                {
-                    if($product->ProductBaseId == 2)
-                    {
-                        if($product->Deductible == $rate[$deductible] && ($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]))
-                        {
-                             return array(
-                                    $rate,
-                                    $index,
-                                    1
-                                );
-                        }
-                    }
-                    elseif($product->ProductBaseId == 4)
-                    {
-                        if($product->Interval == rtrim($rate[$interval]) && ($product->Mileage * 1000) == str_replace(',', '', $rate[$mileage]) && number_format($product->TireRotation, 0, '.', ',') == $rate[$tireRotation])
-                        {
-                            return array(
-                                $rate,
-                                $index,
-                                1
-                            );
-                        }
-                    }
-                    else
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1
-                        );
+                # Case 2: 
+                # type enable, term enabled, deductible enabled, mileage enabled,
+                # tire disable, interval disabled
+                # e.g -> US Vsc
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseDeductible == 1 && $product->UseMileage == 1 && $product->UseInterval != 1  && $product->UseTireRotation != 1 ) {
+                    #  Prepare format data for match
+                    $rate[$mileage] = str_replace(',', '', $rate[$mileage]);    
+                    $Mileage = $product->Mileage * 1000; 
+
+                    if ($product->Type == $rate[$type] && $product->Term == $rate[$term] && $product->Deductible == $rate[$deductible] && $Mileage == $rate[$mileage]) {
+                       return array($rate,$index,1);
                     }
                 }
+
+                # Case 3: 
+                # type enable, term enabled, deductible enabled
+                # mileage disabled, tire disable, interval disabled
+                # e.g -> ?
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseDeductible == 1 && $product->UseMileage != 1 && $product->UseInterval != 1  && $product->UseTireRotation != 1 ) {
+                    if ($product->Type == $rate[$type] && $product->Term == $rate[$term] && $product->Deductible == $rate[$deductible] ) {
+                       return array($rate,$index,1);
+                    }
+                }
+
+                # Case 4: 
+                # type enable, term enabled, 
+                # deductible disable, mileage disabled, tire disable, interval disabled
+                # e.g -> US Road Hazard US Key
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseDeductible != 1 && $product->UseMileage != 1 && $product->UseInterval != 1  && $product->UseTireRotation != 1 ) {
+                    if ($product->Type == $rate[$type] && $product->Term == $rate[$term]) {
+                       return array($rate,$index,1);
+                    }
+                }
+
+                # Case 5: 
+                # type disable, type only can disable if all rates type are same and 
+                # rates term unique (dont duplicate). e.g -> US DENT
+                if ($product->UseType != 1 && $product->UseTerm == 1 && $product->UseDeductible != 1 && $product->UseMileage != 1 && $product->UseInterval != 1  && $product->UseTireRotation != 1 ) {
+                    if ($product->Term == $rate[$term]) {
+                       return array($rate,$index,1);
+                    }
+                   
+                }
+
                 $index ++;
             } // end for each
               
