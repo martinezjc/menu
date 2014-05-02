@@ -26,421 +26,345 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 	}
 	
+	##---------------- Execute request and return response --------------- ##
 	public function execute($request)
-	{		
-
+	{
 		set_time_limit(60);
-
-		try {
-
-			if ($request->type == 0) { // Get rates
-					$method = $this->getMethod($request);
-					$response = $this->proxy->$method ($this->getParameters($request)); //if ($request->product->ProductBaseId == 5 || $request->product->ProductBaseId == 2) {print_r($response);echo "<br><br>";}
-					$dat = ( array ) $response;
-					$xml = simplexml_load_string ( $dat [$method.'Result'] );
-					$json = json_encode ( $xml );
-					$data = json_decode ( $json, true );
-					// if ($request->product->ProductBaseId == 2) {
-					// 	$arr= $this->getParameters($request);
-					// 	print_r(strlen($arr['Vin'])); die();
-					// }
-					return $data;
-
-			} else { // Get PDF Contract
-				$parameters = $this->getParameters($request);
-				$xml = $this->getXml($parameters, $request);
-				$url = 'http://www.uswarranty.com/Testuswcwebservicepolicies/webservice.asmx?wsdl';
-
-		        $soap_do = curl_init(); 
-		        curl_setopt($soap_do, CURLOPT_URL,            $url );   
-		        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 20); 
-		        curl_setopt($soap_do, CURLOPT_TIMEOUT,        20); 
-		        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true );
-		        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);  
-		        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false); 
-		        curl_setopt($soap_do, CURLOPT_POST,           true ); 
-		        curl_setopt($soap_do, CURLOPT_POSTFIELDS,    $xml); 
-		        curl_setopt($soap_do, CURLOPT_HTTPHEADER,     array('Content-Type: text/xml; charset=utf-8', 'Content-Length: '.strlen($xml) )); 
-		        
-
-		        $result = curl_exec($soap_do);		        		
-		        $err = curl_error($soap_do); 
-
-		        if (!(empty($result))) {
-		        	// Void Contract
-		        	$contractNumber = $this->getContractNumber($result,$request);
-		        	$this->VoidContract($contractNumber,$request);
-		           	return $result;
-		        } else {
-		        	return $err;
-		        }
-					
+	try {
+			# Request for Rates
+			if ($request->type == 0) { 
+				 return $this->executeRateRequest($request);				
+			} else { 
+				# Request for Contract
+				return  $this->executeContractRequest($request);	
 			}
-			
-
 			
 		} catch (SoapFault $e) { 
 		    return 0;//$e->faultcode; 
-		
 		} 
 	}
 
+	##---------------- Execute Rates Request --------------- ##
+	private function executeRateRequest($request)
+	{
+		$method = $this->getMethod($request);
+		$response = $this->proxy->$method ($this->getParameters($request)); 
+		$dat = ( array ) $response;
+		$xml = simplexml_load_string ( $dat [$method.'Result'] );
+		$json = json_encode ( $xml );
+		$data = json_decode ( $json, true );
+		return $data;
+	}
+
+	##---------------- Execute Contract Request --------------- ##
+	private function executeContractRequest($request)
+	{
+		$parameters = $this->getParameters($request);
+		$xml = $this->getXml($parameters, $request);
+		$url = 'http://www.uswarranty.com/Testuswcwebservicepolicies/webservice.asmx?wsdl';
+
+        $soap_do = curl_init(); 
+        curl_setopt($soap_do, CURLOPT_URL,            $url );   
+        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 20); 
+        curl_setopt($soap_do, CURLOPT_TIMEOUT,        20); 
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);  
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false); 
+        curl_setopt($soap_do, CURLOPT_POST,           true ); 
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS,    $xml); 
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER,     array('Content-Type: text/xml; charset=utf-8', 'Content-Length: '.strlen($xml) ));         
+
+        $result = curl_exec($soap_do);		        		
+        $err = curl_error($soap_do); 
+
+        if (!(empty($result))) {
+        	# Void contract
+        	$contractNumber = $this->getContractNumber($result,$request);
+        	$this->VoidContract($contractNumber,$request);
+           	return $result;
+        } else {
+        	return $err;
+        }
+	}
+
+	##---------------- Get Method for  Rates Request --------------- ##
 	private function getMethod($request)
 	{
 		$method = "";
-		$product = $request->product->ProductBaseId;
+		$productBaseId = $request->product->ProductBaseId;
 		
-		if($product == 1 )//US Key
-			$method = "GetKeyRates";
-		else
-			if($product == 4)//Maintenance Plan
+		switch ($productBaseId) {
+			case 1: //US Key
+				$method = "GetKeyRates";
+				break;
+			case 2: //US Vehicle Service Contract
+				$method = "GetVscRates";
+				break;
+			case 3: //US Total Lost Protection (GAP)
+				$method = "GetGapRates";
+				break;
+			case 4: //US Maintenance Plan
 				$method = "GetMaintRates";
-			else
-				if($product == 2)//Vehicle Service Contract
-					$method = "GetVscRates";
-				else
-					if($product == 3)//Total Lost Protection (GAP)
-						$method = "GetGapRates";
-					 else
-                        if($product == 9)//Road Hazard
-                        	$method = "GetRoadHazardRates";
-                        else
-	                        if($product == 5)// US Dent
-	                        	$method = "GetDentRates";
-	                        else
-		                        if($product == 7)// US Chemical
-		                        	$method = "GetChemicalRates";
-		                        else
-		                        if($product == 8)// US Etch
-		                        	$method = "GetEtchRates";
-
+				break;
+			case 5: //US Dent
+				$method = "GetDentRates";
+				break;
+			case 7: //US Chemical
+				$method = "GetChemicalRates";
+				break;
+			case 8: //US Etch
+				$method = "GetEtchRates";
+				break;
+			case 9: //US Road Hazard
+				$method = "GetRoadHazardRates";
+				break;
+			
+			default:
+				break;
+		}
 						
 		return $method;				
 	}
 	
+	##---------------- Get parameter for Request --------------- ##
 	private function getParameters($request)
 	{
 		$parameters = null;
-		$vin = $request->deal->VIN;
-	    $dealercode = $request->dealercode;
-		$ProductBaseId = $request->product->ProductBaseId;
-		
 
-		// Get Rates
+		# Parameter for Rates
 		if ($request->type == 0) {
-			
-						//US Key ----------------------------------------------------------------
-						if($ProductBaseId == 1)
-						{
-							$parameters = array 
-							(
-								"Company" => "USW",
-								"DealerCode" => $dealercode,//"11401",
-								"Vin" => trim($vin),
-								"SaleDate" => date('c')//"2014-02-19T13:59:06.5902435-06:00"
-							);
-						}
-						else
-							//Maintenance Plan
-							if($ProductBaseId == 4)
-							{
-								$parameters = array
-								(
-									"Company" => "USW",
-									"DealerCode" => $dealercode,//"11401",
-									"Vin" => trim($vin),
-									"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-									"Mileage" => trim(round($request->deal->BeginningOdometer)),//"100000",
-									"AloneOption" => "Alone"
-								);
-							}
-							else
-								//Vehicle Service Contract
-								if($ProductBaseId == 2)
-								{
-									$parameters = array
-									(
-										"Company" => "USW",
-										"DealerCode" => $dealercode,//"11401",
-										"Vin" => trim($vin),
-										"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-										"Mileage" => trim(round($request->deal->BeginningOdometer)),//"100000",
-										"NewUsed" => "Used",
-										"InSrvDate" => date('c')//"2014-02-19T13:59:06.5902435-06:00"
-									);
-							}
-								else
-									//Total Lost Protection (GAP)
-									if($ProductBaseId == 3)
-									{
-										$parameters = array
-										(
-											"Company" => "USW",
-											"DealerCode" => $dealercode,//"11401",
-											"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-											"Mileage" => trim(round($request->deal->BeginningOdometer)),//"100000",
-											"Vin" => trim($vin)
-										);
-									} 
-									else
-										//Road Hazard
-										if($ProductBaseId == 9)
-										{
-											$parameters = array
-											(
-												"Company" => "USW",
-												"DealerCode" => $dealercode,//"11401",
-												"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-												"Mileage" => trim(round($request->deal->BeginningOdometer)),//"100000",
-												"Vin" => trim($vin)
-											);
-										}
-										else
-										// US Dent
-											if($ProductBaseId == 5)
-											{
-												$parameters = array
-												(
-													"Company" => "USW",
-													"DealerCode" => $dealercode,//"11401",
-													"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-													"Mileage" => trim(round($request->deal->BeginningOdometer)),//"100000",
-													"Vin" => trim($vin)
-												);
-											}
-											else
-											// CHemical
-												if($ProductBaseId == 7)
-												{
-													$parameters = array
-													(
-														"Company" => "USW",
-														"DealerCode" => $dealercode,//"11401",
-														"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-														"Vin" => trim($vin)
-													);
-												}
-												else
-												// Etch
-													if($ProductBaseId == 8)
-													{
-														$parameters = array
-														(
-															"Company" => "USW",
-															"DealerCode" => $dealercode,//"11401",
-															"SaleDate" => date('c'),//"2014-02-19T13:59:06.5902435-06:00",
-															"Vin" => trim($vin)
-														);
-													}
-										//-----------------------------------------------------------------------
+			$parameters = $this->getRatesParameters($request);
 
-		} else {  // Get PDF Contract
-				//-----------Start ---------------------
+		} else { 			
+			# Do validations of data
+            $request = $this->ValidateRequest($request);
 
-				if (empty($request->productRates->CvCvty)) {
-					$request->productRates->CvCvty = '';
-				}
-				if (empty($request->productRates->MileageTerm)) {
-					$request->productRates->MileageTerm = '';
-				}
-				if (empty($request->productRates->Interval)) {
-					$request->productRates->Interval = '';
-				}
-
-				$pattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
-
-				if (preg_match($pattern, $request->deal->Email) === 0) {
-					$request->deal->Email = 'test@mail.com';
-				}
-
-				if (strlen(round($request->deal->ZipCode)) < 5) {
-					$request->deal->ZipCode = 12345;
-				}
-
-				 /*
-		        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
-		        *   
-		        */
-		        if ($request->product->IsTaxable == 1) {
-		            //$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
-
-		        }
-				
-				//$fullName = explode(" ", $request->deal->Buyer);
-						
-				$data = new \stdClass();
-
-		        $data->AuthenticationHeader = new \stdClass();
-		        $data->AuthenticationHeader->Username = $request->deal->Username;
-		        $data->AuthenticationHeader->Password = $request->deal->Password;
-
-		        $data->Products = new \stdClass();
-
-		        $data->Products->Customer = new \stdClass();
-		        $data->Products->Customer->CompanyInitials = 'USW' ;
-		        $data->Products->Customer->DealerCode = $dealercode;
-		        $data->Products->Customer->LastName = $request->deal->LastName;
-		        $data->Products->Customer->FirstName = $request->deal->FirstName;
-		        $data->Products->Customer->MiddleInitial = substr($request->deal->MiddleName, 0, 1); // Only send the intials middlename
-		        $data->Products->Customer->LastName2 = '';
-		        $data->Products->Customer->FirstName2 = '';
-		        $data->Products->Customer->MiddleInitial2 = '';
-		        $data->Products->Customer->Address = $request->deal->Address1;
-		        $data->Products->Customer->City = $request->deal->City;
-		        $data->Products->Customer->State = $request->deal->State;
-		        $data->Products->Customer->Zip = round($request->deal->ZipCode);
-		        $data->Products->Customer->Phone = $request->deal->Telephone;
-		        $data->Products->Customer->PhoneNight = $request->deal->Telephone;
-		        $data->Products->Customer->EmailAddress = $request->deal->Email;
-		        $data->Products->Customer->Vin = $vin;
-		        $data->Products->Customer->Odometer = $request->deal->BeginningOdometer;
-		        $data->Products->Customer->SaleDate = date("m/d/Y");//'03/28/2014';
-		        $data->Products->Customer->UswcFinanced = $request->deal->FinancedAmount;//20000;
-		        $data->Products->Customer->StockNumber = 0;
-		        $data->Products->Customer->DealNumber = 0;
-		        $data->Products->Customer->CustomerNumber = 0;
-
-		        $data->Products->Lienholder = new \stdClass();
-		        $data->Products->Lienholder->Name  = $request->deal->LienHolderName;
-		        $data->Products->Lienholder->Address  = $request->deal->LienHolderAddress;
-		        $data->Products->Lienholder->Country  = $request->deal->LienHolderCountry;
-		        $data->Products->Lienholder->City  = $request->deal->LienHolderCity;
-		        $data->Products->Lienholder->State  = $request->deal->LienHolderState;
-		        $data->Products->Lienholder->Zip = $request->deal->LienHolderZip;
-
-		        
-		        $data->Products->Vsc = new \stdClass();
-		        $data->Products->Vsc->ContractNumber= '';
-		        $data->Products->Vsc->CvCvty = $request->productRates->CvCvty;//"US46E";
-		        $data->Products->Vsc->Cost = $request->productRates->AmtDueWtyCo;// '';
-		        $data->Products->Vsc->RetailAmount = $request->productOptions->price;
-		        $data->Products->Vsc->FiledAmount= $request->productOptions->price;// '';
-		        $data->Products->Vsc->TermMonths= $request->productOptions->term;
-		        $data->Products->Vsc->TermMiles= ($request->productOptions->mileage)*1000;//"6,000";
-		        $data->Products->Vsc->InServiceDate= date('c');
-		        $data->Products->Vsc->Deductible= $request->productOptions->deductible;
-		        $data->Products->Vsc->Cert = "N";
-		        $data->Products->Vsc->Wrap = "N";
-		        $data->Products->Vsc->FormNumber= $request->productRates->FormNumber;//"USWC US FC 02-12";
-		        $data->Products->Vsc->Options = new \stdClass();
-		        $data->Products->Vsc->Options->Option = "";
-
-		        $data->Products->Maintenance = new \stdClass();
-		        $data->Products->Maintenance->ContractNumber = "";
-		        $data->Products->Maintenance->CvCvty = $request->productRates->CvCvty;
-		        $data->Products->Maintenance->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Maintenance->RetailAmount = $request->productOptions->price;
-		        $data->Products->Maintenance->FiledAmount = $request->productOptions->price;
-		        $data->Products->Maintenance->TermMonths = $request->productOptions->term;
-		        $data->Products->Maintenance->TermMiles = ($request->productOptions->mileage)*1000;
-		        $data->Products->Maintenance->Interval = $request->productOptions->interval;
-		        $data->Products->Maintenance->FormNumber = $request->productRates->FormNumber;
-		        $data->Products->Maintenance->Options = new \stdClass();
-		        $data->Products->Maintenance->Options->Option = "";
-
-		        $data->Products->RoadHazard =  new \stdClass();
-		        $data->Products->RoadHazard->ContractNumber = "";
-		        $data->Products->RoadHazard->CvCvty = $request->productRates->CvCvty;
-		        $data->Products->RoadHazard->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->RoadHazard->RetailAmount = $request->productOptions->price;
-		        $data->Products->RoadHazard->FiledAmount = $request->productOptions->price;
-		        $data->Products->RoadHazard->TermMonths = $request->productOptions->term;
-		        $data->Products->RoadHazard->TermMiles = ($request->productOptions->mileage)*1000;
-		        $data->Products->RoadHazard->FormNumber = $request->productRates->FormNumber;
-		        $data->Products->RoadHazard->Options = new \stdClass();
-		        $data->Products->RoadHazard->Options->Option = "";
-
-		        $data->Products->Key =  new \stdClass();
-		        $data->Products->Key->ContractNumber = '';
-		        $data->Products->Key->CvCvty = $request->productRates->CvCvty;//'GKN';
-		        $data->Products->Key->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Key->RetailAmount = $request->productOptions->price;
-		        $data->Products->Key->FiledAmount = $request->productOptions->price;
-		        $data->Products->Key->TermYears = ($request->productOptions->term)/12;
-		        $data->Products->Key->VehicleType = 'U';
-		        $data->Products->Key->FormNumber = $request->productRates->FormNumber;
-		        $data->Products->Key->Options = new \stdClass();
-		        $data->Products->Key->Options->Option = "";  
-
-		        $data->Products->Dent =  new \stdClass();
-		        $data->Products->Dent->ContractNumber = "";
-		        $data->Products->Dent->CvCvty = $request->productRates->CvCvty;
-		        $data->Products->Dent->Cost = $request->productRates->AmtDueWtyCo;
-		        $data->Products->Dent->RetailAmount = $request->productOptions->price;
-		        $data->Products->Dent->FiledAmount = $request->productOptions->price;
-		        $data->Products->Dent->TermYears = ($request->productOptions->term)/12;
-		        $data->Products->Dent->FormNumber = $request->productRates->FormNumber;
-		        $data->Products->Dent->Options = new \stdClass();
-		        $data->Products->Dent->Options->Option = "";
-
-
-		        $data->Products->Gap = new \stdClass();
-		        $data->Products->Gap->ContractNumber = "";
-		        $data->Products->Gap->RetailAmount = $request->productOptions->price;
-		        $data->Products->Gap->FiledAmount = $request->productOptions->price;
-		        $data->Products->Gap->TermMonths = $request->productOptions->term;
-		        $data->Products->Gap->PurchasePrice = $request->deal->SalesPrice;
-		        $data->Products->Gap->FinancedAmount = $request->deal->FinancedAmount;
-		        $data->Products->Gap->MSRP = $request->deal->SalesPrice;
-		        $data->Products->Gap->InterestRate = $request->deal->NewAPR;
-		        $data->Products->Gap->FormNumber = $request->productRates->FormNumber; 
-		        $data->Products->Gap->FinanceType = "Purchase"; 
-
-
-
-		        $data->Products->Etch = new \stdClass(); 
-		        $data->Products->Etch->ContractNumber = ""; 
-		        $data->Products->Etch->CvCvty = ""; 
-		        $data->Products->Etch->Cost = ""; 
-		        $data->Products->Etch->RetailAmount = ""; 
-		        $data->Products->Etch->FiledAmount = ""; 
-		        $data->Products->Etch->TermYears = ""; 
-		        $data->Products->Etch->FormNumber = ""; 
-		        $data->Products->Etch->EtchNumber = ""; 
-		        $data->Products->Etch->PipNumber = ""; 
-
-
-
-		        $data->Products->ShadowMark = new \stdClass(); 
-		        $data->Products->ShadowMark->ContractNumber = ""; 
-		        $data->Products->ShadowMark->CvCvty = ""; 
-		        $data->Products->ShadowMark->Cost = ""; 
-		        $data->Products->ShadowMark->RetailAmount = ""; 
-		        $data->Products->ShadowMark->FiledAmount = ""; 
-		        $data->Products->ShadowMark->TermYears = ""; 
-		        $data->Products->ShadowMark->FormNumber = ""; 
-		        $data->Products->ShadowMark->EtchNumber = ""; 
-		        $data->Products->ShadowMark->PipNumber = "";  
-
-		        $data->Products->SafeLease = new \stdClass();
-		        $data->Products->SafeLease->ContractNumber = ""; 
-		        $data->Products->SafeLease->Cost = ""; 
-		        $data->Products->SafeLease->RetailAmount = ""; 
-		        $data->Products->SafeLease->FiledAmount = ""; 
-		        $data->Products->SafeLease->TermMonths = ""; 
-		        $data->Products->SafeLease->TermMiles = ""; 
-		        $data->Products->SafeLease->EffectiveDate = ""; 
-		        $data->Products->SafeLease->Plan = ""; 
-		        $data->Products->SafeLease->Deductible = ""; 
-		        $data->Products->SafeLease->Limit = ""; 
-		        $data->Products->SafeLease->Certified = ""; 
-		        $data->Products->SafeLease->FormNumber = ""; 
-
-
-		        $data->Products->Chemical =  new \stdClass(); 
-		        $data->Products->Chemical->ContractNumber = ""; 
-		        $data->Products->Chemical->CvCvty = ""; 
-		        $data->Products->Chemical->Cost = ""; 
-		        $data->Products->Chemical->RetailAmount = ""; 
-		        $data->Products->Chemical->FiledAmount = ""; 
-		        $data->Products->Chemical->TermYears = ""; 
-		        $data->Products->Chemical->FormNumber = ""; 
-		        $data->Products->Chemical->PipNumber = "";
-
-		        $parameters = $data;
-				//------------END----------------------
+            # Parameter for Contract
+            $parameters = $this->getContractParameters($request);			
 		}
 		return $parameters;
+	}
+
+	##---------------- Get parameter for  Rates Request --------------- ##
+	private function getRatesParameters($request)
+	{
+
+		$parameters = new \stdClass();
+		$ProductBaseId = $request->product->ProductBaseId;
+
+		# All products
+		$parameters->Company = "USW";
+		$parameters->DealerCode = $request->dealercode;
+		$parameters->Vin = trim($request->deal->VIN);
+		$parameters->SaleDate = date('c');
+
+		# US Vsc, Us Gap, Us Maintenance, Us Dent, US Road hazard
+		if ($ProductBaseId == 2 || $ProductBaseId == 3 || $ProductBaseId == 4 || $ProductBaseId == 5 || $ProductBaseId == 9) {
+			$parameters->Mileage = trim(round($request->deal->BeginningOdometer));
+		}
+
+		# US Vsc
+		if ($ProductBaseId == 2) {
+			$parameters->NewUsed = "Used";
+			$parameters->InSrvDate = date('c');
+		}
+
+		# US Maintenance
+		if ($ProductBaseId == 4) {
+			$parameters->AloneOption = "Alone";
+		}
+
+		$parameters = (array)$parameters;
+
+		return $parameters;
+    }
+
+	##---------------- Get parameter for  Contract  Request --------------- ##
+	private function getContractParameters($request)
+	{
+		$parameters = new \stdClass();
+		$vin = $request->deal->VIN;
+	    $dealercode = $request->dealercode;
+		$productBaseId = $request->product->ProductBaseId;
+
+		$parameters->AuthenticationHeader = new \stdClass();
+        $parameters->AuthenticationHeader->Username = $request->deal->Username;
+        $parameters->AuthenticationHeader->Password = $request->deal->Password;
+
+        $parameters->Products = new \stdClass();
+
+        $parameters->Products->Customer = new \stdClass();
+        $parameters->Products->Customer->CompanyInitials = 'USW' ;
+        $parameters->Products->Customer->DealerCode = $dealercode;
+        $parameters->Products->Customer->LastName = $request->deal->LastName;
+        $parameters->Products->Customer->FirstName = $request->deal->FirstName;
+        $parameters->Products->Customer->MiddleInitial = substr($request->deal->MiddleName, 0, 1); // Only send the intials middlename
+        $parameters->Products->Customer->LastName2 = '';
+        $parameters->Products->Customer->FirstName2 = '';
+        $parameters->Products->Customer->MiddleInitial2 = '';
+        $parameters->Products->Customer->Address = $request->deal->Address1;
+        $parameters->Products->Customer->City = $request->deal->City;
+        $parameters->Products->Customer->State = $request->deal->State;
+        $parameters->Products->Customer->Zip = round($request->deal->ZipCode);
+        $parameters->Products->Customer->Phone = $request->deal->Telephone;
+        $parameters->Products->Customer->PhoneNight = $request->deal->Telephone;
+        $parameters->Products->Customer->EmailAddress = $request->deal->Email;
+        $parameters->Products->Customer->Vin = $vin;
+        $parameters->Products->Customer->Odometer = $request->deal->BeginningOdometer;
+        $parameters->Products->Customer->SaleDate = date("m/d/Y");//'03/28/2014';
+        $parameters->Products->Customer->UswcFinanced = $request->deal->FinancedAmount;//20000;
+        $parameters->Products->Customer->StockNumber = 0;
+        $parameters->Products->Customer->DealNumber = 0;
+        $parameters->Products->Customer->CustomerNumber = 0;
+
+        $parameters->Products->Lienholder = new \stdClass();
+        $parameters->Products->Lienholder->Name  = $request->deal->LienHolderName;
+        $parameters->Products->Lienholder->Address  = $request->deal->LienHolderAddress;
+        $parameters->Products->Lienholder->Country  = $request->deal->LienHolderCountry;
+        $parameters->Products->Lienholder->City  = $request->deal->LienHolderCity;
+        $parameters->Products->Lienholder->State  = $request->deal->LienHolderState;
+        $parameters->Products->Lienholder->Zip = $request->deal->LienHolderZip;
+
+        
+
+        switch ($productBaseId) {
+			case 1: //US Key
+				$parameters->Products->Key =  new \stdClass();
+		        $parameters->Products->Key->ContractNumber = '';
+		        $parameters->Products->Key->CvCvty = $request->productRates->CvCvty;//'GKN';
+		        $parameters->Products->Key->Cost = $request->productRates->AmtDueWtyCo;
+		        $parameters->Products->Key->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->Key->FiledAmount = $request->productOptions->price;
+		        $parameters->Products->Key->TermYears = ($request->productOptions->term)/12;
+		        $parameters->Products->Key->VehicleType = 'U';
+		        $parameters->Products->Key->FormNumber = $request->productRates->FormNumber;
+		        $parameters->Products->Key->Options = new \stdClass();
+		        $parameters->Products->Key->Options->Option = ""; 
+				break;
+			case 2: //US Vehicle Service Contract
+				$parameters->Products->Vsc = new \stdClass();
+		        $parameters->Products->Vsc->ContractNumber= '';
+		        $parameters->Products->Vsc->CvCvty = $request->productRates->CvCvty;//"US46E";
+		        $parameters->Products->Vsc->Cost = $request->productRates->AmtDueWtyCo;// '';
+		        $parameters->Products->Vsc->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->Vsc->FiledAmount= $request->productOptions->price;// '';
+		        $parameters->Products->Vsc->TermMonths= $request->productOptions->term;
+		        $parameters->Products->Vsc->TermMiles= ($request->productOptions->mileage)*1000;//"6,000";
+		        $parameters->Products->Vsc->InServiceDate= date('c');
+		        $parameters->Products->Vsc->Deductible= $request->productOptions->deductible;
+		        $parameters->Products->Vsc->Cert = "N";
+		        $parameters->Products->Vsc->Wrap = "N";
+		        $parameters->Products->Vsc->FormNumber= $request->productRates->FormNumber;//"USWC US FC 02-12";
+		        $parameters->Products->Vsc->Options = new \stdClass();
+		        $parameters->Products->Vsc->Options->Option = "";
+				break;
+			case 3: //US Total Lost Protection (GAP)
+				$parameters->Products->Gap = new \stdClass();
+		        $parameters->Products->Gap->ContractNumber = "";
+		        $parameters->Products->Gap->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->Gap->FiledAmount = $request->productOptions->price;
+		        $parameters->Products->Gap->TermMonths = $request->productOptions->term;
+		        $parameters->Products->Gap->PurchasePrice = $request->deal->SalesPrice;
+		        $parameters->Products->Gap->FinancedAmount = $request->deal->FinancedAmount;
+		        $parameters->Products->Gap->MSRP = $request->deal->SalesPrice;
+		        $parameters->Products->Gap->InterestRate = $request->deal->NewAPR;
+		        $parameters->Products->Gap->FormNumber = $request->productRates->FormNumber; 
+		        $parameters->Products->Gap->FinanceType = "Purchase"; 
+
+				break;
+			case 4: //US Maintenance Plan
+				$parameters->Products->Maintenance = new \stdClass();
+		        $parameters->Products->Maintenance->ContractNumber = "";
+		        $parameters->Products->Maintenance->CvCvty = $request->productRates->CvCvty;
+		        $parameters->Products->Maintenance->Cost = $request->productRates->AmtDueWtyCo;
+		        $parameters->Products->Maintenance->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->Maintenance->FiledAmount = $request->productOptions->price;
+		        $parameters->Products->Maintenance->TermMonths = $request->productOptions->term;
+		        $parameters->Products->Maintenance->TermMiles = ($request->productOptions->mileage)*1000;
+		        $parameters->Products->Maintenance->Interval = $request->productOptions->interval;
+		        $parameters->Products->Maintenance->FormNumber = $request->productRates->FormNumber;
+		        $parameters->Products->Maintenance->Options = new \stdClass();
+		        $parameters->Products->Maintenance->Options->Option = "";
+				break;
+			case 5: //US Dent
+				$parameters->Products->Dent =  new \stdClass();
+		        $parameters->Products->Dent->ContractNumber = "";
+		        $parameters->Products->Dent->CvCvty = $request->productRates->CvCvty;
+		        $parameters->Products->Dent->Cost = $request->productRates->AmtDueWtyCo;
+		        $parameters->Products->Dent->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->Dent->FiledAmount = $request->productOptions->price;
+		        $parameters->Products->Dent->TermYears = ($request->productOptions->term)/12;
+		        $parameters->Products->Dent->FormNumber = $request->productRates->FormNumber;
+		        $parameters->Products->Dent->Options = new \stdClass();
+		        $parameters->Products->Dent->Options->Option = "";
+				break;
+			case 7: //US Chemical
+				$parameters->Products->Chemical =  new \stdClass(); 
+		        $parameters->Products->Chemical->ContractNumber = ""; 
+		        $parameters->Products->Chemical->CvCvty = ""; 
+		        $parameters->Products->Chemical->Cost = ""; 
+		        $parameters->Products->Chemical->RetailAmount = ""; 
+		        $parameters->Products->Chemical->FiledAmount = ""; 
+		        $parameters->Products->Chemical->TermYears = ""; 
+		        $parameters->Products->Chemical->FormNumber = ""; 
+		        $parameters->Products->Chemical->PipNumber = "";
+				break;
+			case 8: //US Etch
+				$parameters->Products->Etch = new \stdClass(); 
+		        $parameters->Products->Etch->ContractNumber = ""; 
+		        $parameters->Products->Etch->CvCvty = ""; 
+		        $parameters->Products->Etch->Cost = ""; 
+		        $parameters->Products->Etch->RetailAmount = ""; 
+		        $parameters->Products->Etch->FiledAmount = ""; 
+		        $parameters->Products->Etch->TermYears = ""; 
+		        $parameters->Products->Etch->FormNumber = ""; 
+		        $parameters->Products->Etch->EtchNumber = ""; 
+		        $parameters->Products->Etch->PipNumber = ""; 
+				break;
+			case 9: //US Road Hazard
+				$parameters->Products->RoadHazard =  new \stdClass();
+		        $parameters->Products->RoadHazard->ContractNumber = "";
+		        $parameters->Products->RoadHazard->CvCvty = $request->productRates->CvCvty;
+		        $parameters->Products->RoadHazard->Cost = $request->productRates->AmtDueWtyCo;
+		        $parameters->Products->RoadHazard->RetailAmount = $request->productOptions->price;
+		        $parameters->Products->RoadHazard->FiledAmount = $request->productOptions->price;
+		        $parameters->Products->RoadHazard->TermMonths = $request->productOptions->term;
+		        $parameters->Products->RoadHazard->TermMiles = ($request->productOptions->mileage)*1000;
+		        $parameters->Products->RoadHazard->FormNumber = $request->productRates->FormNumber;
+		        $parameters->Products->RoadHazard->Options = new \stdClass();
+		        $parameters->Products->RoadHazard->Options->Option = "";
+				break;
+			
+			default:
+				break;
+		}
+        // $parameters->Products->ShadowMark = new \stdClass(); 
+        // $parameters->Products->ShadowMark->ContractNumber = ""; 
+        // $parameters->Products->ShadowMark->CvCvty = ""; 
+        // $parameters->Products->ShadowMark->Cost = ""; 
+        // $parameters->Products->ShadowMark->RetailAmount = ""; 
+        // $parameters->Products->ShadowMark->FiledAmount = ""; 
+        // $parameters->Products->ShadowMark->TermYears = ""; 
+        // $parameters->Products->ShadowMark->FormNumber = ""; 
+        // $parameters->Products->ShadowMark->EtchNumber = ""; 
+        // $parameters->Products->ShadowMark->PipNumber = "";  
+
+        // $parameters->Products->SafeLease = new \stdClass();
+        // $parameters->Products->SafeLease->ContractNumber = ""; 
+        // $parameters->Products->SafeLease->Cost = ""; 
+        // $parameters->Products->SafeLease->RetailAmount = ""; 
+        // $parameters->Products->SafeLease->FiledAmount = ""; 
+        // $parameters->Products->SafeLease->TermMonths = ""; 
+        // $parameters->Products->SafeLease->TermMiles = ""; 
+        // $parameters->Products->SafeLease->EffectiveDate = ""; 
+        // $parameters->Products->SafeLease->Plan = ""; 
+        // $parameters->Products->SafeLease->Deductible = ""; 
+        // $parameters->Products->SafeLease->Limit = ""; 
+        // $parameters->Products->SafeLease->Certified = ""; 
+        // $parameters->Products->SafeLease->FormNumber = ""; 
+
+        return $parameters;
+		
 	}
 
 	private function getXml($data, $request)
@@ -574,21 +498,6 @@ class USWarrantyServiceProxy extends ServiceProxy
           </Maintenance>';
 		}
 
-		if ($ProductBaseId == 9) {
-			$xml = '<RoadHazard>
-            <ContractNumber>'.$data->RoadHazard->ContractNumber.'</ContractNumber>
-            <CvCvty>'.$data->RoadHazard->CvCvty.'</CvCvty>
-            <Cost>'.$data->RoadHazard->Cost.'</Cost>
-            <RetailAmount>'.$data->RoadHazard->RetailAmount.'</RetailAmount>
-            <FiledAmount>'.$data->RoadHazard->FiledAmount.'</FiledAmount>
-            <TermMonths>'.$data->RoadHazard->TermMonths.'</TermMonths>
-            <TermMiles>'.$data->RoadHazard->TermMiles.'</TermMiles>
-            <FormNumber>'.$data->RoadHazard->FormNumber.'</FormNumber>
-            <Options>
-              <Option>'.'</Option>
-            </Options>
-          </RoadHazard>';
-		}
 		if ($ProductBaseId == 5) {
 			$xml = '<Dent>
             <ContractNumber>'.$data->Dent->ContractNumber.'</ContractNumber>
@@ -604,6 +513,21 @@ class USWarrantyServiceProxy extends ServiceProxy
           </Dent>';
 		}
 
+		if ($ProductBaseId == 9) {
+			$xml = '<RoadHazard>
+            <ContractNumber>'.$data->RoadHazard->ContractNumber.'</ContractNumber>
+            <CvCvty>'.$data->RoadHazard->CvCvty.'</CvCvty>
+            <Cost>'.$data->RoadHazard->Cost.'</Cost>
+            <RetailAmount>'.$data->RoadHazard->RetailAmount.'</RetailAmount>
+            <FiledAmount>'.$data->RoadHazard->FiledAmount.'</FiledAmount>
+            <TermMonths>'.$data->RoadHazard->TermMonths.'</TermMonths>
+            <TermMiles>'.$data->RoadHazard->TermMiles.'</TermMiles>
+            <FormNumber>'.$data->RoadHazard->FormNumber.'</FormNumber>
+            <Options>
+              <Option>'.'</Option>
+            </Options>
+          </RoadHazard>';
+		}
 
 		return $xml;
 	}
@@ -611,7 +535,7 @@ class USWarrantyServiceProxy extends ServiceProxy
 
 	private function getContractNumber($response,$request)
 	{
-	//	print_r($response);die();
+	    //print_r($response);die();
 		$contract = explode('&lt;ContractNumber&gt;', $response);
 		if(!(empty($contract[1]))){
 			$contract = explode('&lt;/ContractNumber&gt;', $contract[1]);
@@ -698,6 +622,41 @@ class USWarrantyServiceProxy extends ServiceProxy
 		}
 
 		return $xml;
+	}
+
+	##---------------- Validate data for  Contract  Request --------------- ##
+	private function ValidateRequest($request)
+	{
+		if (empty($request->productRates->CvCvty)) {
+			$request->productRates->CvCvty = '';
+		}
+		if (empty($request->productRates->MileageTerm)) {
+			$request->productRates->MileageTerm = '';
+		}
+		if (empty($request->productRates->Interval)) {
+			$request->productRates->Interval = '';
+		}
+
+		$pattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
+
+		if (preg_match($pattern, $request->deal->Email) === 0) {
+			$request->deal->Email = 'test@mail.com';
+		}
+
+		if (strlen(round($request->deal->ZipCode)) < 5) {
+			$request->deal->ZipCode = 12345;
+		}
+
+		 /*
+        *  APPLY SALES TAX RATE ( WHERE APPLICABLE)
+        *   
+        */
+        //if ($request->product->IsTaxable == 1) {
+            //$request->productOptions->price = ($request->productOptions->price) * (1 + ($request->deal->TaxRate / 100));  
+
+        //}
+
+		return $request;
 	}
 
 }

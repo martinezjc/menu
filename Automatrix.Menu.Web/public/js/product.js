@@ -997,6 +997,8 @@ function createSelect(product) {
 
     var option = product.trim();
 
+    console.debug("AQUI");
+
     switch (option) {
         case 'Total Lost Protection (GAP)':
             $('<option>').val('60').text('60').appendTo(selectTermModified);
