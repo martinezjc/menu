@@ -590,12 +590,6 @@ class ProductsController extends BaseController
                 # all option in use, except deductible
                 # Deductible not exist in rate response
                 # e.g -> US Maintenance
-                if ($product->ProductBaseId == 9) {
-                    // print_r($product->Type); echo "--"; print_r($rate[$type]);
-                    // echo "<br>";
-                    // print_r($product->Term); echo "--"; print_r($rate[$term]);
-                    // echo "<br><br><br>";
-                }
                 if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseDeductible != 1 && $product->UseMileage == 1 && $product->UseInterval == 1  && $product->UseTireRotation == 1 ) {
                     
                     #  Prepare format data for match
@@ -658,10 +652,7 @@ class ProductsController extends BaseController
             
             // By default returns the first rate
             return array(
-                $rates['Rate'][0],
-                0,
-                0
-            );
+                $rates['Rate'][0],0,0);
         }
         
         if($product->CompanyId == 2) // Protective
@@ -674,66 +665,41 @@ class ProductsController extends BaseController
                 $mileage = 'CoverageTermMiles';
                 $deductible = 'Deductible';
                 
-                // only for GAP
+                
+                # CAse 1: USe Range term to match
+                # Only applicable  for Protective GAP
                 if($product->ProductBaseId == 11)
                 {
-                    if ( ($product->Type == $rate[$type]) && ( $rate[$term] >=1 || $rate[$term] <= 60 ) ) 
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1 
-                        );
+                    if ( ($product->Type == $rate[$type]) && ( $rate[$term] >=1 || $rate[$term] <= 60 ) ){
+                        return array($rate,$index,1);
                     } 
-                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >=61 || $rate[$term] <= 72 ) )
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1 
-                        );    
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >=61 || $rate[$term] <= 72 ) ){
+                        return array($rate,$index,1);
                     } 
-                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >= 73 || $rate[$term] <= 84 ) )
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1 
-                        );    
-                    }
-                    
-                    if($product->Type == $rate[$type] && $product->Term > $lastRateTerm && $product->Term <= $rate[$term])
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1
-                        );
+                    elseif ( ($product->Type == $rate[$type]) && ( $rate[$term] >= 73 || $rate[$term] <= 84 ) ){
+                        return array($rate,$index,1);  
+                    }                    
+                    if($product->Type == $rate[$type] && $product->Term > $lastRateTerm && $product->Term <= $rate[$term]){
+                        return array($rate,$index,1);
                     }
                 }
                 
-                // Options fields in product should match the fields in the response
-                if($product->Type == $rate[$type] && $product->Term == $rate[$term] && $product->Mileage == $rate[$mileage])
-                {
-                    if($product->Deductible == 0)
-                    {
-                        return array(
-                            $rate,
-                            $index,
-                            1
-                        );
-                    }
-                    else
-                    {
-                        if($product->Deductible == $rate[$deductible])
-                        {
-                            return array(
-                                $rate,
-                                $index,
-                                1
-                            );
-                        }
-                    }
+                # Case 2: 
+                # type enabled, term enabled, mileage enabled, deductible enabled
+                # e.g -> Protective VSC
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseMileage == 1 && $product->UseDeductible == 1 ) {
+                     if ($product->Type == $rate[$type] && $product->Term == $rate[$term] && $product->Mileage == $rate[$mileage] && $product->Deductible == $rate[$deductible]) {
+                         return array($rate,$index,1);
+                     }
+                }
+
+                # Case 3: 
+                # type enabled, term enabled, mileage enabled
+                # deductible disabled. e.g -> Protective VSC
+                if ($product->UseType == 1 && $product->UseTerm == 1 && $product->UseMileage == 1 && $product->UseDeductible != 1 ) {
+                     if ($product->Type == $rate[$type] && $product->Term == $rate[$term] && $product->Mileage == $rate[$mileage]) {
+                         return array($rate,$index,1);
+                     }
                 }
                 
                 $lastRateTerm = $rate[$term];
@@ -749,43 +715,27 @@ class ProductsController extends BaseController
         
         if($product->CompanyId == 3) // Road Vantage
         {
-            if(! (is_array($rates->Plan->RateClassMoneys->RateClassMoney)))
-            {
+            if(! (is_array($rates->Plan->RateClassMoneys->RateClassMoney))){
                 $rate = $rates->Plan->RateClassMoneys->RateClassMoney;
                 $index = $rate->TermMile->TermId;
-                return array(
-                    $rate,
-                    $index,
-                    1
-                );
+                return array($rate,$index,1);
             }
             
-            foreach ($rates->Plan->RateClassMoneys->RateClassMoney as $key => $rate)
-            {
-                
+            foreach ($rates->Plan->RateClassMoneys->RateClassMoney as $key => $rate){
                 $term = $rate->TermMile->Term;
                 $mileage = $rate->TermMile->Mileage;
                 $deductible = $rate->Deductible->DeductAmt;
                 $type = $rates->Plan->Plan->PlanDescription;
                 $index = $rate->TermMile->TermId;
                 
-                if($product->Term == $term)
-                {
-                    return array(
-                        $rate,
-                        $index,
-                        1
-                    );
+                if($product->Term == $term){
+                    return array($rate,$index,1);
                 }
                 $index ++;
             }
             // By Default returns the first rate
             $rates = $rates->Plan->RateClassMoneys->RateClassMoney{0};
-            return array(
-                $rates,
-                $rates->TermMile->TermId,
-                0
-            );
+            return array($rates, $rates->TermMile->TermId,0);
         }
         return null;
     }

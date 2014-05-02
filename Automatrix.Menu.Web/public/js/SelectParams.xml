@@ -481,10 +481,6 @@
 		</terms>
         <deductibles>
         	<deductible>
-        		<text>$0</text>
-			    <value>0</value>
-        	</deductible>
-        	<deductible>
         		<text>$50</text>
 			    <value>50</value>
         	</deductible>
