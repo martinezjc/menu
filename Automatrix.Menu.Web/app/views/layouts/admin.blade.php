@@ -4,22 +4,22 @@
     <title>Administration @if ($title) - {{ $title }} @endif</title>
     
     <!-- Frameworks -->
-   	{{ HTML::style('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'); }}
+   	{{ HTML::style('css/jquery-ui.css'); }}
    	{{ HTML::style('packages/awesome/css/font-awesome.min.css'); }} 
    	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css'); }}
    	{{ HTML::style('packages/bootstrap/css/summernote.css'); }}
    	{{ HTML::style('packages/toastr/css/toastr.min.css'); }}
+    {{ HTML::style('css/uploadify.css'); }}
 	
    	<!-- Webkit Styles -->
     {{ HTML::style('packages/webkit/css/layout.css') }}
     {{ HTML::style('packages/webkit/css/layout.style.css') }}
    	{{ HTML::style('packages/webkit/css/navigation.css') }}
+    {{ HTML::style('css/pricingPlansStyle.css'); }}
     
     <!-- JQuery library -->
    	{{ HTML::script('js/jquery-1.9.1.js'); }}
     {{ HTML::script('js/jquery-ui.js'); }}
-    
-    
     
    <!--[if lt IE 9]>
         {{ HTML::script('assets/js/html5shiv.js') }}
@@ -59,7 +59,7 @@
                 @yield('content')
             </div>
         </div>
-        <aside id="aside">Aside</aside>
+        <!-- <aside id="aside">Aside</aside> -->
     </div>
 
     <!-- Frameworks -->

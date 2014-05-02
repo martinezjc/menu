@@ -2,6 +2,8 @@
 
 @section('scripts')
     {{ HTML::script('scripts/product.js'); }}
+    {{ HTML::script('js/angular.min.js'); }}
+    {{ HTML::script('js/angular.js'); }}
 @stop
 
 @section('toolbar')
@@ -376,6 +378,7 @@
         <img src="images/pdf.png" >&nbsp;{{$product->PDFContrator}} (<a href="uploads/pdf/{{$product->PDFContrator}}"> Download </a>)
       </div>
       @endif
+      <input type="hidden" id="DealerId" value="{{ $product->DealerId }}">
       </fieldset>
 		</div>
 	</div>
@@ -397,7 +400,6 @@ eval('var currentUrl = "<?php echo $baseUrl; ?>";');
             var extension;
             var isURL = false;
             var BrochureInfo = data[0].BrochureImage;
-            alert(BrochureInfo);
             var TermValue;
             var TypeValue;
             var DeductibleValue;
@@ -425,7 +427,7 @@ eval('var currentUrl = "<?php echo $baseUrl; ?>";');
             }
 
             if (BrochureInfo == ''){
-            	$('#showOptionsModified').css('padding-top','2px');
+            	$('#showOptionsModified').css('padding-top','10px');
             }
 
             if (!isURL) {

@@ -111,6 +111,35 @@ function validateURLField(id, message)
     }
 }
 
+/*
+* Disables the field based on the event click for the element in the first argument function
+*/
+function onCheckToggle(checkId, fieldId)
+{
+    $(checkId).click(function () {
+        if ($(this).prop("checked")) {
+            $(fieldId).prop("disabled", false);
+        } else {
+            $(fieldId).prop("disabled", true);
+        }
+    });
+}
+
+function ValidateExpression (text, type) {
+    text = text.replace(',','')
+    var res;
+    var NumberOnly = new RegExp('^[0-9]');
+    var NumberFloat = new RegExp("^-?(?:[0-9]+|[0-9]*\.[0-9]+)$");
+    if (type == 'Number') {
+        res = NumberOnly.test(text);    
+    };
+    if (type == 'Money') {
+        res = NumberFloat.test(text);
+    };
+
+    return res;
+}
+
 function showErrorMessage(field, message) 
 {
     field.focus();
