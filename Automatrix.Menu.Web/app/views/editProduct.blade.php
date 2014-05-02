@@ -292,16 +292,16 @@ if (is_null($UserSessionInfo)) {
           <span class="pull-right alignText" style="margin-right: 40%;"><input type="checkbox" id="UseMileageModified" name="UseMileageModified" @if ( $ProductData->UseMileage == 1 ) checked @endif > Use option</span>
           <select id="MileageModified" name="MileageModified" class="form-control"  style="width:40%" @if ( $ProductData->UseMileage == 0 ) disabled @endif >
           @if ( $ProductData->ProductBaseId == 4 )
-            <option value="12" @if ($ProductData->Mileage == 12000) selected="selected" @endif >12,000</option>
-            <option value="15" @if ($ProductData->Mileage == 15000) selected="selected" @endif >15,000</option>
-            <option value="24" @if ($ProductData->Mileage == 24000) selected="selected" @endif >24,000</option>
-            <option value="30" @if ($ProductData->Mileage == 30000) selected="selected" @endif >30,000</option>
-            <option value="36" @if ($ProductData->Mileage == 36000) selected="selected" @endif>36,000</option>
-            <option value="39" @if ($ProductData->Mileage == 39000) selected="selected" @endif>39,000</option>
-            <option value="45" @if ($ProductData->Mileage == 45000) selected="selected" @endif>45,000</option>
-            <option value="48" @if ($ProductData->Mileage == 48000) selected="selected" @endif>48,000</option>
-            <option value="60" @if ($ProductData->Mileage == 60000) selected="selected" @endif>60,000</option>
-            <option value="75" @if ($ProductData->Mileage == 75000) selected="selected" @endif>75,000</option>
+            <option value="12" @if ($ProductData->Mileage == 12) selected="selected" @endif >12</option>
+            <option value="15" @if ($ProductData->Mileage == 15) selected="selected" @endif >15</option>
+            <option value="24" @if ($ProductData->Mileage == 24) selected="selected" @endif >24</option>
+            <option value="30" @if ($ProductData->Mileage == 30) selected="selected" @endif >30</option>
+            <option value="36" @if ($ProductData->Mileage == 36) selected="selected" @endif>36</option>
+            <option value="39" @if ($ProductData->Mileage == 39) selected="selected" @endif>39</option>
+            <option value="45" @if ($ProductData->Mileage == 45) selected="selected" @endif>45</option>
+            <option value="48" @if ($ProductData->Mileage == 48) selected="selected" @endif>48</option>
+            <option value="60" @if ($ProductData->Mileage == 60) selected="selected" @endif>60</option>
+            <option value="75" @if ($ProductData->Mileage == 75) selected="selected" @endif>75</option>
           @else
             <option value="6" @if ($ProductData->Mileage == 6) selected="selected" @endif >6</option>
             <option value="12" @if ($ProductData->Mileage == 12) selected="selected" @endif >12</option>
