@@ -3,6 +3,13 @@ var Globalorder;
 $(document).ready(function () {
 	StartToastMessage();
 
+    // $(function() {      
+    //     $(".sortable").sortable({
+    //         placeholder: "highlight"
+    //     });    
+    //     $(".sortable").disableSelection();
+    // });
+
 	if (!($(document).height() > $(window).height())) 
     {
         $('footer').removeClass('footerApp');
@@ -45,14 +52,27 @@ function Sortable()
             placeholder: "highlight",
             helper: "clone",
             stop: function (event, ui) {
-                 Globalorder = $(".sortable").sortable('toArray');
-                 UpdatetOrderTable(Globalorder);
-                 toastr.success("The product order has been updated.", "Success");
+                Globalorder = $(".sortable").sortable('toArray');
+                UpdatetOrderTable(Globalorder);
+                toastr.success("The product order has been updated.", "Success");
             }
         });
         $(".sortable").disableSelection();
     });
 }
+
+$(function () {
+        $(".sortable").sortable({
+            placeholder: "highlight",
+            helper: "clone",
+            stop: function (event, ui) {
+                Globalorder = $(".sortable").sortable('toArray');
+                UpdatetOrderTable(Globalorder);
+                toastr.success("The product order has been updated.", "Success");
+            }
+        });
+        $(".sortable").disableSelection();
+});
 
 function UpdatetOrderTable(Order)
 {

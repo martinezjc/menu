@@ -16,15 +16,29 @@
     {{ HTML::style('packages/webkit/css/layout.style.css') }}
    	{{ HTML::style('packages/webkit/css/navigation.css') }}
     {{ HTML::style('css/pricingPlansStyle.css'); }}
+    {{ HTML::style('css/styleApp.css'); }}
     
     <!-- JQuery library -->
-   	{{ HTML::script('js/jquery-1.9.1.js'); }}
+   	{{ HTML::script('js/jquery.min.js'); }}
     {{ HTML::script('js/jquery-ui.js'); }}
     
    <!--[if lt IE 9]>
         {{ HTML::script('assets/js/html5shiv.js') }}
         {{ HTML::script('assets/js/respond.min.js') }}
    <![endif]-->
+   </style>
+
+   <script>
+
+    $(function() {
+      
+    $(".sortable").sortable({
+    placeholder: "highlight"
+  });    
+    $(".sortable").disableSelection();
+  });
+    </script>
+    
 </head>
 <body class="x-flexbox-v">
     <header id="header">
@@ -45,12 +59,14 @@
       </div>
     </header>
     <div id="container" class="x-flexbox x-flex-1">
+        @if (!$currentUser->DealerId)
         <nav id="nav" class="x-flexbox-v x-nav">
             <ul class="x-flex-1">
                 <li class="x-active"><a href="{{ URL::action('DealerController@index'); }} ">Dealers</a></li>
                 <li><a href="{{ URL::action('CompanyController@index'); }} ">Companies</a></li>
             </ul>
         </nav>
+        @endif
         <div id="article" class="x-flexbox-v x-flex-2">
             <div id="toolbar">
             	@yield('toolbar')

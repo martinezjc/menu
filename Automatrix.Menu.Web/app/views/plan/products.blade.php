@@ -6,10 +6,6 @@
     {{ HTML::script('js/angular.js'); }}
 @stop
 
-@section('toolbar')
-
-@stop
-
 @section('content')
 
 @if (!empty($currentUser->DealerId))
@@ -70,7 +66,7 @@
 <!-- Ends Angular products table -->
 </div>
 
-<div id="SortableTable" class="col-md-3 space" >
+<div id="SortableTable" class="col-md-3 space">
   <div class="tables2">
     <div class="gantry-width-block">                    
       <ul class="rt-pricing-table2">
@@ -98,5 +94,7 @@
 
 
 </div>
+
+
 
 @stop

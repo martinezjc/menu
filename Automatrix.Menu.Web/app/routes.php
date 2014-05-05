@@ -22,7 +22,7 @@ Route::get('/', array('uses' => 'ProductsController@get_ShowProductsViews'));
 // Plan routes
 Route::get('home2', 'PlanController@index');
 Route::get('plans/home', 'PlanController@index');
-Route::get('plans/products/dealers/{id}', 'PlanController@show_products');
+Route::get('/dealers/{id}/plan', 'PlanController@show_products');
 Route::get('plans/products/get', 'PlanController@get_table');
 Route::get('plans/products/included', 'PlanController@get_included');
 Route::any('disclosure2', 'PlanController@disclosure');
