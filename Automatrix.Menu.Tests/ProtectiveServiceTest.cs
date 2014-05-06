@@ -87,7 +87,43 @@ namespace Automatrix.Menu.Tests
                             {
                                 BeginningOdometer = 61831,
                                 InServiceDate = DateTime.Now,
+                                VehiclePlan = VehiclePlans.New,
+                                Surcharges = new AutomobileRateQuoteSurcharges()
+                            }
+                    },
+                    new AutomobileRateQuoteRequest()
+                    {
+                        ProductClassCode = 0,
+                         Lender = LendingInstitution.Other,
+                         MarkUp = new AutomobileRateQuoteMarkup(){
+                            MarkupType  = RateQuoteMarkupType.ByPercent,
+                            Type = RateQuoteMarkupType.ByPercent,
+                            Value = 0
+                         },
+                         VIN = "2HGFA168X9H312248",
+                            VSCRateOptions = new AutomobileRateQuoteVSC()
+                            {
+                                BeginningOdometer = 61831,
+                                InServiceDate = DateTime.Now,
                                 VehiclePlan = VehiclePlans.PreOwned,
+                                Surcharges = new AutomobileRateQuoteSurcharges()
+                            }
+                    },
+                    new AutomobileRateQuoteRequest()
+                    {
+                        ProductClassCode = 0,
+                         Lender = LendingInstitution.Other,
+                         MarkUp = new AutomobileRateQuoteMarkup(){
+                            MarkupType  = RateQuoteMarkupType.ByPercent,
+                            Type = RateQuoteMarkupType.ByPercent,
+                            Value = 0
+                         },
+                         VIN = "2HGFA168X9H312248",
+                            VSCRateOptions = new AutomobileRateQuoteVSC()
+                            {
+                                BeginningOdometer = 61831,
+                                InServiceDate = DateTime.Now,
+                                VehiclePlan = VehiclePlans.ExtendedEligibilityProgram,
                                 Surcharges = new AutomobileRateQuoteSurcharges()
                             }
                     }
