@@ -355,7 +355,7 @@ if (is_null($UserSessionInfo)) {
                                                     @endif
                                                   @endforeach
 
-                                                  <a style="padding-right:5px;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract"><i class="fa fa-file-text"></i></a>
+                                                  <a style="padding-right:5px;display:none;" href="CreatePDF?ProductId={{{ $Product->id }}}" target="_blank" title="PDF contract" name="{{{ $Product->id }}}" class="PdfContract" ><i class="fa fa-file-text"></i></a>
                                                   
                                                   <input type="hidden" class="UseTerm" value="{{{ $Product->UseTerm }}}">
                                                   <input type="hidden" class="UseType" value="{{{ $Product->UseType }}}">

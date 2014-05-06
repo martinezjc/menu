@@ -106,6 +106,11 @@ $(':checkbox').click(function(event) {
 		countProducts++;
 		$(this).find('.price-product').text('');
 		$(this).find('.price-product').append('');
+		$(this).find('.PdfContract').show();
+	});
+
+	$('#RejectedTable .products').each(function() {
+		$(this).find('.PdfContract').hide();
 	});
 
 	if (countProducts == 0)
