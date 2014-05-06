@@ -2856,3 +2856,23 @@ Stack trace:
 #10 C:\wamp\www\menu\Automatrix.Menu.Web\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #11 C:\wamp\www\menu\Automatrix.Menu.Web\public\index.php(49): Illuminate\Foundation\Application->run()
 #12 {main} [] []
+[2014-05-06 14:33:30] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined function int()' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:3299
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-05-06 14:41:26] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')'' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:3298
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-05-06 14:43:12] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function execute() on a non-object' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\controllers\ProductsController.php:764
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-05-06 16:05:32] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 60 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\USWarrantyServiceProxy.php:51
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-05-06 16:30:29] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Maximum execution time of 60 seconds exceeded' in C:\xampp\htdocs\Automatrix.Menu\Automatrix.Menu.Web\app\api\Services\ServiceProxyFactory.php:51
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

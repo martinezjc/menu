@@ -507,7 +507,7 @@ class ProductsController extends BaseController
                     catch (Exception $e)
                     {
                         //$message = $this->GetReasonFailWebService();
-                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->ProductName, $deal ) ));
+                        array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->DisplayName, $deal ) ));
                         //echo $e."<br><br>";
                         //die();
                         $FailWebservice->flag = 1;
@@ -3284,15 +3284,36 @@ class ProductsController extends BaseController
     */
     private function GetReasonFailWebService($productBaseId, $name, $deal)
     {
-        $message =  $name.' is not available! try again';
+        $message = 'Could not retrieve rates.';
 
-        if ( $deal->BeginningOdometer > 113999 ) {
-            $message = $name.' not allowed vehicles with more than 113999 miles.';
-        } elseif ( $deal->BeginningOdometer == '' ) {
-            $message = 'Beginning Odometer cannot be empty';
-        //} elseif (  ) {
-        } else {
-            $message = 'Could not retrieve rates.';
+        if ( $deal->BeginningOdometer == '' ) {
+            return 'Beginning Odometer cannot be empty.';
+        } 
+
+        if (!empty($deal->Year)) {
+            $now = new \DateTime();
+            $carYear = \DateTime::createFromFormat('Y', $deal->Year);            
+            $carYearsOld = $carYear->diff($now);
+
+            # Protective VSC
+            if ($carYearsOld->y > 10 && $productBaseId == 12) {
+                return $name.' could not allowed vehicles with more than 10 years.';
+            }
+            if ($deal->BeginningOdometer > 150000 && $productBaseId == 12 ) {
+                return $name.' not allowed vehicles with more than 150000 miles.';
+            }
+
+            #Us warranty VSC
+            if ($deal->BeginningOdometer > 120000 && $productBaseId == 2) {
+                 return  $name.' not allowed vehicles with more than 120000 miles.';
+            }
+            if ($productBaseId == 2) {
+                 return $name.' could not allowed this vehicle year.';
+            }
+            # US Dent
+            if ($productBaseId == 5) {
+                return $name.' could not allowed this vehicle make and model or vehicle year.';
+            }
         }
 
         return $message;
