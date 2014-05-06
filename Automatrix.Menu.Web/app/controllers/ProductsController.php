@@ -3319,6 +3319,9 @@ class ProductsController extends BaseController
             if ($deal->BeginningOdometer > 23999 && $productBaseId == 13) {
                 return  $name.' not allowed vehicles with more than 23999 miles.';
             }
+            if ($productBaseId == 13) {
+                return  $name.' not allowed vehicles used.';
+            }
         }
 
         return $message;
