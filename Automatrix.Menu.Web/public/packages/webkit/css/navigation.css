@@ -35,3 +35,30 @@ nav.x-nav ul > li > a:hover
 nav.x-nav ul > li.x-active > a {
     background-color: #9BBDE6;
 }
+
+.navbar-brand  {
+    margin: 5px 0px 0px 10px;
+    background: url(uploads/dealer/{{ $UserSessionInfo->DealerLogo }}) 0 0 no-repeat;        
+    background-size: 300px 50px;
+    background-position:center; 
+    display: block;
+    height: 50px;
+    width: 300px;
+}
+
+.navbar-brand-noImage {
+    margin: 5px 0px 0px 10px;
+    vertical-align: middle;
+    display: block;
+    border: dashed 1px;
+    font-size: 35px;
+    text-align: center;
+    color: rgba(190, 189, 189, 0.28);
+    height: 50px;
+    width: 300px;
+}
+
+.navbar-brand-noImage:hover {
+    color: rgba(190, 189, 189, 0.28);
+    text-decoration: none;
+}
