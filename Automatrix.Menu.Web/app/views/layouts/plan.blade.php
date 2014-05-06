@@ -90,8 +90,8 @@ if (is_null($UserSessionInfo->DealerId)) {
     <div class="header-right pull-right">
         <ul class="toolbar-icons list-inline">
             <li><a href="home" style="color:white;"><i class="fa fa-list-alt fa-6" title="Menu Page"></a></i></li>
-            @if($UserSessionInfo->Administrator == 1)
-                <li><a href="settings-page" style="color:white;" ><i class="fa fa-cogs" title="Settings Page"></a></i></li>
+            @if($UserSessionInfo->Administrator == 1 && $UserSessionInfo->DealerId)
+                <li><a href="{{$baseUrl}}/dealers/{{$UserSessionInfo->DealerId}}/plan" style="color:white;" ><i class="fa fa-cogs" title="Settings Page"></a></i></li>
             @endif
             @if($ShowPrintButton == true)
             <li>        

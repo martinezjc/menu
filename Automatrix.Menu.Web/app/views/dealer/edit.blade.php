@@ -7,14 +7,16 @@
 @section('toolbar')
 <div class="row">
 	<div class="col-md-7">
-		<a class="btn btn-success" id="savedealer"><i class="fa fa-save"></i> Save</a> 
-		<a class="btn btn-success" href="{{URL::action('AccountController@show', array('id' => $dealer->DealerId))}}"><i class="fa fa-users"></i> Users</a>
-		<a class="btn btn-success" href="{{URL::action('ProductController@index', array('id' => $dealer->DealerId))}}"><i class="fa fa-th"></i> Products</a> 
+		<a class="btn btn-success" id="savedealer"><i class="fa fa-save"></i> Save</a>
+		@if ($dealer->DealerId)
+		  <a class="btn btn-success" href="{{URL::action('AccountController@show', array('id' => $dealer->DealerId))}}"><i class="fa fa-users"></i> Users</a>
+		  <a class="btn btn-success" href="{{URL::action('ProductController@index', array('id' => $dealer->DealerId))}}"><i class="fa fa-th"></i> Products</a>
+		@endif 
 		<a class="btn btn-success" id="generaldealer"
 			@if(empty($currentUser->DealerId)) 
 				href="{{ URL::action('DealerController@index'); }} " 
 			@else
-				href="{{ $baseUrl }}/settings-page" 
+				href="{{ $baseUrl }}/dealers/{{ $currentUser->DealerId }}/plan" 
 			@endif><i class="fa fa-times"></i> Cancel
 		</a>
 	</div>

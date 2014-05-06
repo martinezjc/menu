@@ -5,9 +5,16 @@ class CompanyController extends BaseController
 {
 	public function index()
 	{
+		$currentUser = Session::get ( 'UserSessionInfo' );
+        
+        if ( is_null( $currentUser ) ) 
+        {
+            return Redirect::to('login');
+        }
+
 		$companies = DB::select ( DB::raw ( "SELECT id, CompanyName, URL, Username, Password FROM Company" ) );
 	
-		return \View::make ( 'company.index' )->with ( 'companies', $companies );
+		return \View::make ( 'company.index' )->with ( 'companies', $companies )->with('title', 'Companies')->with('currentUser', $currentUser);
 	}
 	
 	public function create()

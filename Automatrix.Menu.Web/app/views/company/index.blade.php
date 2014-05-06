@@ -9,7 +9,7 @@
 <div class="row">
 	<div class="col-md-9">
 		<a class="btn btn-success" data-dismiss="modal" id="newCompanyDialog" data-toggle="modal" href="#company-dialog">
-            <i class="fa fa-file-o"></i>Add new company
+            <i class="fa fa-file-o"></i> Add new company
         </a>
 	</div>
 	<div class="col-md-3"></div>
@@ -30,16 +30,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach($companies as $company)
+				@foreach($companies as $company => $companyInfo)
 				<tr>
-					<td></td>
-					<td>{{ $company->CompanyName }}</td>
-					<td>{{ $company->URL }}</td>
+					<td>{{{ ++ $company }}}</td>
+					<td>{{ $companyInfo->CompanyName }}</td>
+					<td>{{ $companyInfo->URL }}</td>
 					<td style="width: 10%">
-                        <a href="#" class="btn btn-warning" onclick="javascript:showCompany({{ $company->id }})"><i class="fa fa-pencil-square-o"></i>Modify</a>
+                        <a href="#" class="btn btn-warning" onclick="javascript:showCompany({{ $companyInfo->id }})"><i class="fa fa-pencil-square-o"></i>Modify</a>
                     </td>
 					<td style="width: 10%">
-                        <a href="#" class="btn btn-danger" id="deleteCompany" onClick="deleteCompany({{ $company->id }});"><i class="fa fa-trash-o"></i> Delete</a>
+                        <a href="#" class="btn btn-danger" id="deleteCompany" onClick="deleteCompany({{ $companyInfo->id }});"><i class="fa fa-trash-o"></i> Delete</a>
                     </td>
 				</tr>
 				@endforeach
