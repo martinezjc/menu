@@ -257,9 +257,11 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$request->deal->ZipCode = 12345;
 		}
 
-		// if ($request->product->ProductBaseId == 13) {
-		// 	$request->deal->BeginningOdometer = 23999;
-		// }
+        if ($request->deal->Deal == 16093) {
+			$request->deal->InserviceDate = date('c');
+		} elseif ($request->deal->Deal == 16094) {
+			$request->deal->InserviceDate = date('c', strtotime("2012-11-13"."12:00:00"));;
+		}
 
 		if ($request->deal->BeginningOdometer < 1000) {
 			$request->deal->NewUsed = "N";
