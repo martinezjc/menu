@@ -1,4 +1,14 @@
-﻿function showCompany(id) {
+﻿$(document).ready( function() {
+  if(window.location.href.indexOf("companies") > -1) {
+       if ( $('#dealersitem').hasClass('x-active') ) 
+       {
+            $('#dealersitem').removeClass('x-active');
+            $('#companiesitem').addClass('x-active');
+       }
+  }
+});
+
+function showCompany(id) {
     $.ajax({
         type: "GET",
         url: "companies/retrieve",

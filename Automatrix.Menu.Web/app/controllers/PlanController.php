@@ -918,6 +918,16 @@ class PlanController extends BaseController
     public function show_products($id)
     {
         $currentUser = Session::get ( 'UserSessionInfo' );
+        
+        if (is_null($currentUser)) 
+        {
+            return Redirect::to('login');
+        } 
+        
+        if (!$currentUser->DealerId)
+        {
+            return Redirect::to('dealers');
+        }
 
         return \View::make('plan.products')
         ->with('currentUser', $currentUser)

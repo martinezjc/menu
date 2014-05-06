@@ -3,6 +3,13 @@ class DealerController extends BaseController
 {
 	public function index()
 	{
+    $currentUser = Session::get( 'UserSessionInfo' );
+
+    if ( is_null( $currentUser ) ) 
+    {
+            return Redirect::to('login');
+    } 
+
 		$dealers = DB::select( DB::raw( 'SELECT DealerId, DealerName FROM Dealer' ) );
 		
 		return View::make('dealer.index')
@@ -18,7 +25,8 @@ class DealerController extends BaseController
 	{
 		return View::make('dealer.edit' )
 					->with('dealer', new Dealer() )
-					->with('currentUser', Session::get ( 'UserSessionInfo' ));
+					->with('currentUser', Session::get ( 'UserSessionInfo' ))
+          ->with('title', 'New dealer');
 	}
 	
 	/**
@@ -27,6 +35,13 @@ class DealerController extends BaseController
 	 */
 	public function view($id)
 	{
+    $currentUser = Session::get( 'UserSessionInfo' );
+
+    if ( is_null( $currentUser ) ) 
+    {
+            return Redirect::to('login');
+    }
+    
 		$dealer = DB::table ( 'Dealer' )->where ( 'DealerId', '=', $id )->first ();
 		
 		return View::make('dealer.edit' )

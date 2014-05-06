@@ -25,12 +25,12 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach ($dealers as $dealer)
+			@foreach ($dealers as $dealer => $dealerInfo)
 				<tr>
-					<td></td>
-					<td>{{{ $dealer->DealerName }}}</td>
-					<td style="width:10%"><a class="btn btn-warning" href="{{action('DealerController@view', array('id' => $dealer->DealerId))}}"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
-					<td style="width:10%"><a href="#" class="btn btn-danger" onclick="deleteDealer({{ $dealer->DealerId }})"><i class="fa fa-trash-o"></i> Delete</a></td>
+					<td>{{{ ++ $dealer }}}</td>
+					<td>{{{ $dealerInfo->DealerName }}}</td>
+					<td style="width:10%"><a class="btn btn-warning" href="{{action('DealerController@view', array('id' => $dealerInfo->DealerId))}}"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
+					<td style="width:10%"><a href="#" class="btn btn-danger" onclick="deleteDealer({{ $dealerInfo->DealerId }})"><i class="fa fa-trash-o"></i> Delete</a></td>
 				</tr>
 			@endforeach
 			</tbody>

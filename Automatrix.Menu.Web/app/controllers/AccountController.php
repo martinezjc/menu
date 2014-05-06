@@ -6,6 +6,12 @@ class AccountController extends BaseController
     public function show($id)
     {
     	$currentUser = Session::get('UserSessionInfo');
+        
+        if ( is_null( $currentUser ) ) 
+        {
+            return Redirect::to('login');
+        }
+        
 		$dealers = DB::table('Dealer')->get();
 		$myAccount = 0;
 	    

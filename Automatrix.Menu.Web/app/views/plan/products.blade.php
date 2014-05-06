@@ -9,13 +9,10 @@
 @section('content')
 
 @if (!empty($currentUser->DealerId))
-  <a class="btn btn-success" href="new-product" id="addProduct"><i class="fa fa-plus"></i> Add Product</a>
-  <a class="btn btn-success" id="generalSettings" href="general-settings"><i class="fa fa-gears"></i> General Settings</a>
-@else
-    @if ($currentUser->Administrator == 1) 
-        <a class="btn btn-success" id="generalSettings" href="company-settings"><i class="fa fa-building-o"></i> Companies</a>
-        <a class="btn btn-success" id="generalSettings" href="dealer-settings"><i class="fa fa-angle-double-right"></i> Dealers</a>
-    @endif
+  @if ($currentUser->Administrator == 1)
+    <a class="btn btn-success" href="{{$baseUrl}}/dealers/{{ $currentUser->DealerId }}/products/add"><i class="fa fa-plus"></i> Add Product</a>
+  @endif
+  <a class="btn btn-success" id="generalSettings" href="{{action('DealerController@view', array('id' => $currentUser->DealerId))}}"><i class="fa fa-gears"></i> General Settings</a>
 @endif
 
 <div id="angulardiv" ng-app="app" ng-controller="TableCtrl">

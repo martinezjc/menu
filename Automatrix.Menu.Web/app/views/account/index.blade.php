@@ -26,22 +26,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($users as $user)
+				@foreach ($users as $user => $userInfo)
 				<tr>
-					<td></td>
-					<td>{{{ $user->FirstName }}}</td>
-					<td>{{{ $user->Username }}}</td>
+					<td>{{{ ++ $user }}}</td>
+					<td>{{{ $userInfo->FirstName }}}</td>
+					<td>{{{ $userInfo->Username }}}</td>
 					<td style="width: 10%"><a href="#" class="btn btn-warning"
-						onclick="showUser({{ $user->UserId }})"><i class="fa fa-pencil-square-o"></i>
+						onclick="showUser({{ $userInfo->UserId }})"><i class="fa fa-pencil-square-o"></i>
 							Modify</a></td> @if(!(empty($currentUser->DealerId)))
 					<td style="width: 10%"><a href="#" class="btn btn-danger"
 						id="deleteUser"
-						onClick="deleteUser({{ $user->UserId }}); return false;"><i
+						onClick="deleteUser({{ $userInfo->UserId }}); return false;"><i
 							class="fa fa-trash-o"></i> Delete</a></td> @else
 					@if(!(empty($DealerIdHidden)))
 					<td style="width: 10%"><a href="#" class="btn btn-danger"
 						id="deleteUser"
-						onClick="deleteUser({{ $user->UserId }});"><i
+						onClick="deleteUser({{ $userInfo->UserId }});"><i
 							class="fa fa-trash-o"></i> Delete</a></td> @endif @endif
 				</tr>
 				@endforeach

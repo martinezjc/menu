@@ -6,6 +6,11 @@ class ProductController extends BaseController
 	public function index($id)
 	{
 		$currentUser = Session::get ( 'UserSessionInfo' );
+
+        if ( is_null( $currentUser ) ) 
+        {
+            return Redirect::to('login');
+        }
 		
 		$products = DB::table('Products')
 							 ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
@@ -24,8 +29,6 @@ class ProductController extends BaseController
 							 		     'Products.SellingPrice',
 							 			 DB::raw('CAST(ISNULL(PlansProducts.ProductId, 0) AS BIT) AS Added')));
 
-        //$products = Products::paginate(5);
-		
 		return \View::make ( 'product.index' )
                         ->with('dealerId', $id)
                         ->with ( 'products', $products )
@@ -36,6 +39,12 @@ class ProductController extends BaseController
 	public function view($id, $productId)
 	{
 		$currentUser = Session::get ( 'UserSessionInfo' );
+        
+        if ( is_null( $currentUser ) ) 
+        {
+            return Redirect::to('login');
+        }
+
         $companies = DB::select(DB::raw("SELECT id, CompanyName FROM Company"));
         
         // TODO: Combine the second query and the fourth query seems like is the same filter.
@@ -159,6 +168,12 @@ class ProductController extends BaseController
     public function add($id)
     {
     	$currentUser = Session::get ( 'UserSessionInfo' );
+        
+        if ( is_null( $currentUser ) ) 
+        {
+            return Redirect::to('login');
+        }
+
     	$companies = DB::select(DB::raw("SELECT id, CompanyName FROM Company"));
         $products = DB::select(DB::raw("SELECT ProductBaseId, ProductName FROM ProductBase WHERE CompanyId = " . $companies[0]->id));
 
