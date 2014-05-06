@@ -139,7 +139,7 @@ class RoadVantageServiceProxy extends ServiceProxy
         $data->SaleDate = date('c');
         $data->FinancedAmount = $request->deal->FinancedAmount;//20000;
         $data->FinanceTerm = $request->deal->Term;
-        $data->InserviceDate = date('c');
+        $data->InserviceDate = $request->deal->InserviceDate; // changed
         $data->VehiclePurchaseDate = date('c');   
         $data->GIPIteration = false;
         $data->MonthlyPayment = 0;
@@ -169,7 +169,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 		$data->DealerNumber = $request->dealercode;
 		$data->ContractFormNumber = $request->productRates->Rate->PDFFormNo;
 		$data->SaleDate = date('c');
-		$data->InserviceDate = date("c", strtotime( '-1 days' ));
+		$data->InserviceDate = $request->deal->InserviceDate;//date("c", strtotime( '-1 days' ));
 		$data->VehiclePurchasePrice = $request->deal->SalesPrice;
 		$data->VehiclePurchaseDate= date('c');
 		$data->SaleOdometer = round($request->deal->BeginningOdometer);
@@ -258,7 +258,7 @@ class RoadVantageServiceProxy extends ServiceProxy
 		}
 
         if ($request->deal->Deal == 16093) {
-			$request->deal->InserviceDate = date('c');
+			$request->deal->InserviceDate = date("c", strtotime( '-1 days' ));
 		} elseif ($request->deal->Deal == 16094) {
 			$request->deal->InserviceDate = date('c', strtotime("2012-11-13"."12:00:00"));;
 		}
