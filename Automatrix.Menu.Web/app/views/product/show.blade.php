@@ -20,8 +20,8 @@
 		<tr>
 			<td>{{{ $Product->ProductName }}}</td>
 					<td>{{{ $Product->DisplayName }}}</td>
-					<td>${{{ $Product->Cost }}}</td>
-					<td>${{{ $Product->SellingPrice }}}</td>
+					<td>${{{ number_format($Product->Cost, 2}}}</td>
+					<td>${{{ number_format($Product->SellingPrice, 2) }}}</td>
                     <td>{{ link_to_route('Products.edit', 'Edit', array($Product->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('Products.destroy', $Product->id))) }}

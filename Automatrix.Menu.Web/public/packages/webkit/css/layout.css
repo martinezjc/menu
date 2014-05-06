@@ -82,4 +82,24 @@ html, body {
     }
 }
 
-#DealerLogo {float:right; padding-top:8px; padding-right: 135px;}
+#DealerLogo
+{
+    float:right; padding-top:8px; padding-right: 135px;
+}
+
+#BrochureImage, #BrochureImageModified 
+{
+    float:right; margin-right: 16%; margin-top: 8px;
+}
+
+.uploadify-button 
+{
+        background-color: transparent;
+        border: none;
+        padding: 0;
+}
+
+.uploadify:hover .uploadify-button 
+{
+        background-color: transparent;
+}

@@ -7,7 +7,8 @@ class DealerController extends BaseController
 		
 		return View::make('dealer.index')
 					->with ('dealers', $dealers )
-					->with ('currentUser', Session::get ( 'UserSessionInfo' ) );
+					->with ('currentUser', Session::get ( 'UserSessionInfo' ) )
+          ->with('title', 'Dealers');
 	}
 
     /**
@@ -30,7 +31,8 @@ class DealerController extends BaseController
 		
 		return View::make('dealer.edit' )
 					->with('dealer', $dealer)
-					->with('currentUser', Session::get ( 'UserSessionInfo' ));
+					->with('currentUser', Session::get ( 'UserSessionInfo' ))
+          ->with('title', 'Edit dealer ' . $dealer->DealerName);
 	}
 	
 	public function save()
@@ -224,7 +226,7 @@ class DealerController extends BaseController
 		return $result;
 	}
 	
-	public function displayUsers($id)
+	/* public function displayUsers($id)
 	{
 		$currentUser = Session::get('UserSessionInfo');
 		$dealers = DB::table('Dealer')->get();
@@ -237,36 +239,129 @@ class DealerController extends BaseController
         $users = DB::select( DB::raw( 'SELECT UserId, Username, FirstName FROM UsersTable' ) );
 		}
 		
-		return View::make('account.index')->with('Dealers', $dealers)->with('users', $users)->with('MyAccount', $myAccount)->with('DealerIdHidden',$id)->with('currentUser', $currentUser);
+		return View::make('account.index')->with('Dealers', $dealers)->with('users', $users)->with('MyAccount', $myAccount)->with('DealerIdHidden',$id)->with('currentUser', $currentUser)->with('title', 'Users');
 	}
 
 	public function getUserData()
     {
-    	$UserId = Input::get('UserId');
-    	$Data = array();
+    	$UserId = Input::get('id');
+      $jsonFormat = Input::get('jsonFormat');
+      $Data = array();
 
-    	$UserInfo = DB::table('UsersTable')
-    	            ->where('UserId', '=', $UserId)
-    	            ->first();
+      $UserInfo = DB::table('UsersTable')
+                  ->where('UserId', '=', $UserId)
+                  ->first();
 
-    	if ( $UserInfo ){
-    		if ( is_null($UserInfo->DealerId) ) {
-    			$DealerId = '';
-    		} else {
-    			$DealerId = $UserInfo->DealerId;
-    		}
+      if ( $UserInfo ){
+        if ( is_null($UserInfo->DealerId) ) {
+          $DealerId = '';
+        } else {
+          $DealerId = $UserInfo->DealerId;
+        }
             $Data[] = array('UserId' => $UserId,
-            	            'FirstName' => $UserInfo->FirstName,
+                          'FirstName' => $UserInfo->FirstName,
                             'Username' => $UserInfo->Username,
                             'Password' => $UserInfo->Password,
                             'DealerId' => $DealerId,
                             'Administrator' => $UserInfo->Administrator,
                             'LastName' => $UserInfo->LastName,
                             'Email' => $UserInfo->Email);
+      
+          if ($jsonFormat == true) 
+          {
+              return json_encode($Data);
+          } else { 
+              return View::make('profile')->with('Users', $UserInfo);
 
-            return json_encode($Data);
-    	}
+          }
+      }
     }
+
+    public function insert_userInfo()
+    {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        $FirstName = Input::get('FirstName');
+        $Username = Input::get('Username');
+        $Password = Input::get('Password');
+        $LastName = Input::get('LastName');
+        $Email = Input::get('Email');
+        $Administrator = null;
+
+        if ( is_null( $UserSessionInfo->DealerId ) ) 
+        {
+            $DealerId = Input::get('DealerId');
+            $Administrator = Input::get('Administrator');
+        } 
+        else 
+        {
+            $DealerId = $UserSessionInfo->DealerId;
+            $Administrator = False;
+        }
+        
+        $Result = DB::table('UsersTable')
+                  ->insertGetId( array( 'FirstName' => $FirstName,
+                                   'Username' => $Username,
+                                   'Password' => Sha1($Password),
+                                   'DealerId' => $DealerId,
+                                   'Administrator' => $Administrator,
+                                   'LastName' => $LastName,
+                                   'Email' => $Email ));
+        
+        if ( $Result ){
+          return 'true';
+        } else {
+          return 'false';
+        }
+    }
+
+    public function update_userInfo()
+    {
+        $UserSessionInfo = Session::get('UserSessionInfo');
+        $UserId = Input::get('UserId');
+        $FirstName = Input::get('FirstName');
+        $Username = Input::get('Username');
+        $Password = Input::get('Password');
+        $PasswordChange = Input::get('PasswordChange');
+        $LastName = Input::get('LastName');
+        $Email = Input::get('Email');
+        $EditPassword = '';
+      
+        if ( is_null( $UserSessionInfo->DealerId ) ) 
+        {
+            $DealerId = Input::get('DealerId');
+            $Administrator = Input::get('Administrator');
+        } 
+        else 
+        {
+            $DealerId = $UserSessionInfo->DealerId;
+            $Administrator = False;
+        }
+
+        $PasswordChange == '1' ? $EditPassword = Sha1($Password) : $EditPassword = $Password ;
+        
+        $Result = DB::table('UsersTable')
+                  ->where( 'UserId', '=', $UserId)
+                  ->update( array( 'FirstName' => $FirstName,
+                                   'LastName' => $LastName,
+                                   'Email' => $Email,
+                                   'Username' => $Username,
+                                   'Password' => $EditPassword,
+                                   'DealerId' => $DealerId,
+                                   'Administrator' => $Administrator ));
+        
+        return !empty( $Result ) ? 'true' : 'false' ;
+    }
+
+    public function delete_userInfo()
+    {
+      $UserId = Input::get('id');
+        
+        $Result = DB::table('UsersTable')
+                  ->where('UserId', '=', $UserId)
+                  ->delete();
+
+        return !empty( $Result ) ? 'true' : 'false' ;
+    } */
 
     /*-----------------------------------------------------------------------------------------------------------*/
 	
@@ -279,6 +374,8 @@ class DealerController extends BaseController
 							 ->join('Company', 'ProductBase.CompanyId', '=', 'Company.id')
 							 ->leftjoin('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
 							 ->where('Products.DealerId', '=', $id)
+               ->orderBy('Added', 'desc')
+               ->orderBy('PlansProducts.Order', 'asc')
 							 ->get(array('Products.id as ProductId',
 							 			 'Products.DealerId', 
 							 			 'Company.CompanyName',
@@ -294,7 +391,9 @@ class DealerController extends BaseController
 		
 		return \View::make ( 'product.index' )
                         ->with('dealerId', $id)
-                        ->with ( 'products', $products );
+                        ->with ( 'products', $products )
+                        ->with( 'currentUser', $currentUser )
+                        ->with( 'title', 'Products' );
 	}
 	
 	public function displayProduct($id, $productId)
@@ -340,12 +439,6 @@ class DealerController extends BaseController
         $Dealers = DB::table('Dealer')->get();
         $MyAccount = 0;
 
-
-        /*if ( is_null($UserSessionInfo->DealerId) ) {
-            $Users = DB::table('UsersTable')->get();
-        } else {*/
-        	
-        //}
         if (empty($UserSessionInfo->DealerId)) {
             if (empty($DealerId)) {
                 $Users = DB::table('UsersTable')
@@ -367,124 +460,7 @@ class DealerController extends BaseController
         return View::make('addUser')->with('Dealers', $Dealers)->with('Users', $Users)->with('MyAccount', $MyAccount)->with('DealerIdHidden',$DealerId);
     }
 
-    public function insert_userInfo()
-    {
-    	  $UserSessionInfo = Session::get('UserSessionInfo');
-        $FirstName = Input::get('FirstName');
-        $Username = Input::get('Username');
-        $Password = Input::get('Password');
-        $LastName = Input::get('LastName');
-        $Email = Input::get('Email');
-        $Administrator = null;
-
-        if ( is_null( $UserSessionInfo->DealerId ) ) 
-        {
-            $DealerId = Input::get('DealerId');
-            $Administrator = Input::get('Administrator');
-        } 
-        else 
-        {
-            $DealerId = $UserSessionInfo->DealerId;
-            $Administrator = False;
-        }
-        
-        $Result = DB::table('UsersTable')
-                  ->insertGetId( array( 'FirstName' => $FirstName,
-                                   'Username' => $Username,
-                                   'Password' => Sha1($Password),
-                                   'DealerId' => $DealerId,
-                                   'Administrator' => $Administrator,
-                                   'LastName' => $LastName,
-                                   'Email' => $Email ));
-        
-        if ( $Result ){
-        	return '1';
-        } else {
-        	return '0';
-        }
-    }
-
-    public function get_userInfo()
-    {
-    	$UserId = Input::get('UserId');
-      $jsonFormat = Input::get('jsonFormat');
-    	$Data = array();
-
-    	$UserInfo = DB::table('UsersTable')
-    	            ->where('UserId', '=', $UserId)
-    	            ->first();
-
-    	if ( $UserInfo ){
-    		if ( is_null($UserInfo->DealerId) ) {
-    			$DealerId = '';
-    		} else {
-    			$DealerId = $UserInfo->DealerId;
-    		}
-            $Data[] = array('UserId' => $UserId,
-            	            'FirstName' => $UserInfo->FirstName,
-                            'Username' => $UserInfo->Username,
-                            'Password' => $UserInfo->Password,
-                            'DealerId' => $DealerId,
-                            'Administrator' => $UserInfo->Administrator,
-                            'LastName' => $UserInfo->LastName,
-                            'Email' => $UserInfo->Email);
-      
-          if ($jsonFormat == true) 
-          {
-              return json_encode($Data);
-          } else { 
-              return View::make('profile')->with('Users', $UserInfo);
-
-    	    }
-      }
-    }
-
-    public function update_userInfo()
-    {
-        $UserSessionInfo = Session::get('UserSessionInfo');
-        $UserId = Input::get('UserId');
-        $FirstName = Input::get('FirstName');
-        $Username = Input::get('Username');
-        $Password = Input::get('Password');
-        $PasswordChange = Input::get('PasswordChange');
-        $LastName = Input::get('LastName');
-        $Email = Input::get('Email');
-        $EditPassword = '';
-      
-        if ( is_null( $UserSessionInfo->DealerId ) ) 
-        {
-            $DealerId = Input::get('DealerId');
-            $Administrator = Input::get('Administrator');
-        } 
-        else 
-        {
-            $DealerId = $UserSessionInfo->DealerId;
-            $Administrator = False;
-        }
-
-        $PasswordChange == '1' ? $EditPassword = Sha1($Password) : $EditPassword = $Password ;
-        
-        $Result = DB::table('UsersTable')
-                  ->where( 'UserId', '=', $UserId)
-                  ->update( array( 'FirstName' => $FirstName,
-                                   'LastName' => $LastName,
-                                   'Email' => $Email,
-                                   'Username' => $Username,
-                                   'Password' => $EditPassword,
-                                   'DealerId' => $DealerId,
-                                   'Administrator' => $Administrator ));
-        
-        return !empty( $Result ) ? '1' : '0' ;
-    }
-
-    public function delete_userInfo()
-    {
-    	$UserId = Input::get('UserId');
-        
-        $Result = DB::table('UsersTable')
-                  ->where('UserId', '=', $UserId)
-                  ->delete();
-    }
+    
 
     public function get_TestDealerCode()
     {

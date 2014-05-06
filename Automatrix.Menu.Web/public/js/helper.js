@@ -111,6 +111,35 @@ function validateURLField(id, message)
     }
 }
 
+/*
+* Disables the field based on the event click for the element in the first argument function
+*/
+function onCheckToggle(checkId, fieldId)
+{
+    $(checkId).click(function () {
+        if ($(this).prop("checked")) {
+            $(fieldId).prop("disabled", false);
+        } else {
+            $(fieldId).prop("disabled", true);
+        }
+    });
+}
+
+function ValidateExpression (text, type) {
+    text = text.replace(',','')
+    var res;
+    var NumberOnly = new RegExp('^[0-9]');
+    var NumberFloat = new RegExp("^-?(?:[0-9]+|[0-9]*\.[0-9]+)$");
+    if (type == 'Number') {
+        res = NumberOnly.test(text);    
+    };
+    if (type == 'Money') {
+        res = NumberFloat.test(text);
+    };
+
+    return res;
+}
+
 function showErrorMessage(field, message) 
 {
     field.focus();
@@ -158,4 +187,22 @@ function clearInputs(elements)
             case 'checkbox': $('input[type="checkbox"]').prop('checked', false); break;
         }
     }
+}
+
+function StartToastMessage()
+{
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "positionClass": "toast-center-screen",
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    } 
 }

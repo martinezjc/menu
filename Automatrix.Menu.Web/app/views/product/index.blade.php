@@ -25,16 +25,27 @@
 			<td>{{ $product->CompanyName }}</td>
 			<td>{{ $product->ProductName }}</td>
 			<td>{{ $product->DisplayName }}</td>
-			<td>${{ $product->Cost }}</td>
-			<td>${{ $product->SellingPrice }}</td>
-			<td>{{ link_to_route('products.edit', 'Modify', array($product->ProductId), array('class' => 'btn btn-warning')) }}</td>
+			<td>${{ number_format($product->Cost, 2, '.', ',') }}</td>
+			<td>${{ number_format($product->SellingPrice, 2, '.', ',') }}</td>
+			@if (!$currentUser->DealerId)
 			<td>
-				{{ Form::open(array('method' => 'DELETE', 'route' => array('products.destroy', $product->ProductId))) }} 
-				{{Form::submit('Delete', array('class' => 'btn btn-danger')) }} 
-				{{Form::close() }}
+			   <a class="btn btn-warning" href="{{action('ProductController@view', array('id' => $product->DealerId, 'productId' => $product->ProductId))}}"><i class="fa fa-pencil-square-o"></i> Modify</a>
 			</td>
+			<td>
+			   <a class="btn btn-danger" href="{{URL::action('ProductController@delete', array('id' => $product->DealerId, 'productId' => $product->ProductId))}}"> Delete</a> 
+			</td>
+			@else
+			<td>
+			  <a class="btn btn-warning" href="{{action('ProductController@view', array('id' => $currentUser->DealerId, 'productId' => $product->ProductId))}}"><i class="fa fa-pencil-square-o"></i> Modify</a>
+			</td>
+			<td>
+			  <a class="btn btn-danger" href="{{URL::action('ProductController@delete', array('id' => $currentUser->DealerId, 'productId' => $product->ProductId))}}"> Delete</a> 
+			</td>
+			@endif
 		</tr>
 		@endforeach 
 	</tbody>
 </table>
+
+</div>
 @stop

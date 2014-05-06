@@ -16,12 +16,6 @@ class PlanController extends BaseController
      */
     protected $layout = 'layouts.plan';
 
-    public function __construct(Product $Product)
-    {
-        $this->Product = $Product;
-    }
-
-	
 	public function index()
 	{
 
@@ -902,4 +896,51 @@ class PlanController extends BaseController
 					            ->with('FailureProductsRates', $FailureProductsRates);
 	}
 
+    public function show_products($id)
+    {
+        $currentUser = Session::get ( 'UserSessionInfo' );
+
+        return \View::make('plan.products')
+        ->with('currentUser', $currentUser)
+        ->with('title', 'Products Plan');
+    }
+
+    public function get_table()
+    {
+        $currentUser = Session::get ( 'UserSessionInfo' );
+
+        $products = DB::table('Products')
+                             ->join('ProductBase', 'Products.ProductBaseId', '=', 'ProductBase.ProductBaseId')
+                             ->join('Company', 'ProductBase.CompanyId', '=', 'Company.id')
+                             ->leftjoin('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
+                             ->where('Products.DealerId', '=', $currentUser->DealerId)
+                             ->orderBy('Added', 'desc')
+                             ->orderBy('PlansProducts.Order', 'asc')
+                             ->get(array('Products.id as ProductId',
+                                         'Products.DealerId', 
+                                         'Products.Bullets',
+                                         'Company.CompanyName AS CompanyName',
+                                         'Products.ProductDescription',
+                                         'ProductBase.ProductName', 
+                                         'Products.DisplayName',
+                                         'Products.Cost',
+                                         'Products.SellingPrice',
+                                         'Products.UsingWebService',
+                                         DB::raw('CAST(ISNULL(PlansProducts.ProductId, 0) AS BIT) AS Added')));
+
+        return json_encode($products);
+    }
+
+    public function get_included()
+    {
+        $currentUser = Session::get ( 'UserSessionInfo' );
+
+        $products = DB::table('Products')->join('PlansProducts', 'Products.id', '=', 'PlansProducts.ProductId')
+            ->where('PlansProducts.DealerId', '=', $currentUser->DealerId)
+            ->orderBy('PlansProducts.Order', 'asc')
+            ->get();
+
+        return json_encode($products);
+    }
+ 
 }
