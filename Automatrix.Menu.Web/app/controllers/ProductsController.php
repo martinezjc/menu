@@ -508,7 +508,7 @@ class ProductsController extends BaseController
                     {
                         //$message = $this->GetReasonFailWebService();
                         array_push($arrayProductsFailure, array('ProductId'=> $product->ProductId, 'Message' => $this->GetReasonFailWebService( $product->ProductBaseId, $product->DisplayName, $deal ) ));
-                        //echo $e."<br><br>";
+                        //echo $product->DisplayName.'-->'.$e."<br><br>";
                         //die();
                         $FailWebservice->flag = 1;
                     } // end catch
@@ -3313,6 +3313,11 @@ class ProductsController extends BaseController
             # US Dent
             if ($productBaseId == 5) {
                 return $name.' could not allowed this vehicle make and model or vehicle year.';
+            }
+
+            # RoadVantage Tire and Wheel
+            if ($deal->BeginningOdometer > 23999 && $productBaseId == 13) {
+                return  $name.' not allowed vehicles with more than 23999 miles.';
             }
         }
 
