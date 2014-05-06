@@ -17,6 +17,18 @@
    	{{ HTML::style('packages/webkit/css/navigation.css') }}
     {{ HTML::style('css/pricingPlansStyle.css'); }}
     {{ HTML::style('css/styleApp.css'); }}
+
+    <style>
+    .navbar-brand  {
+        margin: 5px 0px 0px 10px;
+        background: url({{$baseUrl}}/uploads/dealer/{{ $currentUser->DealerLogo }}) 0 0 no-repeat;        
+        background-size: 300px 50px;
+        background-position:center; 
+        display: block;
+        height: 50px;
+        width: 300px;
+    }
+    </style>
     
     <!-- JQuery library -->
    	{{ HTML::script('js/jquery.min.js'); }}
@@ -30,9 +42,11 @@
 <body class="x-flexbox-v">
     <header id="header">
     	<div class="x-brand">
-    	<a href="#">
-    		{{HTML::image('images/logo.png')}}
-    	</a>
+          @if ($currentUser->DealerLogo != null)
+            <a class="navbar-brand" alt="{{ $currentUser->DealerName }}" href="home"></a>
+          @else
+            <a class="navbar-brand-noImage" alt="{{ $currentUser->DealerName }}" href="home"> Your logo here!</a>
+          @endif
     	</div>
     	<!-- <div class="pull-right">
     		<a href="close-session"><i class="fa fa-sign-out"></i> Logout</a></p>

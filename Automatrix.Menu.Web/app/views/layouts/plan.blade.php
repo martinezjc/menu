@@ -34,7 +34,7 @@ if (is_null($UserSessionInfo->DealerId)) {
     <style type="text/css">
         .navbar-brand  {
             margin: 5px 0px 0px 10px;
-            background: url(uploads/dealer/{{ $UserSessionInfo->DealerLogo }}) 0 0 no-repeat;        
+            background: url({{$baseUrl}}/uploads/dealer/{{ $UserSessionInfo->DealerLogo }}) 0 0 no-repeat;        
             background-size: 300px 50px;
             background-position:center; 
             display: block;
