@@ -135,7 +135,7 @@ class RoadVantageServiceProxy extends ServiceProxy
         $data->VIN = $request->deal->VIN;//"3FA6P0H72DR262329";
         $data->VehiclePurchasePrice = $request->deal->SalesPrice;
         $data->VehicleOdometer = round($request->deal->BeginningOdometer);
-        $data->NewUsed = "N";
+        $data->NewUsed = $request->deal->NewUsed;//"U";
         $data->SaleDate = date('c');
         $data->FinancedAmount = $request->deal->FinancedAmount;//20000;
         $data->FinanceTerm = $request->deal->Term;
@@ -154,7 +154,7 @@ class RoadVantageServiceProxy extends ServiceProxy
         $data->PowerTrainManufWarrMonths = 0;
         $data->PowerTrainManufWarrMiles = 0;   
         $data->FinanceApr = $request->deal->APR;  
-        $data->MSRP = 0;  
+        $data->MSRP = $request->deal->SalesPrice;  
 
         return $data;
 	}
@@ -260,6 +260,12 @@ class RoadVantageServiceProxy extends ServiceProxy
 		// if ($request->product->ProductBaseId == 13) {
 		// 	$request->deal->BeginningOdometer = 23999;
 		// }
+
+		if ($request->deal->BeginningOdometer < 1000) {
+			$request->deal->NewUsed = "N";
+		}else{
+			$request->deal->NewUsed = "U";
+		}
 
 		return $request;
     }
