@@ -72,6 +72,8 @@ function getAcceptedProductsAmount() {
             total += getFloat($(this).val());
         };
     });
+
+    total = total * 1.0035;
 	
 	return total;
 }
@@ -505,7 +507,7 @@ $(".PdfContract").click(
 
 			var interval = $(GlobalSectionProduct).find( '.ProductInterval' ).attr('name');
 
-           
+           var baseUrl = window.location.host;
 			
 			if (OrderNumber.length == 0) {
 				OrderNumber = 0;
@@ -517,7 +519,7 @@ $(".PdfContract").click(
 				if (Mileage == 0) {
 					$(this).attr(
 							"href",
-							'CreatePDF?ProductId=' + Id + '&type=' + Type
+							'contract?ProductId=' + Id + '&type=' + Type
 									+ '&term=' + Term + '&deductible='
 									+ Deductible + '&key=' + OrderNumber
 									+ '&price=' + Price + '&surcharges='
@@ -525,7 +527,7 @@ $(".PdfContract").click(
 				} else {
 					$(this).attr(
 							"href",
-							'CreatePDF?ProductId=' + Id + '&type=' + Type
+							'contract?ProductId=' + Id + '&type=' + Type
 									+ '&term=' + Term + '&deductible='
 									+ Deductible + '&key=' + OrderNumber
 									+ '&mileage=' + Mileage + '&price=' + Price
@@ -539,7 +541,7 @@ $(".PdfContract").click(
 				{
 					$(this).attr(
 							"href",
-							'CreatePDF?ProductId=' + Id + '&type=' + Type
+							'contract?ProductId=' + Id + '&type=' + Type
 									+ '&term=' + Term 
 									+ '&deductible=' + Deductible 
 									+ '&financedAmount=' + financedAmount
@@ -555,7 +557,7 @@ $(".PdfContract").click(
 					$(this)
 							.attr(
 									"href",
-									'CreatePDF?ProductId=' + Id + '&type='
+									'contract?ProductId=' + Id + '&type='
 											+ Type + '&term=' + Term
 											+ '&deductible=' + Deductible
 											+ '&key=' + OrderNumber

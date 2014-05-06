@@ -127,6 +127,7 @@ class LoginController extends BaseController {
         Session::forget('UserSessionInfo');
 	    Session::forget('WebServiceInfo');
         Session::forget('WebServiceInfoFinance');
+        Session::forget('JsonValues');
         return Redirect::to('login');
     }
 }

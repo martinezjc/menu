@@ -127,6 +127,8 @@ function setPlanAmounts(plan, financedAmount, term, apr, term2, apr2)
         }
     }
 
+    sum = sum * 1.0035;
+
     var totalAmount = financedAmount + sum;
 
     // First term and apr

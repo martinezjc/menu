@@ -111,20 +111,44 @@ function validateURLField(id, message)
     }
 }
 
+/*
+* Disables the field based on the event click for the element in the first argument function
+*/
+function onCheckToggle(checkId, fieldId)
+{
+    $(checkId).click(function () {
+        if ($(this).prop("checked")) {
+            $(fieldId).prop("disabled", false);
+        } else {
+            $(fieldId).prop("disabled", true);
+        }
+    });
+}
+
+function ValidateExpression (text, type) {
+    text = text.replace(',','')
+    var res;
+    var NumberOnly = new RegExp('^[0-9]');
+    var NumberFloat = new RegExp("^-?(?:[0-9]+|[0-9]*\.[0-9]+)$");
+    if (type == 'Number') {
+        res = NumberOnly.test(text);    
+    };
+    if (type == 'Money') {
+        res = NumberFloat.test(text);
+    };
+
+    return res;
+}
+
 function showErrorMessage(field, message) 
 {
     field.focus();
     toastr.error(message + '.', "Message");
 }
 
-function showSuccessMessage(message, action, url) 
+function showSuccessMessage(message) 
 {
     toastr.success(message + '.', "Message");
-
-    switch(action) 
-    {
-        case 'redirect': window.location.href = url; break;
-    }  
 }
 
 /* General AJAX Builder */
@@ -145,4 +169,40 @@ function setErrorClass(containerClass, element, message)
 {
     $('#'+containerClass).addClass('has-error');
     showErrorMessage(element, message);
+}
+
+function clearInputs(elements)
+{
+    alert(elements);
+    var elementsArray = elements.split(',');
+    var i;
+
+    for (i = 0; i < elementsArray.length; i++ )
+    {
+        switch(elementsArray[i])
+        {
+            case 'text': alert('text'); $('input[type="text"]').val(''); break;
+            case 'select': $('select').prop('selectedIndex', 0); break;
+            case 'textarea': $('textarea').val(''); break;
+            case 'checkbox': $('input[type="checkbox"]').prop('checked', false); break;
+        }
+    }
+}
+
+function StartToastMessage()
+{
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "positionClass": "toast-center-screen",
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    } 
 }

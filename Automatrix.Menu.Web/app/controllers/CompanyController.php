@@ -36,9 +36,7 @@ class CompanyController extends BaseController
 	
 		$data [] = array (
 				'CompanyName' => $companyInfo->CompanyName,
-				'URL' => $companyInfo->URL,
-				'Username' => $companyInfo->Username,
-				'Password' => $companyInfo->Password
+				'URL' => $companyInfo->URL
 		);
 	
 		return json_encode ( $data );

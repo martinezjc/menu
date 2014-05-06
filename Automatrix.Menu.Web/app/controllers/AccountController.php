@@ -3,7 +3,23 @@ use Illuminate\View\View;
 
 class AccountController extends BaseController 
 {
-	public function retrieve($id = null)
+    public function show($id)
+    {
+    	$currentUser = Session::get('UserSessionInfo');
+		$dealers = DB::table('Dealer')->get();
+		$myAccount = 0;
+	    
+	    if ($currentUser->DealerId)
+	    {
+		    $users = DB::select( DB::raw( "SELECT UserId, Username, FirstName FROM UsersTable WHERE Username <> 'admin' " ) );
+	    } else {
+            $users = DB::select( DB::raw( 'SELECT UserId, Username, FirstName FROM UsersTable ' ) );
+	    }
+		
+		return \View::make('account.index')->with('Dealers', $dealers)->with('users', $users)->with('MyAccount', $myAccount)->with('DealerIdHidden',$id)->with('currentUser', $currentUser)->with('title', 'Users');
+    }
+
+	public function retrieve()
 	{
 		$id = Input::get('id');
 		$data = array();
@@ -72,7 +88,7 @@ class AccountController extends BaseController
 		$EditPassword = '';
 	
 		if ( is_null($UserSessionInfo->DealerId) ) {
-			$DealerId = Input::get('DealerId');
+			$DealerId = NULL;
 			$Administrator = Input::get('Administrator');
 		} else {
 			$DealerId = $UserSessionInfo->DealerId;
@@ -102,12 +118,18 @@ class AccountController extends BaseController
 		}
 	}
 	
-	public function delete($id = null)
+	public function delete()
 	{
 		$userId = Input::get('id');
 	
 		$Result = DB::table('UsersTable')
 		->where('UserId', '=', $userId)
 		->delete();
+
+		if ( $Result ){
+			return 'true';
+		} else {
+			return 'false';
+		}
 	}
 }

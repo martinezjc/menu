@@ -341,12 +341,12 @@
         </deductibles>
         <types>
         	<type>
-        		<text>Tire and Wheel W Rental - Combo form</text>
-			    <value>Tire and Wheel W Rental - Combo form</value>
+        		<text>Tire And Wheel With Rental - Combo form</text>
+			    <value>Tire And Wheel With Rental - Combo form</value>
         	</type>
         	<type>
-        		<text>Tire and Wheel - Combo form</text>
-			    <value>Tire and Wheel - Combo form</value>
+        		<text>Tire And Wheel - Combo form</text>
+			    <value>Tire And Wheel - Combo form</value>
         	</type>
         	<type>
         		<text>Tire - Combo form</text>
@@ -481,10 +481,6 @@
 		</terms>
         <deductibles>
         	<deductible>
-        		<text>$0</text>
-			    <value>0</value>
-        	</deductible>
-        	<deductible>
         		<text>$50</text>
 			    <value>50</value>
         	</deductible>
@@ -536,7 +532,7 @@
         	</type>
         </types>
 	</ProductBase>
-	<ProductBase Id="13"><!-- Tire and Wheel -->
+	<ProductBase Id="13"><!-- Tire And Wheel -->
 		<terms>
 			<term>
 			    <text>12</text>

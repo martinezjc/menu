@@ -1,4 +1,53 @@
-var app=angular.module('app',[]).controller('Ctrl',function($scope) {
+var app = angular.module('app', []);
+
+app.config( function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('<%');
+    $interpolateProvider.endSymbol('%>');
+});
+
+function TableCtrl($http, $scope)
+{
+    $scope.getTable = function() 
+    {
+        $http.get(currentUrl + '/plans/products/get').success(function(data){
+            $scope.products = data;
+        });
+    }
+    
+    $scope.getIncluded = function() 
+    {
+        $http.get(currentUrl + '/plans/products/included').success(function(data){
+            $scope.productsPlans = data;
+        });
+    }
+
+    $scope.getTable();
+
+    if ($('#SortableTable').length) {
+        $scope.getIncluded();
+    }
+}
+
+app.filter('split', function() {
+    return function(input, delimiter) {
+        var delimiter = delimiter || ',';
+        var array = [];
+        var arrayNoEmpty = []; 
+        
+        array = input.split(delimiter);
+     
+        for (i = 0; i <= array.length; i++)
+        {
+            if (array[i])
+            {
+                arrayNoEmpty[i] = array[i]; 
+            } 
+        } 
+        return arrayNoEmpty;
+    } 
+  });
+
+app.controller('Ctrl',function($scope) {
   $scope.val = 0.00;
   $scope.val2 = 0.00;
   

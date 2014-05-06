@@ -18,6 +18,19 @@
 
 // Old navigation
 Route::get('/', array('uses' => 'ProductsController@get_ShowProductsViews'));
+
+// Plan routes
+Route::get('home2', 'PlanController@index');
+Route::get('plans/home', 'PlanController@index');
+Route::get('/dealers/{id}/plan', 'PlanController@show_products');
+Route::get('plans/products/get', 'PlanController@get_table');
+Route::get('plans/products/included', 'PlanController@get_included');
+Route::any('disclosure2', 'PlanController@disclosure');
+//Route::get('plans/contract', 'ProductsController@CreatePDFForms');
+
+// Contract Routes
+Route::get('contract2', 'ContractController@index');
+
 // Dealer routes
 
 Route::get('dealers', 'DealerController@index');
@@ -25,25 +38,35 @@ Route::get('dealers/add', 'DealerController@add');
 Route::get('dealers/save', 'DealerController@save');
 Route::get('dealers/{id}/edit', 'DealerController@view');
 Route::get('dealers/{id}/delete', 'DealerController@delete');
-Route::get('dealers/{id}/users', 'DealerController@displayUsers');
-Route::get('dealers/{id}/getUserData', array('uses' => 'DealerController@getUserData'));
 
-Route::get('dealers/{id}/updateUser', array('uses' => 'DealerController@update_userInfo'));
-Route::get('dealers/{id}/insertUser', array('uses' => 'DealerController@insert_userInfo'));
 
-Route::get('dealers/{id}/products', 'DealerController@displayProducts');
+// Route::get('dealers/{id}/getUserData', array('uses' => 'DealerController@getUserData'));
+// Route::get('dealers/{id}/updateUser', array('uses' => 'DealerController@update_userInfo'));
+// Route::get('dealers/{id}/insertUser', array('uses' => 'DealerController@insert_userInfo'));
+// Route::get('dealers/{id}/deleteUser', array('uses' => 'DealerController@delete_userInfo'));
+
+Route::get('dealers/{id}/users', 'AccountController@show');
+Route::get('dealers/{id}/getUserData', array('uses' => 'AccountController@retrieve'));
+Route::get('dealers/{id}/updateUser', array('uses' => 'AccountController@update'));
+Route::get('dealers/{id}/insertUser', array('uses' => 'AccountController@create'));
+Route::get('dealers/{id}/deleteUser', array('uses' => 'AccountController@delete'));
+
+Route::get('dealers/{id}/products', 'ProductController@index');
 Route::get('dealers/{id}/products/add', 'ProductController@add');
-Route::get('dealers/{id}/products/{productId}/edit', 'DealerController@displayProduct');
+Route::get('dealers/{id}/products/create', 'ProductController@create');
+Route::get('dealers/{id}/products/{productId}/update', 'ProductController@update');
+Route::get('dealers/{id}/products/{productId}/edit', 'ProductController@view');
+Route::get('dealers/{id}/products/{productId}/delete', 'ProductController@delete');
 
 // Product routes
-Route::get('products/{id}/edit', 'ProductController@view');
+//Route::get('products/{id}/edit', 'ProductController@view');
 
 // Account routes
 
-Route::get('accounts/create', 'AccountController@create');
-Route::get('accounts/update', 'AccountController@update');
-Route::get('accounts/retrieve', 'AccountController@retrieve');
-Route::get('accounts/delete', 'AccountController@delete');
+// Route::get('accounts/create', 'AccountController@create');
+// Route::get('accounts/update', 'AccountController@update');
+// Route::get('accounts/retrieve', 'AccountController@retrieve');
+// Route::get('accounts/delete', 'AccountController@delete');
 
 // Company routes
 Route::get('companies', 'CompanyController@index');
@@ -182,7 +205,7 @@ Route::get('update-settingcode', array('uses' => 'DealerController@update_settin
 
 Route::get('delete-settingcode', array('uses' => 'DealerController@delete_settingCode'));
 
-Route::get('CreatePDF', array('uses' => 'ProductsController@CreatePDFForms'));
+Route::get('contract', array('uses' => 'ProductsController@CreatePDFForms'));
 
 Route::get('SavetoDMS', array('uses' => 'ProductsController@SavetoDMS'));
 

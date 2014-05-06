@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@section("scripts")
+    {{ HTML::script('scripts/dealer.js'); }}
+@stop
+
 @section('toolbar')
 <div class="row">
 	<div class="col-md-9">
@@ -26,7 +30,7 @@
 					<td></td>
 					<td>{{{ $dealer->DealerName }}}</td>
 					<td style="width:10%"><a class="btn btn-warning" href="{{action('DealerController@view', array('id' => $dealer->DealerId))}}"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
-					<td style="width:10%"><a href="#" class="btn btn-danger deleteDealer"  name="{{ $dealer->DealerId }}"><i class="fa fa-trash-o"></i> Delete</a></td>
+					<td style="width:10%"><a href="#" class="btn btn-danger" onclick="deleteDealer({{ $dealer->DealerId }})"><i class="fa fa-trash-o"></i> Delete</a></td>
 				</tr>
 			@endforeach
 			</tbody>
@@ -35,4 +39,5 @@
 	<div class="col-md-3">
 	</div>
 </div>
+
 @stop
