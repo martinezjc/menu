@@ -26,7 +26,7 @@ class ProtectiveServiceProxy extends ServiceProxy
     ##---------------- Execute request and return response --------------- ##
     public function execute($request)
     {        
-        set_time_limit(180);
+        set_time_limit(60);
         try
         {
             $method = $this->getMethod($request->type);

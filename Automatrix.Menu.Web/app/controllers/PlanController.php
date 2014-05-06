@@ -767,6 +767,11 @@ class PlanController extends BaseController
             if ($productBaseId == 5) {
                 return $name.' could not allowed this vehicle make and model or vehicle year.';
             }
+
+            # RoadVantage Tire and Wheel
+            if ($deal->BeginningOdometer > 23999 && $productBaseId == 13) {
+                return  $name.' not allowed vehicles with more than 23999 miles.';
+            }
         }
 
         return $message;

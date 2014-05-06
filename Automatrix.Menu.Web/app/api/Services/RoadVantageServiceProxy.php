@@ -46,18 +46,36 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$obj->ManufactureWarranty = $response->GetRatesResult->ManufactureWarraties->ManufactureWarranty;
 			$PlanRates = $response->GetRatesResult->PlanRates->PlanRate;
 
-			foreach ($PlanRates as $key => $PlanRate) {
-				if ($request->product->ProductBaseId == 14) { // Product Dent
-					if ($PlanRate->Plan->ProductTypeCode == 'PDR') {
-						$obj->Plan = $PlanRate;
+			# If PlanRates is not array
+			if (! is_array($PlanRates)) {
+				if ($request->product->ProductBaseId == 13) {	// Product Tire and Wheel
+					if ($PlanRates->Plan->ProductTypeCode == 'RHT') {
+						$obj->Plan = $PlanRates;
 					}
 				}
-				if ($request->product->ProductBaseId == 13) {	// Product Tire and Wheel						
-					if ($PlanRate->Plan->ProductTypeCode == 'RHT') {
-						$obj->Plan = $PlanRate;
+				if ($request->product->ProductBaseId == 14) { // Product Dent 
+					if ($PlanRates->Plan->ProductTypeCode == 'PDR') {
+						$obj->Plan = $PlanRates;
 					}
-				}									
+				}
+					
+			}else{
+				# PlanRates is array
+				foreach ($PlanRates as $key => $PlanRate) {
+					if ($request->product->ProductBaseId == 13) {	// Product Tire and Wheel
+						if ($PlanRate->Plan->ProductTypeCode == 'RHT') {
+							$obj->Plan = $PlanRate;
+						}
+					}
+					if ($request->product->ProductBaseId == 14) { // Product Dent 
+						if ($PlanRate->Plan->ProductTypeCode == 'PDR') {
+							$obj->Plan = $PlanRate;
+						}
+					}
+														
+				}
 			}
+			
 			return $obj;
 		} else {  			
 			# Void Contract 
@@ -68,7 +86,6 @@ class RoadVantageServiceProxy extends ServiceProxy
 			return  $response;
 		}
     }
-	
 	##---------------- Get method for  Request --------------- ##
 	private function getMethod($request)
 	{
@@ -240,9 +257,9 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$request->deal->ZipCode = 12345;
 		}
 
-		if ($request->product->ProductBaseId == 13) {
-			$request->deal->BeginningOdometer = 0;
-		}
+		// if ($request->product->ProductBaseId == 13) {
+		// 	$request->deal->BeginningOdometer = 23999;
+		// }
 
 		return $request;
     }
