@@ -154,7 +154,6 @@ class ProductsController extends BaseController
                 ->where('PlansProducts.DealerId', '=', $UserSessionInfo->DealerId)
                 ->where('Products.DealerId', '=', $UserSessionInfo->DealerId)
                 ->orderBy('PlansProducts.Order', 'asc')
-                //->get(); 
                 ->get(array(
                     "Products.id",
                     "Products.ProductBaseId",
@@ -3307,7 +3306,7 @@ class ProductsController extends BaseController
             if ($deal->BeginningOdometer > 120000 && $productBaseId == 2) {
                  return  $name.' not allowed vehicles with more than 120000 miles.';
             }
-            if ($productBaseId == 2) {
+            if ($carYearsOld->y > 10 && $productBaseId == 2) {
                  return $name.' could not allowed this vehicle year.';
             }
             # US Dent
