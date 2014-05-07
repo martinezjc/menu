@@ -140,6 +140,24 @@ function ValidateExpression (text, type) {
     return res;
 }
 
+function removeDuplicates(arr){
+    var uniqueArr = {};
+    var result = [];
+    
+    for ( i = 0, n = arr.length; i < n; i++ ) {
+        var item = arr[i];
+        uniqueArr[item.text + '-' + item.val] = item;
+    }
+    
+    i = 0;
+    
+    for ( var item in uniqueArr ){
+        result[i++] = uniqueArr[item];
+    }
+
+    return result;
+}
+
 function showErrorMessage(field, message) 
 {
     field.focus();
