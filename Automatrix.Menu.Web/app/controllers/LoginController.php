@@ -35,7 +35,7 @@ class LoginController extends BaseController {
 	        	//Set Cookies for login. Duration = 7 days
 	        	$week = time() + (86400 * 7);
 	        	setcookie('User', Crypt::encrypt($username), $week);
-	        	setcookie('Pass', Crypt::encrypt($username), $week);
+	        	setcookie('Pass', Crypt::encrypt($password), $week);
 	        }
 	        else
 	        if ($Rememberme == 0) {
