@@ -261,6 +261,8 @@ class RoadVantageServiceProxy extends ServiceProxy
 			$request->deal->InserviceDate = date("c", strtotime( '-1 days' ));
 		} elseif ($request->deal->Deal == 16094) {
 			$request->deal->InserviceDate = date('c', strtotime("2012-11-13"."12:00:00"));;
+		} else {
+			$request->deal->InserviceDate = date("c", strtotime( '-1 days' ));
 		}
 
 		if ($request->deal->BeginningOdometer < 1000) {
