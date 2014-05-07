@@ -427,12 +427,9 @@ $("#saveModal1").click(function () {
                 if (GlobalValidatePrice == 1) {
                     UpdatePriceWebServicesProductAllColumns(Term);
                 }            
-                
-            } 
+            }
 
-            UpdateFieldsWebservicesProducts(Type,TermText,Deductible, OrderNumber, Mileage,tireRotation, interval);
-               
-                        
+            UpdateFieldsWebservicesProducts(Type, TermText, Deductible, OrderNumber, Mileage, tireRotation, interval);
     } else { 
             if ( ($("#PriceProduct").is(':visible')) || ($("#TermFinance").is(':visible')) ) {
                 var manualPrice = GetFloat(SellingPrice).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -494,7 +491,7 @@ function UpdatePriceAllColumns (price) {
 function UpdateFieldsWebservicesProducts (type, term, deductible, ordernumber, mileage, tireRotation, interval) {
     $(".products").each(function () {
         idEvaluate = $(this).attr('id');
-        idSave= GlobalSectionProduct.attr('id');
+        idSave = GlobalSectionProduct.attr('id');
         if (idEvaluate == idSave) {
            $(this).find( '.ProductType' ).attr('name', type);
            $(this).find( '.ProductTerm' ).attr('name', term);
