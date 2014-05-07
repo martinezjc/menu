@@ -93,11 +93,13 @@ $(".linkmodal1").on('click',function() {
     var Type = $(GlobalSectionProduct).find( '.ProductType' ).attr('name');
     var Term = $(GlobalSectionProduct).find( '.ProductTerm' ).attr('name');
     var Deductible = $(GlobalSectionProduct).find( '.ProductDeductible' ).attr('name');
+    //var TireRotation = $(GlobalSectionProduct).find( '.ProductTireRotation' ).attr('name');
     $('#TermFinance').val(Term);
     $('#DeductibleFinance').val(Deductible);
     $('#TypeFinance').val(Type);
+    //$('#TireRotation').val(TireRotation);
     $('#ApplyChanges').prop('checked', true);
-
+    
 });
 
 function ValidationEmptyDeal () {
@@ -523,22 +525,24 @@ function ChangeMileageOrder(SelectedMileage, arr) {
 }
 
 function ChangeTireRotationOrder(SelectedTireRotation, arr){
-    arr.sort(function(a, b) { return a.text - b.text;});
+    result = removeDuplicates(arr);
+    result.sort(function(a, b) { return a.text - b.text;});
     var selectTireRotation = document.getElementById("TireRotation");
     selectTireRotation.options.length = 0;
 
-    for (var i = 0; i < arr.length; i++) {
-        selectTireRotation.options[selectTireRotation.options.length] = new Option(arr[i].text.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), arr[i].value);
+    for (var i = 0; i < result.length; i++) {
+        selectTireRotation.options[selectTireRotation.options.length] = new Option(result[i].text.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), result[i].value);
 
-        if (SelectedTireRotation == parseInt( arr[i].text.replace(',','') ) ) {
+        if (SelectedTireRotation == result[i].text ) {
             $("#TireRotation option").filter(function() {
-            return $(this).val() == parseInt( arr[i].text.replace(',','') ); 
+            return $(this).val() == result[i].text; 
             }).prop('selected', true);
         } 
     }
 }
 
 function ChangeIntervalOrder(SelectedInterval, arr){
+    SelectedInterval = SelectedInterval.replace(/ +/g, "");
     arr.sort(function(a, b) { return a.text - b.text;});
     var selectInterval = document.getElementById("Interval");
     selectInterval.options.length = 0;
@@ -1141,14 +1145,15 @@ function GetArrrayOption (findValues, findFields) {
             }
 
             if (findFields.tireRotation == true && typeof obj.TireRotation != "undefined") {
-                validate = arrayObjectIndexOf(ArrayTireRotation, obj.TireRotation, 'text');                
+                validate = arrayObjectIndexOf(ArrayTireRotation, parseInt(obj.TireRotation), 'text');                
                 if (findValues.type == obj.Type && findValues.term == obj.Term && findValues.mileage == obj.Mileage && validate < 0) {
                      ArrayTireRotation.push({
-                        text: obj.TireRotation,
-                        value: obj.TireRotation,
+                        text: obj.TireRotation.replace(',', ''),
+                        value: obj.TireRotation.replace(',', ''),
                      });
                      
                 }
+
             }
             if (findFields.interval == true && typeof obj.Interval != "undefined") {
                 validate = arrayObjectIndexOf(ArrayInterval, obj.Interval, 'text'); 
