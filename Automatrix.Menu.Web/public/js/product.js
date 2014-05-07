@@ -277,6 +277,7 @@ $('#saveProduct').click(function () {
     var selectedTab = $('ul#optionsCostPrice li.active').text();
     var rangePricingValue;
     var IsTaxableValue;
+    var NotRegulatedValue;
 
     switch (selectedTab) {
         case 'Manual': var SellingPrice = $('#sellingPrice').val().replace('$', '');
@@ -351,6 +352,7 @@ $('#saveProduct').click(function () {
     UseTireRotationValue = getBitFromCheckBox('#UseTireRotation');
     UseIntervalValue = getBitFromCheckBox('#UseInterval');
     IsTaxableValue = getBitFromCheckBox('#IsTaxable');
+    NotRegulatedValue = getBitFromCheckBox('#NotRegulated');
 
     if (SellingPrice < 0 && Cost < 0) {
         toastr.error('The cost and selling price must be positive numbers.', "Message");
@@ -398,6 +400,7 @@ $('#saveProduct').click(function () {
             TireRotation: $('#TireRotation').val(),
             Interval: $('#Interval').val(),
             IsTaxable: IsTaxableValue,
+            NotRegulated: NotRegulatedValue,
             Type: TypeValue,
             bulletPoint1: $('#bulletPoint1').val(),
             bulletPoint2: $('#bulletPoint2').val(),
@@ -474,6 +477,7 @@ $('#updateInfo').click(function () {
     var Cost = $('#costModified').val().replace('$', '');
     var typeValue;
     var IsTaxableValue;
+    var NotRegulatedValue;
 
     $('#videoOptionModified').hide();
     $('#brochureOptionModified').show();
@@ -557,6 +561,7 @@ $('#updateInfo').click(function () {
     UseTireRotationValue = getBitFromCheckBox('#UseTireRotationModified');
     UseIntervalValue = getBitFromCheckBox('#UseIntervalModified');
     IsTaxableValue = getBitFromCheckBox('#IsTaxableModified');
+    NotRegulatedValue = getBitFromCheckBox('#NotRegulatedModified');
 
     if ($("input[name=mediaTypeModified]:checked").val() == 'VideoURL')
     {
@@ -595,6 +600,7 @@ $('#updateInfo').click(function () {
             TireRotation: $('#TireRotationModified').val(),
             Interval: $('#IntervalModified').val(),
             IsTaxable: IsTaxableValue,
+            NotRegulated: NotRegulatedValue,
             Type: typeValue,
             bulletPoint1: $('#bulletPoint1Modified').val(),
             bulletPoint2: $('#bulletPoint2Modified').val(),

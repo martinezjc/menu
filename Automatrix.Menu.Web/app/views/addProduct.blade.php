@@ -269,6 +269,11 @@ if (is_null($UserSessionInfo)) {
 </select>
 </div>
 
+<div id="NotRegulatedAddProduct" class="form-group WSUage2">
+ <label for="NotRegulated">
+ <input type="checkbox" id="NotRegulated" name="NotRegulated" > Not Regulated</label> 
+</div>
+
 </div><!-- end web service tab -->
 </div>
 <!-- End tabs -->

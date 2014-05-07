@@ -342,6 +342,11 @@ if (is_null($UserSessionInfo)) {
           <option value="5" @if ( $ProductData->Interval == 5 ) selected="selected" @endif >5</option>
         </select>
       </div>
+       
+      <div id="NotRegulatedModifiedProduct" class="form-group WSUage2">
+        <label for="NotRegulatedModified">
+        <input type="checkbox" id="NotRegulatedModified" name="NotRegulatedModified" @if($ProductData->NotRegulated == 1) checked @endif> Not Regulated</label> 
+      </div>
 
    </div><!-- Ends tab content -->
    <div class="form-group">

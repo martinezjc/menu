@@ -1026,6 +1026,7 @@ class ProductsController extends BaseController
         $TireRotation = Input::get('TireRotation');
         $Interval = Input::get('Interval');
         $IsTaxable = Input::get('IsTaxable');
+        $NotRegulated = Input::get('NotRegulated');
         $Type = Input::get('Type');
         $Bullet1 = Input::get('bulletPoint1');
         $Bullet2 = Input::get('bulletPoint2');
@@ -1079,6 +1080,7 @@ class ProductsController extends BaseController
                 'TireRotation' => $TireRotation,
                 'Interval' => $Interval,
                 'IsTaxable' => $IsTaxable,
+                'NotRegulated' => $NotRegulated,
                 'UseTerm' => $UseTerm,
                 'UseType' => $UseType,
                 'UseDeductible' => $UseDeductible,
@@ -1112,6 +1114,7 @@ class ProductsController extends BaseController
                 'TireRotation' => $TireRotation,
                 'Interval' => $Interval,
                 'IsTaxable' => $IsTaxable,
+                'NotRegulated' => $NotRegulated,
                 'UseTerm' => $UseTerm,
                 'UseType' => $UseType,
                 'UseDeductible' => $UseDeductible,
@@ -1159,6 +1162,7 @@ class ProductsController extends BaseController
         $TireRotation = Input::get('TireRotation');
         $Interval = Input::get('Interval');
         $IsTaxable = Input::get('IsTaxable');
+        $NotRegulated = Input::get('NotRegulated');
         $Type = Input::get('Type');
         $UsingWebService = Input::get('UsingWebService');
         $Bullet1 = Input::get('bulletPoint1');
@@ -1203,6 +1207,7 @@ class ProductsController extends BaseController
             'TireRotation' => $TireRotation,
             'Interval' => $Interval,
             'IsTaxable' => $IsTaxable,
+            'NotRegulated' => $NotRegulated,
             'UseTerm' => $UseTerm,
             'UseType' => $UseType,
             'UseRangePricing' => $rangePricing,
