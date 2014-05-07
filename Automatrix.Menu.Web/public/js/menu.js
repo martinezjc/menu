@@ -590,25 +590,25 @@ UpdatePlansArray = function(){
 
     var index = 0;
     $('#1 div.displayname-product').each(function(){
-        premiumdescriptionarray[index] = $(this).text().trim() + "!";
+        premiumdescriptionarray[index] = $(this).text().replace(/\s+/g, ' ').trim() + "!";
         index = index +1;
     });
 
     var index = 0;
     $('#2 div.displayname-product').each(function(){
-        preferreddescriptionarray[index] = $(this).text().trim() + "!";
+        preferreddescriptionarray[index] = $(this).text().replace(/\s+/g, ' ').trim() + "!";
         index = index +1;
     });
 
     var index = 0;
     $('#3 div.displayname-product').each(function(){
-        economydescriptionarray[index] = $(this).text().trim() + "!";
+        economydescriptionarray[index] = $(this).text().replace(/\s+/g, ' ').trim() + "!";
         index = index +1;
     });
 
     var index = 0;
     $('#4 div.displayname-product').each(function(){
-        basicdescriptionarray[index] = $(this).text().trim() + "!";
+        basicdescriptionarray[index] = $(this).text().replace(/\s+/g, ' ').trim() + "!";
         index = index +1;
     });
 

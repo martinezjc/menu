@@ -103,7 +103,7 @@ if (is_null($UserSessionInfo)) {
           <td>{{{ ++ $User }}}</td>
           <td>{{{ $UserInfo->FirstName }}}</td>
           <td>{{{ $UserInfo->Username }}}</td>
-          <td style="width:10%"><a href="#userUpdateModal" data-dismiss="modal" data-toggle="modal" class="btn btn-warning" name="{{ $UserInfo->UserId }}"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
+          <td style="width:10%"><a href="#userUpdateModal" data-dismiss="modal" data-toggle="modal" class="btn btn-warning ModifyUser" name="{{ $UserInfo->UserId }}"><i class="fa fa-pencil-square-o"></i> Modify</a></td>
           @if(!(empty($UserSessionInfo->DealerId)))
         	  <td style="width:10%"><a href="#" class="btn btn-danger" id="deleteUser" onClick="deleteUser({{ $UserInfo->UserId }}); return false;"><i class="fa fa-trash-o"></i> Delete</a></td>
           @else

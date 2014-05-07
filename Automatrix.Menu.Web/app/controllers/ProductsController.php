@@ -2266,6 +2266,8 @@ class ProductsController extends BaseController
     $NewBasicDescription = explode("!",$BasicDescriptionArray);
     $VisibleProducts = explode(",",$VisibleProductsArray);
 
+    //print_r($PreferredDescriptionArray);die();
+
     $PremiumDescription = array();
     $x = 0;
     foreach ($NewPremiumDescription as $key => $value) {

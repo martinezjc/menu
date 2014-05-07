@@ -144,17 +144,17 @@ $("body").on("click", "a", function (event) {
     globalUserId = $(this).attr('name');
 });
 
-$('#userUpdateModal').on('show.bs.modal', function () {
-$.ajax({
+$(".ModifyUser").on('click', function () {
+    globalUserId = $(this).attr('name');
+    $.ajax({
         type: "GET",
         url: "infoUser",
         data: {
             jsonFormat: true,
-            UserId: globalUserId
+            id: globalUserId
         },
         success: function (msg) {
             var data = JSON.parse(msg);
-            
             $('#FirstNameModified').val(data[0].FirstName);
             $('#UsernameModified').val(data[0].Username);
             $('#PasswordModified').val(data[0].Password);
@@ -167,16 +167,16 @@ $.ajax({
             }
 
             if (data[0].Administrator == 1) {
-            	$("#isAdministratorModified").prop("checked", true);
+                $("#isAdministratorModified").prop("checked", true);
             } else {
-            	$("#isAdministratorModified").prop("checked", false);
+                $("#isAdministratorModified").prop("checked", false);
             }
 
         },
         failure: function (msg) {
 
         }
-    });
+    })
 });
 
 $('#updateUser').click( function() {

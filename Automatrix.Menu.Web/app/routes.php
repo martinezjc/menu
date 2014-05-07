@@ -163,17 +163,17 @@ Route::get('edit-product', array('uses' => 'ProductsController@load_editProduct'
 
 Route::get('users', array('uses' => 'DealerController@show_newUserForm'));
 
-Route::get('insertUser', array('uses' => 'DealerController@insert_userInfo'));
+Route::get('insertUser', array('uses' => 'AccountController@create'));
 
-Route::get('infoUser', array('uses' => 'DealerController@get_userInfo'));
+Route::get('infoUser', array('uses' => 'AccountController@retrieve'));
 
-Route::get('TestDealerCode', array('uses' => 'DealerController@get_TestDealerCode'));
+Route::get('updateUser', array('uses' => 'AccountController@update'));
 
-Route::get('updateUser', array('uses' => 'DealerController@update_userInfo'));
-
-Route::get('deleteUser', array('uses' => 'DealerController@delete_userInfo'));
+Route::get('deleteUser', array('uses' => 'AccountController@delete'));
 
 Route::get('profile', 'DealerController@get_userInfo');
+
+Route::get('TestDealerCode', array('uses' => 'DealerController@get_TestDealerCode'));
 
 Route::get('dealer-settings', array('uses' => 'GeneralController@show_dealerPage'));
 

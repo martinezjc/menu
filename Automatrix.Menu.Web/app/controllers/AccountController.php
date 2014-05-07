@@ -44,7 +44,6 @@ class AccountController extends BaseController
 							'LastName' => $userInfo->LastName,
 							'Email' => $userInfo->Email);
 		}
-		
 		return json_encode($data);
 	}
 	
@@ -94,7 +93,7 @@ class AccountController extends BaseController
 		$EditPassword = '';
 	
 		if ( is_null($UserSessionInfo->DealerId) ) {
-			$DealerId = NULL;
+			$DealerId = Input::get('DealerId');
 			$Administrator = Input::get('Administrator');
 		} else {
 			$DealerId = $UserSessionInfo->DealerId;
@@ -126,7 +125,7 @@ class AccountController extends BaseController
 	
 	public function delete()
 	{
-		$userId = Input::get('id');
+		$userId = Input::get('UserId');
 	
 		$Result = DB::table('UsersTable')
 		->where('UserId', '=', $userId)
